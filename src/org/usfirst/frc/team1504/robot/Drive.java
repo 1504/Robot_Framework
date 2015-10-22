@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1504.robot;
 
+import java.nio.ByteBuffer;
+
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 
 import edu.wpi.first.wpilibj.CANTalon;
@@ -62,6 +64,7 @@ public class Drive implements Updatable {
  */
 	
 	private DriverStation _ds = DriverStation.getInstance();
+	private Logger _logger = Logger.getInstance();
 	private volatile boolean _new_data = false;
 	private volatile double[] _input = {0.0, 0.0, 0.0};
 	private volatile double _rotation_offset = 0.0;
@@ -69,6 +72,8 @@ public class Drive implements Updatable {
 	private DriveGlide _glide = new DriveGlide();
 	
 	private CANTalon[] _motors = new CANTalon[Map.DRIVE_MOTOR_PORTS.length];
+	
+	private volatile int _loops_since_last_dump = 0;
 	
 	/**
 	 * Set up everything that will be needed for the drive class
@@ -206,9 +211,12 @@ public class Drive implements Updatable {
 	/**
 	 * Dump class for logging
 	 */
-	public byte[] dump()
+	public void dump()
 	{
-		byte[] output = new byte[12];
+		byte[] output = new byte[12+4+8];
+		
+		int loops_since_last_dump = _loops_since_last_dump;
+		_loops_since_last_dump = 0;
 		
 		// Dump motor set point, current, and voltage
 		for(int i = 0; i < Map.DRIVE_MOTOR.values().length; i++)
@@ -218,7 +226,11 @@ public class Drive implements Updatable {
 			output[i+2] = (byte) (_motors[i].getBusVoltage() * 10);
 			// From CANTalon class: Bus voltage * throttle = output voltage
 		}
-		return output;
+		ByteBuffer.wrap(output, 12, 4).putInt(loops_since_last_dump);
+		ByteBuffer.wrap(output, 16, 8).putLong(System.currentTimeMillis());
+		
+		if(_logger != null)
+			_logger.log(Map.LOGGED_CLASSES.DRIVE, output);
 	}
 	
 	/**
@@ -228,6 +240,7 @@ public class Drive implements Updatable {
 	{
 		// Damn you, Java, and your lack of local static variables!
 		double[] input;
+		boolean dump = false;
 		
 		while(_threadAlive)
 		{
@@ -238,6 +251,9 @@ public class Drive implements Updatable {
 				// Process new joystick data - only when new data happens
 				if(_new_data)
 				{
+					_new_data = false;
+					dump = true;
+					
 					// Switch front side if we need to
 					if(_ds.isOperatorControl())
 					{
@@ -259,6 +275,15 @@ public class Drive implements Updatable {
 				// Ground speed offset
 				// Output to motors - as fast as this loop will go
 				motorOutput(outputCompute(input));
+				
+				_loops_since_last_dump++;
+				
+				// Log on new data, after the first computation
+				if(dump)
+				{
+					dump();
+					dump = false;
+				}
 			}
 		}
 	}

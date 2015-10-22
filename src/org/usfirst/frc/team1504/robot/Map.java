@@ -10,7 +10,7 @@ public class Map {
 	public static final int DRIVE_ROTATION_JOYSTICK = 1;
 	
 	// Drive Motor enumeration
-	public enum DRIVE_MOTOR { FRONT_LEFT, BACK_LEFT, BACK_RIGHT, FRONT_RIGHT }
+	public static enum DRIVE_MOTOR { FRONT_LEFT, BACK_LEFT, BACK_RIGHT, FRONT_RIGHT }
 	
 	// Drive Motor ports
 	public static final int FRONT_LEFT_TALON_PORT = 10;
@@ -46,5 +46,10 @@ public class Map {
 	// Joystick raw axes
 	public static final int JOYSTICK_Y_AXIS = 1;
 	public static final int JOYSTICK_X_AXIS = 0;
+	
+/**
+ * Logger stuff
+ */
+	public static enum LOGGED_CLASSES { SEMAPHORE, DRIVE }
 
 }
