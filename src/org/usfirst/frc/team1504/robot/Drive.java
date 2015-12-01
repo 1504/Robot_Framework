@@ -6,7 +6,6 @@ import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Utils;
 
 public class Drive implements Updatable {
 	
@@ -26,7 +25,7 @@ public class Drive implements Updatable {
         }
     }
 	
-	private static Drive instance = new Drive();
+	private static final Drive instance = new Drive();
 	
 	private Thread _taskThread;
 	private volatile boolean _threadAlive = true;
@@ -43,6 +42,7 @@ public class Drive implements Updatable {
     
 	protected Drive()
 	{
+		System.out.println("Drive Initialized");
 		_taskThread = new Thread(new DriveTask(this), "1504_Drive");
 		_taskThread.setPriority((Thread.NORM_PRIORITY + Thread.MAX_PRIORITY) / 2);
 		_taskThread.start();
@@ -68,8 +68,9 @@ public class Drive implements Updatable {
 	private volatile boolean _new_data = false;
 	private volatile double[] _input = {0.0, 0.0, 0.0};
 	private volatile double _rotation_offset = 0.0;
-	private volatile double[] _orbit_point = {0.0, 1.15};
+	private volatile double[] _orbit_point = {0.0, 0.0}; //{0.0, 1.15};
 	private DriveGlide _glide = new DriveGlide();
+	private Groundtruth _groundtruth = Groundtruth.getInstance();
 	
 	private CANTalon[] _motors = new CANTalon[Map.DRIVE_MOTOR_PORTS.length];
 	
@@ -151,6 +152,11 @@ public class Drive implements Updatable {
 		return corrected;
 	}
 	
+	public void setOrbitPoint(double[] orbit_point)
+	{
+		_orbit_point = orbit_point;
+	}
+	
 	/**
 	 * Detented controller correction methods (and helper methods)
 	 */
@@ -180,12 +186,41 @@ public class Drive implements Updatable {
 	}
 	
 	/**
+	 * Ground truth sensor corrections
+	 * @param input
+	 * @return
+	 */
+	private double[] groundtruth_correction(double[] input)
+	{
+		double max;
+		double[] output = input;
+		double[] speeds = _groundtruth.getSpeed();
+		
+		// Normalize the inputs and actual speeds
+		max = Math.max(input[0], Math.max(input[1], input[2]));
+		max = max == 0 ? 1 : max;
+		for(int i = 0; i < 3; i++)
+			input[i] /= max;
+		max = Math.max(speeds[0], Math.max(speeds[1], speeds[2]));
+		max = max == 0 ? 1 : max;
+		for(int i = 0; i < 3; i++)
+			speeds[i] /= max;
+		
+		// Apply P(ID) correction factor to the joystick values
+		// TODO: Determine gain constant and add to the Map
+		for(int i = 0; i < 3; i++)
+			output[i] += input[i] - speeds[i] * 0.01;
+		
+		return output;
+	}
+	
+	/**
 	 * Convert the Forward, Right and Antoclockwise values into 4 motor outputs
-	 * Input: Double array containing Forward, Right and Antoclockwise values
-	 * Output: Double array containing motor output values
+	 * @param input - Double array containing Forward, Right and Antoclockwise values
+	 * @param output - Double array containing motor output values
 	 */
 	private double[] outputCompute(double[] input) {
-		double[] output = input;
+		double[] output = new double[4];
 		double max = Math.max(1.0, Math.abs(input[0]) + Math.abs(input[1]) + Math.abs(input[2]));
 
 		output[0] = (input[0] + input[1] - input[2]) / max;
@@ -211,7 +246,7 @@ public class Drive implements Updatable {
 	/**
 	 * Dump class for logging
 	 */
-	public void dump()
+	private void dump()
 	{
 		byte[] output = new byte[12+4+8];
 		
@@ -271,8 +306,11 @@ public class Drive implements Updatable {
 					// Glide
 					input = _glide.gain_adjust(input);
 					// Osc
+					
+					_input = input;
 				}
 				// Ground speed offset
+				input = groundtruth_correction(input);
 				// Output to motors - as fast as this loop will go
 				motorOutput(outputCompute(input));
 				

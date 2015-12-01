@@ -23,7 +23,7 @@ public class Update_Semaphore
 	private Logger _logger = Logger.getInstance();
 	private long _last_update;
 	
-	private static Update_Semaphore instance = new Update_Semaphore();
+	private static final Update_Semaphore instance = new Update_Semaphore();
 	
 	protected Update_Semaphore()
 	{
@@ -39,7 +39,7 @@ public class Update_Semaphore
 		_list.add(e);
 	}
 	
-	public void dump()
+	private void dump()
 	{
 		byte[] ret = new byte[8];
 		ByteBuffer.wrap(ret).putLong(_last_update);
@@ -50,6 +50,7 @@ public class Update_Semaphore
 	public void newData()
 	{
 		_last_update = System.currentTimeMillis();
+		dump();
 		
 		for (Updatable obj : _list)
 		{

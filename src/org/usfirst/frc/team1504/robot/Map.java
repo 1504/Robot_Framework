@@ -34,10 +34,22 @@ public class Map {
 	public static final int DRIVE_FRONTSIDE_LEFT = 4;
 	
 	// Glide gain
-	public static final double[][] DRIVE_GAIN = {{0.0015, 0.0025, 0.003}, {0.008, 0.008, 0.008}};
+	public static final double[][] DRIVE_GLIDE_GAIN = {{0.0015, 0.0025, 0.003}, {0.008, 0.008, 0.008}};
 	
 	// Drive Output magic numbers - for getting everything spinning the correct direction
 	public static final double[] DRIVE_OUTPUT_MAGIC_NUMBERS = { -1.0, -1.0, 1.0, 1.0 };	
+	
+	
+/**
+ * Ground truth sensor
+ */
+	public static final double GROUNDTRUTH_DISTANCE_PER_COUNT = 1.0;
+	public static final double GROUNDTRUTH_TURN_CIRCUMFERENCE = 3.1416 * 1.25;
+	public static final int GROUNDTRUTH_SPEED_AVERAGING_SAMPLES = 4;
+	
+	// Maximum (empirically determined) speed the robot can go in its three directions. 
+	public static final double[] GROUNDTRUTH_MAX_SPEEDS = {12.0, 5.0, 7.0};
+	
 	
 /**
  * IO stuff
@@ -50,6 +62,6 @@ public class Map {
 /**
  * Logger stuff
  */
-	public static enum LOGGED_CLASSES { SEMAPHORE, DRIVE }
+	public static enum LOGGED_CLASSES { SEMAPHORE, DRIVE, GROUNDTRUTH }
 
 }

@@ -31,7 +31,7 @@ public class Logger implements Log_Updatable {
 	
 	//private Drive _drive = Drive.getInstance();
 	
-	private static Logger instance = new Logger();
+	private static final Logger instance = new Logger();
 	
 	protected Logger()
 	{
@@ -57,7 +57,7 @@ public class Logger implements Log_Updatable {
 		try {
 			_file_output = new FileOutputStream(_outfile);
 		} catch (FileNotFoundException e) {
-			System.out.println("Could not open file.");
+			System.out.println("Could not open logging file.\n" + _outfile);
 			e.printStackTrace();
 		}
 
@@ -91,15 +91,27 @@ public class Logger implements Log_Updatable {
 	
 	private void flush_data()
 	{
+		if(_file_output == null)
+			return;
+		
+		// Format: "^" literal (1) / Time (8) / Logged Classes (1) / Class data (#)
+		try {
+			_file_output.write(94); // ^
+			byte[] time = new byte[8];
+			ByteBuffer.wrap(time).putLong(System.currentTimeMillis() - _start_time);
+			_file_output.write(time);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+		
 		for(byte[] o : _logged_data)
 		{
 			try {
-				byte[] time = new byte[8];
-				ByteBuffer.wrap(time).putLong(System.currentTimeMillis() - _start_time);
-				_file_output.write(time);
 				_file_output.write(o);
 			} catch (IOException e) {
 				e.printStackTrace();
+				return;
 			}
 		}
 	}
