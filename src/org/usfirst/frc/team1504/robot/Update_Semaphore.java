@@ -1,9 +1,6 @@
 package org.usfirst.frc.team1504.robot;
 
 import java.util.List;
-
-import org.usfirst.frc.team1504.robot.Map.LOGGED_CLASSES;
-
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
@@ -14,11 +11,6 @@ public class Update_Semaphore
 		void semaphore_update();
 	}
 	
-	interface Log_Updatable
-	{
-		boolean log(LOGGED_CLASSES semaphore, byte[] ret);
-	}
-	
 	private List<Updatable> _list = new ArrayList<Updatable>();
 	private Logger _logger = Logger.getInstance();
 	private long _last_update;
@@ -27,6 +19,7 @@ public class Update_Semaphore
 	
 	protected Update_Semaphore()
 	{
+		System.out.println("Semaphore Initialized");
 	}
 	
 	public static Update_Semaphore getInstance()
@@ -42,7 +35,7 @@ public class Update_Semaphore
 	private void dump()
 	{
 		byte[] ret = new byte[8];
-		ByteBuffer.wrap(ret).putLong(_last_update);
+		ByteBuffer.wrap(ret).putLong(_last_update - IO.ROBOT_START_TIME);
 		
 		_logger.log(Map.LOGGED_CLASSES.SEMAPHORE, ret);
 	}

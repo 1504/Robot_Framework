@@ -13,7 +13,7 @@ public class Utils
 	
 	public static double deadzone(double input)
 	{
-		if(Math.abs(input) < .01)
+		if(Math.abs(input) < Map.UTIL_JOYSTICK_DEADZONE)
 			return 0.0;
 		return (input - Map.UTIL_JOYSTICK_DEADZONE * Math.signum(input)) / (1.0 - Map.UTIL_JOYSTICK_DEADZONE);
 	}

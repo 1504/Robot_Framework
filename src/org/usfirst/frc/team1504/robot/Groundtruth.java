@@ -26,6 +26,7 @@ public class Groundtruth implements Updatable {
 			if(i < (Map.GROUNDTRUTH_SPEED_AVERAGING_SAMPLES - 1))
 				_acceleration_samples[i] = initializer;
 		}
+		System.out.println("Groundtruth Initialized");
 	}
 	
 	public static Groundtruth getInstance()

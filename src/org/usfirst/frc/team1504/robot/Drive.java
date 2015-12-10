@@ -42,7 +42,6 @@ public class Drive implements Updatable {
     
 	protected Drive()
 	{
-		System.out.println("Drive Initialized");
 		_taskThread = new Thread(new DriveTask(this), "1504_Drive");
 		_taskThread.setPriority((Thread.NORM_PRIORITY + Thread.MAX_PRIORITY) / 2);
 		_taskThread.start();
@@ -50,6 +49,8 @@ public class Drive implements Updatable {
 		Update_Semaphore.getInstance().register(this);
 		
 		DriveInit();
+		
+		System.out.println("Drive Initialized");
 	}
 	
 	public void release()
@@ -119,11 +120,11 @@ public class Drive implements Updatable {
 	/**
 	 * Programmatically switch the direction the robot goes when the stick gets pushed
 	 */
-	private double[] front_side(double[] dircn) {
+	private double[] front_side(double[] input) {
 		double[] dir_offset = new double[3];
-		dir_offset[0] = dircn[0] * Math.cos(_rotation_offset) + dircn[1] * Math.sin(_rotation_offset);
-		dir_offset[1] = dircn[1] * Math.cos(_rotation_offset) - dircn[0] * Math.sin(_rotation_offset);
-		dir_offset[2] = dircn[2];
+		dir_offset[0] = input[0] * Math.cos(_rotation_offset) + input[1] * Math.sin(_rotation_offset);
+		dir_offset[1] = input[1] * Math.cos(_rotation_offset) - input[0] * Math.sin(_rotation_offset);
+		dir_offset[2] = input[2];
 		return dir_offset;
 	}
 	
@@ -135,7 +136,7 @@ public class Drive implements Updatable {
 	/**
 	 * Orbit point
 	 */
-	private double[] orbit_point(double[] dircn) {
+	private double[] orbit_point(double[] input) {
 		double x = _orbit_point[0];
 		double y = _orbit_point[1];
 
@@ -146,9 +147,9 @@ public class Drive implements Updatable {
 		double q = -Math.sqrt((k[1] * k[1] + k[3] * k[3]) / 2) * Math.cos((Math.PI / 4) + Math.atan2(k[1], k[3]));
 
 		double[] corrected = new double[3];
-		corrected[0] = (dircn[2] * r + (dircn[0] - dircn[2]) * q + dircn[0] * p) / (q + p);
-		corrected[1] = (-dircn[2] * r + dircn[1] * q - (-dircn[1] - dircn[2]) * p) / (q + p);
-		corrected[2] = (2 * dircn[2]) / (q + p);
+		corrected[0] = (input[2] * r + (input[0] - input[2]) * q + input[0] * p) / (q + p);
+		corrected[1] = (-input[2] * r + input[1] * q - (-input[1] - input[2]) * p) / (q + p);
+		corrected[2] = (2 * input[2]) / (q + p);
 		return corrected;
 	}
 	
@@ -187,33 +188,48 @@ public class Drive implements Updatable {
 	
 	/**
 	 * Ground truth sensor corrections
-	 * @param input
+	 * @param input - Joystick input to correct towards
 	 * @return
 	 */
 	private double[] groundtruth_correction(double[] input)
 	{
-		double max;
+		double[] normal_input = input;
 		double[] output = input;
 		double[] speeds = _groundtruth.getSpeed();
 		
 		// Normalize the inputs and actual speeds
-		max = Math.max(speeds[0], Math.max(speeds[1], speeds[2]));
-		if(max == 0)
+		if(groundtruth_normalize(speeds) == 0)
 			return input;
-		max = max == 0 ? 1 : max;
-		for(int i = 0; i < 3; i++)
-			speeds[i] /= max;
-		max = Math.max(input[0], Math.max(input[1], input[2]));
-		max = max == 0 ? 1 : max;
-		for(int i = 0; i < 3; i++)
-			input[i] /= max;
+		groundtruth_normalize(normal_input);
 		
 		// Apply P(ID) correction factor to the joystick values
 		// TODO: Determine gain constant and add to the Map
 		for(int i = 0; i < 3; i++)
-			output[i] += input[i] - speeds[i] * 0.01;
+			output[i] += (normal_input[i] - speeds[i]) * -0.01;
 		
 		return output;
+	}
+	
+	/**
+	 * Normalization function for arrays to normalize full scale to +- 1 <br>
+	 * Note: THIS FUNCTION OPERATES ON THE REFERENCE INPUT ARRAY AND WILL CHANGE IT!
+	 * @param input - The array to normalize
+	 * @return Maximum value in the array
+	 */
+	private double groundtruth_normalize(double[] input)
+	{
+		double max = 0;
+		for(int i = 0; i < input.length; i++)
+			max = Math.max(Math.abs(input[1]), max);
+		
+		if(max == 0)
+			return 0;
+		
+		max = max == 0 ? 1 : max;
+		for(int i = 0; i < input.length; i++)
+			input[i] /= max;
+		
+		return max;
 	}
 	
 	/**
@@ -264,7 +280,7 @@ public class Drive implements Updatable {
 			// From CANTalon class: Bus voltage * throttle = output voltage
 		}
 		ByteBuffer.wrap(output, 12, 4).putInt(loops_since_last_dump);
-		ByteBuffer.wrap(output, 16, 8).putLong(System.currentTimeMillis());
+		ByteBuffer.wrap(output, 16, 8).putLong(System.currentTimeMillis() - IO.ROBOT_START_TIME);
 		
 		if(_logger != null)
 		{

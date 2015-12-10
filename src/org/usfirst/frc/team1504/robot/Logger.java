@@ -8,35 +8,19 @@ import java.nio.ByteBuffer;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import org.usfirst.frc.team1504.robot.Update_Semaphore.Log_Updatable;
-
-//import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-//import edu.wpi.first.wpilibj.Compressor;
-//import edu.wpi.first.wpilibj.DriverStation;
-//import edu.wpi.first.wpilibj.PowerDistributionPanel;
-//import edu.wpi.first.wpilibj.Timer;
-
-public class Logger implements Log_Updatable {
-	
-	/*private Compressor _compressor = new Compressor();
-	private BuiltInAccelerometer _accelerometer = new BuiltInAccelerometer();
-	private PowerDistributionPanel _pdp = new PowerDistributionPanel();
-	private DriverStation _ds = DriverStation.getInstance();*/
-	
+public class Logger {
 	private File _outfile;
 	private FileOutputStream _file_output;
 	
 	private long _start_time;
 	private volatile byte[][] _logged_data = null;
 	private volatile boolean _logging = false;
-	
-	//private Drive _drive = Drive.getInstance();
-	
+		
 	private static final Logger instance = new Logger();
 	
 	protected Logger()
 	{
-		
+		System.out.println("Logger Initialized");
 	}
 	
 	public static Logger getInstance()
@@ -61,6 +45,8 @@ public class Logger implements Log_Updatable {
 		}
 
 		_start_time = System.currentTimeMillis();
+		
+		System.out.println("Logger started @ " + _start_time + " using \"~/log/" + prefix + "-" + filetime + ".log\"");
 	}
 	
 	/**
@@ -77,6 +63,7 @@ public class Logger implements Log_Updatable {
 				e.printStackTrace();
 			}
 		}
+		System.out.println("Logger Stopped");
 	}
 	
 	/**

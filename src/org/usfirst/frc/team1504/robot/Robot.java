@@ -1,6 +1,4 @@
-
 package org.usfirst.frc.team1504.robot;
-
 
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
@@ -8,7 +6,6 @@ import edu.wpi.first.wpilibj.communication.UsageReporting;
 import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tInstances;
 import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tResourceType;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-
 
 public class Robot extends RobotBase {
 	
@@ -32,7 +29,7 @@ public class Robot extends RobotBase {
      * Called exactly 1 time when the competition starts.
      */
     protected void robotInit() {
-        System.out.println("Robot Initialized ( robotInit() )");
+        System.out.println("Robot Initialized ( robotInit() ) @ " + IO.ROBOT_START_TIME);
     }
 
     /**
