@@ -197,14 +197,16 @@ public class Drive implements Updatable {
 		double[] speeds = _groundtruth.getSpeed();
 		
 		// Normalize the inputs and actual speeds
+		max = Math.max(speeds[0], Math.max(speeds[1], speeds[2]));
+		if(max == 0)
+			return input;
+		max = max == 0 ? 1 : max;
+		for(int i = 0; i < 3; i++)
+			speeds[i] /= max;
 		max = Math.max(input[0], Math.max(input[1], input[2]));
 		max = max == 0 ? 1 : max;
 		for(int i = 0; i < 3; i++)
 			input[i] /= max;
-		max = Math.max(speeds[0], Math.max(speeds[1], speeds[2]));
-		max = max == 0 ? 1 : max;
-		for(int i = 0; i < 3; i++)
-			speeds[i] /= max;
 		
 		// Apply P(ID) correction factor to the joystick values
 		// TODO: Determine gain constant and add to the Map
@@ -313,7 +315,7 @@ public class Drive implements Updatable {
 					_input = input;
 				}
 				// Ground speed offset
-				//input = groundtruth_correction(input);
+				input = groundtruth_correction(input);
 				// Output to motors - as fast as this loop will go
 				motorOutput(outputCompute(input));
 				

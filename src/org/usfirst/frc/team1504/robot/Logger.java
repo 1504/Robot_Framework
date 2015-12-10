@@ -44,12 +44,10 @@ public class Logger implements Log_Updatable {
 		return instance;
 	}
 	
-//	public void semaphore_update()
-//	{
-//		Timer.delay(0.01); // Wait to make sure all other classes have updated before we log them
-//		log_data();
-//	}
-	
+	/**
+	 * Start the logger
+	 * @param prefix - The filename prefix to log under (Format: Prefix-Time.log)
+	 */
 	public void start(String prefix) {
 		Calendar cal = new GregorianCalendar();
 		String filetime = Long.toString(cal.getTimeInMillis());
@@ -65,6 +63,9 @@ public class Logger implements Log_Updatable {
 		_start_time = System.currentTimeMillis();
 	}
 	
+	/**
+	 * Stop the logger
+	 */
 	public void stop()
 	{
 		if (_file_output == null) {
@@ -78,18 +79,9 @@ public class Logger implements Log_Updatable {
 		}
 	}
 	
-//	private void log_data()
-//	{
-//		try {
-//			byte[] time = new byte[8];
-//			ByteBuffer.wrap(time).putLong(System.currentTimeMillis() - _start_time);
-//			_file_output.write(time);
-//			//_file_output.write(_drive.dump());
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
-	
+	/**
+	 * Flush data to disk. Synchronize to prevent data being added in the middle of a file write.
+	 */
 	private void sync_flush()
 	{
 		_logging = true;
@@ -97,10 +89,15 @@ public class Logger implements Log_Updatable {
 		_logging = false;
 	}
 	
+	/**
+	 * Flush current data buffer to disk.
+	 */
 	private void flush_data()
 	{
 		if(_file_output == null)
 			return;
+		
+		byte[][] data_buffer = _logged_data;
 		
 		// Format: "^" literal (1) / Time (8) / Logged Classes (1) / Class data (#)
 		try {
@@ -113,7 +110,7 @@ public class Logger implements Log_Updatable {
 			return;
 		}
 		
-		for(byte[] o : _logged_data)
+		for(byte[] o : data_buffer)
 		{
 			if(o != null)
 			{
@@ -127,6 +124,11 @@ public class Logger implements Log_Updatable {
 		}
 	}
 	
+	/**
+	 * Log data from logging classes to disk.
+	 * @param logging_class - What class is currently logging
+	 * @param data - The data to be logged
+	 */
 	public boolean log(Map.LOGGED_CLASSES logging_class, byte[] data)
 	{
 		if(logging_class == Map.LOGGED_CLASSES.SEMAPHORE)
