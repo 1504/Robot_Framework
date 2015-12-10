@@ -30,6 +30,7 @@ public class Update_Semaphore
 	public void register(Updatable e)
 	{
 		_list.add(e);
+		System.out.println("\tSemaphore - registered " + e.getClass().getName());
 	}
 	
 	private void dump()

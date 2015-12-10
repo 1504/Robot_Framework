@@ -1,11 +1,9 @@
 package org.usfirst.frc.team1504.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
-
 public class IO
 {
-	private static Joystick _drive_forwardright = new Joystick(Map.DRIVE_FORWARDRIGHT_JOYSTICK);
-	private static Joystick _drive_rotation = new Joystick(Map.DRIVE_ROTATION_JOYSTICK);
+	private static Joystick_Helper _drive_forwardright = new Joystick_Helper(Map.DRIVE_FORWARDRIGHT_JOYSTICK);
+	private static Joystick_Helper _drive_rotation = new Joystick_Helper(Map.DRIVE_ROTATION_JOYSTICK);
 	
 	public static final long ROBOT_START_TIME = System.currentTimeMillis();
 	
