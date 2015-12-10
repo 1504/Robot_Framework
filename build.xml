@@ -21,10 +21,11 @@
 
   <!-- Any other property in build.properties can also be overridden. -->
   
-  <property file="${user.home}/wpilib/wpilib.properties"/>
+  <property file="${user.home}/Documents/eclipse/Mars/wpilib/wpilib.properties"/>
   <property file="build.properties"/>
-  <property file="${user.home}/wpilib/java/${version}/ant/build.properties"/>
+  <property file="${user.home}/Documents/eclipse/Mars/wpilib/java/${version}/ant/build.properties"/>
   
-  <import file="${wpilib.ant.dir}/build.xml"/>
+  <!--import file="${wpilib.ant.dir}/build.xml"/-->
+  <import file="${user.home}/Documents/eclipse/Mars/wpilib/java/${version}/ant/build.xml"/>
 
 </project> 

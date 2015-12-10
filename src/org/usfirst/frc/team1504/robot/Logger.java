@@ -41,10 +41,19 @@ public class Logger {
 			_file_output = new FileOutputStream(_outfile);
 		} catch (FileNotFoundException e) {
 			System.out.println("Could not open logging file.\n" + _outfile);
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		_start_time = System.currentTimeMillis();
+		
+		byte[] robot_start_time = new byte[8];
+		ByteBuffer.wrap(robot_start_time).putLong(IO.ROBOT_START_TIME);
+		try {
+			_file_output.write("Log-".getBytes());
+			_file_output.write(robot_start_time);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		System.out.println("Logger started @ " + _start_time + " using \"~/log/" + prefix + "-" + filetime + ".log\"");
 	}
