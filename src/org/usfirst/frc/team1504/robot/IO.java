@@ -18,13 +18,13 @@ public class IO
 	public static double[] mecanum_input() {
 		double[] inputs = new double[3];
 
-		inputs[0] = Map.DRIVE_INPUT_MAGIC_NUMBERS[0] * Math.pow(_drive_forwardright.getRawAxis(Map.JOYSTICK_Y_AXIS), 2) * Math.signum(_drive_forwardright.getRawAxis(Map.JOYSTICK_Y_AXIS));// y
-		inputs[1] = Map.DRIVE_INPUT_MAGIC_NUMBERS[1] * Math.pow(_drive_forwardright.getRawAxis(Map.JOYSTICK_X_AXIS), 2) * Math.signum(_drive_forwardright.getRawAxis(Map.JOYSTICK_X_AXIS));// x
-		inputs[2] = Map.DRIVE_INPUT_MAGIC_NUMBERS[2] * Math.pow(_drive_rotation.getRawAxis(Map.JOYSTICK_X_AXIS), 2) * Math.signum(_drive_rotation.getRawAxis(Map.JOYSTICK_X_AXIS));// w
-
-		/*for (int i = 0; i < dircns.length - 1; i++) {
-			dircns[i] = Utils.deadzone(dircns[i]);
-		}*/
+		inputs[0] = Map.DRIVE_INPUT_MAGIC_NUMBERS[0] * Math.pow(Utils.deadzone(_drive_forwardright.getRawAxis(Map.JOYSTICK_Y_AXIS)), 2) * Math.signum(_drive_forwardright.getRawAxis(Map.JOYSTICK_Y_AXIS));// y
+		inputs[1] = Map.DRIVE_INPUT_MAGIC_NUMBERS[1] * Math.pow(Utils.deadzone(_drive_forwardright.getRawAxis(Map.JOYSTICK_X_AXIS)), 2) * Math.signum(_drive_forwardright.getRawAxis(Map.JOYSTICK_X_AXIS));// x
+		inputs[2] = Map.DRIVE_INPUT_MAGIC_NUMBERS[2] * Math.pow(Utils.deadzone(_drive_rotation.getRawAxis(Map.JOYSTICK_X_AXIS)), 2) * Math.signum(_drive_rotation.getRawAxis(Map.JOYSTICK_X_AXIS));// w
+		
+		//inputs[0] = _drive_forwardright.getRawAxis(Map.JOYSTICK_Y_AXIS); // Map.DRIVE_INPUT_MAGIC_NUMBERS[0] * Math.pow(_drive_forwardright.getRawAxis(Map.JOYSTICK_Y_AXIS), 2) * Math.signum(_drive_forwardright.getRawAxis(Map.JOYSTICK_Y_AXIS));// y
+		//inputs[1] = _drive_forwardright.getRawAxis(Map.JOYSTICK_X_AXIS); //Map.DRIVE_INPUT_MAGIC_NUMBERS[1] * Math.pow(_drive_forwardright.getRawAxis(Map.JOYSTICK_X_AXIS), 2) * Math.signum(_drive_forwardright.getRawAxis(Map.JOYSTICK_X_AXIS));// x
+		//inputs[2] = _drive_rotation.getRawAxis(Map.JOYSTICK_X_AXIS);// Map.DRIVE_INPUT_MAGIC_NUMBERS[2] * Math.pow(_drive_rotation.getRawAxis(Map.JOYSTICK_X_AXIS), 2) * Math.signum(_drive_rotation.getRawAxis(Map.JOYSTICK_X_AXIS));// w
 		
 		return inputs;
 	}

@@ -16,7 +16,7 @@ public class Update_Semaphore
 	
 	interface Log_Updatable
 	{
-		void log(LOGGED_CLASSES semaphore, byte[] ret);
+		boolean log(LOGGED_CLASSES semaphore, byte[] ret);
 	}
 	
 	private List<Updatable> _list = new ArrayList<Updatable>();

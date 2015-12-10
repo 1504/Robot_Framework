@@ -27,7 +27,8 @@ public class Logger implements Log_Updatable {
 	private FileOutputStream _file_output;
 	
 	private long _start_time;
-	private byte[][] _logged_data = null;
+	private volatile byte[][] _logged_data = null;
+	private volatile boolean _logging = false;
 	
 	//private Drive _drive = Drive.getInstance();
 	
@@ -89,6 +90,13 @@ public class Logger implements Log_Updatable {
 //		}
 //	}
 	
+	private void sync_flush()
+	{
+		_logging = true;
+		flush_data();
+		_logging = false;
+	}
+	
 	private void flush_data()
 	{
 		if(_file_output == null)
@@ -107,26 +115,36 @@ public class Logger implements Log_Updatable {
 		
 		for(byte[] o : _logged_data)
 		{
-			try {
-				_file_output.write(o);
-			} catch (IOException e) {
-				e.printStackTrace();
-				return;
+			if(o != null)
+			{
+				try {
+					_file_output.write(o);
+				} catch (IOException e) {
+					e.printStackTrace();
+					return;
+				}
 			}
 		}
 	}
 	
-	public void log(Map.LOGGED_CLASSES logging_class, byte[] data)
+	public boolean log(Map.LOGGED_CLASSES logging_class, byte[] data)
 	{
 		if(logging_class == Map.LOGGED_CLASSES.SEMAPHORE)
 		{
 			if(_logged_data != null)
-				flush_data();
+				sync_flush();
 			
 			_logged_data = new byte[Map.LOGGED_CLASSES.values().length][];
 			_logged_data[0] = new byte[]{0};
 		}
+		else if(_logging)
+		{
+			return false;
+		}
+		
 		_logged_data[0][0] = (byte) (_logged_data[0][0] | 1 << logging_class.ordinal());
 		_logged_data[logging_class.ordinal() + 1] = data;
+		
+		return true;
 	}
 }

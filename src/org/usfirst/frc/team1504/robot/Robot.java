@@ -14,7 +14,7 @@ public class Robot extends RobotBase {
 	
 	Update_Semaphore _semaphore = Update_Semaphore.getInstance();
 	Logger _logger = Logger.getInstance();
-	Drive _drivetest = Drive.getInstance();
+	Drive _drive = Drive.getInstance();
 	
     /**
      * Create a new Robot

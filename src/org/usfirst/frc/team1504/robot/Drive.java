@@ -224,9 +224,9 @@ public class Drive implements Updatable {
 		double max = Math.max(1.0, Math.abs(input[0]) + Math.abs(input[1]) + Math.abs(input[2]));
 
 		output[0] = (input[0] + input[1] - input[2]) / max;
-		output[1] = (input[0] - input[1] + input[2]) / max;
-		output[2] = (input[0] - input[1] - input[2]) / max;
-		output[3] = (input[0] + input[1] + input[2]) / max;
+		output[1] = (input[0] - input[1] - input[2]) / max;
+		output[2] = (input[0] + input[1] + input[2]) / max;
+		output[3] = (input[0] - input[1] + input[2]) / max;
 		
 		return output;
 	}
@@ -251,7 +251,7 @@ public class Drive implements Updatable {
 		byte[] output = new byte[12+4+8];
 		
 		int loops_since_last_dump = _loops_since_last_dump;
-		_loops_since_last_dump = 0;
+		//_loops_since_last_dump = 0;
 		
 		// Dump motor set point, current, and voltage
 		for(int i = 0; i < Map.DRIVE_MOTOR.values().length; i++)
@@ -265,7 +265,10 @@ public class Drive implements Updatable {
 		ByteBuffer.wrap(output, 16, 8).putLong(System.currentTimeMillis());
 		
 		if(_logger != null)
-			_logger.log(Map.LOGGED_CLASSES.DRIVE, output);
+		{
+			if(_logger.log(Map.LOGGED_CLASSES.DRIVE, output))
+				_loops_since_last_dump -= loops_since_last_dump;
+		}
 	}
 	
 	/**
@@ -310,7 +313,7 @@ public class Drive implements Updatable {
 					_input = input;
 				}
 				// Ground speed offset
-				input = groundtruth_correction(input);
+				//input = groundtruth_correction(input);
 				// Output to motors - as fast as this loop will go
 				motorOutput(outputCompute(input));
 				

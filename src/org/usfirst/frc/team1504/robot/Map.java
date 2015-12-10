@@ -2,6 +2,11 @@ package org.usfirst.frc.team1504.robot;
 
 public class Map {
 /**
+ * Utilities
+ */
+	public static final double UTIL_JOYSTICK_DEADZONE = 0.09;
+	
+/**
  * Drive class things
  */
 	
