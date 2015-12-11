@@ -112,7 +112,7 @@ public class Robot extends RobotBase {
                 
                 autonomous();
                 
-                _autonomous.setup_path(new double[][] {{5,5,5,5000}, {10,10,0, 10000}});
+                _autonomous.setup_path(new double[][] {{0,0,1,5000}, {10,10,0, 10000}});
                 
                 _autonomous.start();
                 while (isAutonomous() && !isDisabled()) {

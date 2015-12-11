@@ -1,12 +1,16 @@
 package org.usfirst.frc.team1504.robot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 
 public class Groundtruth implements Updatable {
 	private static final Groundtruth instance = new Groundtruth();
 	
 	private Logger _logger = Logger.getInstance();
-	private volatile byte[] _raw_data = null;
+	//private volatile byte[] _raw_data = null;
+	private volatile List<Byte> _raw_data = new ArrayList<Byte>();
 	private double[] _position = {0.0, 0.0, 0.0};
 	private double[] _position_error = {0.0, 0.0, 0.0};
 	
@@ -27,6 +31,11 @@ public class Groundtruth implements Updatable {
 			if(i < (Map.GROUNDTRUTH_SPEED_AVERAGING_SAMPLES - 1))
 				_acceleration_samples[i] = initializer;
 		}
+		
+		_raw_data.add((byte) 0);
+		
+		Update_Semaphore.getInstance().register(this);
+		
 		System.out.println("Groundtruth Initialized");
 	}
 	
@@ -88,7 +97,10 @@ public class Groundtruth implements Updatable {
 	public void getData(byte[] data)
 	{
 		// Data format: LEFT_X LEFT_Y LEFT_SQUAL RIGHT_X RIGHT_Y RIGHT_SQUAL
-		_raw_data = data;
+		//_raw_data = data;
+		_raw_data.set(0, (byte) (_raw_data.get(0) + 1));
+		for(byte b : data)
+			_raw_data.add(b);
 		
 		if(data[2] < Map.GROUNDTRUTH_QUALITY_MINIMUM || data[5] < Map.GROUNDTRUTH_QUALITY_MINIMUM)
 			return;
@@ -155,8 +167,21 @@ public class Groundtruth implements Updatable {
 
 	public void semaphore_update()
 	{
-		if(_raw_data != null)
+		if(_raw_data.get(0) == 0)
+			return;
+		
+		byte[] data = new byte[_raw_data.size()];
+		for(int index = 0; index < _raw_data.size(); index++)
+			data[index] = _raw_data.get(index);
+		
+		_raw_data.clear();
+		_raw_data.add((byte) 0);
+		
+		_logger.log(Map.LOGGED_CLASSES.GROUNDTRUTH, data);
+		
+		
+		/*if(_raw_data != null)
 			_logger.log(Map.LOGGED_CLASSES.GROUNDTRUTH, _raw_data);
-		_raw_data = null;
+		_raw_data = null;*/
 	}
 }
