@@ -8,9 +8,13 @@ import java.nio.ByteBuffer;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import edu.wpi.first.wpilibj.DriverStation;
+
 public class Logger {
 	private File _outfile;
 	private FileOutputStream _file_output;
+	
+	private DriverStation _ds = DriverStation.getInstance();
 	
 	private long _start_time;
 	private volatile byte[][] _logged_data = null;
@@ -95,12 +99,13 @@ public class Logger {
 		
 		byte[][] data_buffer = _logged_data;
 		
-		// Format: "^" literal (1) / Time (8) / Logged Classes (1) / Class data (#)
+		// Format: "^" literal (1) / Time (4) / Voltage (4) / Logged Classes (1) / Class data (#)
 		try {
 			_file_output.write(94); // ^
-			byte[] time = new byte[8];
-			ByteBuffer.wrap(time).putLong(System.currentTimeMillis() - _start_time);
-			_file_output.write(time);
+			byte[] head = new byte[4+4];
+			ByteBuffer.wrap(head, 0, 4).putInt((int)(System.currentTimeMillis() - _start_time));
+			ByteBuffer.wrap(head, 4, 4).putFloat((float)_ds.getBatteryVoltage());
+			_file_output.write(head);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;

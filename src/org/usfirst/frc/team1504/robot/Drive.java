@@ -269,7 +269,7 @@ public class Drive implements Updatable {
 	 */
 	private void dump()
 	{
-		byte[] output = new byte[12+4+8];
+		byte[] output = new byte[12+4+4];
 		
 		int loops_since_last_dump = _loops_since_last_dump;
 		//_loops_since_last_dump = 0;
@@ -283,7 +283,7 @@ public class Drive implements Updatable {
 			// From CANTalon class: Bus voltage * throttle = output voltage
 		}
 		ByteBuffer.wrap(output, 12, 4).putInt(loops_since_last_dump);
-		ByteBuffer.wrap(output, 16, 8).putLong(System.currentTimeMillis() - IO.ROBOT_START_TIME);
+		ByteBuffer.wrap(output, 16, 4).putInt((int)(System.currentTimeMillis() - IO.ROBOT_START_TIME));
 		
 		if(_logger != null)
 		{

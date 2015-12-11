@@ -35,8 +35,8 @@ public class Update_Semaphore
 	
 	private void dump()
 	{
-		byte[] ret = new byte[8];
-		ByteBuffer.wrap(ret).putLong(_last_update - IO.ROBOT_START_TIME);
+		byte[] ret = new byte[4];
+		ByteBuffer.wrap(ret).putInt((int)(_last_update - IO.ROBOT_START_TIME));
 		
 		_logger.log(Map.LOGGED_CLASSES.SEMAPHORE, ret);
 	}
