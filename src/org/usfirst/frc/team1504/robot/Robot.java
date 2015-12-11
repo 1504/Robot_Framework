@@ -102,15 +102,10 @@ public class Robot extends RobotBase {
         while (true) {
             if (isDisabled()) {
                 m_ds.InDisabled(true);
-                
                 disabled();
-                
-                while (isDisabled()) {
+                while (isDisabled())
                     Timer.delay(0.01);
-                }
-                
                 m_ds.InDisabled(false);
-            
             } else if (isAutonomous()) {
                 m_ds.InAutonomous(true);
                 _logger.start("Auto");

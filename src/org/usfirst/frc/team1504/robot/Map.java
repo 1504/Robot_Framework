@@ -48,6 +48,7 @@ public class Map {
 /**
  * Ground truth sensor
  */
+	public static final byte GROUNDTRUTH_QUALITY_MINIMUM = 40;
 	public static final double GROUNDTRUTH_DISTANCE_PER_COUNT = 1.0;
 	public static final double GROUNDTRUTH_TURN_CIRCUMFERENCE = 3.1416 * 1.25;
 	public static final int GROUNDTRUTH_SPEED_AVERAGING_SAMPLES = 4;

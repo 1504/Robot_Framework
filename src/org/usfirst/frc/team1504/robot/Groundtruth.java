@@ -14,7 +14,7 @@ public class Groundtruth implements Updatable {
 	private double[] _speed = {0.0, 0.0, 0.0};
 	private double[] _acceleration = {0.0, 0.0, 0.0};
 	private double[][] _speed_samples = new double[Map.GROUNDTRUTH_SPEED_AVERAGING_SAMPLES][3];
-	private double[][] _acceleration_samples = new double[Map.GROUNDTRUTH_SPEED_AVERAGING_SAMPLES - 1][3];
+	private double[][] _acceleration_samples = new double[Map.GROUNDTRUTH_SPEED_AVERAGING_SAMPLES][3];
 	private int _sample_index = 0;
 	private long _last_update;
 	
@@ -89,6 +89,10 @@ public class Groundtruth implements Updatable {
 	{
 		// Data format: LEFT_X LEFT_Y LEFT_SQUAL RIGHT_X RIGHT_Y RIGHT_SQUAL
 		_raw_data = data;
+		
+		if(data[2] < Map.GROUNDTRUTH_QUALITY_MINIMUM || data[5] < Map.GROUNDTRUTH_QUALITY_MINIMUM)
+			return;
+		
 		double[] normalized_data = new double[6];
 		double[] motion = new double[3];
 		
@@ -119,9 +123,8 @@ public class Groundtruth implements Updatable {
 		for(int i = 0; i < motion.length; i++)
 			_speed_samples[_sample_index][i] = motion[i] / elapsed_time;
 		// Compute acceleration array
-		// TODO: FIX THIS BAD MATH THAT DOESN'T WORK
-		for(int i = 0; i < 3; i++)
-			_acceleration_samples[_sample_index % (Map.GROUNDTRUTH_SPEED_AVERAGING_SAMPLES - 1)][i] = (_speed_samples[_sample_index][i] - _speed_samples[(_sample_index + Map.GROUNDTRUTH_SPEED_AVERAGING_SAMPLES - 1) % Map.GROUNDTRUTH_SPEED_AVERAGING_SAMPLES][i]) / elapsed_time;
+		for(int i = 0; i < motion.length; i++)
+			_acceleration_samples[_sample_index][i] = (_speed_samples[_sample_index][i] - _speed_samples[(_sample_index + Map.GROUNDTRUTH_SPEED_AVERAGING_SAMPLES) % Map.GROUNDTRUTH_SPEED_AVERAGING_SAMPLES][i]) / elapsed_time;
 		
 		// Find average speed
 		double[] speed = {0.0, 0.0, 0.0};
@@ -140,8 +143,8 @@ public class Groundtruth implements Updatable {
 			for(int j = 0; j < 3; j++)
 				acceleration[j] += _acceleration_samples[i][j];
 		}
-		for(int i = 0; i < speed.length; i++)
-			acceleration[i] /= Map.GROUNDTRUTH_SPEED_AVERAGING_SAMPLES - 1;
+		for(int i = 0; i < acceleration.length; i++)
+			acceleration[i] /= Map.GROUNDTRUTH_SPEED_AVERAGING_SAMPLES;
 		
 		// Set global variables
 		_speed = speed;
