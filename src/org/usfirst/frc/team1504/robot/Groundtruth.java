@@ -10,6 +10,7 @@ public class Groundtruth implements Updatable {
 	private double[] _position = {0.0, 0.0, 0.0};
 	private double[] _position_error = {0.0, 0.0, 0.0};
 	
+	private boolean _data_good = false;
 	private double[] _speed = {0.0, 0.0, 0.0};
 	private double[] _acceleration = {0.0, 0.0, 0.0};
 	private double[][] _speed_samples = new double[Map.GROUNDTRUTH_SPEED_AVERAGING_SAMPLES][3];
@@ -32,6 +33,15 @@ public class Groundtruth implements Updatable {
 	public static Groundtruth getInstance()
 	{
 		return instance;
+	}
+	
+	/**
+	 * Gets if the data is good from the groundtruth sensor
+	 * @return Boolean - if we should trust the Groundtruth sensor
+	 */
+	public boolean getDataGood()
+	{
+		return _data_good;
 	}
 	
 	/**

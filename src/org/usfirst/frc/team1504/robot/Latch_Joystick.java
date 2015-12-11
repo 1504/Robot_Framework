@@ -3,12 +3,12 @@ package org.usfirst.frc.team1504.robot;
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 import edu.wpi.first.wpilibj.Joystick;
 
-public class Joystick_Helper extends Joystick implements Updatable
+public class Latch_Joystick extends Joystick implements Updatable
 {
 	private final int _num_buttons;
 	private volatile int _button_mask;
 	
-	public Joystick_Helper(final int port)
+	public Latch_Joystick(final int port)
 	{
 		super(port);
 		
@@ -43,7 +43,11 @@ public class Joystick_Helper extends Joystick implements Updatable
 			mask &= (getRawButton(button + 1) ? 1: 0) << (button - 1);
 		return mask;
 	}
-
+	
+	/**
+	 * Synchronized with new data from the Driver Station, will update the button mask.
+	 * Ensures that a button event will not be missed.
+	 */
 	public void semaphore_update()
 	{
 		_button_mask |= get_button_mask();

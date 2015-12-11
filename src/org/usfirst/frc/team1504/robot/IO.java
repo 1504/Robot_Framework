@@ -2,8 +2,8 @@ package org.usfirst.frc.team1504.robot;
 
 public class IO
 {
-	private static Joystick_Helper _drive_forwardright = new Joystick_Helper(Map.DRIVE_FORWARDRIGHT_JOYSTICK);
-	private static Joystick_Helper _drive_rotation = new Joystick_Helper(Map.DRIVE_ROTATION_JOYSTICK);
+	private static Latch_Joystick _drive_forwardright = new Latch_Joystick(Map.DRIVE_FORWARDRIGHT_JOYSTICK);
+	private static Latch_Joystick _drive_rotation = new Latch_Joystick(Map.DRIVE_ROTATION_JOYSTICK);
 	
 	public static final long ROBOT_START_TIME = System.currentTimeMillis();
 	
@@ -30,13 +30,13 @@ public class IO
 	}
 	
 	public static double front_side() {
-		if (_drive_rotation.getRawButton(Map.DRIVE_FRONTSIDE_BACK)) {
+		if (_drive_rotation.getRawButtonLatch(Map.DRIVE_FRONTSIDE_BACK)) {
 			return 180.0;
-		} else if (_drive_rotation.getRawButton(Map.DRIVE_FRONTSIDE_RIGHT)) {
+		} else if (_drive_rotation.getRawButtonLatch(Map.DRIVE_FRONTSIDE_RIGHT)) {
 			return 270.0;
-		} else if (_drive_rotation.getRawButton(Map.DRIVE_FRONTSIDE_FRONT)) {
+		} else if (_drive_rotation.getRawButtonLatch(Map.DRIVE_FRONTSIDE_FRONT)) {
 			return 0.0;
-		} else if (_drive_rotation.getRawButton(Map.DRIVE_FRONTSIDE_LEFT)) {
+		} else if (_drive_rotation.getRawButtonLatch(Map.DRIVE_FRONTSIDE_LEFT)) {
 			return 90.0;
 		}
 		return Double.NaN;

@@ -105,15 +105,18 @@ public class Drive implements Updatable {
 	 * Put data into the processing queue.
 	 * Usable from both the semaphore and autonomous methods.
 	 */
-	public void drive_inputs(double[] inputs)
-	{
-		drive_inputs(inputs[0], inputs[1], inputs[2]);
-	}
 	public void drive_inputs(double forward, double right, double anticlockwise)
 	{
-		_input[0] = forward;
+		/*_input[0] = forward;
 		_input[1] = right;
-		_input[2] = anticlockwise;
+		_input[2] = anticlockwise;*/
+		double[] inputs = {forward, right, anticlockwise};
+		drive_inputs(inputs);
+	}
+	public void drive_inputs(double[] input)
+	{
+		//drive_inputs(inputs[0], inputs[1], inputs[2]);
+		_input = input;
 		_new_data = true;
 	}
 	
@@ -316,17 +319,18 @@ public class Drive implements Updatable {
 						double rotation_offset = IO.front_side();
 						if(!Double.isNaN(rotation_offset))
 							setFrontAngle(rotation_offset);
-					}
 					
-					// Detents
-					input = detents(input);
-					// Frontside
-					input = front_side(input);
-					// Orbit point
-					input = orbit_point(input);
-					// Glide
-					input = _glide.gain_adjust(input);
-					// Osc
+						// Detents
+						input = detents(input);
+						// Frontside
+						input = front_side(input);
+						// Orbit point
+						input = orbit_point(input);
+						// Glide
+						input = _glide.gain_adjust(input);
+						// Osc
+						
+					}
 					
 					_input = input;
 				}
@@ -340,7 +344,12 @@ public class Drive implements Updatable {
 				// Log on new data, after the first computation
 				if(dump)
 				{
-					dump();
+					// Dump in a separate thread, so we can loop as fast as possible
+					new Thread(new Runnable() {
+						public void run() {
+							dump();
+						}
+					}).start();
 					dump = false;
 				}
 			}

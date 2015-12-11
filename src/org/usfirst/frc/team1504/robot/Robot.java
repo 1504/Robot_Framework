@@ -12,6 +12,7 @@ public class Robot extends RobotBase {
 	Update_Semaphore _semaphore = Update_Semaphore.getInstance();
 	Logger _logger = Logger.getInstance();
 	Drive _drive = Drive.getInstance();
+	Autonomous _autonomous = Autonomous.getInstance();
 	
     /**
      * Create a new Robot
@@ -107,9 +108,15 @@ public class Robot extends RobotBase {
                 
                 autonomous();
                 
+                _autonomous.setup_path(new double[][] {{5,5,5,5000}, {10,10,0, 10000}});
+                
+                _autonomous.start();
                 while (isAutonomous() && !isDisabled()) {
-                    Timer.delay(0.01);
+                	m_ds.waitForData(150);
+                	_semaphore.newData();
+                    //Timer.delay(0.01);
                 }
+                _autonomous.stop();
                 
                 _logger.stop();
                 m_ds.InAutonomous(false);
