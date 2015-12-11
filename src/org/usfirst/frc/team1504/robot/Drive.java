@@ -313,9 +313,9 @@ public class Drive implements Updatable {
 					_new_data = false;
 					dump = true;
 					
-					// Switch front side if we need to
 					if(_ds.isOperatorControl())
 					{
+						// Switch front side if we need to
 						double rotation_offset = IO.front_side();
 						if(!Double.isNaN(rotation_offset))
 							setFrontAngle(rotation_offset);
@@ -330,10 +330,11 @@ public class Drive implements Updatable {
 						input = _glide.gain_adjust(input);
 						// Osc
 						
+						// Save corrected input for fast loop
+						_input = input;
 					}
-					
-					_input = input;
 				}
+				
 				// Ground speed offset
 				input = groundtruth_correction(input);
 				// Output to motors - as fast as this loop will go

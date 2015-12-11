@@ -6,14 +6,15 @@ import edu.wpi.first.wpilibj.Joystick;
 public class Latch_Joystick extends Joystick implements Updatable
 {
 	private final int _num_buttons;
-	private volatile int _button_mask;
+	private volatile int _button_mask, _button_mask_rising;
+	private volatile int _button_mask_rising_last = 0;
 	
 	public Latch_Joystick(final int port)
 	{
 		super(port);
 		
 		_num_buttons = getButtonCount();
-		_button_mask = get_button_mask();
+		_button_mask  = _button_mask_rising = get_button_mask();
 		
 		Update_Semaphore.getInstance().register(this);
 	}
@@ -26,9 +27,29 @@ public class Latch_Joystick extends Joystick implements Updatable
 	 * @return State of the button
 	 */
 	public boolean getRawButtonLatch(final int button) {
+		// Compute a clearing mask for the button. ex: 11111 - 00100 = 11011, will turn off button 3
 		int clear_mask = ((1 << _num_buttons) - 1) - (1 << (button - 1));
+		// Get the value of the button - 1 or 0
 		boolean value = (_button_mask & (1 << (button - 1))) != 0;
+		// Mask this and only this button back to 0
 		_button_mask &= clear_mask;
+		return value;
+    }
+	
+	/**
+	 * Get buttons, but will latch any button press on until the button is read. 
+     * The appropriate button is returned as a boolean value.
+     * 
+	 * @param button The button index, beginning at 1.
+	 * @return State of the button
+	 */
+	public boolean getRawButtonOnRisingEdge(final int button) {
+		// Compute a clearing mask for the button. ex: 11111 - 00100 = 11011, will turn off button 3
+		int clear_mask = ((1 << _num_buttons) - 1) - (1 << (button - 1));
+		// Get the value of the button - 1 or 0
+		boolean value = (_button_mask_rising & (1 << (button - 1))) != 0;
+		// Mask this and only this button back to 0
+		_button_mask_rising &= clear_mask;
 		return value;
     }
 	
@@ -50,6 +71,11 @@ public class Latch_Joystick extends Joystick implements Updatable
 	 */
 	public void semaphore_update()
 	{
-		_button_mask |= get_button_mask();
+		int current_mask = get_button_mask();
+
+		_button_mask |= current_mask;
+
+		_button_mask_rising |= (~_button_mask_rising_last & current_mask);
+		_button_mask_rising_last = current_mask;
 	}
 }

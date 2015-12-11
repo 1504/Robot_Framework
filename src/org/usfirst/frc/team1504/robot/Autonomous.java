@@ -15,6 +15,7 @@ public class Autonomous {
         public void run()
         {
             _task.auto_task();
+            _task.stop();
         }
     }
 	
@@ -60,6 +61,7 @@ public class Autonomous {
 	public void stop()
 	{
 		_thread_alive = false;
+		_drive.drive_inputs(0.0, 0.0, 0.0);
 	}
 	
 	protected void auto_task()
