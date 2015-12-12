@@ -28,6 +28,7 @@ public class Autonomous {
 	private volatile boolean _thread_alive = true;
 	private long _start_time;
 	private double[][] _path;
+	private int _path_step;
 	
 	protected Autonomous()
 	{
@@ -57,14 +58,19 @@ public class Autonomous {
 		_task_thread.setPriority((Thread.NORM_PRIORITY + Thread.MAX_PRIORITY) / 2);
 		_task_thread.start();
 		
+		_path_step = -1;
+		
 		System.out.println("Autonomous loop started");
 	}
 	
 	public void stop()
 	{
-		_thread_alive = false;
 		_drive.drive_inputs(0.0, 0.0, 0.0);
+
+		if(!_thread_alive)
+			return;
 		
+		_thread_alive = false;
 		System.out.println("Autonomous loop stopped");
 	}
 	
@@ -77,23 +83,22 @@ public class Autonomous {
 			// Otherwise we drive super fast and out of control
 			/*if(!_groundtruth.getDataGood())
 				continue;*/
-//			System.out.println("Auto loop " + (System.currentTimeMillis() - _start_time));
 			
 			// Calculate the program step we're on, quit if we're at the end of the list
 			int step = 0;
-			//for(step = 0; step < _path.length && _path[step][3] < (System.currentTimeMillis() - _start_time); step++)
 			while(step < _path.length && _path[step][3] < (System.currentTimeMillis() - _start_time))
-			{
 				step++;
-				//if(_path[step][3] < (System.currentTimeMillis() - _start_time))
-				//	break;
-			}
-//			System.out.println("Auto step " + step);
-			if(step == _path.length)
+			
+			// Alert user on new step
+			if(step != _path_step)
 			{
-				_thread_alive = false;
-				return;
+				System.out.println("\tAutonomous step " + step + " @ " + (System.currentTimeMillis() - _start_time));
+				_path_step = step;
 			}
+			
+			// Quit if there are no more steps left
+			if(step == _path.length)
+				return;
 			
 			// Get the target position and actual current position
 			current_task = _path[step];
