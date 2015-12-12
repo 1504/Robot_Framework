@@ -56,12 +56,16 @@ public class Autonomous {
 		_task_thread = new Thread(new Auto_Task(this), "1504 Autonomous");
 		_task_thread.setPriority((Thread.NORM_PRIORITY + Thread.MAX_PRIORITY) / 2);
 		_task_thread.start();
+		
+		System.out.println("Autonomous loop started");
 	}
 	
 	public void stop()
 	{
 		_thread_alive = false;
 		_drive.drive_inputs(0.0, 0.0, 0.0);
+		
+		System.out.println("Autonomous loop stopped");
 	}
 	
 	protected void auto_task()
@@ -71,16 +75,20 @@ public class Autonomous {
 		{
 			// Don't drive around if we're not getting good sensor data
 			// Otherwise we drive super fast and out of control
-			if(!_groundtruth.getDataGood())
-				continue;
+			/*if(!_groundtruth.getDataGood())
+				continue;*/
+//			System.out.println("Auto loop " + (System.currentTimeMillis() - _start_time));
 			
 			// Calculate the program step we're on, quit if we're at the end of the list
-			int step;
-			for(step = 0; step < _path.length; step++)
+			int step = 0;
+			//for(step = 0; step < _path.length && _path[step][3] < (System.currentTimeMillis() - _start_time); step++)
+			while(step < _path.length && _path[step][3] < (System.currentTimeMillis() - _start_time))
 			{
-				if(_path[step][3] < (System.currentTimeMillis() - _start_time))
-					break;
+				step++;
+				//if(_path[step][3] < (System.currentTimeMillis() - _start_time))
+				//	break;
 			}
+//			System.out.println("Auto step " + step);
 			if(step == _path.length)
 			{
 				_thread_alive = false;

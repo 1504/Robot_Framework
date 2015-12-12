@@ -78,7 +78,8 @@ public class Robot extends RobotBase {
         Latch_Joystick testlatch = new Latch_Joystick(0);
         while (isTest() && isEnabled())
         {
-        	System.out.println("Latch: " + (testlatch.getRawButtonLatch(1)?"1":"0") + "    Rising: " + (testlatch.getRawButtonOnRisingEdge(1)?"1":"0"));
+        	testlatch.semaphore_update();
+        	System.out.println("Latch: " + testlatch.getRawButtonLatch(1) + "    Rising: " + testlatch.getRawButtonOnRisingEdge(1) + "    Button: " + testlatch.getRawButton(1));
             Timer.delay(1.0);
         }
     }

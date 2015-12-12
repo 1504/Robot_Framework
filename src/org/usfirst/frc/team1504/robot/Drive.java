@@ -27,8 +27,9 @@ public class Drive implements Updatable {
 	
 	private static final Drive instance = new Drive();
 	
-	private Thread _taskThread;
-	private volatile boolean _threadAlive = true;
+	private Thread _task_thread;
+	private Thread _dump_thread;
+	private volatile boolean _thread_alive = true;
 	
     /**
      * Gets an instance of the Drive
@@ -42,9 +43,9 @@ public class Drive implements Updatable {
     
 	protected Drive()
 	{
-		_taskThread = new Thread(new DriveTask(this), "1504_Drive");
-		_taskThread.setPriority((Thread.NORM_PRIORITY + Thread.MAX_PRIORITY) / 2);
-		_taskThread.start();
+		_task_thread = new Thread(new DriveTask(this), "1504_Drive");
+		_task_thread.setPriority((Thread.NORM_PRIORITY + Thread.MAX_PRIORITY) / 2);
+		_task_thread.start();
 		
 		Update_Semaphore.getInstance().register(this);
 		
@@ -55,7 +56,7 @@ public class Drive implements Updatable {
 	
 	public void release()
 	{
-        _threadAlive = false;
+		_thread_alive = false;
     }
 	
 /** 
@@ -107,15 +108,14 @@ public class Drive implements Updatable {
 	 */
 	public void drive_inputs(double forward, double right, double anticlockwise)
 	{
-		/*_input[0] = forward;
-		_input[1] = right;
-		_input[2] = anticlockwise;*/
 		double[] inputs = {forward, right, anticlockwise};
 		drive_inputs(inputs);
 	}
 	public void drive_inputs(double[] input)
 	{
-		//drive_inputs(inputs[0], inputs[1], inputs[2]);
+		if(_new_data)
+			return;
+		
 		_input = input;
 		_new_data = true;
 	}
@@ -301,7 +301,7 @@ public class Drive implements Updatable {
 		double[] input;
 		boolean dump = false;
 		
-		while(_threadAlive)
+		while(_thread_alive)
 		{
 			input = _input;
 			
@@ -309,10 +309,7 @@ public class Drive implements Updatable {
 			{
 				// Process new joystick data - only when new data happens
 				if(_new_data)
-				{
-					_new_data = false;
-					dump = true;
-					
+				{	
 					if(_ds.isOperatorControl())
 					{
 						// Switch front side if we need to
@@ -333,6 +330,9 @@ public class Drive implements Updatable {
 						// Save corrected input for fast loop
 						_input = input;
 					}
+					
+					_new_data = false;
+					dump = true;
 				}
 				
 				// Ground speed offset
@@ -346,11 +346,15 @@ public class Drive implements Updatable {
 				if(dump)
 				{
 					// Dump in a separate thread, so we can loop as fast as possible
-					new Thread(new Runnable() {
-						public void run() {
-							dump();
-						}
-					}).start();
+					if(_dump_thread == null || !_dump_thread.isAlive())
+					{
+						_dump_thread = new Thread(new Runnable() {
+							public void run() {
+								dump();
+							}
+						});
+						_dump_thread.start();
+					}
 					dump = false;
 				}
 			}
