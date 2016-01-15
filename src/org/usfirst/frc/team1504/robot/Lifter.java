@@ -49,7 +49,7 @@ public class Lifter implements Updatable
 	
 	public void set(boolean state, boolean override)
 	{
-		if(state == false || _ds.getMatchTime() > 20.0 || override)
+		if(state == false || _ds.getMatchTime() < 20.0 || override)
 		{
 			_state = state;
 			set_solenoid();
