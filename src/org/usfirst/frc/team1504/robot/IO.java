@@ -21,7 +21,10 @@ public class IO
 		double[] inputs = new double[2];
 
 		inputs[0] = Map.DRIVE_INPUT_MAGIC_NUMBERS[0] * Math.pow(Utils.deadzone(_drive_forward.getRawAxis(Map.JOYSTICK_Y_AXIS)), 2) * Math.signum(_drive_forward.getRawAxis(Map.JOYSTICK_Y_AXIS));// y
-		inputs[2] = Map.DRIVE_INPUT_MAGIC_NUMBERS[1] * Math.pow(Utils.deadzone(_drive_rotation.getRawAxis(Map.JOYSTICK_X_AXIS)), 2) * Math.signum(_drive_rotation.getRawAxis(Map.JOYSTICK_X_AXIS));// w
+		inputs[1] = Map.DRIVE_INPUT_MAGIC_NUMBERS[1] * Math.pow(Utils.deadzone(_drive_rotation.getRawAxis(Map.JOYSTICK_X_AXIS)), 2) * Math.signum(_drive_rotation.getRawAxis(Map.JOYSTICK_X_AXIS));// w
+		
+		if(!_drive_rotation.getRawButtonLatch(Map.DRIVE_INPUT_TURN_FACTOR_OVERRIDE_BUTTON))
+			inputs[1] *= Math.max(Math.abs(inputs[0]) / Map.DRIVE_INPUT_TURN_FACTOR, 1);
 		
 		return inputs;
 	}
