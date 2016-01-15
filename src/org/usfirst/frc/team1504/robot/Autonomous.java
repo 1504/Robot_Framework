@@ -1,21 +1,23 @@
 package org.usfirst.frc.team1504.robot;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Autonomous {
 
-	private static class Auto_Task implements Runnable
+	private static class Auto_Task extends TimerTask
 	{
 
         private Autonomous _task;
 
-        Auto_Task(Autonomous d)
+        Auto_Task(Autonomous a)
         {
-            _task = d;
+            _task = a;
         }
 
         public void run()
         {
             _task.auto_task();
-            _task.stop();
         }
     }
 	
@@ -24,7 +26,7 @@ public class Autonomous {
 	private Groundtruth _groundtruth = Groundtruth.getInstance();
 	private Drive _drive = Drive.getInstance();
 	
-	private Thread _task_thread;
+	private Timer _task_timer;
 	private volatile boolean _thread_alive = true;
 	private long _start_time;
 	private double[][] _path;
@@ -51,27 +53,29 @@ public class Autonomous {
 		if(_path == null)
 			return;
 		
+		_path_step = -1;
+		
 		_thread_alive = true;
 		_start_time = System.currentTimeMillis();
 		
-		_task_thread = new Thread(new Auto_Task(this), "1504 Autonomous");
-		_task_thread.setPriority((Thread.NORM_PRIORITY + Thread.MAX_PRIORITY) / 2);
-		_task_thread.start();
-		
-		_path_step = -1;
+		_task_timer = new Timer();
+		_task_timer.scheduleAtFixedRate(new Auto_Task(this), 0, 20);
 		
 		System.out.println("Autonomous loop started");
 	}
 	
 	public void stop()
 	{
-		_drive.drive_inputs(0.0, 0.0, 0.0);
+		_drive.drive_inputs(0.0, 0.0);
 
 		if(!_thread_alive)
 			return;
 		
 		_thread_alive = false;
-		System.out.println("Autonomous loop stopped");
+		
+		_task_timer.cancel();
+		
+		System.out.println("Autonomous loop stopped @ " + (System.currentTimeMillis() - _start_time));
 	}
 	
 	protected void auto_task()
@@ -90,15 +94,18 @@ public class Autonomous {
 				step++;
 			
 			// Alert user on new step
-			if(step != _path_step)
+			if(step > _path_step)
 			{
-				System.out.println("\tAutonomous step " + step + " @ " + (System.currentTimeMillis() - _start_time));
+				System.out.println("\tAutonomous step " + step + " @ " + (double)(System.currentTimeMillis() - _start_time)/1000);
 				_path_step = step;
 			}
 			
 			// Quit if there are no more steps left
 			if(step == _path.length)
+			{
+				stop();
 				return;
+			}
 			
 			// Get the target position and actual current position
 			current_task = _path[step];

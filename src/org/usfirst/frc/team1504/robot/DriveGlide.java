@@ -3,7 +3,7 @@ package org.usfirst.frc.team1504.robot;
 public class DriveGlide
 {
 	private long _gaintime;
-	private double[] _last_output = {0.0, 0.0, 0.0};
+	private double[] _last_output = {0.0, 0.0};
 	
 	public void DriveGlode()
 	{

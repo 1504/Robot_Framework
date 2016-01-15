@@ -30,16 +30,14 @@ public class Map {
 	};
 	
 	// Drive Input magic numbers
-	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { 1.0, -1.0, 0.7 };
+	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { -1.0, 1.0 };
 	
 	// Drive Front Side changing
 	public static final int DRIVE_FRONTSIDE_FRONT = 3;
 	public static final int DRIVE_FRONTSIDE_BACK = 2;
-	public static final int DRIVE_FRONTSIDE_RIGHT = 5;
-	public static final int DRIVE_FRONTSIDE_LEFT = 4;
 	
 	// Glide gain
-	public static final double[][] DRIVE_GLIDE_GAIN = {{0.0015, 0.0025, 0.003}, {0.008, 0.008, 0.008}};
+	public static final double[][] DRIVE_GLIDE_GAIN = {{0.0015, 0.003}, {0.008, 0.008}};
 	
 	// Drive Output magic numbers - for getting everything spinning the correct direction
 	public static final double[] DRIVE_OUTPUT_MAGIC_NUMBERS = { -1.0, -1.0, 1.0, 1.0 };	
