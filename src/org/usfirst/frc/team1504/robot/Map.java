@@ -13,6 +13,7 @@ public class Map {
 	// Joystick inputs
 	public static final int DRIVE_FORWARDRIGHT_JOYSTICK = 0;
 	public static final int DRIVE_ROTATION_JOYSTICK = 1;
+	public static final int SECONDARY_JOYSTICK = 2;
 	
 	// Drive Motor enumeration
 	public static enum DRIVE_MOTOR { FRONT_LEFT, BACK_LEFT, BACK_RIGHT, FRONT_RIGHT }
@@ -62,6 +63,19 @@ public class Map {
 	// Joystick raw axes
 	public static final int JOYSTICK_Y_AXIS = 1;
 	public static final int JOYSTICK_X_AXIS = 0;
+	
+/**
+ * Lifter stuff
+ */
+	public static final int LIFTER_RETRACTION_PORT = 1;
+	public static final int LIFTER_EXTENSION_LIFT_PORT = 1;
+	
+	public static final int LIFTER_UP_BUTTON = 2;
+	public static final int LIFTER_DOWN_BUTTON = 3;
+	public static final int LIFTER_TOGGLE_BUTTON = 4;
+	public static final int LIFTER_OVERRIDE_BUTTON = 5;
+	
+	public static enum LIFTER_STATE_SET {UP, DOWN, TOGGLE}
 	
 /**
  * Logger stuff

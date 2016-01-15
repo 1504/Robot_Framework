@@ -5,6 +5,8 @@ public class IO
 	private static Latch_Joystick _drive_forward = new Latch_Joystick(Map.DRIVE_FORWARDRIGHT_JOYSTICK);
 	private static Latch_Joystick _drive_rotation = new Latch_Joystick(Map.DRIVE_ROTATION_JOYSTICK);
 	
+	private static Latch_Joystick _secondary = new Latch_Joystick(Map.SECONDARY_JOYSTICK);
+	
 	public static final long ROBOT_START_TIME = System.currentTimeMillis();
 	
 	/**
@@ -31,5 +33,24 @@ public class IO
 			return 0.0;
 		}
 		return Double.NaN;
+	}
+	
+	/**
+	 * Lifter stuff
+	 */
+	
+	public static Map.LIFTER_STATE_SET lift_state()
+	{
+		if(_secondary.getRawButtonLatch(Map.LIFTER_DOWN_BUTTON))
+			return Map.LIFTER_STATE_SET.DOWN;
+		if(_secondary.getRawButtonLatch(Map.LIFTER_UP_BUTTON))
+			return Map.LIFTER_STATE_SET.UP;
+		if(_secondary.getRawButtonOnRisingEdge(Map.LIFTER_TOGGLE_BUTTON))
+			return Map.LIFTER_STATE_SET.TOGGLE;
+		return null;
+	}
+	public static boolean lift_override()
+	{
+		return _secondary.getRawButtonLatch(Map.LIFTER_OVERRIDE_BUTTON);
 	}
 }
