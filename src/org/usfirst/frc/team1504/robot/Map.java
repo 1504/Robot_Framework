@@ -80,6 +80,24 @@ public class Map {
 	public static enum LIFTER_STATE {UP, DOWN, TOGGLE}
 	
 /**
+ * Wheel shooter stuff
+ */
+	public static final int WHEEL_SHOOTER_INTAKE_MOTOR = 20;
+	public static final int WHEEL_SHOOTER_LEFT_SHOOTER_MOTOR = 21;
+	public static final int WHEEL_SHOOTER_RIGHT_SHOOTER_MOTOR = 22;
+	
+	public static final int WHEEL_SHOOTER_INTAKE_ON_BUTTON = 1;
+	public static final int WHEEL_SHOOTER_INTAKE_OFF_BUTTON = 1;
+	public static final int WHEEL_SHOOTER_INTAKE_REVERSE_BUTTON = 1;
+	public static final int WHEEL_SHOOTER_SPINUP_BUTTON = 1;
+	public static final int WHEEL_SHOOTER_FIRE_BUTTON = 1;
+	
+	public static final double WHEEL_SHOOTER_INTAKE_SPEED = 0.75;
+	public static final double WHEEL_SHOOTER_TARGET_SPEED = 0.75;
+	public static final double WHEEL_SHOOTER_GAIN = 0.01;
+	public static final double WHEEL_SHOOTER_SPEED_GOOD_DEADBAND = 1.0;
+	
+/**
  * Logger stuff
  */
 	public static enum LOGGED_CLASSES { SEMAPHORE, DRIVE, GROUNDTRUTH }
