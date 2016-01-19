@@ -34,7 +34,7 @@ public class Lifter implements Updatable
 		set_solenoid();
 		
 		Update_Semaphore.getInstance().register(this);
-		System.out.println("Drive Initialized");
+		System.out.println("Lifter Initialized");
 	}
 	
 	public void toggle()
@@ -47,7 +47,20 @@ public class Lifter implements Updatable
 		set(!_state, override);
 	}
 	
-	public void set(boolean state, boolean override)
+	public void set(Map.LIFTER_STATE state, boolean override)
+	{
+		if(state == null)
+			return;
+		
+		if(state == Map.LIFTER_STATE.DOWN)
+			set(false, override);
+		if(state == Map.LIFTER_STATE.UP)
+			set(true, override);
+		if(state == Map.LIFTER_STATE.TOGGLE)
+			toggle(override);
+	}
+	
+	private void set(boolean state, boolean override)
 	{
 		if(state == false || _ds.getMatchTime() < 20.0 || override)
 		{
@@ -64,16 +77,6 @@ public class Lifter implements Updatable
 
 	public void semaphore_update()
 	{
-		Map.LIFTER_STATE_SET state = IO.lift_state();
-		boolean override = IO.lift_override();
-		if(state != null)
-		{
-			if(state == Map.LIFTER_STATE_SET.DOWN)
-				set(false, override);
-			if(state == Map.LIFTER_STATE_SET.UP)
-				set(true, override);
-			if(state == Map.LIFTER_STATE_SET.TOGGLE)
-				toggle(override);
-		}
+		set(IO.lift_state(), IO.lift_override());
 	}
 }

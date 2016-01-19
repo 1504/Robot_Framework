@@ -234,8 +234,8 @@ public class Drive implements Updatable {
 		double angle = Math.atan2(y, x) + 2*Math.PI; // Get angle of the joystick
 		double offset = angle % degrees_45 - (Math.floor(angle / degrees_45) % 2) * degrees_45; // Correction factors to account for the square
 		offset = Math.cos(offset) / Math.cos(offset - degrees_45 + degrees_90 * ((offset < 0) ? 1.0 : 0.0)); // Choose the correct equation based on current octant
-		output[0] = output[1] = offset * rotation_factor * (y + x); // Rotate X by -45 degrees and correct to the square
-		output[2] = output[3] = offset * rotation_factor * (y - x); // Rotate Y by -45 degrees and correct to the square
+		output[2] = output[3] = offset * rotation_factor * (y + x); // Rotate X by -45 degrees and correct to the square
+		output[0] = output[1] = offset * rotation_factor * (y - x); // Rotate Y by -45 degrees and correct to the square
 		
 		return output;
 	}
@@ -298,7 +298,7 @@ public class Drive implements Updatable {
 				// Process new joystick data - only when new data happens
 				if(_new_data)
 				{	
-					if(_ds.isOperatorControl())
+					/*if(_ds.isOperatorControl())
 					{
 						// Switch front side if we need to
 						double rotation_offset = IO.front_side();
@@ -314,7 +314,7 @@ public class Drive implements Updatable {
 						
 						// Save corrected input for fast loop
 						_input = input;
-					}
+					}*/
 					
 					_new_data = false;
 					dump = true;

@@ -23,8 +23,8 @@ public class IO
 		inputs[0] = Map.DRIVE_INPUT_MAGIC_NUMBERS[0] * Math.pow(Utils.deadzone(_drive_forward.getRawAxis(Map.JOYSTICK_Y_AXIS)), 2) * Math.signum(_drive_forward.getRawAxis(Map.JOYSTICK_Y_AXIS));// y
 		inputs[1] = Map.DRIVE_INPUT_MAGIC_NUMBERS[1] * Math.pow(Utils.deadzone(_drive_rotation.getRawAxis(Map.JOYSTICK_X_AXIS)), 2) * Math.signum(_drive_rotation.getRawAxis(Map.JOYSTICK_X_AXIS));// w
 		
-		if(!_drive_rotation.getRawButtonLatch(Map.DRIVE_INPUT_TURN_FACTOR_OVERRIDE_BUTTON))
-			inputs[1] *= Math.max(Math.abs(inputs[0]) / Map.DRIVE_INPUT_TURN_FACTOR, 1);
+		if(!_drive_rotation.getRawButton(Map.DRIVE_INPUT_TURN_FACTOR_OVERRIDE_BUTTON))
+			inputs[1] *= Math.abs(inputs[0]) <= 0.01 ? 0.85 : Math.min((Math.abs(inputs[0]) + .05) / Map.DRIVE_INPUT_TURN_FACTOR, 1);
 		
 		return inputs;
 	}
@@ -42,14 +42,14 @@ public class IO
 	 * Lifter stuff
 	 */
 	
-	public static Map.LIFTER_STATE_SET lift_state()
+	public static Map.LIFTER_STATE lift_state()
 	{
 		if(_secondary.getRawButtonLatch(Map.LIFTER_DOWN_BUTTON))
-			return Map.LIFTER_STATE_SET.DOWN;
+			return Map.LIFTER_STATE.DOWN;
 		if(_secondary.getRawButtonLatch(Map.LIFTER_UP_BUTTON))
-			return Map.LIFTER_STATE_SET.UP;
+			return Map.LIFTER_STATE.UP;
 		if(_secondary.getRawButtonOnRisingEdge(Map.LIFTER_TOGGLE_BUTTON))
-			return Map.LIFTER_STATE_SET.TOGGLE;
+			return Map.LIFTER_STATE.TOGGLE;
 		return null;
 	}
 	public static boolean lift_override()

@@ -31,7 +31,7 @@ public class Map {
 	};
 	
 	// Drive Input magic numbers
-	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { -1.0, 1.0 };
+	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { -1.0, 0.7 };
 	public static final double DRIVE_INPUT_TURN_FACTOR = 0.2;
 	public static final int DRIVE_INPUT_TURN_FACTOR_OVERRIDE_BUTTON = 1;
 	
@@ -77,7 +77,7 @@ public class Map {
 	public static final int LIFTER_TOGGLE_BUTTON = 4;
 	public static final int LIFTER_OVERRIDE_BUTTON = 5;
 	
-	public static enum LIFTER_STATE_SET {UP, DOWN, TOGGLE}
+	public static enum LIFTER_STATE {UP, DOWN, TOGGLE}
 	
 /**
  * Logger stuff
