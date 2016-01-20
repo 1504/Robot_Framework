@@ -94,7 +94,7 @@ public class Robot extends RobotBase {
      * to be enabled again.
      */
     public void startCompetition() {
-        UsageReporting.report(tResourceType.kResourceType_Framework, tInstances.kFramework_Simple);
+        //UsageReporting.report(tResourceType.kResourceType_Framework, tInstances.kFramework_Simple);
 
         // first and one-time initialization
         LiveWindow.setEnabled(false);
