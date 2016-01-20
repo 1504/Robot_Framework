@@ -12,7 +12,7 @@ public class Robot extends RobotBase {
 	
 	Update_Semaphore _semaphore = Update_Semaphore.getInstance();
 	Logger _logger = Logger.getInstance();
-	Drive _drive = Drive.getInstance();
+	//Drive _drive = Drive.getInstance();
 	Autonomous _autonomous = Autonomous.getInstance();
 	
     /**
