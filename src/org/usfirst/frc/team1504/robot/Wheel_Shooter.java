@@ -165,7 +165,6 @@ public class Wheel_Shooter implements Updatable
 	
 	public void semaphore_update()
 	{
-		// TODO Auto-generated method stub
 		set(IO.wheel_shooter_state());
 	}
 }
