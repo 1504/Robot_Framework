@@ -21,7 +21,7 @@ public class Update_Semaphore
 	{
 		ClassLoader class_loader = Update_Semaphore.class.getClassLoader();
 		
-		for(int i = 0; i < Map.LOGGED_CLASSES.values().length; i++)
+		for(int i = 1; i < Map.LOGGED_CLASSES.values().length; i++)
 		{
 			String subclass = Utils.toCamelCase(Map.LOGGED_CLASSES.values()[i].toString());
 			try {

@@ -1,8 +1,10 @@
 package org.usfirst.frc.team1504.robot;
 
 //import edu.wpi.first.wpilibj.DriverStation;
+import java.util.Base64;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary;
 import edu.wpi.first.wpilibj.communication.UsageReporting;
 import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tInstances;
 import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tResourceType;
@@ -14,6 +16,7 @@ public class Robot extends RobotBase {
 	Logger _logger = Logger.getInstance();
 	//Drive _drive = Drive.getInstance();
 	Autonomous _autonomous = Autonomous.getInstance();
+	
 	
     /**
      * Create a new Robot
@@ -31,7 +34,8 @@ public class Robot extends RobotBase {
      * Called exactly 1 time when the competition starts.
      */
     protected void robotInit() {
-        System.out.println("Robot Initialized ( robotInit() ) @ " + IO.ROBOT_START_TIME);
+    	System.out.println(new String(Base64.getDecoder().decode(Map.ROBOT_BANNER)));
+        System.out.println("Quixote Initialized ( robotInit() ) @ " + IO.ROBOT_START_TIME);
     }
 
     /**
@@ -94,7 +98,8 @@ public class Robot extends RobotBase {
      * to be enabled again.
      */
     public void startCompetition() {
-        //UsageReporting.report(tResourceType.kResourceType_Framework, tInstances.kFramework_Simple);
+        UsageReporting.report(tResourceType.kResourceType_Framework, tInstances.kFramework_Sample);
+        FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramStarting();
 
         // first and one-time initialization
         LiveWindow.setEnabled(false);
