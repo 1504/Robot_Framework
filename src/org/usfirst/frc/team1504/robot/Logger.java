@@ -46,6 +46,7 @@ public class Logger {
 		} catch (FileNotFoundException e) {
 			System.out.println("Could not open logging file.\n" + _outfile);
 			//e.printStackTrace();
+			return;
 		}
 
 		_start_time = System.currentTimeMillis();
