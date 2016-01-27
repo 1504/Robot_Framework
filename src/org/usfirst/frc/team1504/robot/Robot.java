@@ -23,6 +23,7 @@ public class Robot extends RobotBase {
      */
     public Robot() {
     	super();
+    	System.out.println(new String(Base64.getDecoder().decode(Map.TEAM_BANNER)));
     }
 
     /**
