@@ -298,7 +298,7 @@ public class Drive implements Updatable {
 				// Process new joystick data - only when new data happens
 				if(_new_data)
 				{	
-					/*if(_ds.isOperatorControl())
+					if(_ds.isOperatorControl())
 					{
 						// Switch front side if we need to
 						double rotation_offset = IO.front_side();
@@ -314,7 +314,7 @@ public class Drive implements Updatable {
 						
 						// Save corrected input for fast loop
 						_input = input;
-					}*/
+					}
 					
 					_new_data = false;
 					dump = true;

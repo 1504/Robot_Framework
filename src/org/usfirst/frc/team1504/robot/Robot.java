@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class Robot extends RobotBase {
 	
+	//Digit_Board _digit_board = Digit_Board.getInstance();
 	Update_Semaphore _semaphore = Update_Semaphore.getInstance();
 	Logger _logger = Logger.getInstance();
 	//Drive _drive = Drive.getInstance();

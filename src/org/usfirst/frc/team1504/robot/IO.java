@@ -74,4 +74,33 @@ public class IO
 			return Wheel_Shooter.WHEEL_SHOOTER_STATE.FIRE;
 		return null;
 	}
+	
+	/**
+	 * LEGO shooter stuff
+	 */
+	public static Lego_Shooter.LEGO_SHOOTER_ACTION_STATE lego_shooter_action()
+	{
+		if(_secondary.getRawButtonOnRisingEdge(Map.LEGO_SHOOTER_INTAKE_ON_BUTTON))
+			return Lego_Shooter.LEGO_SHOOTER_ACTION_STATE.PICKUP;
+		if(_secondary.getRawButtonOnRisingEdge(Map.LEGO_SHOOTER_INTAKE_OFF_BUTTON))
+			return Lego_Shooter.LEGO_SHOOTER_ACTION_STATE.READY;
+		if(_secondary.getRawButtonOnRisingEdge(Map.LEGO_SHOOTER_INTAKE_REVERSE_BUTTON))
+			return Lego_Shooter.LEGO_SHOOTER_ACTION_STATE.PICKUP_OUT;
+		if(_secondary.getRawButtonOnRisingEdge(Map.LEGO_SHOOTER_FIRE_BUTTON))
+			return Lego_Shooter.LEGO_SHOOTER_ACTION_STATE.FIRE;
+		return null;
+	}
+	
+	public static Lego_Shooter.LEGO_SHOOTER_POSITION_STATE lego_shooter_position()
+	{
+		/*if(_secondary.getRawButtonOnRisingEdge(Map.LEGO_SHOOTER_INTAKE_ON_BUTTON))
+			return Lego_Shooter.LEGO_SHOOTER_ACTION_STATE.PICKUP;
+		if(_secondary.getRawButtonOnRisingEdge(Map.LEGO_SHOOTER_INTAKE_OFF_BUTTON))
+			return Lego_Shooter.LEGO_SHOOTER_ACTION_STATE.READY;
+		if(_secondary.getRawButtonOnRisingEdge(Map.LEGO_SHOOTER_INTAKE_REVERSE_BUTTON))
+			return Lego_Shooter.LEGO_SHOOTER_ACTION_STATE.PICKUP_OUT;
+		if(_secondary.getRawButtonOnRisingEdge(Map.LEGO_SHOOTER_FIRE_BUTTON))
+			return Lego_Shooter.LEGO_SHOOTER_ACTION_STATE.FIRE;*/
+		return null;
+	}
 }
