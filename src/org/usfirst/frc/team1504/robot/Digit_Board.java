@@ -511,12 +511,12 @@ public class Digit_Board
 			
 		}
 		*/
-		/*if(_secret_code_input == SECRET_CODE)
+		if(_secret_code_input == SECRET_CODE)
 		{
-			System.out.println("SECRET CODE TIME!");
+			//System.out.println("SECRET CODE TIME!");
 			return;
 		}
-		int i = 7;
+		/*int i = 7;
 		while((_secret_code_input >> i & 1) == (SECRET_CODE >> i & 1))
 			i--;
 		if(((_secret_code_input >> i) & 1) != (z.ordinal()-1))

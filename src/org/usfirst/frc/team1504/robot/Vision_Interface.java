@@ -28,10 +28,10 @@ public class Vision_Interface implements Updatable
 	private void update()
 	{
 		double[] default_value = {-1.0};
-		double[] height   = _contour_table.getNumberArray("height", default_value);
+		//double[] height   = _contour_table.getNumberArray("height", default_value);
 		double[] width    = _contour_table.getNumberArray("width", default_value);
 		double[] x_center = _contour_table.getNumberArray("centerX", default_value);
-		double[] y_center = _contour_table.getNumberArray("centerY", default_value);
+		//double[] y_center = _contour_table.getNumberArray("centerY", default_value);
 		
 		// No data from the Network Tables, do nothing
 		if(width == default_value)

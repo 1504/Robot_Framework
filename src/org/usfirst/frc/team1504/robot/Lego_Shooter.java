@@ -18,7 +18,7 @@ public class Lego_Shooter implements Updatable
 	private static LEGO_SHOOTER_POSITION_STATE _position_state = LEGO_SHOOTER_POSITION_STATE.STORE;
 	
 	private Thread _action_task;
-	private Thread _position_task;
+//	private Thread _position_task;
 //	private Thread _intake_pulse_task; // Maybe for an input auto-pulse to hang on to the ball. We'll see.
 	
 	private CANTalon _intake_motor;
