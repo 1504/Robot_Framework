@@ -67,6 +67,7 @@ public class Drive implements Updatable {
 	
 	private DriverStation _ds = DriverStation.getInstance();
 	private Logger _logger = Logger.getInstance();
+	private Vision_Interface _vision = Vision_Interface.getInstance();
 	private volatile boolean _new_data = false;
 	private volatile double[] _input = {0.0, 0.0};
 	private volatile double _rotation_offset = 0.0;
@@ -98,7 +99,12 @@ public class Drive implements Updatable {
 		// Get new values from the map
 		// Do all configurating first (orbit, front, etc.)
 		if(!_ds.isAutonomous())
-			drive_inputs(IO.drive_input());
+		{
+			if(IO.vision_target_override())
+				drive_inputs(_vision.getInputCorrection());
+			else
+				drive_inputs(IO.drive_input());
+		}
 		// so "_new_data = true" at the VERY END OF EVERYTHING
 	}
 	

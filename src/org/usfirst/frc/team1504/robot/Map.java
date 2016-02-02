@@ -31,7 +31,7 @@ public class Map {
 	};
 	
 	// Drive Input magic numbers
-	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { 1.0, 0.7 };
+	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { 1.0, 0.6 };
 	public static final double DRIVE_INPUT_TURN_FACTOR = 0.2;
 	public static final int DRIVE_INPUT_TURN_FACTOR_OVERRIDE_BUTTON = 1;
 	
@@ -113,6 +113,15 @@ public class Map {
 	public static final int LEGO_SHOOTER_POSITION_STORE_BUTTON = 1;
 	
 	public static final double LEGO_SHOOTER_INTAKE_SPEED = 0.75;
+	
+/**
+ * Vision Interface stuff
+ */
+	public static final int VISION_INTERFACE_OVERRIDE_BUTTON = 2;
+	public static final double VISION_INTERFACE_VIDEO_WIDTH = 800;
+	public static final double VISION_INTERFACE_TURN_GAIN = 0.1;
+	public static final double VISION_INTERFACE_AIM_DEADZONE = 0.075;
+	public static final double VISION_INTERFACE_TURN_MAX_OUTPUT = 0.15;
 	
 /**
  * Logger stuff

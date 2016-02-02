@@ -103,4 +103,12 @@ public class IO
 			return Lego_Shooter.LEGO_SHOOTER_ACTION_STATE.FIRE;*/
 		return null;
 	}
+	
+	/**
+	 * Vision Interface stuff
+	 */
+	public static boolean vision_target_override()
+	{
+		return _secondary.getRawButton(Map.VISION_INTERFACE_OVERRIDE_BUTTON);
+	}
 }

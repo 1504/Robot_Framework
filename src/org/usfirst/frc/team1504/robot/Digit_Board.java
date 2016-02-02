@@ -118,21 +118,12 @@ public class Digit_Board
 				if(action == ACTION.POSITION)
 					_current_position = (_current_position + 1) % POSITIONS.length;
 				action = ACTION.POSITION;
-				/*action = ACTION.POSITION;
-				_current_position = (_current_position + 1) % POSITIONS.length;
-				if(_current_position == 0)
-					_current_defense = 0;*/
 			}
 			else if(getBOnRisingEdge())
 			{
 				if(action == ACTION.DEFENSE)
 					_current_defense = (_current_defense + 1) % DEFENSES.length;
 				action = ACTION.DEFENSE;
-				/*action = ACTION.DEFENSE;
-				if(_current_position == 0)
-					_current_defense = 0;
-				else
-					_current_defense = (_current_defense + 1) % DEFENSES.length;*/
 			}
 			else
 				update_refresh = false;
@@ -181,6 +172,16 @@ public class Digit_Board
 	public static Digit_Board getInstance()
 	{
 		return instance;
+	}
+	
+	public int getPosition()
+	{
+		return _current_position;
+	}
+	
+	public String getDefense()
+	{
+		return DEFENSES[_current_defense];
 	}
 	
 	public void update()
@@ -302,7 +303,6 @@ public class Digit_Board
 	{
 		//if(output.length() != 4)
 		//	return;
-		
 		output += "    "; // Cheap and easy way to clear and prevent index out of bounds errors
 		
 		byte[] output_buffer = new byte[10];
@@ -337,7 +337,7 @@ public class Digit_Board
 				if(letter == '.')
 				{
 					if(i != 0)
-						output_buffer[(4-i)*2+3] |= (byte)0b010000000;
+						output_buffer[(4-i)*2+3] |= (byte)0b01000000;
 				}
 				
 				offset++;
@@ -511,7 +511,7 @@ public class Digit_Board
 			
 		}
 		*/
-		if(_secret_code_input == SECRET_CODE)
+		/*if(_secret_code_input == SECRET_CODE)
 		{
 			System.out.println("SECRET CODE TIME!");
 			return;
@@ -522,6 +522,6 @@ public class Digit_Board
 		if(((_secret_code_input >> i) & 1) != (z.ordinal()-1))
 			_secret_code_input ^= 1 << i;
 		else
-			_secret_code_input = ~SECRET_CODE;
+			_secret_code_input = ~SECRET_CODE;*/
 	}
 }
