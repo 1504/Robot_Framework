@@ -184,6 +184,11 @@ public class Digit_Board
 		return DEFENSES[_current_defense];
 	}
 	
+	public double getDelay()
+	{
+		return 0.0;
+	}
+	
 	public void update()
 	{
 		int current_mask = get_input_mask();
