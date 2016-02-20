@@ -3,8 +3,25 @@ package org.usfirst.frc.team1504.robot;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Autonomous {
-
+public class Autonomous 
+{
+	public static class Autonomus_Waypoint
+	{
+		// Distance: Use encoders to move a delta
+		// Time: Emulate joystick inputs for a time
+		// Angle: Turn robot to a certain delta angle (using feedback)
+		// Jostle: Emulate joystick inputs and wait for the robot to bounce over an obstacle
+		// Fire: Aim and fire. Ideally done last.
+		public enum TYPE {DISTANCE, TIME, ANGLE, JOSTLE, FIRE}
+		public TYPE type;
+		public double timeout;
+		public double[] setpoint = new double[2];
+		
+		public Autonomus_Waypoint() {}
+		public Autonomus_Waypoint(TYPE t, double t_o, double[] sp)
+			{ type = t; timeout = t_o; setpoint = sp; }
+	}
+	
 	private static class Auto_Task extends TimerTask
 	{
 
