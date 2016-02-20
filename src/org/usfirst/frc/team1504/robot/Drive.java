@@ -101,7 +101,7 @@ public class Drive implements Updatable {
 		if(!_ds.isAutonomous())
 		{
 			if(IO.vision_target_override())
-				drive_inputs(_vision.getInputCorrection());
+				drive_inputs(_vision.getInputCorrection(IO.vision_target_override_rising()));
 			else
 				drive_inputs(IO.drive_input());
 		}

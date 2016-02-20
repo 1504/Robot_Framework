@@ -111,4 +111,9 @@ public class IO
 	{
 		return _secondary.getRawButton(Map.VISION_INTERFACE_OVERRIDE_BUTTON);
 	}
+	
+	public static boolean vision_target_override_rising()
+	{
+		return _secondary.getRawButtonOnRisingEdge(Map.VISION_INTERFACE_OVERRIDE_BUTTON);
+	}
 }

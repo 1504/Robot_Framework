@@ -119,9 +119,11 @@ public class Map {
  */
 	public static final int VISION_INTERFACE_OVERRIDE_BUTTON = 2;
 	public static final double VISION_INTERFACE_VIDEO_WIDTH = 800;
-	public static final double VISION_INTERFACE_TURN_GAIN = 0.1;
-	public static final double VISION_INTERFACE_AIM_DEADZONE = 0.075;
+	public static final double VISION_INTERFACE_VIDEO_FOV = 68;
+	public static final double VISION_INTERFACE_TURN_GAIN = 0.02;//0.1;
+	public static final double VISION_INTERFACE_AIM_DEADZONE = 1;//0.075;
 	public static final double VISION_INTERFACE_TURN_MAX_OUTPUT = 0.15;
+	public static final int VISION_INTERFACE_IMAGE_CAPTURE_SETTLE_TIMEOUT = 750;
 	
 /**
  * Pneumatics stuff

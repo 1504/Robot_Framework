@@ -1,13 +1,16 @@
 package org.usfirst.frc.team1504.robot;
 
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
+
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Vision_Interface implements Updatable
 {
-	private static final Vision_Interface instance = new Vision_Interface();
-	
-	private NetworkTable _contour_table;
+	private static final Vision_Interface instance = new Vision_Interface();	
+	private enum AimState {WAIT_FOR_IMAGE_GOOD, GET_IMAGE, AIM_ROBOT, AIMED, BAD_IMAGE}
 	
 	protected Vision_Interface()
 	{
@@ -23,9 +26,30 @@ public class Vision_Interface implements Updatable
         return Vision_Interface.instance;
     }
 	
-	private double _target_position = -1.0;
+	private Timer _image_wait;
+	private NetworkTable _contour_table;
+	private ADXRS450_Gyro _gyro = new ADXRS450_Gyro();
 	
-	private void update()
+	private double _target_position = -1.0;
+	private AimState _state = null;
+	
+	private void settle_camera()
+	{
+		_state = AimState.WAIT_FOR_IMAGE_GOOD;
+		
+		_image_wait = new Timer();
+		_image_wait.schedule(
+				new TimerTask() { public void run() {
+					if(_state != AimState.WAIT_FOR_IMAGE_GOOD)
+						return;
+					_gyro.reset();
+					_state = AimState.GET_IMAGE;
+				} },
+				Map.VISION_INTERFACE_IMAGE_CAPTURE_SETTLE_TIMEOUT
+		);
+	}
+	
+	private void update_camera()
 	{
 		double[] default_value = {-1.0};
 		//double[] height   = _contour_table.getNumberArray("height", default_value);
@@ -36,7 +60,8 @@ public class Vision_Interface implements Updatable
 		// No data from the Network Tables, do nothing
 		if(width == default_value)
 		{
-			_target_position = -1.0;
+			//_target_position = -1.0;
+			_state = AimState.BAD_IMAGE;
 			return;
 		}
 		
@@ -49,30 +74,53 @@ public class Vision_Interface implements Updatable
 		}
 		
 		_target_position = (2 * x_center[table_index] / Map.VISION_INTERFACE_VIDEO_WIDTH) - 1;
+		_target_position *= Map.VISION_INTERFACE_VIDEO_FOV / 2;
 		
+		if(Math.abs(_target_position) < Map.VISION_INTERFACE_AIM_DEADZONE)
+			_state = AimState.AIMED;
+		else
+			_state = AimState.AIM_ROBOT;
+		
+	}
+	
+	private double offset_aim_factor()
+	{
+		return _target_position - _gyro.getAngle();
 	}
 	
 	public boolean getAimGood()
 	{
-		return Math.abs(_target_position) < Map.VISION_INTERFACE_AIM_DEADZONE;
+		/*if(_state == AimState.AIMED)
+			return Math.abs(_target_position) < Map.VISION_INTERFACE_AIM_DEADZONE;
+		return false;*/
+		return _state == AimState.AIMED;
 	}
 	
-	public double[] getInputCorrection()
+	public double[] getInputCorrection(boolean first_aim)
 	{
-		update();
+		if(first_aim)			
+			settle_camera();
 		
-		if(_target_position == -1.0)
+		if(_state == AimState.GET_IMAGE)
+			update_camera();
+		
+		//if(_target_position == -1.0)
+		if(_state != AimState.AIM_ROBOT)
 			return new double[] {0.0, 0.0};
 		
 		// Compute the speed we need to turn the robot to point at the target
-		double turn_speed = 0.0;
-		if(!getAimGood())
-			turn_speed = _target_position * Map.VISION_INTERFACE_TURN_GAIN;
+		//double turn_speed = 0.0;
+		if(Math.abs(offset_aim_factor()) > Map.VISION_INTERFACE_AIM_DEADZONE)
+			return new double[] {0.0, offset_aim_factor() * Map.VISION_INTERFACE_TURN_GAIN};
+			//turn_speed = offset_aim_factor() * Map.VISION_INTERFACE_TURN_GAIN;
+		else
+			settle_camera();
 		
-		if(Math.abs(_target_position) > Map.VISION_INTERFACE_TURN_MAX_OUTPUT)
-			turn_speed = Map.VISION_INTERFACE_TURN_MAX_OUTPUT * Math.signum(_target_position);
+		return new double[] {0.0, 0.0};
+//		if(Math.abs(_target_position) > Map.VISION_INTERFACE_TURN_MAX_OUTPUT)
+//			turn_speed = Map.VISION_INTERFACE_TURN_MAX_OUTPUT * Math.signum(_target_position);
 		
-		return new double[] {-0.0, turn_speed};
+		//return new double[] {0.0, turn_speed};
 	}
 	
 	@Override

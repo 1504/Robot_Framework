@@ -2,6 +2,8 @@ package org.usfirst.frc.team1504.robot;
 
 //import edu.wpi.first.wpilibj.DriverStation;
 import java.util.Base64;
+
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary;
@@ -18,7 +20,7 @@ public class Robot extends RobotBase {
 	//Drive _drive = Drive.getInstance();
 	Autonomous _autonomous = Autonomous.getInstance();
 	
-	
+	CANTalon A, B;
     /**
      * Create a new Robot
      */
@@ -82,11 +84,19 @@ public class Robot extends RobotBase {
         
         System.out.println("Testing latching joystick");
         Latch_Joystick testlatch = new Latch_Joystick(0);
+        A = new CANTalon(30);
+        B = new CANTalon(31);
+        CANTalon C = new CANTalon(20);
         while (isTest() && isEnabled())
         {
-        	testlatch.semaphore_update();
+        	/*testlatch.semaphore_update();
         	System.out.println("Latch: " + testlatch.getRawButtonLatch(1) + "    Rising: " + testlatch.getRawButtonOnRisingEdge(1) + "    Button: " + testlatch.getRawButton(1));
-            Timer.delay(1.0);
+            Timer.delay(1.0);*/
+        	A.set(-1.0);
+        	B.set(1.0);
+        	//C.set(-1.0);
+        	Timer.delay(3.0);
+        	C.set(-1.0);
         }
     }
 
