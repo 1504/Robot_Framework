@@ -20,7 +20,8 @@ public class Robot extends RobotBase {
 	//Drive _drive = Drive.getInstance();
 	Autonomous _autonomous = Autonomous.getInstance();
 	
-	CANTalon A, B;
+	Endgame test = Endgame.getInstance();
+	
     /**
      * Create a new Robot
      */
@@ -84,19 +85,39 @@ public class Robot extends RobotBase {
         
         System.out.println("Testing latching joystick");
         Latch_Joystick testlatch = new Latch_Joystick(0);
+        CANTalon A, B, C;
         A = new CANTalon(30);
         B = new CANTalon(31);
-        CANTalon C = new CANTalon(20);
+        C = new CANTalon(20);
+        
+        Glide gain = new Glide(0.001, .01);
+        
+        double setpoint = 0;
         while (isTest() && isEnabled())
         {
         	/*testlatch.semaphore_update();
         	System.out.println("Latch: " + testlatch.getRawButtonLatch(1) + "    Rising: " + testlatch.getRawButtonOnRisingEdge(1) + "    Button: " + testlatch.getRawButton(1));
             Timer.delay(1.0);*/
-        	A.set(-1.0);
-        	B.set(1.0);
+        	/*while(setpoint < 1.0)
+        	{
+        		setpoint += .1;
+        		A.set(-1.0 * setpoint);
+            	B.set(1.0 * setpoint);
+        		Timer.delay(0.2);
+        	}*/
+        	//A.set(-1.0);
+        	//B.set(1.0);
+        	
+        	setpoint = gain.gain_adjust(1.0);
+        	A.set(-1.0 * setpoint);
+        	B.set(1.0 * setpoint);
         	//C.set(-1.0);
-        	Timer.delay(3.0);
-        	C.set(-1.0);
+        	Timer.delay(0.05);
+        	if(testlatch.getRawButton(1))
+        		C.set(-1.0);
+        	else
+        		C.set(0.0);
+        	//System.out.println(setpoint);
         }
     }
 
@@ -144,7 +165,7 @@ public class Robot extends RobotBase {
                 m_ds.InAutonomous(false);
             
             } else if (isTest()) {
-                LiveWindow.setEnabled(true);
+                //LiveWindow.setEnabled(true);
                 m_ds.InTest(true);
                 
                 test();
@@ -153,7 +174,7 @@ public class Robot extends RobotBase {
                     Timer.delay(0.01);
                 
                 m_ds.InTest(false);
-                LiveWindow.setEnabled(false);
+                //sLiveWindow.setEnabled(false);
             
             } else {
                 m_ds.InOperatorControl(true);
