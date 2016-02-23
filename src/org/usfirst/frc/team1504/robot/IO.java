@@ -116,4 +116,16 @@ public class IO
 	{
 		return _secondary.getRawButtonOnRisingEdge(Map.VISION_INTERFACE_OVERRIDE_BUTTON);
 	}
+	
+	/**
+	 * Endgame stuff
+	 */
+	public static Endgame.ENDGAME_STATE endgame_state()
+	{
+		if(_secondary.getRawButtonOnRisingEdge(8))
+			return Endgame.ENDGAME_STATE.EXTEND;
+		if(_secondary.getRawButtonOnRisingEdge(9))
+			return Endgame.ENDGAME_STATE.RETRACT;
+		return null;
+	}
 }
