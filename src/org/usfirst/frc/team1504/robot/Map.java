@@ -6,6 +6,8 @@ public class Map {
  */
 	public static final double UTIL_JOYSTICK_DEADZONE = 0.09;
 	
+	public static final int UTIL_OVERRIDE_BUTTON = 3;
+	
 /**
  * Drive class things
  */
@@ -130,6 +132,12 @@ public class Map {
  */
 	public static final int PNEUMATICS_HIGHSIDE_PORT = 0;
 	public static final int PNEUMATICS_LOWSIDE_PORT = 1;
+	
+/**
+ * Endgame stuff
+ */
+	public static final int ENDGAME_EXTENSION_PORT = 0;
+	public static final int ENDGAME_RETRACTION_PORT = 1;
 	
 /**
  * Logger stuff

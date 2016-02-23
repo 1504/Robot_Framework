@@ -10,6 +10,14 @@ public class IO
 	public static final long ROBOT_START_TIME = System.currentTimeMillis();
 	
 	/**
+	 * Override button
+	 */
+	public static boolean override()
+	{
+		return _secondary.getRawButtonLatch(Map.UTIL_OVERRIDE_BUTTON);
+	}
+	
+	/**
 	 * Drive stuff
 	 */
 	
