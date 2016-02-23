@@ -44,6 +44,7 @@ public class Vision_Interface implements Updatable
 						return;
 					_gyro.reset();
 					_state = AimState.GET_IMAGE;
+					update_camera();
 				} },
 				Map.VISION_INTERFACE_IMAGE_CAPTURE_SETTLE_TIMEOUT
 		);
@@ -60,7 +61,6 @@ public class Vision_Interface implements Updatable
 		// No data from the Network Tables, do nothing
 		if(width == default_value)
 		{
-			//_target_position = -1.0;
 			_state = AimState.BAD_IMAGE;
 			return;
 		}
@@ -90,9 +90,6 @@ public class Vision_Interface implements Updatable
 	
 	public boolean getAimGood()
 	{
-		/*if(_state == AimState.AIMED)
-			return Math.abs(_target_position) < Map.VISION_INTERFACE_AIM_DEADZONE;
-		return false;*/
 		return _state == AimState.AIMED;
 	}
 	
@@ -101,26 +98,16 @@ public class Vision_Interface implements Updatable
 		if(first_aim)			
 			settle_camera();
 		
-		if(_state == AimState.GET_IMAGE)
-			update_camera();
-		
-		//if(_target_position == -1.0)
-		if(_state != AimState.AIM_ROBOT)
-			return new double[] {0.0, 0.0};
-		
-		// Compute the speed we need to turn the robot to point at the target
-		//double turn_speed = 0.0;
-		if(Math.abs(offset_aim_factor()) > Map.VISION_INTERFACE_AIM_DEADZONE)
-			return new double[] {0.0, offset_aim_factor() * Map.VISION_INTERFACE_TURN_GAIN};
-			//turn_speed = offset_aim_factor() * Map.VISION_INTERFACE_TURN_GAIN;
-		else
-			settle_camera();
+		if(_state == AimState.AIM_ROBOT)
+		{
+			// Compute the speed we need to turn the robot to point at the target
+			if(Math.abs(offset_aim_factor()) > Map.VISION_INTERFACE_AIM_DEADZONE)
+				return new double[] {0.0, offset_aim_factor() * Map.VISION_INTERFACE_TURN_GAIN};
+			else
+				settle_camera();
+		}
 		
 		return new double[] {0.0, 0.0};
-//		if(Math.abs(_target_position) > Map.VISION_INTERFACE_TURN_MAX_OUTPUT)
-//			turn_speed = Map.VISION_INTERFACE_TURN_MAX_OUTPUT * Math.signum(_target_position);
-		
-		//return new double[] {0.0, turn_speed};
 	}
 	
 	@Override
