@@ -141,7 +141,7 @@ public class Wheel_Shooter implements Updatable
 				
 				_fire_task = new Thread(new Runnable() {
 					public void run() {
-						_intake_motor.set(1.0);
+						_intake_motor.set(Map.WHEEL_SHOOTER_INTAKE_SPEED);
 						try {
 							Thread.sleep(350);
 						} catch (InterruptedException e) {
@@ -167,7 +167,7 @@ public class Wheel_Shooter implements Updatable
 					
 					_fire_task = new Thread(new Runnable() {
 						public void run() {
-							_intake_motor.set(-1.0);
+							_intake_motor.set(-1.0 * Map.WHEEL_SHOOTER_INTAKE_SPEED);
 							try {
 								Thread.sleep(50);
 							} catch (InterruptedException e) {

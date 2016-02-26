@@ -94,7 +94,7 @@ public class Map {
 	public static final int WHEEL_SHOOTER_SPINUP_BUTTON = 3;
 	public static final int WHEEL_SHOOTER_FIRE_BUTTON = 1;
 	
-	public static final double WHEEL_SHOOTER_INTAKE_SPEED = 1.0;
+	public static final double WHEEL_SHOOTER_INTAKE_SPEED = -1.0;
 	public static final double WHEEL_SHOOTER_TARGET_SPEED = 1000.0;
 	public static final double WHEEL_SHOOTER_GAIN = 0.01;
 	public static final double WHEEL_SHOOTER_SPEED_GOOD_DEADBAND = 50.0;
