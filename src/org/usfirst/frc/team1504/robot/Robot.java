@@ -21,6 +21,7 @@ public class Robot extends RobotBase {
 	Autonomous _autonomous = Autonomous.getInstance();
 	
 	Endgame test = Endgame.getInstance();
+	Wheel_Shooter t2 = Wheel_Shooter.getInstance();
 	
     /**
      * Create a new Robot
@@ -90,6 +91,7 @@ public class Robot extends RobotBase {
         B = new CANTalon(31);
         C = new CANTalon(20);
         
+        C.reverseOutput(true);
         Glide gain = new Glide(0.001, .01);
         
         double setpoint = 0;

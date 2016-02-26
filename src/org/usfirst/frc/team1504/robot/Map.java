@@ -85,19 +85,19 @@ public class Map {
  * Wheel shooter stuff
  */
 	public static final int WHEEL_SHOOTER_INTAKE_MOTOR = 20;
-	public static final int WHEEL_SHOOTER_LEFT_SHOOTER_MOTOR = 21;
-	public static final int WHEEL_SHOOTER_RIGHT_SHOOTER_MOTOR = 22;
+	public static final int WHEEL_SHOOTER_PORT_SHOOTER_MOTOR = 30;
+	public static final int WHEEL_SHOOTER_STAR_SHOOTER_MOTOR = 31;
 	
-	public static final int WHEEL_SHOOTER_INTAKE_ON_BUTTON = 1;
-	public static final int WHEEL_SHOOTER_INTAKE_OFF_BUTTON = 1;
-	public static final int WHEEL_SHOOTER_INTAKE_REVERSE_BUTTON = 1;
-	public static final int WHEEL_SHOOTER_SPINUP_BUTTON = 1;
+	public static final int WHEEL_SHOOTER_INTAKE_ON_BUTTON = 6;
+	public static final int WHEEL_SHOOTER_INTAKE_OFF_BUTTON = 7;
+	public static final int WHEEL_SHOOTER_INTAKE_REVERSE_BUTTON = 4;
+	public static final int WHEEL_SHOOTER_SPINUP_BUTTON = 3;
 	public static final int WHEEL_SHOOTER_FIRE_BUTTON = 1;
 	
-	public static final double WHEEL_SHOOTER_INTAKE_SPEED = 0.75;
-	public static final double WHEEL_SHOOTER_TARGET_SPEED = 0.75;
+	public static final double WHEEL_SHOOTER_INTAKE_SPEED = 1.0;
+	public static final double WHEEL_SHOOTER_TARGET_SPEED = 1000.0;
 	public static final double WHEEL_SHOOTER_GAIN = 0.01;
-	public static final double WHEEL_SHOOTER_SPEED_GOOD_DEADBAND = 1.0;
+	public static final double WHEEL_SHOOTER_SPEED_GOOD_DEADBAND = 50.0;
 	
 /**
  * Lego shooter stuff
@@ -122,7 +122,7 @@ public class Map {
 	public static final int VISION_INTERFACE_OVERRIDE_BUTTON = 2;
 	public static final double VISION_INTERFACE_VIDEO_WIDTH = 800;
 	public static final double VISION_INTERFACE_VIDEO_FOV = 68;
-	public static final double VISION_INTERFACE_TURN_GAIN = 0.02;//0.1;
+	public static final double VISION_INTERFACE_TURN_GAIN = 0.06;//0.1;
 	public static final double VISION_INTERFACE_AIM_DEADZONE = 1;//0.075;
 	public static final double VISION_INTERFACE_TURN_MAX_OUTPUT = 0.15;
 	public static final int VISION_INTERFACE_IMAGE_CAPTURE_SETTLE_TIMEOUT = 750;

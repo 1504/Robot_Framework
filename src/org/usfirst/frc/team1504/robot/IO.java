@@ -70,12 +70,15 @@ public class IO
 	 */
 	public static Wheel_Shooter.WHEEL_SHOOTER_STATE wheel_shooter_state()
 	{
+		if(_secondary.getRawButtonLatch(Map.WHEEL_SHOOTER_INTAKE_ON_BUTTON) && 
+		   _secondary.getRawButtonLatch(Map.WHEEL_SHOOTER_INTAKE_OFF_BUTTON))
+			return Wheel_Shooter.WHEEL_SHOOTER_STATE.PICKUP_OUT;
 		if(_secondary.getRawButtonLatch(Map.WHEEL_SHOOTER_INTAKE_ON_BUTTON))
 			return Wheel_Shooter.WHEEL_SHOOTER_STATE.PICKUP;
 		if(_secondary.getRawButtonLatch(Map.WHEEL_SHOOTER_INTAKE_OFF_BUTTON))
 			return Wheel_Shooter.WHEEL_SHOOTER_STATE.READY;
-		if(_secondary.getRawButtonLatch(Map.WHEEL_SHOOTER_INTAKE_REVERSE_BUTTON))
-			return Wheel_Shooter.WHEEL_SHOOTER_STATE.PICKUP_OUT;
+		//if(_secondary.getRawButtonLatch(Map.WHEEL_SHOOTER_INTAKE_REVERSE_BUTTON))
+		//	return Wheel_Shooter.WHEEL_SHOOTER_STATE.PICKUP_OUT;
 		if(_secondary.getRawButtonOnRisingEdge(Map.WHEEL_SHOOTER_SPINUP_BUTTON))
 			return Wheel_Shooter.WHEEL_SHOOTER_STATE.SPINUP;
 		if(_secondary.getRawButtonLatch(Map.WHEEL_SHOOTER_FIRE_BUTTON))
