@@ -4,6 +4,7 @@ import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Pneumatics implements Updatable
@@ -33,6 +34,8 @@ public class Pneumatics implements Updatable
 	private AnalogInput _highside_pressure_input, _lowside_pressure_input;
 	private Pneumatics_state _state;
 	
+	private Thread _dashboard_task;
+	
 	protected Pneumatics()
 	{
 		_compressor = new Compressor();
@@ -40,6 +43,18 @@ public class Pneumatics implements Updatable
 		_lowside_pressure_input =  new AnalogInput(Map.PNEUMATICS_LOWSIDE_PORT);
 		
 		_state = new Pneumatics_state();
+		
+		_dashboard_task = new Thread(new Runnable() {
+			public void run() {
+				while(true)
+				{
+					update();
+					update_dashboard();
+					Timer.delay(.05);
+				}
+			}
+		});
+    	_dashboard_task.start();
 		
 		Update_Semaphore.getInstance().register(this);
 		
@@ -67,9 +82,10 @@ public class Pneumatics implements Updatable
 	
 	private void update_dashboard()
 	{
-		SmartDashboard.putNumber("highside_pressure", _state._highside_pressure);
-		SmartDashboard.putNumber("lowside_pressure", _state._lowside_pressure);
-		SmartDashboard.putNumber("compressor_current", _state._compressor_current);
+		SmartDashboard.putNumber("Pneumatics highside pressure", _state._highside_pressure);
+		SmartDashboard.putNumber("Pneumatics lowside pressure", _state._lowside_pressure);
+		SmartDashboard.putNumber("Pneumatics compressor current", _state._compressor_current);
+		SmartDashboard.putBoolean("Pneumatics pressure switch", _state._pressure_switch);
 	}
 	
 	private void dump()
@@ -80,8 +96,8 @@ public class Pneumatics implements Updatable
 	@Override
 	public void semaphore_update()
 	{
-		update();
+		//update();
 		dump();
-		update_dashboard();
+		//update_dashboard();
 	}
 }

@@ -4,6 +4,7 @@ import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+
 import java.util.Timer;
 import java.util.TimerTask;
 

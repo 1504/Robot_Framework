@@ -4,6 +4,7 @@ package org.usfirst.frc.team1504.robot;
 import java.util.Base64;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary;
@@ -11,17 +12,18 @@ import edu.wpi.first.wpilibj.communication.UsageReporting;
 import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tInstances;
 import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tResourceType;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends RobotBase {
 	
 	Digit_Board _digit_board = Digit_Board.getInstance();
-	Update_Semaphore _semaphore = Update_Semaphore.getInstance();
-	Logger _logger = Logger.getInstance();
-	//Drive _drive = Drive.getInstance();
-	Autonomous _autonomous = Autonomous.getInstance();
+	private Update_Semaphore _semaphore = Update_Semaphore.getInstance();
+	private Logger _logger = Logger.getInstance();
+	private Autonomous _autonomous = Autonomous.getInstance();
 	
 	Endgame test = Endgame.getInstance();
-	Wheel_Shooter t2 = Wheel_Shooter.getInstance();
+	
+	private Thread _dashboard_task;
 	
     /**
      * Create a new Robot
@@ -40,6 +42,20 @@ public class Robot extends RobotBase {
      * Called exactly 1 time when the competition starts.
      */
     protected void robotInit() {
+    	_dashboard_task = new Thread(new Runnable() {
+			public void run() {
+				PowerDistributionPanel pdp = new PowerDistributionPanel();
+				while(true)
+				{
+					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
+					SmartDashboard.putNumber("Robot Voltage", m_ds.getBatteryVoltage());
+					SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
+					Timer.delay(.05);
+				}
+			}
+		});
+    	_dashboard_task.start();
+    	
     	System.out.println(new String(Base64.getDecoder().decode(Map.ROBOT_BANNER)));
         System.out.println("Quixote Initialized ( robotInit() ) @ " + IO.ROBOT_START_TIME);
     }
@@ -176,7 +192,7 @@ public class Robot extends RobotBase {
                     Timer.delay(0.01);
                 
                 m_ds.InTest(false);
-                //sLiveWindow.setEnabled(false);
+                //LiveWindow.setEnabled(false);
             
             } else {
                 m_ds.InOperatorControl(true);
