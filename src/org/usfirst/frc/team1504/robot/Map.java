@@ -85,8 +85,8 @@ public class Map {
  * Wheel shooter stuff
  */
 	public static final int WHEEL_SHOOTER_INTAKE_MOTOR = 20;
-	public static final int WHEEL_SHOOTER_PORT_SHOOTER_MOTOR = 30;
-	public static final int WHEEL_SHOOTER_STAR_SHOOTER_MOTOR = 31;
+	public static final int WHEEL_SHOOTER_PORT_SHOOTER_MOTOR = 31;
+	public static final int WHEEL_SHOOTER_STAR_SHOOTER_MOTOR = 30;
 	
 	public static final int WHEEL_SHOOTER_INTAKE_ON_BUTTON = 6;
 	public static final int WHEEL_SHOOTER_INTAKE_OFF_BUTTON = 7;
@@ -95,8 +95,9 @@ public class Map {
 	public static final int WHEEL_SHOOTER_FIRE_BUTTON = 1;
 	
 	public static final double WHEEL_SHOOTER_INTAKE_SPEED = -1.0;
-	public static final double WHEEL_SHOOTER_TARGET_SPEED = 1000.0;
-	public static final double WHEEL_SHOOTER_GAIN = 0.01;
+	public static /*final*/ double WHEEL_SHOOTER_TARGET_SPEED = 6500.0;
+	public static final double WHEEL_SHOOTER_GAIN_P = 0.014;
+	public static final double WHEEL_SHOOTER_GAIN_I = 0.0001;
 	public static final double WHEEL_SHOOTER_SPEED_GOOD_DEADBAND = 50.0;
 	
 /**
@@ -130,8 +131,8 @@ public class Map {
 /**
  * Pneumatics stuff
  */
-	public static final int PNEUMATICS_HIGHSIDE_PORT = 0;
-	public static final int PNEUMATICS_LOWSIDE_PORT = 1;
+	public static final int PNEUMATICS_HIGHSIDE_PORT = 4;
+	public static final int PNEUMATICS_LOWSIDE_PORT = 5;
 	
 /**
  * Endgame stuff
@@ -142,7 +143,7 @@ public class Map {
 /**
  * Logger stuff
  */
-	public static enum LOGGED_CLASSES { SEMAPHORE, DRIVE, GROUNDTRUTH, PNEUMATICS }
+	public static enum LOGGED_CLASSES { SEMAPHORE, DRIVE, GROUNDTRUTH, PNEUMATICS, WHEEL_SHOOTER }
 	
 	
 public static final String TEAM_BANNER = "ICAgICAgICAgICBfX18gICAgICAgICAgICAgIF9fICBfXw0KICAgICAgICAgICAgfCBfIF8gIF8gICAgL3wgfF8gIC8gIFwgfF9ffA0KICAgICAgICAgICAgfCgtKF98fHx8ICAgIHwgX18pIFxfXy8gICAgfA0KDQogICAgICAgICAgICAgICAgICAgICAgICAgXy4NCiAgICAgICAgICAgICAgICAgICAgICAgLicgb28NCiAgICAgICAgICAgICAgICAgICAgICAgfCAgICA+DQogICAgICAgICAgICAgICAgICAgICAgLyAvIDogYC4NCiAgICAgICAgICAgICAgICAgICAgIHxfLyAvICAgfA0KICAgICAgICAgICAgICAgICAgICAgICB8LyAgd3cNCl9fXyAgICAgICAgX18gICAgICAgICAgICAgICAgICAgICAgX18NCiB8IHxfICBfICB8ICBcIF8gXyBfICBfIF8gXyB8XyBfICB8X18pXyBfICBfICAgIC4gXyAgXw0KIHwgfCApKC0gIHxfXy8oLV8pfF8pKC18IChffHxfKC0gIHwgICgtfCApKF8pfF98fHwgKV8pDQogICAgICAgICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICBfLw==";

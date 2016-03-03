@@ -5,6 +5,7 @@ import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Wheel_Shooter implements Updatable
 {
@@ -58,12 +59,21 @@ public class Wheel_Shooter implements Updatable
 		{
 			_shooter_motor_port.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 			_shooter_motor_port.changeControlMode(TalonControlMode.Speed);
+			_shooter_motor_port.setP(Map.WHEEL_SHOOTER_GAIN_P);
+			_shooter_motor_port.setI(Map.WHEEL_SHOOTER_GAIN_I);
 		}
 		if((_sensor_status & 2) != 0)
 		{
 			_shooter_motor_star.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 			_shooter_motor_star.changeControlMode(TalonControlMode.Speed);
+			_shooter_motor_star.setP(Map.WHEEL_SHOOTER_GAIN_P);
+			_shooter_motor_star.setI(Map.WHEEL_SHOOTER_GAIN_I);
+			_shooter_motor_star.reverseOutput(true);
 		}
+		
+		SmartDashboard.putNumber("Shooter Target Speed", Map.WHEEL_SHOOTER_TARGET_SPEED);
+		SmartDashboard.putBoolean("Shooter port encoder good", (_sensor_status & 1) != 0);
+		SmartDashboard.putBoolean("Shooter star encoder good", (_sensor_status & 2) != 0);
 		
 		_task_thread = new Thread(new ShooterTask(this), "1504_Shooter");
 		_task_thread.start();
@@ -87,25 +97,38 @@ public class Wheel_Shooter implements Updatable
 		return _speed_good;
 	}
 	
+	private void update_dashboard()
+	{
+		Map.WHEEL_SHOOTER_TARGET_SPEED = SmartDashboard.getNumber("Shooter Target Speed");
+		SmartDashboard.putNumber("Shooter port speed", _shooter_motor_port.getSpeed());
+		SmartDashboard.putNumber("Shooter star speed", _shooter_motor_star.getSpeed());
+		SmartDashboard.putNumber("Shooter port current", _shooter_motor_port.getOutputCurrent());
+		SmartDashboard.putNumber("Shooter star current", _shooter_motor_star.getOutputCurrent());
+		SmartDashboard.putBoolean("Shooter speed good", _speed_good);
+		SmartDashboard.putString("Shooter State", _state.toString());
+	}
+	
 	private void shooter_task()
 	{
 		while(_thread_alive)
 		{
+			update_dashboard();
+			
 			if(_state == WHEEL_SHOOTER_STATE.SPINUP || _state == WHEEL_SHOOTER_STATE.FIRE)
 			{
-				_shooter_motor_port.set(Map.WHEEL_SHOOTER_TARGET_SPEED);
+				//_shooter_motor_port.set(Map.WHEEL_SHOOTER_TARGET_SPEED);
 				_shooter_motor_star.set(Map.WHEEL_SHOOTER_TARGET_SPEED);
-				
-				_shooter_motor_port.getSpeed();
+				_shooter_motor_port.set(_shooter_motor_star.getOutputVoltage() / -12.0);
+								
 				if(
 				   (
 				       (_sensor_status & 1) == 0 ||
-				       Math.abs(_shooter_motor_port.getEncVelocity() - Map.WHEEL_SHOOTER_TARGET_SPEED) < Map.WHEEL_SHOOTER_SPEED_GOOD_DEADBAND
+				       Math.abs(_shooter_motor_port.getSpeed() - Map.WHEEL_SHOOTER_TARGET_SPEED) < Map.WHEEL_SHOOTER_SPEED_GOOD_DEADBAND
 				   )
 				   &&
 				   (
 				       (_sensor_status & 2) == 0 ||
-				       Math.abs(_shooter_motor_star.getEncVelocity() - Map.WHEEL_SHOOTER_TARGET_SPEED) < Map.WHEEL_SHOOTER_SPEED_GOOD_DEADBAND
+				       Math.abs(_shooter_motor_star.getSpeed() - Map.WHEEL_SHOOTER_TARGET_SPEED) < Map.WHEEL_SHOOTER_SPEED_GOOD_DEADBAND
 				   )
 				)
 					_speed_good = true;
@@ -153,6 +176,7 @@ public class Wheel_Shooter implements Updatable
 							_intake_motor.set(0.0);
 							_state = WHEEL_SHOOTER_STATE.SPINUP;
 						}
+						_fire_task = null;
 					}
 				});
 				_fire_task.start();
@@ -175,6 +199,7 @@ public class Wheel_Shooter implements Updatable
 							}
 							_intake_motor.set(0.0);
 							_state = WHEEL_SHOOTER_STATE.SPINUP;
+							_fire_task = null;
 						}
 					});
 					_fire_task.start();
