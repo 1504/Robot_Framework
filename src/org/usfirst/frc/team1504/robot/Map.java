@@ -47,6 +47,8 @@ public class Map {
 	// Drive Output magic numbers - for getting everything spinning the correct direction
 	public static final double[] DRIVE_OUTPUT_MAGIC_NUMBERS = { -1.0, -1.0, 1.0, 1.0 };	
 	
+	public static final int DRIVE_MAX_UNLOGGED_LOOPS = 10;
+	
 	
 /**
  * Ground truth sensor

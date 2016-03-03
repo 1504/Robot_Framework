@@ -6,6 +6,7 @@ import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive implements Updatable {
 	
@@ -258,6 +259,25 @@ public class Drive implements Updatable {
 		}
 	}
 	
+	private void update_dashboard()
+	{
+		byte[] currents = new byte[Map.DRIVE_MOTOR.values().length];
+		for(int i = 0; i < Map.DRIVE_MOTOR.values().length; i++)
+			currents[i] = (byte) _motors[i].getOutputCurrent();
+		update_dashboard(currents);
+	}
+	
+	private void update_dashboard(byte[] currents)
+	{
+		SmartDashboard.putNumber("Drive input forward", _input[0]);
+		SmartDashboard.putNumber("Drive input anticlockwise", _input[1]);
+		
+		SmartDashboard.putNumber("Drive FL current", currents[0]);
+		SmartDashboard.putNumber("Drive BL current", currents[1]);
+		SmartDashboard.putNumber("Drive BR current", currents[2]);
+		SmartDashboard.putNumber("Drive FR current", currents[3]);
+	}
+	
 	/**
 	 * Dump class for logging
 	 */
@@ -271,9 +291,9 @@ public class Drive implements Updatable {
 		// Dump motor set point, current, and voltage
 		for(int i = 0; i < Map.DRIVE_MOTOR.values().length; i++)
 		{
-			output[i] = Utils.double_to_byte(_motors[i].get()); // Returns as 11-bit, downconvert to 8
-			output[i+1] = (byte) _motors[i].getOutputCurrent();
-			output[i+2] = (byte) (_motors[i].getBusVoltage() * 10);
+			output[i*3] = Utils.double_to_byte(_motors[i].get()); // Returns as 11-bit, downconvert to 8
+			output[i*3+1] = (byte) _motors[i].getOutputCurrent();
+			output[i*3+2] = (byte) (_motors[i].getBusVoltage() * 10);
 			// From CANTalon class: Bus voltage * throttle = output voltage
 		}
 		ByteBuffer.wrap(output, 12, 4).putInt(loops_since_last_dump);
@@ -284,6 +304,9 @@ public class Drive implements Updatable {
 			if(_logger.log(Map.LOGGED_CLASSES.DRIVE, output))
 				_loops_since_last_dump -= loops_since_last_dump;
 		}
+		
+		// So we stay off the CAN bus as much as possible here
+		update_dashboard(new byte[] {output[1], output[4], output[7], output[10]});
 	}
 	
 	/**
@@ -303,7 +326,7 @@ public class Drive implements Updatable {
 			{
 				// Process new joystick data - only when new data happens
 				if(_new_data)
-				{	
+				{
 					if(_ds.isOperatorControl())
 					{
 						// Switch front side if we need to
@@ -334,14 +357,17 @@ public class Drive implements Updatable {
 				_loops_since_last_dump++;
 				
 				// Log on new data, after the first computation
-				if(dump)
+				if(dump || _loops_since_last_dump > Map.DRIVE_MAX_UNLOGGED_LOOPS)
 				{
 					// Dump in a separate thread, so we can loop as fast as possible
 					if(_dump_thread == null || !_dump_thread.isAlive())
 					{
 						_dump_thread = new Thread(new Runnable() {
 							public void run() {
-								dump();
+								if(_ds.isEnabled())
+									dump();
+								else
+									update_dashboard();
 							}
 						});
 						_dump_thread.start();
