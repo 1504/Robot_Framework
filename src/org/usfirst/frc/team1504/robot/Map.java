@@ -6,15 +6,15 @@ public class Map {
  */
 	public static final double UTIL_JOYSTICK_DEADZONE = 0.09;
 	
-	public static final int UTIL_OVERRIDE_BUTTON = 3;
+	public static final int UTIL_OVERRIDE_BUTTON = 11;
 	
 /**
  * Inputs
  */
 	
 	// Joystick inputs
-	public static final int DRIVE_FORWARDRIGHT_JOYSTICK = 0;
-	public static final int DRIVE_ROTATION_JOYSTICK = 1;
+	public static final int DRIVE_CARTESIAN_JOYSTICK = 0;
+	public static final int DRIVE_POLAR_JOYSTICK = 1;
 	public static final int SECONDARY_JOYSTICK = 2;
 	public static final int TERTIARY_JOYSTICK = 3;
 	
@@ -87,12 +87,11 @@ public class Map {
  * Lifter stuff
  */
 	public static final int LIFTER_RETRACTION_PORT = 1;
-	public static final int LIFTER_EXTENSION_LIFT_PORT = 1;
+	public static final int LIFTER_EXTENSION_LIFT_PORT = 2;
 	
 	public static final int LIFTER_UP_BUTTON = 2;
 	public static final int LIFTER_DOWN_BUTTON = 3;
 	public static final int LIFTER_TOGGLE_BUTTON = 4;
-	public static final int LIFTER_OVERRIDE_BUTTON = 5;
 	
 	public static enum LIFTER_STATE {UP, DOWN, TOGGLE}
 	

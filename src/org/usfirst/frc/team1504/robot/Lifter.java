@@ -77,6 +77,6 @@ public class Lifter implements Updatable
 
 	public void semaphore_update()
 	{
-		set(IO.lift_state(), IO.lift_override());
+		set(IO.lift_state(), IO.override());
 	}
 }

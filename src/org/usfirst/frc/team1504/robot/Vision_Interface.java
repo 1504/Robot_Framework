@@ -32,7 +32,7 @@ public class Vision_Interface implements Updatable
 	private ADXRS450_Gyro _gyro = new ADXRS450_Gyro();
 	
 	private double _target_position = -1.0;
-	private AimState _state = null;
+	private AimState _state = AimState.BAD_IMAGE;
 	
 	private void settle_camera()
 	{

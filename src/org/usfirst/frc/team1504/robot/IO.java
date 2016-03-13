@@ -2,8 +2,8 @@ package org.usfirst.frc.team1504.robot;
 
 public class IO
 {
-	private static Latch_Joystick _drive_forward = new Latch_Joystick(Map.DRIVE_FORWARDRIGHT_JOYSTICK);
-	private static Latch_Joystick _drive_rotation = new Latch_Joystick(Map.DRIVE_ROTATION_JOYSTICK);
+	private static Latch_Joystick _drive_forward = new Latch_Joystick(Map.DRIVE_CARTESIAN_JOYSTICK);
+	private static Latch_Joystick _drive_rotation = new Latch_Joystick(Map.DRIVE_POLAR_JOYSTICK);
 	
 	private static Latch_Joystick _secondary = new Latch_Joystick(Map.SECONDARY_JOYSTICK);
 	private static Latch_Joystick _tertiary = new Latch_Joystick(Map.TERTIARY_JOYSTICK);
@@ -15,7 +15,8 @@ public class IO
 	 */
 	public static boolean override()
 	{
-		return _secondary.getRawButtonLatch(Map.UTIL_OVERRIDE_BUTTON);
+		return _secondary.getRawButtonLatch(Map.UTIL_OVERRIDE_BUTTON) ||
+				_tertiary.getRawButtonLatch(Map.TERTIARY_FIRE_BUTTON);
 	}
 	
 	/**
@@ -60,10 +61,6 @@ public class IO
 		if(_secondary.getRawButtonOnRisingEdge(Map.LIFTER_TOGGLE_BUTTON))
 			return Map.LIFTER_STATE.TOGGLE;
 		return null;
-	}
-	public static boolean lift_override()
-	{
-		return _secondary.getRawButtonLatch(Map.LIFTER_OVERRIDE_BUTTON);
 	}
 	
 	/**
