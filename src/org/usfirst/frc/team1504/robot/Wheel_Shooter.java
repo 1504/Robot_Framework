@@ -121,9 +121,23 @@ public class Wheel_Shooter implements Updatable
 			
 			if(_state == WHEEL_SHOOTER_STATE.SPINUP || _state == WHEEL_SHOOTER_STATE.FIRE)
 			{
-				_shooter_motor_port.set(Map.WHEEL_SHOOTER_TARGET_SPEED);
-				_shooter_motor_star.set(Map.WHEEL_SHOOTER_TARGET_SPEED);
-				//_shooter_motor_port.set(_shooter_motor_star.getOutputVoltage() / -12.0);
+				// If no sensors are present, spin up to full speed so we can at least sorta shoot a ball
+				if(_sensor_status == 0)
+				{
+					_shooter_motor_port.set(1.0);
+					_shooter_motor_star.set(-1.0);
+				}
+				
+				// Fallback - if sensors aren't present, copy the other motor
+				if((_sensor_status & 1) == 0)
+					_shooter_motor_port.set(_shooter_motor_star.getOutputVoltage() / -12.0);
+				else
+					_shooter_motor_port.set(Map.WHEEL_SHOOTER_TARGET_SPEED);
+				
+				if((_sensor_status & 2) == 0)
+					_shooter_motor_star.set(_shooter_motor_port.getOutputVoltage() / -12.0);
+				else
+					_shooter_motor_star.set(Map.WHEEL_SHOOTER_TARGET_SPEED);
 								
 				if(
 				   (
