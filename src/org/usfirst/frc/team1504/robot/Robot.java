@@ -21,6 +21,8 @@ public class Robot extends RobotBase {
 	private Logger _logger = Logger.getInstance();
 	private Autonomous _autonomous = Autonomous.getInstance();
 	
+	Wheel_Shooter t2 = Wheel_Shooter.getInstance();
+	Pneumatics t3 = Pneumatics.getInstance();
 	Endgame test = Endgame.getInstance();
 	
 	private Thread _dashboard_task;
@@ -56,7 +58,7 @@ public class Robot extends RobotBase {
 		});
     	_dashboard_task.start();
     	
-    	System.out.println(new String(Base64.getDecoder().decode(Map.ROBOT_BANNER)));
+    	//System.out.println(new String(Base64.getDecoder().decode(Map.ROBOT_BANNER)));
         System.out.println("Quixote Initialized ( robotInit() ) @ " + IO.ROBOT_START_TIME);
     }
 

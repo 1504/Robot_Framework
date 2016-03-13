@@ -27,6 +27,7 @@ public class Update_Semaphore
 			try {
 				System.out.println("Semaphore - Attempting to load org.usfirst.frc.team1504.robot." + subclass);
 				class_loader.loadClass("org.usfirst.frc.team1504.robot." + subclass);
+				//Class.forName("org.usfirst.frc.team1504.robot." + subclass);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}

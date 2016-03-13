@@ -9,13 +9,26 @@ public class Map {
 	public static final int UTIL_OVERRIDE_BUTTON = 3;
 	
 /**
- * Drive class things
+ * Inputs
  */
 	
 	// Joystick inputs
 	public static final int DRIVE_FORWARDRIGHT_JOYSTICK = 0;
 	public static final int DRIVE_ROTATION_JOYSTICK = 1;
 	public static final int SECONDARY_JOYSTICK = 2;
+	public static final int TERTIARY_JOYSTICK = 3;
+	
+	
+/**
+ * Gunner Framework and convenience
+ */
+	public static final int TERTIARY_WIN_BUTTON = 1;
+	public static final int TERTIARY_AIM_BUTTON = 2;
+	public static final int TERTIARY_FIRE_BUTTON = 3;
+	
+/**
+ * Drive class things
+ */
 	
 	// Drive Motor enumeration
 	public static enum DRIVE_MOTOR { FRONT_LEFT, BACK_LEFT, BACK_RIGHT, FRONT_RIGHT }
@@ -47,7 +60,7 @@ public class Map {
 	// Drive Output magic numbers - for getting everything spinning the correct direction
 	public static final double[] DRIVE_OUTPUT_MAGIC_NUMBERS = { -1.0, -1.0, 1.0, 1.0 };	
 	
-	public static final int DRIVE_MAX_UNLOGGED_LOOPS = 10;
+	public static final int DRIVE_MAX_UNLOGGED_LOOPS = 15;
 	
 	
 /**
@@ -97,10 +110,10 @@ public class Map {
 	public static final int WHEEL_SHOOTER_FIRE_BUTTON = 1;
 	
 	public static final double WHEEL_SHOOTER_INTAKE_SPEED = -1.0;
-	public static /*final*/ double WHEEL_SHOOTER_TARGET_SPEED = 6500.0;
+	public static /*final*/ double WHEEL_SHOOTER_TARGET_SPEED = 6775.0;
 	public static final double WHEEL_SHOOTER_GAIN_P = 0.014;
 	public static final double WHEEL_SHOOTER_GAIN_I = 0.0001;
-	public static final double WHEEL_SHOOTER_SPEED_GOOD_DEADBAND = 50.0;
+	public static final double WHEEL_SHOOTER_SPEED_GOOD_DEADBAND = 25.0;
 	
 /**
  * Lego shooter stuff
@@ -133,14 +146,14 @@ public class Map {
 /**
  * Pneumatics stuff
  */
-	public static final int PNEUMATICS_HIGHSIDE_PORT = 4;
-	public static final int PNEUMATICS_LOWSIDE_PORT = 5;
+	public static final int PNEUMATICS_HIGHSIDE_PORT = 0;
+	public static final int PNEUMATICS_LOWSIDE_PORT = 1;
 	
 /**
  * Endgame stuff
  */
-	public static final int ENDGAME_EXTENSION_PORT = 0;
-	public static final int ENDGAME_RETRACTION_PORT = 1;
+	public static final int ENDGAME_EXTENSION_PORT = 4;
+	public static final int ENDGAME_RETRACTION_PORT = 5;
 	
 /**
  * Logger stuff

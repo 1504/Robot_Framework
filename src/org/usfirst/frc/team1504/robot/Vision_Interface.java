@@ -55,12 +55,12 @@ public class Vision_Interface implements Updatable
 	{
 		double[] default_value = {-1.0};
 		//double[] height   = _contour_table.getNumberArray("height", default_value);
-		double[] width    = _contour_table.getNumberArray("width", default_value);
-		double[] x_center = _contour_table.getNumberArray("centerX", default_value);
+		double[] size    = _contour_table.getNumberArray("width", default_value);
+		double[] position = _contour_table.getNumberArray("centerX", default_value);
 		//double[] y_center = _contour_table.getNumberArray("centerY", default_value);
 		
 		// No data from the Network Tables, do nothing
-		if(width == default_value)
+		if(size == default_value)
 		{
 			_state = AimState.BAD_IMAGE;
 			return;
@@ -68,13 +68,13 @@ public class Vision_Interface implements Updatable
 		
 		// Find the widest target - that's the one we're closest to pointing straight at
 		int table_index = 0;
-		for(int i = 0; i < width.length; i++)
+		for(int i = 0; i < size.length; i++)
 		{
-			if(width[i] > width[table_index])
+			if(size[i] > size[table_index])
 				table_index = i;
 		}
 		
-		_target_position = (2 * x_center[table_index] / Map.VISION_INTERFACE_VIDEO_WIDTH) - 1;
+		_target_position = (2 * position[table_index] / Map.VISION_INTERFACE_VIDEO_WIDTH) - 1;
 		_target_position *= Map.VISION_INTERFACE_VIDEO_FOV / 2;
 		
 		if(Math.abs(_target_position) < Map.VISION_INTERFACE_AIM_DEADZONE)
