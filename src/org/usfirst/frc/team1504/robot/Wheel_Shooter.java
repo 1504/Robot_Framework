@@ -28,6 +28,8 @@ public class Wheel_Shooter implements Updatable
 	private static final Wheel_Shooter instance = new Wheel_Shooter();
 	private static final Vision_Interface _vision = Vision_Interface.getInstance();
 	
+	private static final Stopmotion _stopmotion = new Stopmotion();
+	
 	// States: Ready, Pickup, Spinup, Shooting
 	public static enum WHEEL_SHOOTER_STATE { READY, PICKUP, PICKUP_OUT, SPINUP, FIRE }
 	
@@ -61,6 +63,7 @@ public class Wheel_Shooter implements Updatable
 			_shooter_motor_port.changeControlMode(TalonControlMode.Speed);
 			_shooter_motor_port.setP(Map.WHEEL_SHOOTER_GAIN_P);
 			_shooter_motor_port.setI(Map.WHEEL_SHOOTER_GAIN_I);
+			_shooter_motor_port.reverseSensor(true);
 		}
 		if((_sensor_status & 2) != 0)
 		{
@@ -106,6 +109,8 @@ public class Wheel_Shooter implements Updatable
 		SmartDashboard.putNumber("Shooter star current", _shooter_motor_star.getOutputCurrent());
 		SmartDashboard.putBoolean("Shooter speed good", _speed_good);
 		SmartDashboard.putString("Shooter State", _state.toString());
+		
+		_stopmotion.set_speeds(_shooter_motor_port.getSpeed(), _shooter_motor_star.getSpeed());
 	}
 	
 	private void shooter_task()
@@ -116,9 +121,9 @@ public class Wheel_Shooter implements Updatable
 			
 			if(_state == WHEEL_SHOOTER_STATE.SPINUP || _state == WHEEL_SHOOTER_STATE.FIRE)
 			{
-				//_shooter_motor_port.set(Map.WHEEL_SHOOTER_TARGET_SPEED);
+				_shooter_motor_port.set(Map.WHEEL_SHOOTER_TARGET_SPEED);
 				_shooter_motor_star.set(Map.WHEEL_SHOOTER_TARGET_SPEED);
-				_shooter_motor_port.set(_shooter_motor_star.getOutputVoltage() / -12.0);
+				//_shooter_motor_port.set(_shooter_motor_star.getOutputVoltage() / -12.0);
 								
 				if(
 				   (
@@ -184,21 +189,40 @@ public class Wheel_Shooter implements Updatable
 				break;
 				
 			case SPINUP:
-				if(_state != WHEEL_SHOOTER_STATE.FIRE)
+				if(_state != WHEEL_SHOOTER_STATE.FIRE && _state != WHEEL_SHOOTER_STATE.SPINUP)
 				{
 					if(_fire_task != null)
 						return;
 					
 					_fire_task = new Thread(new Runnable() {
 						public void run() {
+							// Pulse the intake forward a few times
+							for(int i = 0; i < 6; i++)
+							{
+								_intake_motor.set((1 - i % 2) * Map.WHEEL_SHOOTER_INTAKE_SPEED);
+								try {
+									Thread.sleep(100);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+							}
+							
+							// Reverse the ball briefly away from the shooter wheels
 							_intake_motor.set(-1.0 * Map.WHEEL_SHOOTER_INTAKE_SPEED);
 							try {
-								Thread.sleep(50);
+								Thread.sleep(25);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
+							
+							// Set up to spin the shooter motors.
+							// Clear the integrated term so we don't have to take a while to correct
 							_intake_motor.set(0.0);
 							_state = WHEEL_SHOOTER_STATE.SPINUP;
+							
+							_shooter_motor_port.ClearIaccum();
+							_shooter_motor_star.ClearIaccum();
+							
 							_fire_task = null;
 						}
 					});
