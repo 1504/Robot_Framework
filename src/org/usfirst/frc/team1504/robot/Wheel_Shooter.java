@@ -193,7 +193,7 @@ public class Wheel_Shooter implements Updatable
 						if(_state == WHEEL_SHOOTER_STATE.FIRE)
 						{
 							_intake_motor.set(0.0);
-							_state = WHEEL_SHOOTER_STATE.SPINUP;
+							_state = WHEEL_SHOOTER_STATE.READY;
 						}
 						_fire_task = null;
 					}
@@ -215,7 +215,7 @@ public class Wheel_Shooter implements Updatable
 							{
 								_intake_motor.set((1 - i % 2) * Map.WHEEL_SHOOTER_INTAKE_SPEED);
 								try {
-									Thread.sleep(100);
+									Thread.sleep(50 + 25 * (1 - i % 2)); // 100 ms in, 50 off
 								} catch (InterruptedException e) {
 									e.printStackTrace();
 								}
@@ -232,11 +232,12 @@ public class Wheel_Shooter implements Updatable
 							// Set up to spin the shooter motors.
 							// Clear the integrated term so we don't have to take a while to correct
 							_intake_motor.set(0.0);
-							_state = WHEEL_SHOOTER_STATE.SPINUP;
 							
 							_shooter_motor_port.ClearIaccum();
 							_shooter_motor_star.ClearIaccum();
 							
+							_state = WHEEL_SHOOTER_STATE.SPINUP;
+
 							_fire_task = null;
 						}
 					});

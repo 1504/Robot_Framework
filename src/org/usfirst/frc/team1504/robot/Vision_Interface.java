@@ -4,6 +4,7 @@ import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -17,7 +18,7 @@ public class Vision_Interface implements Updatable
 	{
 		_contour_table = NetworkTable.getTable("GRIP/contours");
 		
-		//Update_Semaphore.getInstance().register(this);
+		Update_Semaphore.getInstance().register(this);
 		
 		System.out.println("Vision Interface Initialized.");
 	}
@@ -54,10 +55,10 @@ public class Vision_Interface implements Updatable
 	private void update_camera()
 	{
 		double[] default_value = {-1.0};
-		//double[] height   = _contour_table.getNumberArray("height", default_value);
-		double[] size    = _contour_table.getNumberArray("width", default_value);
-		double[] position = _contour_table.getNumberArray("centerX", default_value);
-		//double[] y_center = _contour_table.getNumberArray("centerY", default_value);
+		double[] size   = _contour_table.getNumberArray("height", default_value);
+		//double[] size    = _contour_table.getNumberArray("width", default_value);
+		//double[] position = _contour_table.getNumberArray("centerX", default_value);
+		double[] position = _contour_table.getNumberArray("centerY", default_value);
 		
 		// No data from the Network Tables, do nothing
 		if(size == default_value)
@@ -75,7 +76,7 @@ public class Vision_Interface implements Updatable
 		}
 		
 		_target_position = (2 * position[table_index] / Map.VISION_INTERFACE_VIDEO_WIDTH) - 1;
-		_target_position *= Map.VISION_INTERFACE_VIDEO_FOV / 2;
+		_target_position *= Map.VISION_INTERFACE_VIDEO_FOV / -2.0;
 		
 		if(Math.abs(_target_position) < Map.VISION_INTERFACE_AIM_DEADZONE)
 			_state = AimState.AIMED;
@@ -115,6 +116,7 @@ public class Vision_Interface implements Updatable
 	public void semaphore_update()
 	{
 		// TODO Auto-generated method stub
+		SmartDashboard.putBoolean("AIM", getAimGood());
 	}
 
 }
