@@ -27,5 +27,7 @@
   
   <import file="${wpilib.ant.dir}/build.xml"/>
   <!--import file="${user.home}/Documents/eclipse/Mars/wpilib/java/${version}/ant/build.xml"/-->
+	
+	<var name="classpath" value="${classpath}:${user.home}/Documents/eclipse/Mars/2168_openCV_2_4_10/_Libraries/softFP/lib_OpenCV/java/opencv-2410.jar" />
 
 </project> 

@@ -176,8 +176,8 @@ public class Wheel_Shooter implements Updatable
 					return;
 				
 				// Don't shoot unless we're aimed or overridden
-				if(!_vision.getAimGood() && !IO.override())
-					return;
+				//if(!_vision.getAimGood() && !IO.override())
+				//	return;
 				
 				_state = state;
 				
