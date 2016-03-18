@@ -6,7 +6,8 @@ public class IO
 	private static Latch_Joystick _drive_rotation = new Latch_Joystick(Map.DRIVE_POLAR_JOYSTICK);
 	
 	private static Latch_Joystick _secondary = new Latch_Joystick(Map.SECONDARY_JOYSTICK);
-	private static Latch_Joystick _tertiary = new Latch_Joystick(Map.TERTIARY_JOYSTICK);
+	private static Latch_Joystick _tertiary_shooter = new Latch_Joystick(Map.TERTIARY_JOYSTICK);
+	private static Latch_Joystick _tertiary_aim = new Latch_Joystick(Map.TERTIARY_JOYSTICK);
 	
 	public static final long ROBOT_START_TIME = System.currentTimeMillis();
 	
@@ -16,7 +17,7 @@ public class IO
 	public static boolean override()
 	{
 		return _secondary.getRawButtonLatch(Map.UTIL_OVERRIDE_BUTTON) ||
-				_tertiary.getRawButtonLatch(Map.TERTIARY_FIRE_BUTTON);
+				_tertiary_shooter.getRawButtonLatch(Map.TERTIARY_FIRE_BUTTON);
 	}
 	
 	/**
@@ -83,15 +84,15 @@ public class IO
 			return Wheel_Shooter.WHEEL_SHOOTER_STATE.FIRE;
 		
 		// Win button
-		if(_tertiary.getRawButtonOnRisingEdge(Map.TERTIARY_WIN_BUTTON))
+		if(_tertiary_shooter.getRawButtonOnRisingEdge(Map.TERTIARY_WIN_BUTTON))
 			return Wheel_Shooter.WHEEL_SHOOTER_STATE.SPINUP;
-		if(_tertiary.getRawButtonLatch(Map.TERTIARY_WIN_BUTTON))
+		if(_tertiary_shooter.getRawButtonLatch(Map.TERTIARY_WIN_BUTTON))
 			return Wheel_Shooter.WHEEL_SHOOTER_STATE.FIRE;
 		
 		// Fire button
-		if(_tertiary.getRawButtonOnRisingEdge(Map.TERTIARY_FIRE_BUTTON))
+		if(_tertiary_shooter.getRawButtonOnRisingEdge(Map.TERTIARY_FIRE_BUTTON))
 			return Wheel_Shooter.WHEEL_SHOOTER_STATE.SPINUP;
-		if(_tertiary.getRawButtonLatch(Map.TERTIARY_FIRE_BUTTON))
+		if(_tertiary_shooter.getRawButtonLatch(Map.TERTIARY_FIRE_BUTTON))
 			return Wheel_Shooter.WHEEL_SHOOTER_STATE.FIRE;
 		
 		return null;
@@ -132,15 +133,15 @@ public class IO
 	public static boolean vision_target_override()
 	{
 		return _secondary.getRawButton(Map.VISION_INTERFACE_OVERRIDE_BUTTON) ||
-				_tertiary.getRawButton(Map.TERTIARY_WIN_BUTTON) ||
-				_tertiary.getRawButton(Map.TERTIARY_AIM_BUTTON);
+				_tertiary_aim.getRawButton(Map.TERTIARY_WIN_BUTTON) ||
+				_tertiary_aim.getRawButton(Map.TERTIARY_AIM_BUTTON);
 	}
 	
 	public static boolean vision_target_override_rising()
 	{
 		return _secondary.getRawButtonOnRisingEdge(Map.VISION_INTERFACE_OVERRIDE_BUTTON) ||
-				_tertiary.getRawButtonOnRisingEdge(Map.TERTIARY_WIN_BUTTON) ||
-				_tertiary.getRawButtonOnRisingEdge(Map.TERTIARY_AIM_BUTTON);
+				_tertiary_aim.getRawButtonOnRisingEdge(Map.TERTIARY_WIN_BUTTON) ||
+				_tertiary_aim.getRawButtonOnRisingEdge(Map.TERTIARY_AIM_BUTTON);
 	}
 	
 	/**

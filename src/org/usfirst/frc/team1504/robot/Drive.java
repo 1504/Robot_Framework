@@ -328,7 +328,8 @@ public class Drive implements Updatable {
 				// Process new joystick data - only when new data happens
 				if(_new_data)
 				{
-					if(_ds.isOperatorControl())
+					// Don't do the fancy driver convenience stuff when we're PID controlling
+					if(_ds.isOperatorControl() && !IO.vision_target_override())
 					{
 						// Switch front side if we need to
 						double rotation_offset = IO.front_side();

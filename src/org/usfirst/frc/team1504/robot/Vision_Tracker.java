@@ -76,7 +76,7 @@ public class Vision_Tracker
 			{
 				bb[i] = Imgproc.boundingRect(contours.get(i));
 				output[0][i] = bb[i].x + bb[i].width / 2.0;
-				output[1][i] = bb[i].y + bb[i].height / 2.0;
+				output[1][i] = bb[i].y + bb[i].height;// / 2.0;
 				output[2][i] = bb[i].width;
 				output[3][i] = bb[i].height;
 				System.out.println(bb[i].x + " " + bb[i].y + " " + bb[i].width + " " + bb[i].height);

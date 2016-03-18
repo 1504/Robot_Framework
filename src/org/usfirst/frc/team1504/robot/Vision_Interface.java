@@ -22,9 +22,9 @@ public class Vision_Interface implements Updatable
 		_tracker = new Vision_Tracker();
 		
 		SmartDashboard.putNumber("P", -.02);
-		SmartDashboard.putNumber("I", .001);
+		SmartDashboard.putNumber("I", .00);
 		SmartDashboard.putNumber("D", 0);
-		_pid = new PID(-.02, .001, 0);
+		_pid = new PID(-.02, 0, 0);
 		_pid.set(0.0);
 		
 		Update_Semaphore.getInstance().register(this);
@@ -94,7 +94,11 @@ public class Vision_Interface implements Updatable
 		_target_position = (2 * position[table_index] / Map.VISION_INTERFACE_VIDEO_WIDTH) - 1;
 		_target_position *= Map.VISION_INTERFACE_VIDEO_FOV / -2.0;
 		
+		_target_position += -8.8;
+		
 		_pid.ClearIAccum();
+		_pid.ClearError();
+		_gyro.reset();
 		
 		if(Math.abs(_target_position) < Map.VISION_INTERFACE_AIM_DEADZONE)
 			_state = AimState.AIMED;
@@ -105,7 +109,7 @@ public class Vision_Interface implements Updatable
 	
 	private double offset_aim_factor()
 	{
-		return _target_position - _gyro.getAngle();
+		return _target_position - _gyro.getAngle(); // offset
 	}
 	
 	public boolean getAimGood()
@@ -115,7 +119,8 @@ public class Vision_Interface implements Updatable
 	
 	public double[] getInputCorrection(boolean first_aim)
 	{
-		_pid.setPID(SmartDashboard.getNumber("P"), SmartDashboard.getNumber("I"), SmartDashboard.getNumber("D"));
+System.out.println(offset_aim_factor() + " - " + _state.toString());
+_pid.setPID(SmartDashboard.getNumber("P"), SmartDashboard.getNumber("I"), SmartDashboard.getNumber("D"));
 		if(first_aim)			
 			settle_camera();
 		
@@ -123,7 +128,19 @@ public class Vision_Interface implements Updatable
 		{
 			// Compute the speed we need to turn the robot to point at the target
 			if(Math.abs(offset_aim_factor()) > Map.VISION_INTERFACE_AIM_DEADZONE)
-				return new double[] {0.0, _pid.update(offset_aim_factor())};//offset_aim_factor() * Map.VISION_INTERFACE_TURN_GAIN};
+			{
+				//double output_factor = 0.20 - 0.35 * Math.abs(2 * offset_aim_factor() / Map.VISION_INTERFACE_VIDEO_FOV);
+				//System.out.println(offset_aim_factor() + " - " + output_factor);
+				//return new double[] {0.0, offset_aim_factor() * output_factor};
+				
+				//System.out.println(offset_aim_factor());
+				return new double[] {0.19, 0.285 * Math.signum(offset_aim_factor())};
+				
+				//_pid.update(offset_aim_factor());
+				//System.out.println(offset_aim_factor() + " - " + _pid.get());
+				//return new double[] {0.0, _pid.get()};
+				//return new double[] {0.0, _pid.update(offset_aim_factor())};//offset_aim_factor() * Map.VISION_INTERFACE_TURN_GAIN};
+			}
 			else
 				settle_camera();
 		}

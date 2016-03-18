@@ -31,6 +31,11 @@ public class PID
 		_i_accum = 0.0;
 	}
 	
+	public void ClearError()
+	{
+		_last_error = 0.0;
+	}
+	
 	public void set(double set_point)
 	{
 		_set_point = set_point;
@@ -42,11 +47,10 @@ public class PID
 		_last_error = _error;
 		
 		_error = _set_point - position;
-		_i_accum += _error * (time - _last_loop);
+		_i_accum += _error * (time - _last_loop) / 1000.0;
 		
 		_last_loop = time;
 		
-		System.out.println(get());
 		return get();
 	}
 	
