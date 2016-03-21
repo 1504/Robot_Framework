@@ -3,7 +3,8 @@ package org.usfirst.frc.team1504.robot;
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.image.NIVisionException;
+//import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Timer;
@@ -15,17 +16,25 @@ public class Vision_Interface implements Updatable
 	private enum AimState {WAIT_FOR_IMAGE_GOOD, GET_IMAGE, AIM_ROBOT, AIMED, BAD_IMAGE}
 	private Vision_Tracker _tracker;
 	private PID _pid;
+	private char _direction = 0;
+		
+	private TimerTask _osc = new TimerTask() { public void run() { _direction++; } };
+	private Timer _timer = new Timer();
 	
 	protected Vision_Interface()
 	{
-		_contour_table = NetworkTable.getTable("GRIP/contours");
+//		_contour_table = NetworkTable.getTable("GRIP/contours");
 		_tracker = new Vision_Tracker();
+		
+		_timer.scheduleAtFixedRate(_osc, 0, 1000);
 		
 		SmartDashboard.putNumber("P", -.02);
 		SmartDashboard.putNumber("I", .00);
 		SmartDashboard.putNumber("D", 0);
 		_pid = new PID(-.02, 0, 0);
 		_pid.set(0.0);
+		
+		SmartDashboard.putNumber("Vision Aim Offset", Map.VISION_INTERFACE_AIM_OFFSET);
 		
 		Update_Semaphore.getInstance().register(this);
 		
@@ -38,7 +47,7 @@ public class Vision_Interface implements Updatable
     }
 	
 	private Timer _image_wait;
-	private NetworkTable _contour_table;
+//	private NetworkTable _contour_table;
 	private ADXRS450_Gyro _gyro = new ADXRS450_Gyro();
 	
 	private double _target_position = -1.0;
@@ -94,8 +103,11 @@ public class Vision_Interface implements Updatable
 		_target_position = (2 * position[table_index] / Map.VISION_INTERFACE_VIDEO_WIDTH) - 1;
 		_target_position *= Map.VISION_INTERFACE_VIDEO_FOV / -2.0;
 		
-		_target_position += -8.8;
+		Map.VISION_INTERFACE_AIM_OFFSET = SmartDashboard.getNumber("Vision Aim Offset");
 		
+		_target_position += Map.VISION_INTERFACE_AIM_OFFSET;//-8.8;
+		
+		//_direction++;
 		_pid.ClearIAccum();
 		_pid.ClearError();
 		_gyro.reset();
@@ -134,7 +146,7 @@ _pid.setPID(SmartDashboard.getNumber("P"), SmartDashboard.getNumber("I"), SmartD
 				//return new double[] {0.0, offset_aim_factor() * output_factor};
 				
 				//System.out.println(offset_aim_factor());
-				return new double[] {0.19, 0.285 * Math.signum(offset_aim_factor())};
+				return new double[] {/*0.19*/ 0.25 * (((_direction & 1) == 0) ? 1.0 : -1.0) , /*0.285*/ 0.31 * Math.signum(offset_aim_factor())};
 				
 				//_pid.update(offset_aim_factor());
 				//System.out.println(offset_aim_factor() + " - " + _pid.get());
@@ -148,11 +160,21 @@ _pid.setPID(SmartDashboard.getNumber("P"), SmartDashboard.getNumber("I"), SmartD
 		return new double[] {0.0, 0.0};
 	}
 	
+	public void snapshot(String s)
+	{
+		try {
+			_tracker.getImage(s, true).free();
+		} catch (NIVisionException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void semaphore_update()
 	{
 		// TODO Auto-generated method stub
 		SmartDashboard.putBoolean("AIM", getAimGood());
+		SmartDashboard.putBoolean("Vision Camera Initialized", _tracker.getCameraInit());
 	}
 
 }

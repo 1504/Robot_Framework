@@ -17,7 +17,7 @@ public class IO
 	public static boolean override()
 	{
 		return _secondary.getRawButtonLatch(Map.UTIL_OVERRIDE_BUTTON) ||
-				_tertiary_shooter.getRawButtonLatch(Map.TERTIARY_FIRE_BUTTON);
+				_tertiary_shooter.getRawButton(Map.TERTIARY_FIRE_BUTTON);
 	}
 	
 	/**
@@ -69,9 +69,9 @@ public class IO
 	 */
 	public static Wheel_Shooter.WHEEL_SHOOTER_STATE wheel_shooter_state()
 	{
-		//if(_secondary.getRawButtonLatch(Map.WHEEL_SHOOTER_INTAKE_ON_BUTTON) && 
-		//   _secondary.getRawButtonLatch(Map.WHEEL_SHOOTER_INTAKE_OFF_BUTTON))
-		//	return Wheel_Shooter.WHEEL_SHOOTER_STATE.PICKUP_OUT;
+		if(_secondary.getRawButton(Map.WHEEL_SHOOTER_INTAKE_ON_BUTTON) && 
+		   _secondary.getRawButton(Map.WHEEL_SHOOTER_INTAKE_OFF_BUTTON))
+			return Wheel_Shooter.WHEEL_SHOOTER_STATE.PICKUP_OUT;
 		if(_secondary.getRawButtonLatch(Map.WHEEL_SHOOTER_INTAKE_ON_BUTTON))
 			return Wheel_Shooter.WHEEL_SHOOTER_STATE.PICKUP;
 		if(_secondary.getRawButtonLatch(Map.WHEEL_SHOOTER_INTAKE_OFF_BUTTON))

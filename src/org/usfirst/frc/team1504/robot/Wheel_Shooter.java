@@ -184,8 +184,25 @@ public class Wheel_Shooter implements Updatable
 				_fire_task = new Thread(new Runnable() {
 					public void run() {
 						_intake_motor.set(Map.WHEEL_SHOOTER_INTAKE_SPEED);
+						
+						new Thread(new Runnable() {
+							public void run() {
+								try {
+									//Thread.sleep(i == 0 ? 400 : 125);
+									Thread.sleep(500);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+								
+								for(int i = 0; i < 6; i++)
+									_vision.snapshot("-s-" + i);
+							}
+						}).start();
+						
 						try {
 							Thread.sleep(350);
+							//_vision.snapshot(); // Try to get a photo of the ball going through the goal
+							//Thread.sleep(50);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -211,7 +228,7 @@ public class Wheel_Shooter implements Updatable
 					_fire_task = new Thread(new Runnable() {
 						public void run() {
 							// Pulse the intake forward a few times
-							for(int i = 0; i < 6; i++)
+							for(int i = 0; i < 10; i++)
 							{
 								_intake_motor.set((1 - i % 2) * Map.WHEEL_SHOOTER_INTAKE_SPEED);
 								try {

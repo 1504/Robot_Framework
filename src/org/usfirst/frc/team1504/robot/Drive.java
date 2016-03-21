@@ -337,7 +337,7 @@ public class Drive implements Updatable {
 							setFrontAngle(rotation_offset);
 					
 						// Detents
-						input = detents(input);
+						//input = detents(input);
 						// Frontside
 						input = front_side(input);
 						// Glide

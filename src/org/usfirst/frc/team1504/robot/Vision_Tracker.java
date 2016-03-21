@@ -14,44 +14,108 @@ import org.opencv.core.Size;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.image.HSLImage;
-import edu.wpi.first.wpilibj.vision.AxisCamera;
+//import edu.wpi.first.wpilibj.vision.AxisCamera;
 
 public class Vision_Tracker
 {
-	AxisCamera _camera;
-	double[][] _output;
+	private AxisCamera_STFU _camera;
+	private double[][] _output;
+	private boolean _camera_initialized = false;
+	
 	
 	Vision_Tracker()
 	{
 		System.load("/usr/local/lib/lib_OpenCV/java/libopencv_java2410.so");
-		_camera = new AxisCamera("axis-1504.local");
+		//_camera = new AxisCamera("axis-1504.local");
+		
+		init();
+	}
+	
+	// Run init in a thread so starting the Tracker doesn't block literally everything else
+	private void init()
+	{
+		new Thread(new Runnable() {
+			public void run() {
+				//init();
+				while(!_camera_initialized)
+				{
+					try
+					{
+						_camera = new AxisCamera_STFU("axis-1504.local");
+						_camera_initialized = true;
+						System.out.println("Camera initialized @ " + System.currentTimeMillis() + " \n\t(Took "+(System.currentTimeMillis()-IO.ROBOT_START_TIME)+" to initialize)");
+					}
+					catch (Error e)
+					{
+						Timer.delay(1);
+					}
+				}
+			}
+		}).start();
+	}
+	
+	public boolean getCameraInit()
+	{
+		return _camera_initialized;
+	}
+	
+	public HSLImage getImage()
+	{
+		return getImage("", false);
+	}
+	public HSLImage getImage(String s, boolean wait)
+	{
+		// If we want an image or nothing
+		if(!_camera.isFreshImage() && !wait)
+			return null;
+		
+		// Wait for a fresh image
+		while(wait && !_camera.isFreshImage())
+			Timer.delay(.01);
+		
+		Calendar cal = new GregorianCalendar();
+		String filetime = Long.toString(cal.getTimeInMillis());
+		
+		try
+		{
+			HSLImage temp_image = _camera.getImage();
+			temp_image.write("/home/lvuser/log/images/" + filetime + s + ".jpg");
+			return temp_image;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public double[][] get()
 	{
-		Calendar cal = new GregorianCalendar();
-		String filetime = Long.toString(cal.getTimeInMillis());
+		HSLImage temp_image = getImage();
+		
+		if(temp_image == null)
+			return new double[0][0];
 		
 		try {
-			HSLImage temp_image = _camera.getImage();
-			temp_image.write("/home/lvuser/log/images/" + filetime + ".jpg");
-		temp_image.write("/home/lvuser/log/images/process.png");
+			temp_image.write("/home/lvuser/log/images/process.png");
+			temp_image.free();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new double[0][0];
 		}
 		
 		try{
-				// Load image
+			// Load image
 			Mat p = Highgui.imread("/home/lvuser/log/images/process.png", Highgui.CV_LOAD_IMAGE_COLOR);
 			
 			// Convert to HSL (Actually, HLS from BGR)
 			Imgproc.cvtColor(p, p, Imgproc.COLOR_BGR2HLS);
 			
 			// HSL threshold
-			Scalar low = new Scalar(70/*81*/, 70, 95);
-			Scalar high = new Scalar(85/*95*/, 255, 255);
+			Scalar low = new Scalar(80/*81*/, 70, 95);
+			Scalar high = new Scalar(95/*95*/, 255, 255);
 			Core.inRange(p, low, high, p);
 			
 			// Blur
@@ -91,6 +155,14 @@ public class Vision_Tracker
 		{
 			e.printStackTrace();
 		}
+		
+		// Ugly hack to try to prevent Out Of Memory Errors
+		// Unintentionally hilarious because I'm doing it in a anonymous thread
+		new Thread(new Runnable() {
+			public void run() {
+				System.gc(); // This line might actually be legit evil.
+			}
+		}).start();
 		
 		return _output;
 	}

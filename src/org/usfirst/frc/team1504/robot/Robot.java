@@ -1,5 +1,8 @@
 package org.usfirst.frc.team1504.robot;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 //import edu.wpi.first.wpilibj.DriverStation;
 import java.util.Base64;
 
@@ -49,6 +52,20 @@ public class Robot extends RobotBase {
 				PowerDistributionPanel pdp = new PowerDistributionPanel();
 				while(true)
 				{
+					try
+					{
+						Runtime r = Runtime.getRuntime();
+						Process p = r.exec("ps -Me | wc -l");
+						p.waitFor();
+						BufferedReader b = new BufferedReader(new InputStreamReader(p.getInputStream()));
+						String line = b.readLine();
+						b.close();
+						
+						SmartDashboard.putString("Thread Count", line);
+					}
+					catch (IOException e) { e.printStackTrace(); }
+					catch (InterruptedException e) { e.printStackTrace(); }
+					
 					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					SmartDashboard.putNumber("Robot Voltage", m_ds.getBatteryVoltage());
 					SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
