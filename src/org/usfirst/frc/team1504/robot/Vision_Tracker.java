@@ -143,6 +143,7 @@ public class Vision_Tracker
 				output[1][i] = bb[i].y + bb[i].height;// / 2.0;
 				output[2][i] = bb[i].width;
 				output[3][i] = bb[i].height;
+				//contours.get(i).
 				System.out.println(bb[i].x + " " + bb[i].y + " " + bb[i].width + " " + bb[i].height);
 			}
 			

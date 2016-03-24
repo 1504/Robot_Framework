@@ -241,7 +241,7 @@ public class Wheel_Shooter implements Updatable
 							// Reverse the ball briefly away from the shooter wheels
 							_intake_motor.set(-1.0 * Map.WHEEL_SHOOTER_INTAKE_SPEED);
 							try {
-								Thread.sleep(25);
+								Thread.sleep(30);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}

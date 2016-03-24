@@ -1,10 +1,10 @@
 package org.usfirst.frc.team1504.robot;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+//import java.io.BufferedReader;
+//import java.io.IOException;
+//import java.io.InputStreamReader;
 //import edu.wpi.first.wpilibj.DriverStation;
-import java.util.Base64;
+//import java.util.Base64;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -35,7 +35,7 @@ public class Robot extends RobotBase {
      */
     public Robot() {
     	super();
-    	System.out.println(new String(Base64.getDecoder().decode(Map.TEAM_BANNER)));
+    	//System.out.println(new String(Base64.getDecoder().decode(Map.TEAM_BANNER)));
     }
 
     /**
@@ -52,19 +52,19 @@ public class Robot extends RobotBase {
 				PowerDistributionPanel pdp = new PowerDistributionPanel();
 				while(true)
 				{
-					try
+					/*try
 					{
 						Runtime r = Runtime.getRuntime();
-						Process p = r.exec("ps -Me | wc -l");
+						Process p = r.exec("ps -e | wc -l");
 						p.waitFor();
 						BufferedReader b = new BufferedReader(new InputStreamReader(p.getInputStream()));
 						String line = b.readLine();
 						b.close();
 						
-						SmartDashboard.putString("Thread Count", line);
+						SmartDashboard.putString("Robot Thread Count", line);
 					}
 					catch (IOException e) { e.printStackTrace(); }
-					catch (InterruptedException e) { e.printStackTrace(); }
+					catch (InterruptedException e) { e.printStackTrace(); }*/
 					
 					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					SmartDashboard.putNumber("Robot Voltage", m_ds.getBatteryVoltage());

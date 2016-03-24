@@ -111,7 +111,7 @@ public class Map {
 	public static final double WHEEL_SHOOTER_INTAKE_SPEED = -1.0;
 	public static /*final*/ double WHEEL_SHOOTER_TARGET_SPEED = 6575.0;//6775.0;
 	public static final double WHEEL_SHOOTER_GAIN_P = 0.014;
-	public static final double WHEEL_SHOOTER_GAIN_I = 0.0001;
+	public static final double WHEEL_SHOOTER_GAIN_I = 0.00005; //0.0001;
 	public static final double WHEEL_SHOOTER_SPEED_GOOD_DEADBAND = 25.0;
 	
 /**

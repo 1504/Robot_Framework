@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -90,6 +91,8 @@ public class Drive implements Updatable {
 		{
 			_motors[i] = new CANTalon(Map.DRIVE_MOTOR_PORTS[i]);
 		}
+		//_motors[0].changeControlMode(TalonControlMode.Follower);
+		//_motors[0].set(Map.DRIVE_MOTOR_PORTS[1]);
 	}
 	
 	/**
@@ -146,7 +149,7 @@ public class Drive implements Updatable {
 	/**
 	 * Detented controller correction methods (and helper methods)
 	 */
-	private double[] detents(double[] input) {
+/*	private double[] detents(double[] input) {
 
 		double theta = Math.atan2(input[0], input[1]);
 
@@ -168,7 +171,7 @@ public class Drive implements Updatable {
 	}
 	private double distance(double x, double y) {
 		return Math.sqrt(x * x + y * y);
-	}
+	}*/
 	
 	/**
 	 * Ground truth sensor corrections

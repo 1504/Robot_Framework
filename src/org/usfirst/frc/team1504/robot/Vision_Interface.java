@@ -3,7 +3,6 @@ package org.usfirst.frc.team1504.robot;
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.image.NIVisionException;
 //import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -164,7 +163,7 @@ _pid.setPID(SmartDashboard.getNumber("P"), SmartDashboard.getNumber("I"), SmartD
 	{
 		try {
 			_tracker.getImage(s, true).free();
-		} catch (NIVisionException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
