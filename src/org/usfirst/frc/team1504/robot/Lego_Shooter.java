@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1504.robot;
+/*package org.usfirst.frc.team1504.robot;
 
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 
@@ -40,7 +40,7 @@ public class Lego_Shooter implements Updatable
      * Gets an instance of the LEGO Shooter
      *
      * @return The Lego_Shooter.
-     */
+     *
 	public static Lego_Shooter getInstance()
 	{
 		return Lego_Shooter.instance;
@@ -140,7 +140,7 @@ public class Lego_Shooter implements Updatable
 					});
 					_action_task.start();
 				}
-				break;*/
+				break;*
 			
 			case PICKUP_OUT:
 				pickup_multiplier = -1.0;
@@ -166,4 +166,4 @@ public class Lego_Shooter implements Updatable
 	{
 		set_action(IO.lego_shooter_action());
 	}
-}
+}*/

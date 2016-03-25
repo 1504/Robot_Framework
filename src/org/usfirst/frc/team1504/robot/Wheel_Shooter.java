@@ -26,9 +26,9 @@ public class Wheel_Shooter implements Updatable
     }
 	
 	private static final Wheel_Shooter instance = new Wheel_Shooter();
-	private static final Vision_Interface _vision = Vision_Interface.getInstance();
+	private static Vision_Interface _vision = Vision_Interface.getInstance();
 	
-	private static final Stopmotion _stopmotion = new Stopmotion();
+	//private static final Stopmotion _stopmotion = new Stopmotion();
 	
 	// States: Ready, Pickup, Spinup, Shooting
 	public static enum WHEEL_SHOOTER_STATE { READY, PICKUP, PICKUP_OUT, SPINUP, FIRE }
@@ -110,7 +110,7 @@ public class Wheel_Shooter implements Updatable
 		SmartDashboard.putBoolean("Shooter speed good", _speed_good);
 		SmartDashboard.putString("Shooter State", _state.toString());
 		
-		_stopmotion.set_speeds(_shooter_motor_port.getSpeed(), _shooter_motor_star.getSpeed());
+		//_stopmotion.set_speeds(_shooter_motor_port.getSpeed(), _shooter_motor_star.getSpeed());
 	}
 	
 	private void shooter_task()
@@ -165,9 +165,11 @@ public class Wheel_Shooter implements Updatable
 	
 	public void set(WHEEL_SHOOTER_STATE state)
 	{
+//System.out.println("Setting");
 		if(state == null)
 			return;
-		
+	
+//System.out.println("Switching - " + state.toString());
 		switch(state)
 		{
 			case FIRE:
@@ -175,10 +177,12 @@ public class Wheel_Shooter implements Updatable
 				if(_state != WHEEL_SHOOTER_STATE.SPINUP || !_speed_good || _fire_task != null)
 					return;
 				
+//System.out.println("Fire Spinup");
 				// Don't shoot unless we're aimed or overridden
-				if(!_vision.getAimGood() && !IO.override())
+				if(_vision != null && !_vision.getAimGood() && !IO.override())
 					return;
 				
+//System.out.println("Fire vision passed");
 				_state = state;
 				
 				_fire_task = new Thread(new Runnable() {
@@ -220,10 +224,13 @@ public class Wheel_Shooter implements Updatable
 				break;
 				
 			case SPINUP:
+//System.out.println("Hit Spinup");
 				if(_state != WHEEL_SHOOTER_STATE.FIRE && _state != WHEEL_SHOOTER_STATE.SPINUP)
 				{
+//System.out.println("Passed into case");
 					if(_fire_task != null)
 						return;
+//System.out.println("Fire Task is null");
 					
 					_fire_task = new Thread(new Runnable() {
 						public void run() {
@@ -256,6 +263,7 @@ public class Wheel_Shooter implements Updatable
 							_state = WHEEL_SHOOTER_STATE.SPINUP;
 
 							_fire_task = null;
+//System.out.println("Fire Task done");
 						}
 					});
 					_fire_task.start();

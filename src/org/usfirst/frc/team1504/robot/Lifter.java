@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1504.robot;
+/*package org.usfirst.frc.team1504.robot;
 
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 
@@ -20,7 +20,7 @@ public class Lifter implements Updatable
      * Gets an instance of the Lifter
      *
      * @return The Lifter.
-     */
+     *
     public static Lifter getInstance()
     {
         return Lifter.instance;
@@ -79,4 +79,4 @@ public class Lifter implements Updatable
 	{
 		set(IO.lift_state(), IO.override());
 	}
-}
+}*/

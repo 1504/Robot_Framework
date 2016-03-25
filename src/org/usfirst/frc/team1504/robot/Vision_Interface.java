@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 //import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -54,6 +56,12 @@ public class Vision_Interface implements Updatable
 	
 	private void settle_camera()
 	{
+		if(!_tracker.getCameraInit())
+		{
+			_state = AimState.BAD_IMAGE;
+			return;
+		}
+		
 		_state = AimState.WAIT_FOR_IMAGE_GOOD;
 		
 		_image_wait = new Timer();
@@ -82,7 +90,7 @@ public class Vision_Interface implements Updatable
 		if(size == default_value)*/
 		
 		double[][] vals = _tracker.get();
-		double[] size = vals[3];
+		double[] size = vals[4]; // Area of targets
 		double[] position = vals[1];
 		
 		if(size.length == 0)
@@ -97,6 +105,31 @@ public class Vision_Interface implements Updatable
 		{
 			if(size[i] > size[table_index])
 				table_index = i;
+		}
+		
+		// Find all targets within a percentage of the size of the largest
+		List<Integer> indices = new ArrayList<Integer>();
+		for(int i = 0; i < size.length; i++)
+		{
+			if(size[i] / size[table_index] > 0.87)
+				indices.add(i);
+		}
+		
+		// Shoot left goal or closest goal to aim, depending on number of detected targets
+		for(int i : indices)
+		{
+			// Front-on - point at centermost
+			if(indices.size() > 2)
+			{
+				if(Math.abs(position[i] - Map.VISION_INTERFACE_VIDEO_WIDTH/2) < Math.abs(position[table_index] - Map.VISION_INTERFACE_VIDEO_WIDTH/2))
+						table_index = i;
+			}
+			// Left side - point at leftmost
+			else
+			{
+				if(position[i] > position[table_index])
+					table_index = i;
+			}
 		}
 		
 		_target_position = (2 * position[table_index] / Map.VISION_INTERFACE_VIDEO_WIDTH) - 1;

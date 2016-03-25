@@ -16,7 +16,7 @@ public class IO
 	 */
 	public static boolean override()
 	{
-		return _secondary.getRawButtonLatch(Map.UTIL_OVERRIDE_BUTTON) ||
+		return _secondary.getRawButton(Map.UTIL_OVERRIDE_BUTTON) ||
 				_tertiary_shooter.getRawButton(Map.TERTIARY_FIRE_BUTTON);
 	}
 	
@@ -53,7 +53,7 @@ public class IO
 	 * Lifter stuff
 	 */
 	
-	public static Map.LIFTER_STATE lift_state()
+	/*public static Map.LIFTER_STATE lift_state()
 	{
 		if(_secondary.getRawButtonLatch(Map.LIFTER_DOWN_BUTTON))
 			return Map.LIFTER_STATE.DOWN;
@@ -62,7 +62,7 @@ public class IO
 		if(_secondary.getRawButtonOnRisingEdge(Map.LIFTER_TOGGLE_BUTTON))
 			return Map.LIFTER_STATE.TOGGLE;
 		return null;
-	}
+	}*/
 	
 	/**
 	 * Wheel shooter stuff
@@ -72,15 +72,15 @@ public class IO
 		if(_secondary.getRawButton(Map.WHEEL_SHOOTER_INTAKE_ON_BUTTON) && 
 		   _secondary.getRawButton(Map.WHEEL_SHOOTER_INTAKE_OFF_BUTTON))
 			return Wheel_Shooter.WHEEL_SHOOTER_STATE.PICKUP_OUT;
-		if(_secondary.getRawButtonLatch(Map.WHEEL_SHOOTER_INTAKE_ON_BUTTON))
+		if(_secondary.getRawButton(Map.WHEEL_SHOOTER_INTAKE_ON_BUTTON))
 			return Wheel_Shooter.WHEEL_SHOOTER_STATE.PICKUP;
-		if(_secondary.getRawButtonLatch(Map.WHEEL_SHOOTER_INTAKE_OFF_BUTTON))
+		if(_secondary.getRawButton(Map.WHEEL_SHOOTER_INTAKE_OFF_BUTTON))
 			return Wheel_Shooter.WHEEL_SHOOTER_STATE.READY;
 		//if(_secondary.getRawButtonLatch(Map.WHEEL_SHOOTER_INTAKE_REVERSE_BUTTON))
 		//	return Wheel_Shooter.WHEEL_SHOOTER_STATE.PICKUP_OUT;
-		if(_secondary.getRawButtonOnRisingEdge(Map.WHEEL_SHOOTER_SPINUP_BUTTON))
+		if(_secondary.getRawButton/*OnRisingEdge*/(Map.WHEEL_SHOOTER_SPINUP_BUTTON))
 			return Wheel_Shooter.WHEEL_SHOOTER_STATE.SPINUP;
-		if(_secondary.getRawButtonLatch(Map.WHEEL_SHOOTER_FIRE_BUTTON))
+		if(_secondary.getRawButton/*Latch*/(Map.WHEEL_SHOOTER_FIRE_BUTTON))
 			return Wheel_Shooter.WHEEL_SHOOTER_STATE.FIRE;
 		
 		// Win button
@@ -101,7 +101,7 @@ public class IO
 	/**
 	 * LEGO shooter stuff
 	 */
-	public static Lego_Shooter.LEGO_SHOOTER_ACTION_STATE lego_shooter_action()
+	/*public static Lego_Shooter.LEGO_SHOOTER_ACTION_STATE lego_shooter_action()
 	{
 		if(_secondary.getRawButtonOnRisingEdge(Map.LEGO_SHOOTER_INTAKE_ON_BUTTON))
 			return Lego_Shooter.LEGO_SHOOTER_ACTION_STATE.PICKUP;
@@ -112,9 +112,9 @@ public class IO
 		if(_secondary.getRawButtonOnRisingEdge(Map.LEGO_SHOOTER_FIRE_BUTTON))
 			return Lego_Shooter.LEGO_SHOOTER_ACTION_STATE.FIRE;
 		return null;
-	}
+	}*/
 	
-	public static Lego_Shooter.LEGO_SHOOTER_POSITION_STATE lego_shooter_position()
+	/*public static Lego_Shooter.LEGO_SHOOTER_POSITION_STATE lego_shooter_position()
 	{
 		/*if(_secondary.getRawButtonOnRisingEdge(Map.LEGO_SHOOTER_INTAKE_ON_BUTTON))
 			return Lego_Shooter.LEGO_SHOOTER_ACTION_STATE.PICKUP;
@@ -123,9 +123,9 @@ public class IO
 		if(_secondary.getRawButtonOnRisingEdge(Map.LEGO_SHOOTER_INTAKE_REVERSE_BUTTON))
 			return Lego_Shooter.LEGO_SHOOTER_ACTION_STATE.PICKUP_OUT;
 		if(_secondary.getRawButtonOnRisingEdge(Map.LEGO_SHOOTER_FIRE_BUTTON))
-			return Lego_Shooter.LEGO_SHOOTER_ACTION_STATE.FIRE;*/
+			return Lego_Shooter.LEGO_SHOOTER_ACTION_STATE.FIRE;*
 		return null;
-	}
+	}*/
 	
 	/**
 	 * Vision Interface stuff

@@ -135,9 +135,9 @@ public class Map {
  * Vision Interface stuff
  */
 	public static final int VISION_INTERFACE_OVERRIDE_BUTTON = 2;
-	public static final double VISION_INTERFACE_VIDEO_WIDTH = 600;//800;
+	public static final double VISION_INTERFACE_VIDEO_WIDTH = 480; // FOV UPDATE //600; //800;
 	public static final double VISION_INTERFACE_VIDEO_FOV = 68;
-	public static double VISION_INTERFACE_AIM_OFFSET = -7.5;
+	public static double VISION_INTERFACE_AIM_OFFSET = 0.85; // FOV UPDATE //-7.5;
 	public static final double VISION_INTERFACE_TURN_GAIN = 0.02;//0.1;
 	public static final double VISION_INTERFACE_AIM_DEADZONE = 0.75; //1; //0.075;
 	public static final double VISION_INTERFACE_TURN_MAX_OUTPUT = 0.15;

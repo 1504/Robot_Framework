@@ -14,8 +14,12 @@ import org.opencv.core.Size;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
+import com.ni.vision.NIVision;
+
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.image.HSLImage;
+import edu.wpi.first.wpilibj.image.NIVisionException;
 //import edu.wpi.first.wpilibj.vision.AxisCamera;
 
 public class Vision_Tracker
@@ -27,7 +31,7 @@ public class Vision_Tracker
 	
 	Vision_Tracker()
 	{
-		System.load("/usr/local/lib/lib_OpenCV/java/libopencv_java2410.so");
+		//System.load("/usr/local/lib/lib_OpenCV/java/libopencv_java2410.so");
 		//_camera = new AxisCamera("axis-1504.local");
 		
 		init();
@@ -38,20 +42,14 @@ public class Vision_Tracker
 	{
 		new Thread(new Runnable() {
 			public void run() {
-				//init();
+				_camera = new AxisCamera_STFU("axis-1504.local");
 				while(!_camera_initialized)
 				{
-					try
-					{
-						_camera = new AxisCamera_STFU("axis-1504.local");
-						_camera_initialized = true;
-						System.out.println("Camera initialized @ " + System.currentTimeMillis() + " \n\t(Took "+(System.currentTimeMillis()-IO.ROBOT_START_TIME)+" to initialize)");
-					}
-					catch (Error e)
-					{
-						Timer.delay(1);
-					}
+					Timer.delay(1);
+					_camera_initialized = _camera.initialized;
 				}
+				System.load("/usr/local/lib/lib_OpenCV/java/libopencv_java2410.so");
+				System.out.println("Camera initialized @ " + System.currentTimeMillis() + " \n\t(Took "+(System.currentTimeMillis()-IO.ROBOT_START_TIME)+" to initialize)");
 			}
 		}).start();
 	}
@@ -61,12 +59,42 @@ public class Vision_Tracker
 		return _camera_initialized;
 	}
 	
+	private void image_to_dashboard(HSLImage i)
+	{
+		new Thread(new Runnable() {
+			public void run() {
+				HSLImage im = null;
+				
+				try {
+					im = new HSLImage();
+					NIVision.imaqReadFile(im.image, "/home/lvuser/log/images/process_highgui.png");
+				} catch (NIVisionException e) {
+					e.printStackTrace();
+				}
+				
+				if(im != null)
+					NIVision.imaqAdd(im.image, i.image, im.image);
+				
+				try {
+					i.free();
+				} catch (NIVisionException e) {
+					e.printStackTrace();
+				}
+				if(im != null)
+					CameraServer.getInstance().setImage(im.image);
+			}
+		}).start();
+	}
+	
 	public HSLImage getImage()
 	{
 		return getImage("", false);
 	}
 	public HSLImage getImage(String s, boolean wait)
 	{
+		if(!_camera_initialized)
+			return null;
+			
 		// If we want an image or nothing
 		if(!_camera.isFreshImage() && !wait)
 			return null;
@@ -100,7 +128,7 @@ public class Vision_Tracker
 		
 		try {
 			temp_image.write("/home/lvuser/log/images/process.png");
-			temp_image.free();
+			//temp_image.free();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new double[0][0];
@@ -121,7 +149,7 @@ public class Vision_Tracker
 			// Blur
 			Imgproc.blur(p, p, new Size(3,3));
 			
-			// Write debug
+			// Write debug image
 			Highgui.imwrite("/home/lvuser/log/images/process_highgui.png", p);
 			
 			// Find contours
@@ -134,22 +162,27 @@ public class Vision_Tracker
 					new double[(int) contours.size()],
 					new double[(int) contours.size()],
 					new double[(int) contours.size()],
+					new double[(int) contours.size()],
 					new double[(int) contours.size()]
 					};
 			for(int i = 0; i < contours.size(); i++)
 			{
 				bb[i] = Imgproc.boundingRect(contours.get(i));
+				
 				output[0][i] = bb[i].x + bb[i].width / 2.0;
-				output[1][i] = bb[i].y + bb[i].height;// / 2.0;
+				output[1][i] = bb[i].y + bb[i].height / 2.0;
 				output[2][i] = bb[i].width;
 				output[3][i] = bb[i].height;
+				output[4][i] = Imgproc.contourArea(contours.get(0), false);
 				//contours.get(i).
-				System.out.println(bb[i].x + " " + bb[i].y + " " + bb[i].width + " " + bb[i].height);
+				System.out.println(bb[i].x + " " + bb[i].y + " " + bb[i].width + " " + bb[i].height + " " + output[4][i]);
 			}
 			
 			_output = output;
 			
 			System.out.println(" - ");
+			
+			image_to_dashboard(temp_image);
 		    	
 		}
 		catch (Exception e)
@@ -161,7 +194,7 @@ public class Vision_Tracker
 		// Unintentionally hilarious because I'm doing it in a anonymous thread
 		new Thread(new Runnable() {
 			public void run() {
-				System.gc(); // This line might actually be legit evil.
+				System.gc(); // This might actually be legit evil.
 			}
 		}).start();
 		

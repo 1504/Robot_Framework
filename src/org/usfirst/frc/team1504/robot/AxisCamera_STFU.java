@@ -76,6 +76,7 @@ public class AxisCamera_STFU {
   private boolean m_streamDirty = true;
 
   private boolean m_done = false;
+  public boolean initialized = false;
 
   /**
    * AxisCamera constructor
@@ -413,6 +414,8 @@ public class AxisCamera_STFU {
   @SuppressWarnings("deprecation")
 private void readImagesFromCamera() throws IOException {
     DataInputStream cameraInputStream = new DataInputStream(m_cameraSocket.getInputStream());
+    
+    initialized = true;
 
     while (!m_done) {
       String line = cameraInputStream.readLine();
