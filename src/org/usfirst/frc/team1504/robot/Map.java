@@ -109,10 +109,10 @@ public class Map {
 	public static final int WHEEL_SHOOTER_FIRE_BUTTON = 1;
 	
 	public static final double WHEEL_SHOOTER_INTAKE_SPEED = -1.0;
-	public static /*final*/ double WHEEL_SHOOTER_TARGET_SPEED = 6575.0;//6775.0;
+	public static /*final*/ double WHEEL_SHOOTER_TARGET_SPEED = 6610.0; //6575.0;//6775.0;
 	public static final double WHEEL_SHOOTER_GAIN_P = 0.014;
 	public static final double WHEEL_SHOOTER_GAIN_I = 0.00005; //0.0001;
-	public static final double WHEEL_SHOOTER_SPEED_GOOD_DEADBAND = 25.0;
+	public static final double WHEEL_SHOOTER_SPEED_GOOD_DEADBAND = 15.0;
 	
 /**
  * Lego shooter stuff
@@ -135,9 +135,9 @@ public class Map {
  * Vision Interface stuff
  */
 	public static final int VISION_INTERFACE_OVERRIDE_BUTTON = 2;
-	public static final double VISION_INTERFACE_VIDEO_WIDTH = 480; // FOV UPDATE //600; //800;
+	public static final double VISION_INTERFACE_VIDEO_WIDTH = 600; //800; //480; // FOV UPDATE
 	public static final double VISION_INTERFACE_VIDEO_FOV = 68;
-	public static double VISION_INTERFACE_AIM_OFFSET = 0.85; // FOV UPDATE //-7.5;
+	public static double VISION_INTERFACE_AIM_OFFSET = -7.5; // 0.85; // FOV UPDATE 
 	public static final double VISION_INTERFACE_TURN_GAIN = 0.02;//0.1;
 	public static final double VISION_INTERFACE_AIM_DEADZONE = 0.75; //1; //0.075;
 	public static final double VISION_INTERFACE_TURN_MAX_OUTPUT = 0.15;

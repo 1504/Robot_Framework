@@ -56,15 +56,19 @@ public class Vision_Interface implements Updatable
 	
 	private void settle_camera()
 	{
-		if(!_tracker.getCameraInit())
+		/*if(!_tracker.getCameraInit())
 		{
 			_state = AimState.BAD_IMAGE;
 			return;
-		}
+		}*/
 		
 		_state = AimState.WAIT_FOR_IMAGE_GOOD;
 		
-		_image_wait = new Timer();
+		_gyro.reset();
+		_state = AimState.GET_IMAGE;
+		update_camera();
+		
+		/*_image_wait = new Timer();
 		_image_wait.schedule(
 				new TimerTask() { public void run() {
 					if(_state != AimState.WAIT_FOR_IMAGE_GOOD)
@@ -75,7 +79,7 @@ public class Vision_Interface implements Updatable
 				} },
 				10
 				//Map.VISION_INTERFACE_IMAGE_CAPTURE_SETTLE_TIMEOUT
-		);
+		);*/
 	}
 	
 	private void update_camera()
@@ -90,7 +94,7 @@ public class Vision_Interface implements Updatable
 		if(size == default_value)*/
 		
 		double[][] vals = _tracker.get();
-		double[] size = vals[4]; // Area of targets
+		double[] size = vals[3]; // Area of targets
 		double[] position = vals[1];
 		
 		if(size.length == 0)
@@ -108,7 +112,7 @@ public class Vision_Interface implements Updatable
 		}
 		
 		// Find all targets within a percentage of the size of the largest
-		List<Integer> indices = new ArrayList<Integer>();
+		/*List<Integer> indices = new ArrayList<Integer>();
 		for(int i = 0; i < size.length; i++)
 		{
 			if(size[i] / size[table_index] > 0.87)
@@ -130,7 +134,7 @@ public class Vision_Interface implements Updatable
 				if(position[i] > position[table_index])
 					table_index = i;
 			}
-		}
+		}*/
 		
 		_target_position = (2 * position[table_index] / Map.VISION_INTERFACE_VIDEO_WIDTH) - 1;
 		_target_position *= Map.VISION_INTERFACE_VIDEO_FOV / -2.0;
@@ -207,6 +211,8 @@ _pid.setPID(SmartDashboard.getNumber("P"), SmartDashboard.getNumber("I"), SmartD
 		// TODO Auto-generated method stub
 		SmartDashboard.putBoolean("AIM", getAimGood());
 		SmartDashboard.putBoolean("Vision Camera Initialized", _tracker.getCameraInit());
+		SmartDashboard.putString("Vision State", _state.toString());
+		SmartDashboard.putNumber("Vision Error", offset_aim_factor());
 	}
 
 }

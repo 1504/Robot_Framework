@@ -188,7 +188,22 @@ public class Robot extends RobotBase {
                 
                 autonomous();
                 
-                _autonomous.setup_path(new double[][] {{0,0,1,5000}, {10,10,0, 10000}});
+                // forward, ccw, type, time
+                double turn_power = 0.2 - 0.1 * (double)_digit_board.getPosition();
+                if(_digit_board.getDefense() == "LowB" && _digit_board.getPosition() == 0)
+                	_autonomous.setup_path(new double[][] {{0.5,0,0,2200}, {0, .2, 0, 2600}, {0.0,0,0,3000}, {0,0,1, 15000}});
+                else if(_digit_board.getDefense() == "LowB" && _digit_board.getPosition() != 0)
+                    _autonomous.setup_path(new double[][] {{0.5,0,0,2200}, {0.0,0,0,2600}, {-.5,0,0, 4800}, {.5,0,0, 4900}, {0,0,0, 14000}});
+                else if(_digit_board.getDefense() == "Ruff")
+                	_autonomous.setup_path(new double[][] {{0.5,0,0,2700}, {0, turn_power, 0, 2900}, {0.0,0,0,3000}, {0,0,1, 15000}});
+                else if(_digit_board.getDefense() == "Moat" || _digit_board.getDefense() == "Rock")
+                	_autonomous.setup_path(new double[][] {{-0.7,0,0,3500}, {0.0,turn_power,0,4000}, {0.0,0.0,0,4100}, {0,0,1, 15000}});
+                else if( _digit_board.getDefense() == "Ramp")
+                	_autonomous.setup_path(new double[][] {{0.55,0,0,4500}, {0.0,turn_power,0,4900}, {0.0,0.0,0,5000}, {0,0,1, 15000}});
+                else
+                	_autonomous.setup_path(new double[][] {{0,0,0,1000}});
+                
+                //_autonomous.setup_path(new double[][] {{0.5,0,0,2200}, {0.0,0,0,2600}, {-.5,0,0, 4800}, {.5,0,0, 9000}, {0,0,1, 14000}});
                 
                 _autonomous.start();
                 while (isAutonomous() && !isDisabled()) {

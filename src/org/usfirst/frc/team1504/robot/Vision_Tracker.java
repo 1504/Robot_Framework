@@ -21,10 +21,12 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.image.HSLImage;
 import edu.wpi.first.wpilibj.image.NIVisionException;
 //import edu.wpi.first.wpilibj.vision.AxisCamera;
+import edu.wpi.first.wpilibj.vision.USBCamera;
 
 public class Vision_Tracker
 {
 	private AxisCamera_STFU _camera;
+	//private USBCamera _camera;
 	private double[][] _output;
 	private boolean _camera_initialized = false;
 	
@@ -42,12 +44,14 @@ public class Vision_Tracker
 	{
 		new Thread(new Runnable() {
 			public void run() {
-				_camera = new AxisCamera_STFU("axis-1504.local");
-				while(!_camera_initialized)
+				//Timer.delay(240);
+				_camera = new AxisCamera_STFU("10.15.4.42"/*"axis-1504.local"*/);
+				//_camera = new USBCamera();
+				/*while(!_camera_initialized)
 				{
 					Timer.delay(1);
 					_camera_initialized = _camera.initialized;
-				}
+				}*/
 				System.load("/usr/local/lib/lib_OpenCV/java/libopencv_java2410.so");
 				System.out.println("Camera initialized @ " + System.currentTimeMillis() + " \n\t(Took "+(System.currentTimeMillis()-IO.ROBOT_START_TIME)+" to initialize)");
 			}
@@ -139,10 +143,10 @@ public class Vision_Tracker
 			Mat p = Highgui.imread("/home/lvuser/log/images/process.png", Highgui.CV_LOAD_IMAGE_COLOR);
 			
 			// Convert to HSL (Actually, HLS from BGR)
-			Imgproc.cvtColor(p, p, Imgproc.COLOR_BGR2HLS);
+			Imgproc.cvtColor(p, p, Imgproc.COLOR_BGR2HSV);// Imgproc.COLOR_BGR2HLS);
 			
 			// HSL threshold
-			Scalar low = new Scalar(80/*81*/, 70, 95);
+			Scalar low = new Scalar(80/*81*/, /*70*/120, /*95*/200);
 			Scalar high = new Scalar(95/*95*/, 255, 255);
 			Core.inRange(p, low, high, p);
 			
@@ -170,7 +174,7 @@ public class Vision_Tracker
 				bb[i] = Imgproc.boundingRect(contours.get(i));
 				
 				output[0][i] = bb[i].x + bb[i].width / 2.0;
-				output[1][i] = bb[i].y + bb[i].height / 2.0;
+				output[1][i] = bb[i].y + bb[i].height;// / 2.0;
 				output[2][i] = bb[i].width;
 				output[3][i] = bb[i].height;
 				output[4][i] = Imgproc.contourArea(contours.get(0), false);
@@ -182,7 +186,8 @@ public class Vision_Tracker
 			
 			System.out.println(" - ");
 			
-			image_to_dashboard(temp_image);
+			//image_to_dashboard(temp_image);
+			temp_image.free();
 		    	
 		}
 		catch (Exception e)

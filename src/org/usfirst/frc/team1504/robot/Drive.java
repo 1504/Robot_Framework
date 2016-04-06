@@ -259,6 +259,7 @@ public class Drive implements Updatable {
 		{
 			// There are no Sync Groups for CANTalons. Apparently.
 			_motors[i].set(values[i] * Map.DRIVE_OUTPUT_MAGIC_NUMBERS[i]);
+			//_motors[i].set(0.0);
 		}
 	}
 	
@@ -343,7 +344,7 @@ public class Drive implements Updatable {
 						// Frontside
 						input = front_side(input);
 						// Glide
-						input = _glide.gain_adjust(input);
+						//input = _glide.gain_adjust(input);
 						
 						// Save corrected input for fast loop
 						_input = input;

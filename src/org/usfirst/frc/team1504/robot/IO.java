@@ -34,19 +34,29 @@ public class IO
 		inputs[0] = Map.DRIVE_INPUT_MAGIC_NUMBERS[0] * Math.pow(Utils.deadzone(_drive_forward.getRawAxis(Map.JOYSTICK_Y_AXIS)), 2) * Math.signum(_drive_forward.getRawAxis(Map.JOYSTICK_Y_AXIS));// y
 		inputs[1] = Map.DRIVE_INPUT_MAGIC_NUMBERS[1] * Math.pow(Utils.deadzone(_drive_rotation.getRawAxis(Map.JOYSTICK_X_AXIS)), 2) * Math.signum(_drive_rotation.getRawAxis(Map.JOYSTICK_X_AXIS));// w
 		
-		if(!_drive_rotation.getRawButton(Map.DRIVE_INPUT_TURN_FACTOR_OVERRIDE_BUTTON))
-			inputs[1] *= Math.abs(inputs[0]) <= 0.01 ? 0.85 : Math.min((Math.abs(inputs[0]) + .05) / Map.DRIVE_INPUT_TURN_FACTOR, 1);
+		//if(!_drive_rotation.getRawButton(Map.DRIVE_INPUT_TURN_FACTOR_OVERRIDE_BUTTON))
+		//	inputs[1] *= Math.abs(inputs[0]) <= 0.01 ? 0.85 : Math.min((Math.abs(inputs[0]) + .05) / Map.DRIVE_INPUT_TURN_FACTOR, 1);
 		
 		return inputs;
 	}
 	
 	public static double front_side() {
-		if (_drive_rotation.getRawButtonLatch(Map.DRIVE_FRONTSIDE_BACK)) {
+		/*if(_drive_rotation.getRawButton(11))
+			return 0.0;
+		else
+			return 180.0;*/
+		/*if (_drive_rotation.getRawButtonLatch(Map.DRIVE_FRONTSIDE_BACK) || _drive_forward.getRawButton(11)) {
 			return 180.0;
 		} else if (_drive_rotation.getRawButtonLatch(Map.DRIVE_FRONTSIDE_FRONT)) {
 			return 0.0;
 		}
-		return Double.NaN;
+		return Double.NaN;*/
+		/*if(_drive_forward.getRawButton(8))
+			return 180.0;
+		if(_drive_rotation.getRawButton(11))
+			return 0.0;
+		return Double.NaN;*/
+		return 0.0;
 	}
 	
 	/**
@@ -149,9 +159,9 @@ public class IO
 	 */
 	public static Endgame.ENDGAME_STATE endgame_state()
 	{
-		if(_secondary.getRawButtonOnRisingEdge(8))
+		if(_secondary.getRawButton/*OnRisingEdge*/(8))
 			return Endgame.ENDGAME_STATE.EXTEND;
-		if(_secondary.getRawButtonOnRisingEdge(9))
+		if(_secondary.getRawButton/*OnRisingEdge*/(9))
 			return Endgame.ENDGAME_STATE.RETRACT;
 		return null;
 	}

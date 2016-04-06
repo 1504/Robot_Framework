@@ -235,7 +235,7 @@ public class Wheel_Shooter implements Updatable
 					_fire_task = new Thread(new Runnable() {
 						public void run() {
 							// Pulse the intake forward a few times
-							for(int i = 0; i < 10; i++)
+							for(int i = 0; i < 8; i++)
 							{
 								_intake_motor.set((1 - i % 2) * Map.WHEEL_SHOOTER_INTAKE_SPEED);
 								try {

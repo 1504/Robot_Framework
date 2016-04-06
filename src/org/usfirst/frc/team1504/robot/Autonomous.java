@@ -40,8 +40,10 @@ public class Autonomous
 	
 	private static final Autonomous instance = new Autonomous();
 	
-	private Groundtruth _groundtruth = Groundtruth.getInstance();
+	//private Groundtruth _groundtruth = Groundtruth.getInstance();
 	private Drive _drive = Drive.getInstance();
+	private Wheel_Shooter _shooter = Wheel_Shooter.getInstance();
+	private Vision_Interface _vision = Vision_Interface.getInstance();
 	
 	private Timer _task_timer;
 	private volatile boolean _thread_alive = true;
@@ -97,7 +99,7 @@ public class Autonomous
 	
 	protected void auto_task()
 	{
-		double[] current_task;
+		boolean shot_yet = false;
 		while(_thread_alive)
 		{
 			// Don't drive around if we're not getting good sensor data
@@ -125,15 +127,33 @@ public class Autonomous
 			}
 			
 			// Get the target position and actual current position
-			current_task = _path[step];
-			double[] current_position = _groundtruth.getPosition();
 			
-			double[] output = new double[3];
+			double[] output = new double[2];
 			
-			// Calculate P(ID) output for the drive thread 
-			for(int value = 0; value < 3; value++) // P loop
-				output[value] = (current_task[value] - current_position[value]) * 0.1;
+			if(_path[step][2] == 0)
+			{
+				// Calculate P(ID) output for the drive thread 
+				for(int value = 0; value < 2; value++) // P loop
+					output[value] = _path[step][value];
+			}
+			else if(_path[step][2] == 1)
+			{
+				output = _vision.getInputCorrection(!shot_yet);
+				if(!shot_yet)
+				{
+					_shooter.set(Wheel_Shooter.WHEEL_SHOOTER_STATE.SPINUP);
+					shot_yet = true;
+				}
+				_shooter.set(Wheel_Shooter.WHEEL_SHOOTER_STATE.FIRE);
+			}
+			
 			_drive.drive_inputs(output);
+			
+			try {
+				Thread.sleep(15);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
