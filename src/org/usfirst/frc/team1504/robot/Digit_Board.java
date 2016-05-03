@@ -34,7 +34,7 @@ public class Digit_Board
 	private static final long INPUT_TIMEOUT = 2500;
 	
 	private static final String DEFENSES[] = {"LowB", "Ptcs", "Chiv", "Moat", "Ramp", "Draw", "SlPt", "Rock", "Ruff"};
-	private static final String POSITIONS[] = {"P  1", "P  2", "P  3", "P  4", "P  5"};
+	private static final String POSITIONS[] = {"P  1", "P  2", "P  3", "P  4", "P  5", "Spy "};
 	private static enum ACTION {VOLTAGE, DEFENSE, POSITION, AUTO_DELAY}
 	
 	private static final byte SECRET_CODE = 42;

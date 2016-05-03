@@ -40,6 +40,11 @@ public class IO
 		return inputs;
 	}
 	
+	public static double drive_wiggle()
+	{
+		return (_drive_rotation.getRawButton(4) ? -1.0 : 0.0) + (_drive_rotation.getRawButton(5) ? 1.0 : 0.0);
+	}
+	
 	public static double front_side() {
 		/*if(_drive_rotation.getRawButton(11))
 			return 0.0;

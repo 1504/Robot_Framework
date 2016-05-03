@@ -146,6 +146,16 @@ public class Autonomous
 				}
 				_shooter.set(Wheel_Shooter.WHEEL_SHOOTER_STATE.FIRE);
 			}
+			else if(_path[step][2] == 2)
+			{
+				if(!shot_yet)
+				{
+					_shooter.set(Wheel_Shooter.WHEEL_SHOOTER_STATE.SPINUP);
+					shot_yet = true;
+				}
+				_shooter.setOverride(true);
+				_shooter.set(Wheel_Shooter.WHEEL_SHOOTER_STATE.FIRE);
+			}
 			
 			_drive.drive_inputs(output);
 			

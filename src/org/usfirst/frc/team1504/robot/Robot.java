@@ -27,6 +27,8 @@ public class Robot extends RobotBase {
 	Wheel_Shooter t2 = Wheel_Shooter.getInstance();
 	Pneumatics t3 = Pneumatics.getInstance();
 	Endgame test = Endgame.getInstance();
+	Vision_Interface t4 = Vision_Interface.getInstance();
+	Drive t5 = Drive.getInstance();
 	
 	private Thread _dashboard_task;
 	
@@ -189,29 +191,33 @@ public class Robot extends RobotBase {
                 autonomous();
                 
                 // forward, ccw, type, time
-                double turn_power = 0.2 - 0.1 * (double)_digit_board.getPosition();
-                if(_digit_board.getDefense() == "LowB" && _digit_board.getPosition() == 0)
+               /* double turn_power = 0.2 - 0.1 * (double)_digit_board.getPosition();
+                if(_digit_board.getPosition() == 5)
+                	_autonomous.setup_path(new double[][] {{0,0,2,14000}, {0,0,0, 15000}});
+                else if(_digit_board.getDefense() == "LowB" && _digit_board.getPosition() == 0)
                 	_autonomous.setup_path(new double[][] {{0.5,0,0,2200}, {0, .2, 0, 2600}, {0.0,0,0,3000}, {0,0,1, 15000}});
+                else if(_digit_board.getDefense() == "LowB" && _digit_board.getPosition() == 4)
+                	_autonomous.setup_path(new double[][] {{0.5,0,0,2200}, {0, .2, 0, 2600}, {0.0,0,0,3000}, {0,0,1, 11000}, {0,0,2, 15000}});
                 else if(_digit_board.getDefense() == "LowB" && _digit_board.getPosition() != 0)
                     _autonomous.setup_path(new double[][] {{0.5,0,0,2200}, {0.0,0,0,2600}, {-.5,0,0, 4800}, {.5,0,0, 4900}, {0,0,0, 14000}});
                 else if(_digit_board.getDefense() == "Ruff")
                 	_autonomous.setup_path(new double[][] {{0.5,0,0,2700}, {0, turn_power, 0, 2900}, {0.0,0,0,3000}, {0,0,1, 15000}});
                 else if(_digit_board.getDefense() == "Moat" || _digit_board.getDefense() == "Rock")
-                	_autonomous.setup_path(new double[][] {{-0.7,0,0,3500}, {0.0,turn_power,0,4000}, {0.0,0.0,0,4100}, {0,0,1, 15000}});
+                	_autonomous.setup_path(new double[][] {{-0.85,0,0,3500}, {0.0,turn_power,0,4000}, {0.0,0.0,0,4100}, {0,0,1, 15000}});
                 else if( _digit_board.getDefense() == "Ramp")
                 	_autonomous.setup_path(new double[][] {{0.55,0,0,4500}, {0.0,turn_power,0,4900}, {0.0,0.0,0,5000}, {0,0,1, 15000}});
                 else
-                	_autonomous.setup_path(new double[][] {{0,0,0,1000}});
+                	_autonomous.setup_path(new double[][] {{0,0,0,1000}});*/
                 
                 //_autonomous.setup_path(new double[][] {{0.5,0,0,2200}, {0.0,0,0,2600}, {-.5,0,0, 4800}, {.5,0,0, 9000}, {0,0,1, 14000}});
                 
-                _autonomous.start();
+                //_autonomous.start();
                 while (isAutonomous() && !isDisabled()) {
                 	m_ds.waitForData(150);
                 	_semaphore.newData();
                     //Timer.delay(0.01);
                 }
-                _autonomous.stop();
+                //_autonomous.stop();
                 
                 _logger.stop();
                 m_ds.InAutonomous(false);

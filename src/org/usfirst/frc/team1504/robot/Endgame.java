@@ -4,6 +4,7 @@ import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
 
 public class Endgame implements Updatable
 {
@@ -12,6 +13,7 @@ public class Endgame implements Updatable
 	enum ENDGAME_STATE {EXTEND, RETRACT};
 	
 	private Solenoid[] _solenoids;
+	private Solenoid _extender;
 	private DriverStation _ds = DriverStation.getInstance();
 	private ENDGAME_STATE _state;
 	
@@ -22,6 +24,8 @@ public class Endgame implements Updatable
 				new Solenoid(Map.ENDGAME_EXTENSION_PORT), 
 				new Solenoid(Map.ENDGAME_RETRACTION_PORT)
 			};
+		_extender = new Solenoid(6);
+		_extender.set(false);
 		
 		Update_Semaphore.getInstance().register(this);
 	}
@@ -47,6 +51,17 @@ public class Endgame implements Updatable
 			return;
 		
 		_state = state;
-		set_solenoids(_state == ENDGAME_STATE.EXTEND);
+		
+		new Thread(new Runnable() {
+			public void run() {
+				if(_state == ENDGAME_STATE.EXTEND)
+				{
+					_extender.set(true);
+					Timer.delay(2);
+					
+				}
+				set_solenoids(_state == ENDGAME_STATE.EXTEND);
+			}
+		}).start();
 	}
 }

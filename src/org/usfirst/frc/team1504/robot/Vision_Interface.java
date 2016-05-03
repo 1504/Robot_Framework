@@ -64,7 +64,7 @@ public class Vision_Interface implements Updatable
 		
 		_state = AimState.WAIT_FOR_IMAGE_GOOD;
 		
-		_gyro.reset();
+		//_gyro.reset();
 		_state = AimState.GET_IMAGE;
 		update_camera();
 		
@@ -95,7 +95,7 @@ public class Vision_Interface implements Updatable
 		
 		double[][] vals = _tracker.get();
 		double[] size = vals[3]; // Area of targets
-		double[] position = vals[1];
+		double[] position = vals[0];
 		
 		if(size.length == 0)
 		{
@@ -199,7 +199,7 @@ _pid.setPID(SmartDashboard.getNumber("P"), SmartDashboard.getNumber("I"), SmartD
 	public void snapshot(String s)
 	{
 		try {
-			_tracker.getImage(s, true).free();
+			_tracker.getImage(s).free();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

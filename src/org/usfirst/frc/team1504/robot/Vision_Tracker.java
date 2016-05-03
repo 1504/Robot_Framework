@@ -1,5 +1,8 @@
 package org.usfirst.frc.team1504.robot;
 
+import java.io.FileOutputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -15,6 +18,9 @@ import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
 import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.Image;
+import com.ni.vision.NIVision.Point;
+import com.ni.vision.NIVision.RawData;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Timer;
@@ -25,11 +31,14 @@ import edu.wpi.first.wpilibj.vision.USBCamera;
 
 public class Vision_Tracker
 {
-	private AxisCamera_STFU _camera;
+	//private AxisCamera_STFU _camera;
 	//private USBCamera _camera;
 	private double[][] _output;
-	private boolean _camera_initialized = false;
+	private boolean _camera_initialized = true;
 	
+	Image _frame;
+	
+	//CameraServer server;
 	
 	Vision_Tracker()
 	{
@@ -37,6 +46,10 @@ public class Vision_Tracker
 		//_camera = new AxisCamera("axis-1504.local");
 		
 		init();
+		
+		//server = CameraServer.getInstance();
+		//server.setQuality(50);
+		//server.startAutomaticCapture("cam1");
 	}
 	
 	// Run init in a thread so starting the Tracker doesn't block literally everything else
@@ -45,8 +58,10 @@ public class Vision_Tracker
 		new Thread(new Runnable() {
 			public void run() {
 				//Timer.delay(240);
-				_camera = new AxisCamera_STFU("10.15.4.42"/*"axis-1504.local"*/);
-				//_camera = new USBCamera();
+				//_camera = new AxisCamera_STFU("10.15.4.42"/*"axis-1504.local"*/);
+				//_camera = new USBCamera("cam1");
+				//_camera.openCamera();
+				//_camera.startCapture();
 				/*while(!_camera_initialized)
 				{
 					Timer.delay(1);
@@ -54,6 +69,16 @@ public class Vision_Tracker
 				}*/
 				System.load("/usr/local/lib/lib_OpenCV/java/libopencv_java2410.so");
 				System.out.println("Camera initialized @ " + System.currentTimeMillis() + " \n\t(Took "+(System.currentTimeMillis()-IO.ROBOT_START_TIME)+" to initialize)");
+				
+				_frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+				int currSession = NIVision.IMAQdxOpenCamera("cam1", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+				NIVision.IMAQdxConfigureGrab(currSession);
+				while(true)
+				{
+					
+					NIVision.IMAQdxGrab(currSession, _frame, 0);
+					CameraServer.getInstance().setImage(_frame);
+				}
 			}
 		}).start();
 	}
@@ -90,49 +115,58 @@ public class Vision_Tracker
 		}).start();
 	}
 	
-	public HSLImage getImage()
+	public Image getImage()
 	{
-		return getImage("", false);
+		return getImage("");
 	}
-	public HSLImage getImage(String s, boolean wait)
+	public Image getImage(String s)
 	{
 		if(!_camera_initialized)
 			return null;
-			
-		// If we want an image or nothing
-		if(!_camera.isFreshImage() && !wait)
-			return null;
 		
-		// Wait for a fresh image
-		while(wait && !_camera.isFreshImage())
-			Timer.delay(.01);
+		Image temp_image = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);// = _frame;
+		//NIVision.imaqCopyCalibrationInfo2(temp_image, _frame, new Point(0,0));
+		NIVision.imaqDuplicate(temp_image, _frame);
 		
 		Calendar cal = new GregorianCalendar();
 		String filetime = Long.toString(cal.getTimeInMillis());
 		
 		try
 		{
-			HSLImage temp_image = _camera.getImage();
-			temp_image.write("/home/lvuser/log/images/" + filetime + s + ".jpg");
+			NIVision.imaqWriteJPEGFile(temp_image, "/home/lvuser/log/images/" + filetime + s + ".jpg", 255, null);
 			return temp_image;
+			
+			//HSLImage temp_image = _camera.getImage();
+			//temp_image.write("/home/lvuser/log/images/" + filetime + s + ".jpg");
+			//return temp_image;
+			
+			//Image temp_image;
+			//_camera.getImage(temp_image);
+			//ByteBuffer temp_image = ByteBuffer.allocate(1);
+			//_camera.getImageData(temp_image);
+			//FileChannel out = new FileOutputStream("/home/lvuser/log/images/" + filetime + s + ".jpg").getChannel();
+			//out.write(temp_image);
+			//out.close();
+			//return new HSLImage("/home/lvuser/log/images/" + filetime + s + ".jpg");
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			//e.printStackTrace();
 			return null;
 		}
 	}
 	
 	public double[][] get()
 	{
-		HSLImage temp_image = getImage();
+		Image temp_image = getImage();
 		
 		if(temp_image == null)
 			return new double[0][0];
 		
 		try {
-			temp_image.write("/home/lvuser/log/images/process.png");
-			//temp_image.free();
+			NIVision.imaqWritePNGFile2(temp_image, "/home/lvuser/log/images/process.png", 100, null, 8);
+			//temp_image.write("/home/lvuser/log/images/process.png");
+			temp_image.free();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new double[0][0];
@@ -177,7 +211,7 @@ public class Vision_Tracker
 				output[1][i] = bb[i].y + bb[i].height;// / 2.0;
 				output[2][i] = bb[i].width;
 				output[3][i] = bb[i].height;
-				output[4][i] = Imgproc.contourArea(contours.get(0), false);
+				output[4][i] = Imgproc.contourArea(contours.get(i), false);
 				//contours.get(i).
 				System.out.println(bb[i].x + " " + bb[i].y + " " + bb[i].width + " " + bb[i].height + " " + output[4][i]);
 			}

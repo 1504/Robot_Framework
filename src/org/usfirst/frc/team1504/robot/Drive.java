@@ -1,12 +1,14 @@
 package org.usfirst.frc.team1504.robot;
 
 import java.nio.ByteBuffer;
+import java.util.TimerTask;
+import java.util.Timer;
 
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
+//import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive implements Updatable {
@@ -33,6 +35,10 @@ public class Drive implements Updatable {
 	private Thread _dump_thread;
 	private volatile boolean _thread_alive = true;
 	
+	private char _direction = 0;
+	private TimerTask _osc = new TimerTask() { public void run() { _direction++; } };
+	private Timer _timer = new Timer();
+	
     /**
      * Gets an instance of the Drive
      *
@@ -52,6 +58,8 @@ public class Drive implements Updatable {
 		Update_Semaphore.getInstance().register(this);
 		
 		DriveInit();
+		
+		_timer.scheduleAtFixedRate(_osc, 0, 250);
 		
 		System.out.println("Drive Initialized");
 	}
@@ -106,6 +114,8 @@ public class Drive implements Updatable {
 		{
 			if(IO.vision_target_override())
 				drive_inputs(_vision.getInputCorrection(IO.vision_target_override_rising()));
+			else if(IO.drive_wiggle() != 0.0)
+				drive_inputs(new double[] { 0.25 * (((_direction & 1) == 0) ? 1.0 : -1.0) , 0.31 * IO.drive_wiggle()});
 			else
 				drive_inputs(IO.drive_input());
 		}
@@ -380,7 +390,12 @@ public class Drive implements Updatable {
 			else
 			{
 				update_dashboard();
-				Timer.delay(.025);
+				//Timer.delay(.025);
+				try {
+					Thread.sleep(25);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

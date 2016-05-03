@@ -5,6 +5,7 @@ import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Wheel_Shooter implements Updatable
@@ -27,6 +28,7 @@ public class Wheel_Shooter implements Updatable
 	
 	private static final Wheel_Shooter instance = new Wheel_Shooter();
 	private static Vision_Interface _vision = Vision_Interface.getInstance();
+	private static final DriverStation _ds = DriverStation.getInstance();
 	
 	//private static final Stopmotion _stopmotion = new Stopmotion();
 	
@@ -43,6 +45,7 @@ public class Wheel_Shooter implements Updatable
 	
 	private boolean _speed_good = false;
 	private boolean _thread_alive = true;
+	private boolean _override = false;
 
 	protected Wheel_Shooter()
 	{
@@ -109,6 +112,7 @@ public class Wheel_Shooter implements Updatable
 		SmartDashboard.putNumber("Shooter star current", _shooter_motor_star.getOutputCurrent());
 		SmartDashboard.putBoolean("Shooter speed good", _speed_good);
 		SmartDashboard.putString("Shooter State", _state.toString());
+		SmartDashboard.putBoolean("Shooter Override", _override);
 		
 		//_stopmotion.set_speeds(_shooter_motor_port.getSpeed(), _shooter_motor_star.getSpeed());
 	}
@@ -154,6 +158,14 @@ public class Wheel_Shooter implements Updatable
 				else
 					_speed_good = false;
 			}
+			else if(_state == WHEEL_SHOOTER_STATE.PICKUP || _state == WHEEL_SHOOTER_STATE.PICKUP_OUT)
+			{
+				_shooter_motor_port.ClearIaccum();
+				_shooter_motor_star.ClearIaccum();
+				_shooter_motor_port.set(-2000.0);
+				_shooter_motor_star.set(-2000.0);
+				_speed_good = false;
+			}
 			else
 			{
 				_shooter_motor_port.set(0.0);
@@ -179,7 +191,7 @@ public class Wheel_Shooter implements Updatable
 				
 //System.out.println("Fire Spinup");
 				// Don't shoot unless we're aimed or overridden
-				if(_vision != null && !_vision.getAimGood() && !IO.override())
+				if(_vision != null && !_vision.getAimGood() && !_override)
 					return;
 				
 //System.out.println("Fire vision passed");
@@ -204,7 +216,7 @@ public class Wheel_Shooter implements Updatable
 						}).start();
 						
 						try {
-							Thread.sleep(350);
+							Thread.sleep(500);
 							//_vision.snapshot(); // Try to get a photo of the ball going through the goal
 							//Thread.sleep(50);
 						} catch (InterruptedException e) {
@@ -248,7 +260,7 @@ public class Wheel_Shooter implements Updatable
 							// Reverse the ball briefly away from the shooter wheels
 							_intake_motor.set(-1.0 * Map.WHEEL_SHOOTER_INTAKE_SPEED);
 							try {
-								Thread.sleep(30);
+								Thread.sleep(45);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
@@ -290,8 +302,15 @@ public class Wheel_Shooter implements Updatable
 		}
 	}
 	
+	public void setOverride(boolean override)
+	{
+		_override = override;
+	}
+	
 	public void semaphore_update()
 	{
+		if(_ds.isOperatorControl())
+			_override = IO.override();
 		set(IO.wheel_shooter_state());
 	}
 }
