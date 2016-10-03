@@ -42,14 +42,11 @@ public class Autonomous
 	
 	//private Groundtruth _groundtruth = Groundtruth.getInstance();
 	private Drive _drive = Drive.getInstance();
-	private Wheel_Shooter _shooter = Wheel_Shooter.getInstance();
 	private Vision_Interface _vision = Vision_Interface.getInstance();
 	
 	private Timer _task_timer;
 	private volatile boolean _thread_alive = true;
 	private long _start_time;
-	private double[][] _path;
-	private int _path_step;
 	
 	protected Autonomous()
 	{
@@ -62,18 +59,9 @@ public class Autonomous
 		return instance;
 	}
 	
-	public void setup_path(double[][] path)
-	{
-		_path = path;
-	}
 	
 	public void start()
-	{
-		if(_path == null)
-			return;
-		
-		_path_step = -1;
-		
+	{	
 		_thread_alive = true;
 		_start_time = System.currentTimeMillis();
 		
@@ -107,55 +95,9 @@ public class Autonomous
 			/*if(!_groundtruth.getDataGood())
 				continue;*/
 			
-			// Calculate the program step we're on, quit if we're at the end of the list
-			int step = 0;
-			while(step < _path.length && _path[step][3] < (System.currentTimeMillis() - _start_time))
-				step++;
-			
-			// Alert user on new step
-			if(step > _path_step)
-			{
-				System.out.println("\tAutonomous step " + step + " @ " + (double)(System.currentTimeMillis() - _start_time)/1000);
-				_path_step = step;
-			}
-			
-			// Quit if there are no more steps left
-			if(step == _path.length)
-			{
-				stop();
-				return;
-			}
-			
 			// Get the target position and actual current position
 			
 			double[] output = new double[2];
-			
-			if(_path[step][2] == 0)
-			{
-				// Calculate P(ID) output for the drive thread 
-				for(int value = 0; value < 2; value++) // P loop
-					output[value] = _path[step][value];
-			}
-			else if(_path[step][2] == 1)
-			{
-				output = _vision.getInputCorrection(!shot_yet);
-				if(!shot_yet)
-				{
-					_shooter.set(Wheel_Shooter.WHEEL_SHOOTER_STATE.SPINUP);
-					shot_yet = true;
-				}
-				_shooter.set(Wheel_Shooter.WHEEL_SHOOTER_STATE.FIRE);
-			}
-			else if(_path[step][2] == 2)
-			{
-				if(!shot_yet)
-				{
-					_shooter.set(Wheel_Shooter.WHEEL_SHOOTER_STATE.SPINUP);
-					shot_yet = true;
-				}
-				_shooter.setOverride(true);
-				_shooter.set(Wheel_Shooter.WHEEL_SHOOTER_STATE.FIRE);
-			}
 			
 			_drive.drive_inputs(output);
 			

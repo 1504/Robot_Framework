@@ -98,8 +98,6 @@ public class Drive implements Updatable {
 		{
 			_motors[i] = new CANTalon(Map.DRIVE_MOTOR_PORTS[i]);
 		}
-		//_motors[0].changeControlMode(TalonControlMode.Follower);
-		//_motors[0].set(Map.DRIVE_MOTOR_PORTS[1]);
 	}
 	
 	/**
@@ -154,33 +152,6 @@ public class Drive implements Updatable {
 	{
 		_rotation_offset = rotation_offset;
 	}
-	
-	/**
-	 * Detented controller correction methods (and helper methods)
-	 */
-/*	private double[] detents(double[] input) {
-
-		double theta = Math.atan2(input[0], input[1]);
-
-		double dx = correct_x(theta) * distance(input[1], input[0]) * 0.25;
-		double dy = correct_y(theta) * distance(input[1], input[0]) * 0.25;
-
-		double[] detented = new double[2];
-
-		detented[0] = input[0] + dy; // y
-		detented[1] = input[1] + dx; // x
-
-		return detented;
-	}
-	private double correct_x(double theta) {
-		return -Math.sin(theta) * (-Math.sin(8 * theta) - 0.25 * Math.sin(4 * theta));
-	}
-	private double correct_y(double theta) {
-		return Math.cos(theta) * (-Math.sin(8 * theta) - 0.25 * Math.sin(4 * theta));
-	}
-	private double distance(double x, double y) {
-		return Math.sqrt(x * x + y * y);
-	}*/
 	
 	/**
 	 * Ground truth sensor corrections
@@ -269,7 +240,6 @@ public class Drive implements Updatable {
 		{
 			// There are no Sync Groups for CANTalons. Apparently.
 			_motors[i].set(values[i] * Map.DRIVE_OUTPUT_MAGIC_NUMBERS[i]);
-			//_motors[i].set(0.0);
 		}
 	}
 	
@@ -300,7 +270,6 @@ public class Drive implements Updatable {
 		byte[] output = new byte[12+4+4];
 		
 		int loops_since_last_dump = _loops_since_last_dump;
-		//_loops_since_last_dump = 0;
 		
 		// Dump motor set point, current, and voltage
 		for(int i = 0; i < Map.DRIVE_MOTOR.values().length; i++)

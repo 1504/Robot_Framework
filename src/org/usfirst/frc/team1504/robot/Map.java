@@ -13,18 +13,6 @@ public class Map {
  */
 	
 	// Joystick inputs
-	public static final int DRIVE_CARTESIAN_JOYSTICK = 0;
-	public static final int DRIVE_POLAR_JOYSTICK = 1;
-	public static final int SECONDARY_JOYSTICK = 2;
-	public static final int TERTIARY_JOYSTICK = 3;
-	
-	
-/**
- * Gunner Framework and convenience
- */
-	public static final int TERTIARY_WIN_BUTTON = 1;
-	public static final int TERTIARY_AIM_BUTTON = 2;
-	public static final int TERTIARY_FIRE_BUTTON = 3;
 	
 /**
  * Drive class things
@@ -84,54 +72,6 @@ public class Map {
 	public static final int JOYSTICK_X_AXIS = 0;
 	
 /**
- * Lifter stuff
- */
-	public static final int LIFTER_RETRACTION_PORT = 1;
-	public static final int LIFTER_EXTENSION_LIFT_PORT = 2;
-	
-	public static final int LIFTER_UP_BUTTON = 2;
-	public static final int LIFTER_DOWN_BUTTON = 3;
-	public static final int LIFTER_TOGGLE_BUTTON = 4;
-	
-	public static enum LIFTER_STATE {UP, DOWN, TOGGLE}
-	
-/**
- * Wheel shooter stuff
- */
-	public static final int WHEEL_SHOOTER_INTAKE_MOTOR = 20;
-	public static final int WHEEL_SHOOTER_PORT_SHOOTER_MOTOR = 31;
-	public static final int WHEEL_SHOOTER_STAR_SHOOTER_MOTOR = 30;
-	
-	public static final int WHEEL_SHOOTER_INTAKE_ON_BUTTON = 6;
-	public static final int WHEEL_SHOOTER_INTAKE_OFF_BUTTON = 7;
-	public static final int WHEEL_SHOOTER_INTAKE_REVERSE_BUTTON = 4;
-	public static final int WHEEL_SHOOTER_SPINUP_BUTTON = 3;
-	public static final int WHEEL_SHOOTER_FIRE_BUTTON = 1;
-	
-	public static final double WHEEL_SHOOTER_INTAKE_SPEED = -1.0;
-	public static /*final*/ double WHEEL_SHOOTER_TARGET_SPEED = 6610.0; //6575.0;//6775.0;
-	public static final double WHEEL_SHOOTER_GAIN_P = 0.014;
-	public static final double WHEEL_SHOOTER_GAIN_I = 0.00005; //0.0001;
-	public static final double WHEEL_SHOOTER_SPEED_GOOD_DEADBAND = 15.0;
-	
-/**
- * Lego shooter stuff
- */
-	public static final int LEGO_SHOOTER_INTAKE_MOTOR = 20;
-	
-	public static final int LEGO_SHOOTER_INTAKE_ON_BUTTON = 1;
-	public static final int LEGO_SHOOTER_INTAKE_OFF_BUTTON = 1;
-	public static final int LEGO_SHOOTER_INTAKE_REVERSE_BUTTON = 1;
-	public static final int LEGO_SHOOTER_FIRE_BUTTON = 1;
-	
-	public static final int LEGO_SHOOTER_POSITION_PICKUP_BUTTON = 1;
-	public static final int LEGO_SHOOTER_POSITION_CLEAR_BUTTON = 1;
-	public static final int LEGO_SHOOTER_POSITION_FIRE_BUTTON = 1;
-	public static final int LEGO_SHOOTER_POSITION_STORE_BUTTON = 1;
-	
-	public static final double LEGO_SHOOTER_INTAKE_SPEED = 0.75;
-	
-/**
  * Vision Interface stuff
  */
 	public static final int VISION_INTERFACE_OVERRIDE_BUTTON = 2;
@@ -150,15 +90,9 @@ public class Map {
 	public static final int PNEUMATICS_LOWSIDE_PORT = 1;
 	
 /**
- * Endgame stuff
- */
-	public static final int ENDGAME_EXTENSION_PORT = 4;
-	public static final int ENDGAME_RETRACTION_PORT = 5;
-	
-/**
  * Logger stuff
  */
-	public static enum LOGGED_CLASSES { SEMAPHORE, DRIVE, GROUNDTRUTH, PNEUMATICS, WHEEL_SHOOTER }
+	public static enum LOGGED_CLASSES { SEMAPHORE, DRIVE, GROUNDTRUTH, PNEUMATICS }
 	
 	
 public static final String TEAM_BANNER = "ICAgICAgICAgICBfX18gICAgICAgICAgICAgIF9fICBfXw0KICAgICAgICAgICAgfCBfIF8gIF8gICAgL3wgfF8gIC8gIFwgfF9ffA0KICAgICAgICAgICAgfCgtKF98fHx8ICAgIHwgX18pIFxfXy8gICAgfA0KDQogICAgICAgICAgICAgICAgICAgICAgICAgXy4NCiAgICAgICAgICAgICAgICAgICAgICAgLicgb28NCiAgICAgICAgICAgICAgICAgICAgICAgfCAgICA+DQogICAgICAgICAgICAgICAgICAgICAgLyAvIDogYC4NCiAgICAgICAgICAgICAgICAgICAgIHxfLyAvICAgfA0KICAgICAgICAgICAgICAgICAgICAgICB8LyAgd3cNCl9fXyAgICAgICAgX18gICAgICAgICAgICAgICAgICAgICAgX18NCiB8IHxfICBfICB8ICBcIF8gXyBfICBfIF8gXyB8XyBfICB8X18pXyBfICBfICAgIC4gXyAgXw0KIHwgfCApKC0gIHxfXy8oLV8pfF8pKC18IChffHxfKC0gIHwgICgtfCApKF8pfF98fHwgKV8pDQogICAgICAgICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICBfLw==";
