@@ -19,6 +19,20 @@ public class Update_Semaphore
 	
 	protected Update_Semaphore()
 	{
+		ClassLoader class_loader = Update_Semaphore.class.getClassLoader();
+		
+		for(int i = 1; i < Map.LOGGED_CLASSES.values().length; i++)
+		{
+			String subclass = Utils.toCamelCase(Map.LOGGED_CLASSES.values()[i].toString());
+			try {
+				System.out.println("Semaphore - Attempting to load org.usfirst.frc.team1504.robot." + subclass);
+				class_loader.loadClass("org.usfirst.frc.team1504.robot." + subclass);
+				//Class.forName("org.usfirst.frc.team1504.robot." + subclass);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		System.out.println("Semaphore Initialized");
 	}
 	

@@ -1,11 +1,15 @@
 package org.usfirst.frc.team1504.robot;
 
 import java.nio.ByteBuffer;
+import java.util.TimerTask;
+import java.util.Timer;
 
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DriverStation;
+//import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive implements Updatable {
 	
@@ -31,6 +35,10 @@ public class Drive implements Updatable {
 	private Thread _dump_thread;
 	private volatile boolean _thread_alive = true;
 	
+	private char _direction = 0;
+	private TimerTask _osc = new TimerTask() { public void run() { _direction++; } };
+	private Timer _timer = new Timer();
+	
     /**
      * Gets an instance of the Drive
      *
@@ -51,6 +59,8 @@ public class Drive implements Updatable {
 		
 		DriveInit();
 		
+		_timer.scheduleAtFixedRate(_osc, 0, 250);
+		
 		System.out.println("Drive Initialized");
 	}
 	
@@ -67,10 +77,10 @@ public class Drive implements Updatable {
 	
 	private DriverStation _ds = DriverStation.getInstance();
 	private Logger _logger = Logger.getInstance();
+	private Vision_Interface _vision = Vision_Interface.getInstance();
 	private volatile boolean _new_data = false;
-	private volatile double[] _input = {0.0, 0.0, 0.0};
+	private volatile double[] _input = {0.0, 0.0};
 	private volatile double _rotation_offset = 0.0;
-	private volatile double[] _orbit_point = {0.0, 0.0}; //{0.0, 1.15};
 	private DriveGlide _glide = new DriveGlide();
 	private Groundtruth _groundtruth = Groundtruth.getInstance();
 	
@@ -88,6 +98,8 @@ public class Drive implements Updatable {
 		{
 			_motors[i] = new CANTalon(Map.DRIVE_MOTOR_PORTS[i]);
 		}
+		//_motors[0].changeControlMode(TalonControlMode.Follower);
+		//_motors[0].set(Map.DRIVE_MOTOR_PORTS[1]);
 	}
 	
 	/**
@@ -98,7 +110,15 @@ public class Drive implements Updatable {
 	{
 		// Get new values from the map
 		// Do all configurating first (orbit, front, etc.)
-		drive_inputs(IO.mecanum_input());
+		if(!_ds.isAutonomous())
+		{
+			if(IO.vision_target_override())
+				drive_inputs(_vision.getInputCorrection(IO.vision_target_override_rising()));
+			else if(IO.drive_wiggle() != 0.0)
+				drive_inputs(new double[] { 0.25 * (((_direction & 1) == 0) ? 1.0 : -1.0) , 0.31 * IO.drive_wiggle()});
+			else
+				drive_inputs(IO.drive_input());
+		}
 		// so "_new_data = true" at the VERY END OF EVERYTHING
 	}
 	
@@ -106,9 +126,9 @@ public class Drive implements Updatable {
 	 * Put data into the processing queue.
 	 * Usable from both the semaphore and autonomous methods.
 	 */
-	public void drive_inputs(double forward, double right, double anticlockwise)
+	public void drive_inputs(double forward, double anticlockwise)
 	{
-		double[] inputs = {forward, right, anticlockwise};
+		double[] inputs = {forward, anticlockwise};
 		drive_inputs(inputs);
 	}
 	public void drive_inputs(double[] input)
@@ -124,10 +144,9 @@ public class Drive implements Updatable {
 	 * Programmatically switch the direction the robot goes when the stick gets pushed
 	 */
 	private double[] front_side(double[] input) {
-		double[] dir_offset = new double[3];
-		dir_offset[0] = input[0] * Math.cos(_rotation_offset) + input[1] * Math.sin(_rotation_offset);
-		dir_offset[1] = input[1] * Math.cos(_rotation_offset) - input[0] * Math.sin(_rotation_offset);
-		dir_offset[2] = input[2];
+		double[] dir_offset = input;
+		if(_rotation_offset == 180.0)
+			dir_offset[0] *= -1.0;
 		return dir_offset;
 	}
 	
@@ -137,45 +156,19 @@ public class Drive implements Updatable {
 	}
 	
 	/**
-	 * Orbit point
-	 */
-	private double[] orbit_point(double[] input) {
-		double x = _orbit_point[0];
-		double y = _orbit_point[1];
-
-		double[] k = { y - 1, y + 1, 1 - x, -1 - x };
-
-		double p = Math.sqrt((k[0] * k[0] + k[2] * k[2]) / 2) * Math.cos((Math.PI / 4) + Math.atan2(k[0], k[2]));
-		double r = Math.sqrt((k[1] * k[1] + k[2] * k[2]) / 2) * Math.cos(-(Math.PI / 4) + Math.atan2(k[1], k[2]));
-		double q = -Math.sqrt((k[1] * k[1] + k[3] * k[3]) / 2) * Math.cos((Math.PI / 4) + Math.atan2(k[1], k[3]));
-
-		double[] corrected = new double[3];
-		corrected[0] = (input[2] * r + (input[0] - input[2]) * q + input[0] * p) / (q + p);
-		corrected[1] = (-input[2] * r + input[1] * q - (-input[1] - input[2]) * p) / (q + p);
-		corrected[2] = (2 * input[2]) / (q + p);
-		return corrected;
-	}
-	
-	public void setOrbitPoint(double[] orbit_point)
-	{
-		_orbit_point = orbit_point;
-	}
-	
-	/**
 	 * Detented controller correction methods (and helper methods)
 	 */
-	private double[] detents(double[] input) {
+/*	private double[] detents(double[] input) {
 
 		double theta = Math.atan2(input[0], input[1]);
 
 		double dx = correct_x(theta) * distance(input[1], input[0]) * 0.25;
 		double dy = correct_y(theta) * distance(input[1], input[0]) * 0.25;
 
-		double[] detented = new double[3];
+		double[] detented = new double[2];
 
 		detented[0] = input[0] + dy; // y
 		detented[1] = input[1] + dx; // x
-		detented[2] = input[2];// angular
 
 		return detented;
 	}
@@ -187,7 +180,7 @@ public class Drive implements Updatable {
 	}
 	private double distance(double x, double y) {
 		return Math.sqrt(x * x + y * y);
-	}
+	}*/
 	
 	/**
 	 * Ground truth sensor corrections
@@ -207,7 +200,7 @@ public class Drive implements Updatable {
 		
 		// Apply P(ID) correction factor to the joystick values
 		// TODO: Determine gain constant and add to the Map
-		for(int i = 0; i < 3; i++)
+		for(int i = 0; i < input.length; i++)
 			output[i] += (normal_input[i] - speeds[i]) * -0.01;
 		
 		return output;
@@ -242,12 +235,27 @@ public class Drive implements Updatable {
 	 */
 	private double[] outputCompute(double[] input) {
 		double[] output = new double[4];
-		double max = Math.max(1.0, Math.abs(input[0]) + Math.abs(input[1]) + Math.abs(input[2]));
+		/*double max = Math.max(1.0, Math.abs(input[0]) + Math.abs(input[1]) + Math.abs(input[2]));
 
 		output[0] = (input[0] + input[1] - input[2]) / max;
 		output[1] = (input[0] - input[1] - input[2]) / max;
 		output[2] = (input[0] + input[1] + input[2]) / max;
 		output[3] = (input[0] - input[1] + input[2]) / max;
+		
+		return output;*/
+		
+		double rotation_factor = 1.0 / Math.sqrt(2.0); // cos(45) = sin(45) = 1/sqrt(2)
+		double degrees_45 = Math.PI / 4;
+		double degrees_90 = Math.PI / 2;
+		
+		double y = input[0];
+		double x = input[1];
+		
+		double angle = Math.atan2(y, x) + 2*Math.PI; // Get angle of the joystick
+		double offset = angle % degrees_45 - (Math.floor(angle / degrees_45) % 2) * degrees_45; // Correction factors to account for the square
+		offset = Math.cos(offset) / Math.cos(offset - degrees_45 + degrees_90 * ((offset < 0) ? 1.0 : 0.0)); // Choose the correct equation based on current octant
+		output[2] = output[3] = offset * rotation_factor * (y + x); // Rotate X by -45 degrees and correct to the square
+		output[0] = output[1] = offset * rotation_factor * (y - x); // Rotate Y by -45 degrees and correct to the square
 		
 		return output;
 	}
@@ -261,7 +269,27 @@ public class Drive implements Updatable {
 		{
 			// There are no Sync Groups for CANTalons. Apparently.
 			_motors[i].set(values[i] * Map.DRIVE_OUTPUT_MAGIC_NUMBERS[i]);
+			//_motors[i].set(0.0);
 		}
+	}
+	
+	private void update_dashboard()
+	{
+		byte[] currents = new byte[Map.DRIVE_MOTOR.values().length];
+		for(int i = 0; i < Map.DRIVE_MOTOR.values().length; i++)
+			currents[i] = (byte) _motors[i].getOutputCurrent();
+		update_dashboard(currents);
+	}
+	
+	private void update_dashboard(byte[] currents)
+	{
+		SmartDashboard.putNumber("Drive input forward", _input[0]);
+		SmartDashboard.putNumber("Drive input anticlockwise", _input[1]);
+		
+		SmartDashboard.putNumber("Drive FL current", currents[0]);
+		SmartDashboard.putNumber("Drive BL current", currents[1]);
+		SmartDashboard.putNumber("Drive BR current", currents[2]);
+		SmartDashboard.putNumber("Drive FR current", currents[3]);
 	}
 	
 	/**
@@ -277,9 +305,9 @@ public class Drive implements Updatable {
 		// Dump motor set point, current, and voltage
 		for(int i = 0; i < Map.DRIVE_MOTOR.values().length; i++)
 		{
-			output[i] = Utils.double_to_byte(_motors[i].get()); // Returns as 11-bit, downconvert to 8
-			output[i+1] = (byte) _motors[i].getOutputCurrent();
-			output[i+2] = (byte) (_motors[i].getBusVoltage() * 10);
+			output[i*3] = Utils.double_to_byte(_motors[i].get()); // Returns as 11-bit, downconvert to 8
+			output[i*3+1] = (byte) _motors[i].getOutputCurrent();
+			output[i*3+2] = (byte) (_motors[i].getBusVoltage() * 10);
 			// From CANTalon class: Bus voltage * throttle = output voltage
 		}
 		ByteBuffer.wrap(output, 12, 4).putInt(loops_since_last_dump);
@@ -290,6 +318,9 @@ public class Drive implements Updatable {
 			if(_logger.log(Map.LOGGED_CLASSES.DRIVE, output))
 				_loops_since_last_dump -= loops_since_last_dump;
 		}
+		
+		// So we stay off the CAN bus as much as possible here
+		update_dashboard(new byte[] {output[1], output[4], output[7], output[10]});
 	}
 	
 	/**
@@ -309,8 +340,9 @@ public class Drive implements Updatable {
 			{
 				// Process new joystick data - only when new data happens
 				if(_new_data)
-				{	
-					if(_ds.isOperatorControl())
+				{
+					// Don't do the fancy driver convenience stuff when we're PID controlling
+					if(_ds.isOperatorControl() && !IO.vision_target_override())
 					{
 						// Switch front side if we need to
 						double rotation_offset = IO.front_side();
@@ -318,14 +350,11 @@ public class Drive implements Updatable {
 							setFrontAngle(rotation_offset);
 					
 						// Detents
-						input = detents(input);
+						//input = detents(input);
 						// Frontside
 						input = front_side(input);
-						// Orbit point
-						input = orbit_point(input);
 						// Glide
-						input = _glide.gain_adjust(input);
-						// Osc
+						//input = _glide.gain_adjust(input);
 						
 						// Save corrected input for fast loop
 						_input = input;
@@ -343,7 +372,7 @@ public class Drive implements Updatable {
 				_loops_since_last_dump++;
 				
 				// Log on new data, after the first computation
-				if(dump)
+				if(dump || _loops_since_last_dump > Map.DRIVE_MAX_UNLOGGED_LOOPS)
 				{
 					// Dump in a separate thread, so we can loop as fast as possible
 					if(_dump_thread == null || !_dump_thread.isAlive())
@@ -356,6 +385,16 @@ public class Drive implements Updatable {
 						_dump_thread.start();
 					}
 					dump = false;
+				}
+			}
+			else
+			{
+				update_dashboard();
+				//Timer.delay(.025);
+				try {
+					Thread.sleep(25);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		}
