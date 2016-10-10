@@ -25,7 +25,6 @@ public class Robot extends RobotBase {
 	private Autonomous _autonomous = Autonomous.getInstance();
 	
 	Pneumatics t3 = Pneumatics.getInstance();
-	Vision_Interface t4 = Vision_Interface.getInstance();
 	Drive t5 = Drive.getInstance();
 	
 	private Thread _dashboard_task;

@@ -77,7 +77,6 @@ public class Drive implements Updatable {
 	
 	private DriverStation _ds = DriverStation.getInstance();
 	private Logger _logger = Logger.getInstance();
-	private Vision_Interface _vision = Vision_Interface.getInstance();
 	private volatile boolean _new_data = false;
 	private volatile double[] _input = {0.0, 0.0};
 	private volatile double _rotation_offset = 0.0;
@@ -110,9 +109,7 @@ public class Drive implements Updatable {
 		// Do all configurating first (orbit, front, etc.)
 		if(!_ds.isAutonomous())
 		{
-			if(IO.vision_target_override())
-				drive_inputs(_vision.getInputCorrection(IO.vision_target_override_rising()));
-			else if(IO.drive_wiggle() != 0.0)
+			if(IO.drive_wiggle() != 0.0)
 				drive_inputs(new double[] { 0.25 * (((_direction & 1) == 0) ? 1.0 : -1.0) , 0.31 * IO.drive_wiggle()});
 			else
 				drive_inputs(IO.drive_input());
@@ -141,12 +138,6 @@ public class Drive implements Updatable {
 	/**
 	 * Programmatically switch the direction the robot goes when the stick gets pushed
 	 */
-	private double[] front_side(double[] input) {
-		double[] dir_offset = input;
-		if(_rotation_offset == 180.0)
-			dir_offset[0] *= -1.0;
-		return dir_offset;
-	}
 	
 	public void setFrontAngle(double rotation_offset)
 	{
@@ -311,23 +302,8 @@ public class Drive implements Updatable {
 				if(_new_data)
 				{
 					// Don't do the fancy driver convenience stuff when we're PID controlling
-					if(_ds.isOperatorControl() && !IO.vision_target_override())
-					{
-						// Switch front side if we need to
-						double rotation_offset = IO.front_side();
-						if(!Double.isNaN(rotation_offset))
-							setFrontAngle(rotation_offset);
-					
-						// Detents
-						//input = detents(input);
-						// Frontside
-						input = front_side(input);
-						// Glide
-						//input = _glide.gain_adjust(input);
-						
-						// Save corrected input for fast loop
-						_input = input;
-					}
+					if(_ds.isOperatorControl())
+					{}
 					
 					_new_data = false;
 					dump = true;

@@ -11,6 +11,8 @@ public class Map {
 /**
  * Inputs
  */
+	public static final int DRIVE_CARTESIAN_JOYSTICK = 0;
+	public static final int DRIVE_POLAR_JOYSTICK = 1;
 	
 	// Joystick inputs
 	
