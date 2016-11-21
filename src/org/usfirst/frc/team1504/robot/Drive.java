@@ -305,7 +305,11 @@ public class Drive implements Updatable {
 					// Don't do the fancy driver convenience stuff when we're PID controlling
 					if(_ds.isOperatorControl())
 					{}
-					
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 					_new_data = false;
 					dump = true;
 				}

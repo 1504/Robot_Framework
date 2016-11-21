@@ -56,11 +56,7 @@ public class Update_Semaphore
 		//obj.semaphore_update();
 		
 		// Let's see about this. Creating several threads at 20hz might be an overhead issue...
-		Thread t = new Thread(new Runnable() {
-			public void run() {
-				e.semaphore_update();
-			}
-		});
+		Thread t = new Thread();
 		
 		_tlist.add(t);
 	}
@@ -81,11 +77,22 @@ public class Update_Semaphore
 		
 		for(int i = 0; i < _list.size(); i++)
 		{
-			if(!_tlist.get(i).isAlive())
+			if(_tlist.get(i) == null || !_tlist.get(i).isAlive())
 			{
-				_tlist.get(i).start();
+				Updatable u = _list.get(i);
+				Thread t = new Thread(new Runnable() {
+					public void run() {
+						u.semaphore_update();
+					}
+				});
+				_tlist.set(i, t);
+				
 				_button_mask &= _clear_mask;
 				_button_mask_rising_edge &= _clear_mask_rising_edge;
+			}
+			else
+			{
+				System.out.println("thread not updated!");
 			}
 		}
 	}
