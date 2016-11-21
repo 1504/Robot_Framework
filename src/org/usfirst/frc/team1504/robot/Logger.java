@@ -138,7 +138,7 @@ public class Logger {
 			if(_logged_data != null)
 				sync_flush();
 			
-			_logged_data = new byte[Map.LOGGED_CLASSES.values().length][];
+			_logged_data = new byte[Map.LOGGED_CLASSES.values().length + 1][];
 			_logged_data[0] = new byte[]{0};
 		}
 		else if(_logging)

@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class Latch_Joystick extends Joystick implements Updatable
 {
-	private final int _num_buttons;
+	private int _num_buttons;
 	private volatile int _button_mask, _button_mask_rising;
 	private volatile int _button_mask_rising_last = 0;
 	
@@ -57,7 +57,7 @@ public class Latch_Joystick extends Joystick implements Updatable
 	 * Builds the button mask integer bitwise
 	 * @return Bitwise mask of pressed buttons on the joystick
 	 */
-	private int get_button_mask()
+	public int get_button_mask()
 	{
 		int mask = 0;
 		for(int button = 0; button < _num_buttons; button++)

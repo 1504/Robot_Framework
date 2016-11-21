@@ -105,6 +105,7 @@ public class Drive implements Updatable {
 	 */
 	public void semaphore_update()
 	{
+		System.out.println("*******logging");
 		// Get new values from the map
 		// Do all configurating first (orbit, front, etc.)
 		if(!_ds.isAutonomous())
@@ -230,7 +231,7 @@ public class Drive implements Updatable {
 		for(int i = 0; i < _motors.length; i++)
 		{
 			// There are no Sync Groups for CANTalons. Apparently.
-			_motors[i].set(values[i] * Map.DRIVE_OUTPUT_MAGIC_NUMBERS[i]);
+			//_motors[i].set(values[i] * Map.DRIVE_OUTPUT_MAGIC_NUMBERS[i]);
 		}
 	}
 	
@@ -312,7 +313,7 @@ public class Drive implements Updatable {
 				// Ground speed offset
 				input = groundtruth_correction(input);
 				// Output to motors - as fast as this loop will go
-				motorOutput(outputCompute(input));
+			//	motorOutput(outputCompute(input));
 				
 				_loops_since_last_dump++;
 				
@@ -324,7 +325,7 @@ public class Drive implements Updatable {
 					{
 						_dump_thread = new Thread(new Runnable() {
 							public void run() {
-								dump();
+			//					dump();
 							}
 						});
 						_dump_thread.start();
@@ -334,7 +335,7 @@ public class Drive implements Updatable {
 			}
 			else
 			{
-				update_dashboard();
+//				update_dashboard();
 				//Timer.delay(.025);
 				try {
 					Thread.sleep(25);

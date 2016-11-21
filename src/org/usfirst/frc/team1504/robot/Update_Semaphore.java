@@ -3,6 +3,9 @@ package org.usfirst.frc.team1504.robot;
 import java.util.List;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import org.usfirst.frc.team1504.robot.Latch_Joystick;
+
+//import org.usfirst.frc.team1504.robot.Latch_Joystick._button_mask;
 
 public class Update_Semaphore
 {
@@ -12,15 +15,20 @@ public class Update_Semaphore
 	}
 	
 	private List<Updatable> _list = new ArrayList<Updatable>();
+	private List<Thread> _tlist = new ArrayList<Thread>();
 	private Logger _logger = Logger.getInstance();
 	private long _last_update;
 	
 	private static final Update_Semaphore instance = new Update_Semaphore();
+	private int _clear_mask_rising_edge;
+	private int _clear_mask;
+	private int _button_mask;// = Latch_Joystick.get_button_mask();
+	private int _button_mask_rising_edge;// = Latch_Joystick.get_button_mask();
+
 	
 	protected Update_Semaphore()
 	{
 		ClassLoader class_loader = Update_Semaphore.class.getClassLoader();
-		
 		for(int i = 1; i < Map.LOGGED_CLASSES.values().length; i++)
 		{
 			String subclass = Utils.toCamelCase(Map.LOGGED_CLASSES.values()[i].toString());
@@ -45,6 +53,16 @@ public class Update_Semaphore
 	{
 		_list.add(e);
 		System.out.println("\tSemaphore - registered " + e.getClass().getName());
+		//obj.semaphore_update();
+		
+		// Let's see about this. Creating several threads at 20hz might be an overhead issue...
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				e.semaphore_update();
+			}
+		});
+		
+		_tlist.add(t);
 	}
 	
 	private void dump()
@@ -59,17 +77,16 @@ public class Update_Semaphore
 	{
 		_last_update = System.currentTimeMillis();
 		dump();
+		//System.out.println("semaphore");
 		
-		for (Updatable obj : _list)
+		for(int i = 0; i < _list.size(); i++)
 		{
-			//obj.semaphore_update();
-			
-			// Let's see about this. Creating several threads at 20hz might be an overhead issue...
-			new Thread(new Runnable() {
-				public void run() {
-					obj.semaphore_update();
-				}
-			}).start();
+			if(!_tlist.get(i).isAlive())
+			{
+				_tlist.get(i).start();
+				_button_mask &= _clear_mask;
+				_button_mask_rising_edge &= _clear_mask_rising_edge;
+			}
 		}
 	}
 }
