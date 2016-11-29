@@ -19,7 +19,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends RobotBase {
 	
-	Digit_Board _digit_board = Digit_Board.getInstance();
+	private DigitBoard _db = DigitBoard.getInstance();
+	private Digit_Board _digit_board = Digit_Board.getInstance();
 	private Update_Semaphore _semaphore = Update_Semaphore.getInstance();
 	private Logger _logger = Logger.getInstance();
 	private Autonomous _autonomous = Autonomous.getInstance();

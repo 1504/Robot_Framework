@@ -1,10 +1,6 @@
 package org.usfirst.frc.team1504.robot;
 
 import org.usfirst.frc.team1504.robot.DigitBoard;
-//import edu.wpi.first.wpilibj.I2C;
-//
-//import edu.wpi.first.wpilibj.AnalogInput;
-//import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class Digit_Board
@@ -67,14 +63,19 @@ public class Digit_Board
 		return Digit_Board.instance;
 	}
 	
-
-	public void write()
-	{	
+	//Updates the values.
+	public void update()
+	{
 		_current_pot = _board.getPotentiometer();
 		_voltage = _ds.getBatteryVoltage();
+	}
+	
+	//Writes the values.
+	public void write()
+	{
 		if (_current_pot != _last_pot)
 		{
-			_board.writeDigits(Double.toString(_current_pot));
+			_board.writeDigits("  " + Double.toString(_current_pot));
 		}
 		else
 		{
@@ -87,7 +88,16 @@ public class Digit_Board
 
 		while (_run)
 		{	
+			update();
 			write();
+			try
+			{
+				Thread.sleep(750); // wait a while because people can't read that
+									// fast
+			} catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 }

@@ -217,10 +217,10 @@ public class DigitBoard
 	 */
 	public double getPotentiometer()
 	{
-		double val = (double) _potentiometer.getAverageValue();//integer between 400-3 (furthest CCW is 400, furthest CW is 3)
-		val = 1 - ((val-3)/397); //number between 0 and 1, with 0 being furthest CCW and 1 being furthest CW
-		val = Math.min(val, 1.0);
-		val = Math.max(0, val);
+		double val = (double) _potentiometer.getAverageValue();//integer between 4 and 4042 (furthest CCW is 400, furthest CW is 3)
+		val = Math.min((val/4000), 1.0); //number between 0 and 10
+		val = (Math.round(val * 10.0)) / 10.0;
+		val = 1.0 - val;
 		return val;
 	}
 
@@ -274,15 +274,6 @@ public class DigitBoard
 		{	
 			update();
 			_display_board.writeBulk(_output_buffer);
-			
-			try
-			{
-				Thread.sleep(40); // wait a while because people can't read that
-									// fast
-			} catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
 
 		}
 	}
