@@ -105,7 +105,6 @@ public class Drive implements Updatable {
 	 */
 	public void semaphore_update()
 	{
-		System.out.println("*******logging");
 		// Get new values from the map
 		// Do all configurating first (orbit, front, etc.)
 		if(!_ds.isAutonomous())
@@ -134,8 +133,6 @@ public class Drive implements Updatable {
 		
 		_input = input;
 		_new_data = true;
-		System.out.println("drive inputs");
-
 	}
 	
 	/**
@@ -200,14 +197,14 @@ public class Drive implements Updatable {
 	 */
 	private double[] outputCompute(double[] input) {
 		double[] output = new double[4];
-		double max = Math.max(1.0, Math.abs(input[0]) + Math.abs(input[1]) + Math.abs(input[2]));
+		/*double max = Math.max(1.0, Math.abs(input[0]) + Math.abs(input[1]) + Math.abs(input[2]));
 
 		output[0] = (input[0] + input[1] - input[2]) / max;
 		output[1] = (input[0] - input[1] - input[2]) / max;
 		output[2] = (input[0] + input[1] + input[2]) / max;
 		output[3] = (input[0] - input[1] + input[2]) / max;
 		
-		//return output;
+		return output; */
 		
 		double rotation_factor = 1.0 / Math.sqrt(2.0); // cos(45) = sin(45) = 1/sqrt(2)
 		double degrees_45 = Math.PI / 4;
@@ -300,20 +297,18 @@ public class Drive implements Updatable {
 		while(_thread_alive)
 		{
 			input = _input;
-			
 			if(_ds.isEnabled())
 			{
 				// Process new joystick data - only when new data happens
 				if(_new_data)
 				{
 					// Don't do the fancy driver convenience stuff when we're PID controlling
-					if(_ds.isOperatorControl())
-					{}
-					try {
+					
+					/*try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
-					}
+					}*/
 					_new_data = false;
 					dump = true;
 				}
@@ -333,7 +328,7 @@ public class Drive implements Updatable {
 					{
 						_dump_thread = new Thread(new Runnable() {
 							public void run() {
-//								dump();
+								dump();
 							}
 						});
 						_dump_thread.start();
