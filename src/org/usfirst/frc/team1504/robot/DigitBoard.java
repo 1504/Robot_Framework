@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
         /o:`                                                        .+o:        
         :.                THIS CODE WAS WRITTEN BY                                            .         
                     FRC TEAM 1504: THE DESPARATE PENGUINS                                                      
-                          PUT IN A GOOD WORD FOR US.                                                    
+                                   ENJOY
                                                                                 
           .-----..``                                                            
          `-----------.`                                                         
@@ -219,8 +219,8 @@ public class DigitBoard
 	{
 		double val = (double) _potentiometer.getAverageValue();//integer between 4 and 4042 (furthest CCW is 400, furthest CW is 3)
 		val = Math.min((val/4000), 1.0); //number between 0 and 10
-		val = (Math.round(val * 10.0)) / 10.0;
 		val = 1.0 - val;
+		val = (Math.round(val * 10.0)) / 10.0;
 		return val;
 	}
 
@@ -380,4 +380,3 @@ public class DigitBoard
 			{(byte)0b11111111, (byte)0b00111111}  // DEL 
 		};
 }
-
