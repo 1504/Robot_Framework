@@ -105,7 +105,6 @@ public class Drive implements Updatable {
 	 */
 	public void semaphore_update()
 	{
-		System.out.println("*******logging");
 		// Get new values from the map
 		// Do all configurating first (orbit, front, etc.)
 		if(!_ds.isAutonomous())
@@ -205,7 +204,7 @@ public class Drive implements Updatable {
 		output[2] = (input[0] + input[1] + input[2]) / max;
 		output[3] = (input[0] - input[1] + input[2]) / max;
 		
-		return output;*/
+		return output; */
 		
 		double rotation_factor = 1.0 / Math.sqrt(2.0); // cos(45) = sin(45) = 1/sqrt(2)
 		double degrees_45 = Math.PI / 4;
@@ -219,7 +218,8 @@ public class Drive implements Updatable {
 		offset = Math.cos(offset) / Math.cos(offset - degrees_45 + degrees_90 * ((offset < 0) ? 1.0 : 0.0)); // Choose the correct equation based on current octant
 		output[2] = output[3] = offset * rotation_factor * (y + x); // Rotate X by -45 degrees and correct to the square
 		output[0] = output[1] = offset * rotation_factor * (y - x); // Rotate Y by -45 degrees and correct to the square
-		
+		System.out.println("output compute");
+
 		return output;
 	}
 	
@@ -231,7 +231,8 @@ public class Drive implements Updatable {
 		for(int i = 0; i < _motors.length; i++)
 		{
 			// There are no Sync Groups for CANTalons. Apparently.
-			//_motors[i].set(values[i] * Map.DRIVE_OUTPUT_MAGIC_NUMBERS[i]);
+			_motors[i].set(values[i] * Map.DRIVE_OUTPUT_MAGIC_NUMBERS[i]);
+			System.out.println("motorOutput");
 		}
 	}
 	
@@ -296,20 +297,18 @@ public class Drive implements Updatable {
 		while(_thread_alive)
 		{
 			input = _input;
-			
 			if(_ds.isEnabled())
 			{
 				// Process new joystick data - only when new data happens
 				if(_new_data)
 				{
 					// Don't do the fancy driver convenience stuff when we're PID controlling
-					if(_ds.isOperatorControl())
-					{}
-					try {
+					
+					/*try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
-					}
+					}*/
 					_new_data = false;
 					dump = true;
 				}
@@ -317,7 +316,7 @@ public class Drive implements Updatable {
 				// Ground speed offset
 				input = groundtruth_correction(input);
 				// Output to motors - as fast as this loop will go
-			//	motorOutput(outputCompute(input));
+				motorOutput(outputCompute(input));
 				
 				_loops_since_last_dump++;
 				
@@ -329,7 +328,7 @@ public class Drive implements Updatable {
 					{
 						_dump_thread = new Thread(new Runnable() {
 							public void run() {
-			//					dump();
+								dump();
 							}
 						});
 						_dump_thread.start();
@@ -339,7 +338,7 @@ public class Drive implements Updatable {
 			}
 			else
 			{
-//				update_dashboard();
+				update_dashboard();
 				//Timer.delay(.025);
 				try {
 					Thread.sleep(25);

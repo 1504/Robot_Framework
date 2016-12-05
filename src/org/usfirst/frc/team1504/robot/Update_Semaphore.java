@@ -20,10 +20,10 @@ public class Update_Semaphore
 	private long _last_update;
 	
 	private static final Update_Semaphore instance = new Update_Semaphore();
-	private int _clear_mask_rising_edge;
-	private int _clear_mask;
-	private int _button_mask;// = Latch_Joystick.get_button_mask();
-	private int _button_mask_rising_edge;// = Latch_Joystick.get_button_mask();
+	//private int _clear_mask_rising_edge;
+	//private int _clear_mask;
+	//private int _button_mask;// = Latch_Joystick._button_mask;
+	//private int _button_mask_rising_edge;// = Latch_Joystick._button_mask_rising;
 
 	
 	protected Update_Semaphore()
@@ -86,9 +86,10 @@ public class Update_Semaphore
 					}
 				});
 				_tlist.set(i, t);
+				_tlist.get(i).start(); //t.start()
 				
-				_button_mask &= _clear_mask;
-				_button_mask_rising_edge &= _clear_mask_rising_edge;
+			//	_button_mask &= _clear_mask;
+			//	_button_mask_rising_edge &= _clear_mask_rising_edge;
 			}
 			else
 			{
