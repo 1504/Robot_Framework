@@ -4,7 +4,7 @@ public class Map {
 /**
  * Utilities
  */
-	public static final double UTIL_JOYSTICK_DEADZONE = 0.09;
+	public static final double UTIL_JOYSTICK_DEADZONE = 0.05;
 	
 	public static final int UTIL_OVERRIDE_BUTTON = 11;
 	

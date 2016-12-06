@@ -218,8 +218,7 @@ public class Drive implements Updatable {
 		offset = Math.cos(offset) / Math.cos(offset - degrees_45 + degrees_90 * ((offset < 0) ? 1.0 : 0.0)); // Choose the correct equation based on current octant
 		output[2] = output[3] = offset * rotation_factor * (y + x); // Rotate X by -45 degrees and correct to the square
 		output[0] = output[1] = offset * rotation_factor * (y - x); // Rotate Y by -45 degrees and correct to the square
-		System.out.println("output compute");
-
+		
 		return output;
 	}
 	
@@ -232,7 +231,6 @@ public class Drive implements Updatable {
 		{
 			// There are no Sync Groups for CANTalons. Apparently.
 			_motors[i].set(values[i] * Map.DRIVE_OUTPUT_MAGIC_NUMBERS[i]);
-			System.out.println("motorOutput");
 		}
 	}
 	
