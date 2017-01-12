@@ -5,6 +5,18 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 public class Digit_Board
 {
+	private DriverStation _ds;	
+	private DigitBoard _board;
+	
+	private long _thread_sleep_delay;
+	private int _thread_sleep_counter;
+	
+	private double _voltage;
+	
+	private double _current_pot;
+	private double _last_pot;
+
+	//Setting up a separate thread for the Digit Board
 	private static class Board_Task implements Runnable
 	{
 		private Digit_Board _b;
@@ -48,17 +60,8 @@ public class Digit_Board
 	{
 		_run = false;
 	}
-	private DriverStation _ds;	
-	private DigitBoard _board;
 	
-	private long _thread_sleep_delay;
-	private int _thread_sleep_counter;
-	
-	private double _voltage;
-	
-	private double _current_pot;
-	private double _last_pot;
-	
+	//getInstance() is a function used when instantiating the Digit_Board class in other project classes.
 	private static Digit_Board instance = new Digit_Board();
 	
 	public static Digit_Board getInstance()
@@ -66,14 +69,14 @@ public class Digit_Board
 		return Digit_Board.instance;
 	}
 	
-	//Updates the values.
+	//Updates the values used for the display.
 	public void update()
 	{
 		_current_pot = _board.getPotentiometer();
 		_voltage = _ds.getBatteryVoltage();
 	}
 	
-	//Writes the values.
+	//Writes the values to the digit board.
 	public void write()
 	{
 		if (_current_pot != _last_pot)
@@ -97,6 +100,8 @@ public class Digit_Board
 		}
 		_last_pot = _current_pot;
 	}
+	
+	//The loop for the separate thread, where all functions are called.
 	private void board_task()
 	{	
 
@@ -106,8 +111,7 @@ public class Digit_Board
 			write();
 			try
 			{
-				Thread.sleep(_thread_sleep_delay); // wait a while because people can't read that
-									// fast
+				Thread.sleep(_thread_sleep_delay); // wait a while because people can't read that fast
 			} catch (InterruptedException e)
 			{
 				e.printStackTrace();
