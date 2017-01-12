@@ -5,8 +5,6 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import org.usfirst.frc.team1504.robot.Latch_Joystick;
 
-//import org.usfirst.frc.team1504.robot.Latch_Joystick._button_mask;
-
 public class Update_Semaphore
 {
 	interface Updatable
@@ -87,6 +85,7 @@ public class Update_Semaphore
 				});
 				_tlist.set(i, t);
 				_tlist.get(i).start(); //t.start()
+				//Latch_Joystick.getRawButtonOnRisingEdge(1);
 				
 			//	_button_mask &= _clear_mask;
 			//	_button_mask_rising_edge &= _clear_mask_rising_edge;
