@@ -75,7 +75,7 @@ public class Pneumatics implements Updatable
 	{
 		_state._highside_pressure = voltage_to_pressure(_highside_pressure_input.getValue());
 		_state._lowside_pressure = voltage_to_pressure(_lowside_pressure_input.getValue());
-		_state._compressor_current = _compressor.getCompressorCurrent();
+		_state._compressor_current = (float) _compressor.getCompressorCurrent();
 		_state._pressure_switch = _compressor.getPressureSwitchValue();
 		_state._compressor_enabled = _compressor.enabled();
 	}
