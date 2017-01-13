@@ -7,6 +7,7 @@ import java.util.Timer;
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 
 import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.DriverStation;
 //import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -121,9 +122,9 @@ public class Drive implements Updatable {
 	 * Put data into the processing queue.
 	 * Usable from both the semaphore and autonomous methods.
 	 */
-	public void drive_inputs(double forward, double anticlockwise)
+	public void drive_inputs(double forward, double track, double anticlockwise)
 	{
-		double[] inputs = {forward, anticlockwise};
+		double[] inputs = {forward, track, anticlockwise};
 		drive_inputs(inputs);
 	}
 	public void drive_inputs(double[] input)
@@ -197,16 +198,16 @@ public class Drive implements Updatable {
 	 */
 	private double[] outputCompute(double[] input) {
 		double[] output = new double[4];
-		/*double max = Math.max(1.0, Math.abs(input[0]) + Math.abs(input[1]) + Math.abs(input[2]));
+		double max = Math.max(1.0, Math.abs(input[0]) + Math.abs(input[1]) + Math.abs(input[2]));
 
 		output[0] = (input[0] + input[1] - input[2]) / max;
 		output[1] = (input[0] - input[1] - input[2]) / max;
 		output[2] = (input[0] + input[1] + input[2]) / max;
 		output[3] = (input[0] - input[1] + input[2]) / max;
 		
-		return output; */
+		return output; 
 		
-		double rotation_factor = 1.0 / Math.sqrt(2.0); // cos(45) = sin(45) = 1/sqrt(2)
+		/*double rotation_factor = 1.0 / Math.sqrt(2.0); // cos(45) = sin(45) = 1/sqrt(2)
 		double degrees_45 = Math.PI / 4;
 		double degrees_90 = Math.PI / 2;
 		
@@ -219,7 +220,7 @@ public class Drive implements Updatable {
 		output[2] = output[3] = offset * rotation_factor * (y + x); // Rotate X by -45 degrees and correct to the square
 		output[0] = output[1] = offset * rotation_factor * (y - x); // Rotate Y by -45 degrees and correct to the square
 		
-		return output;
+		return output;*/
 	}
 	
 	/**

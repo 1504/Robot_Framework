@@ -36,7 +36,7 @@ public class Map {
 	};
 	
 	// Drive Input magic numbers
-	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { 1.0, 0.6 };
+	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { 1.0, -1.0, 0.6 };
 	public static final double DRIVE_INPUT_TURN_FACTOR = 0.2;
 	public static final int DRIVE_INPUT_TURN_FACTOR_OVERRIDE_BUTTON = 1;
 	
