@@ -1,0 +1,213 @@
+CTRE Toolsuite 4.4.1.8 Installer
+	Class Library (FRC C++ 2017_v1): Minor changes to JNI wrappers to facilitate back-end error tracking
+	Class Library (FRC Java 2017_v1): Error reporting now works.  It is not automatic;  GetLastError must be called.  Use with WPILib's DriverStation.SendError to send messages to the driver station.
+	Class Library (FRC LabVIEW 2017_v1): Context help added to some Pigeon VIs.  More detailed versions to come in future releases.
+	Class Library (FRC LabVIEW 2017_v1): Fixed Pigeon IMU VI's to not have conflicts when added to projects.
+	Robot Builder: Fixed help file link for Talon SRX
+CTRE Toolsuite 4.4.1.7 Installer
+	Class Library (FRC C++ 2017_beta_v6): PigeonImu new function: GetAccumGyro
+	Class Library (FRC C++ 2017_beta_v6): TalonSRX: new settings: ZeroSensorOnIdx, ZeroSensorOnForwardLimit, ZeroSensorOnReverseLimit
+	Class Library (FRC Java 2017_beta_v5): PigeonImu new function: GetAccumGyro
+	Class Library (FRC Java 2017_beta_v5): TalonSRX: new settings: ZeroSensorOnIdx, ZeroSensorOnForwardLimit, ZeroSensorOnReverseLimit
+	Class Library (FRC LabVIEW 2017_beta_v7): PigeonIMU AccumGyro values available from GetStatus
+	Class Library (HERO SDK CTRE.dll 4.4.0.17): PigeonImu new function: GetAccumGyro
+	Class Library (HERO SDK CTRE.dll 4.4.0.17): New DisplayModule Class
+CTRE Toolsuite 4.4.1.6 Installer
+	HERO Firmware (hero_netmf_beta-0.11.2.0.crf): Increased NETMF HEAP from 102400 to 150000.
+	HERO Firmware (hero_netmf_beta-0.11.2.0.crf): Added native pixel rastering.
+	Pigeon Firmware (Pigeon-Application-0-18.crf): Added accumulated Gyro angles for X,Y,Z.
+	Pigeon Firmware (Pigeon-Application-0-19.crf): Added a way to disable TempComp to measure its impact.  Also added a way to change statusframerates.
+	libfrccanfirmwareupdate: Added Accum Gyro angles to self-test. (CTRE Build 11/23/2016)
+	HERO LifeBoat: New image added for Pigeon - no changes to LifeBoat version.
+	Class Library (FRC Java 2017_beta_v4): Pigeon IMU can now override status frame rate.
+	Class Library (FRC Java 2017_beta_v4): Pigeon IMU AccumZ angle is now settable.
+	Class Library (FRC Java 2017_beta_v4): Pigeon IMU Temperature Compensation can now be turned off.
+	Class Library (FRC C++ 2017_beta_v5): See Pigeon IMU Java Updates.
+	Class Library (FRC C++ 2017_beta_v5): CANTalon 'float' types changed to 'double' to match WPI CANSpeedController interface.
+	Class Library (FRC LabVIEW 2017_beta_v6): Fixed issue causing dependency conflicts in LabVIEW projects.
+	Class Library (FRC LabVIEW 2017_beta_v6): Added Motion Magic.
+	Class Library (FRC LabVIEW 2017_beta_v6): Added Current Limiting.
+	Class Library (HERO SDK CTRE.dll 4.4.0.16): PigeonImu API to match latest FRC Java/C++.
+	Talon SRX Firmware (TalonSRX-Application-2.19): Added feature to clear sensor position on selected limit switch input.
+	Talon SRX Firmware (TalonSRX-Application-2.19): Added first draft of robot-pose logic.
+	Talon SRX Firmware (TalonSRX-Application-2.19): Added missing IO support for Pigeon.
+	Talon SRX Firmware (TalonSRX-Application-2.20): Improved bootloader entry for Pigeon.
+CTRE Toolsuite 4.4.1.5 Installer
+	HERO USB Drivers: Drivers are now signed for 2017
+	Class Library (HERO SDK CTRE.dll 4.4.0.15): Added Class for ESP12F WiFi Module
+	Class Library (CTRE FRC Java 2017_beta_v3): Added Current Limit and Motion Magic APIs
+	Class Library (CTRE FRC C++ 2017_beta_v4): Added Current Limit and Motion Magic APIs
+CTRE Toolsuite 4.4.1.4 Installer
+	Installer (CTRE Toolsuite 4.4.1.4): Added Robotbuilder CAN Talon object to installer.
+	Class Library (FRC C++ 2017_beta_v3): Fixed issue where some Pigeon functions were not included in v2.
+	Class Library (HERO SDK CTRE.dll 4.4.0.14): Fixed LowLevel PCM bug that prevented using slots 1-7.
+CTRE Toolsuite 4.4.1.3 Installer
+	Class Library (FRC Java 2017_beta_v2): Added PigeonIMU Library
+	Class Library (FRC C++ 2017_beta_v2): Added PigeonIMU Library
+	Class Library (FRC LabVIEW 2017_beta_v2): Fixed PigeonIMU Set VIs for Fused Heading and Yaw.
+	Class Library (FRC LabVIEW 2017_beta_v2): Fixed Issue where Set Output for TalonSRX was double-inverting the output.
+	LifeBoat (0.9.7.0) DLL(0.9.4.0): All binaries are now explicitly set to 32-bit.
+	LifeBoat (0.9.7.0) DLL(0.9.4.0): New roboRIO web interface plugin to allow firmware flashing of PigeonIMU over TalonSRX uart connecton.
+	LifeBoat (0.9.7.0) DLL(0.9.4.0): Fixed Regression Bug where HERO wasn't discovered.
+	Talon SRX Firmware (TalonSRX-Application-2.18): 
+			-only transmit status_11 if serial traffic is detected.
+			-FRC build so tok is enabled.
+			-Changes since last FRC build 2.0
+			 * CAN Driver uses buffer0 instead of buffer3 for tx, this is a possible bug fix if dspic errata follows dspic33F
+			 * various changes to arbID filters for iso15 and normal-mode framing
+			 * BLDC vs BDC abstraction added
+			 * Current limiting
+			 * Throttle ramp is applied every 1ms instead of 10ms.
+			 * Gadgeteer Client stack and Pigeon
+			 * LED1 is disabled when vbat is > 20V to improve VbatMax.
+			 * Back breaking changes to wear leveled rows for more params.
+			 * Motion magic.
+			 * CustomParams 0 and 1
+			 * slight speed improvement (~3%) to flash write routines.
+			 * Minor improvement to PWM vs CAN deducing logic.
+			 * Talon SRX Uart uses 4X mode to achive higher bitrates.
+			 * Slight optimization in Vbat averaging.
+			 * Slight optimization in Vbat, Current, Analog ADC measurement.
+			 * Pin 6 (SPI CS) internal pullup enabled on app boot.
+			 * RAM savings optimization in current calibration math.
+			 * New status frame Status_10 for motion magic.
+			 * New status frame Status_11 for Gadgeteer Uart.
+	Known Limitations
+		-LifeBoat animation of Pigeon Cube is updated slowely.
+		-LifeBoat animation of Pigeon Cube does not function if Pigeon is on CANbus and has a nonzero device ID.
+		-Pigeon UART connection to Talon momentarily disconnects and reconnects after several minutes of use when using gadgeteer cable. 
+		-Pigeon does not zero Fused Heading on boot.
+		-Java error reporting has been temporarily disabled to prevent linking issues with the WPI Library.
+
+CTRE Toolsuite 4.4.1.2 Installer
+	Installer (CTRE Toolsuite v4.4.1.2.exe): Changed LabVIEW section checkbox to be non-selectable if LabVIEW 16.0 is not installed.
+	VERSION_NOTES: New File that contains listing of library versions.
+	Class Library (CTRE.dll 4.4.0.13): Added PigeonIMU.cs
+	Class Library (FRC LabVIEW 2017_beta_v1): Added PigeonIMU Library.
+	Class Library (FRC LabVIEW 2017_beta_v1): Fixed Unwired Terminal in WPI_CANTalonSRX_SendMotionProfile.vi.
+	Class Library (FRC Java 2017_beta_v1): Compiled against 2017 WPI release to work with 2017 roboRIO images.
+	Class Library (FRC C++ 2017_beta_v1): Compiled against 2017 WPI release to work with 2017 roboRIO images.
+	HERO Firmware (hero_netmf_beta-0.10.1.0.crf): New Native Stub for setting the CAN bitrate.
+	HERO Firmware (hero_netmf_beta-0.11.1.0.crf): Various changes to accomodate UART Gadgeteer Devices like Pigeon-IMU (when connected to Talon SRX).
+	LifeBoat (0.9.6.0) DLL(0.9.4.0): Modified RIO detection to work on multiple PCs.
+	LifeBoat (0.9.5.0) DLL(0.9.4.0): Added roboRIO Web based configuration updater.  This can be used to update a roboRIO with latest CTRE device support (such as Pigeon).
+	LifeBoat (0.9.4.0) DLL(0.9.4.0): Duration is logged when reflashing a CAN Device.
+	LifeBoat (0.9.4.0) DLL(0.9.4.0): Added support for Pigeon-IMU over CAN Bus.  Reflash takes approximately 10 seconds.
+	LifeBoat (0.9.4.0) DLL(0.9.4.0): Added reflash for Pigeon-IMU ribbon-cabled to Talon SRX on CANBus.  Reflash takes approximately 40 seconds.  
+	LifeBoat (0.9.4.0) DLL(0.9.4.0): Target framework elevated fromv 4.0 (Client) to v4.5.2
+	Talon SRX Firmware (TalonSrx-Application-10.16-PigeonRebuild.crf): Various code cleanup and optimizations done in preperation for UART-Gadgeteer-Client stack.
+	Talon SRX Firmware (TalonSrx-Application-10.16-PigeonRebuild.crf): UART-Gadgeteer-Client stack added to support UART peripherals such as Pigeon.
+	Talon SRX Firmware (TalonSrx-Application-10.16-PigeonRebuild.crf): New firmware support for Pigeon.  Ribbon-cabled Pigeons will require this or Pigeon will not function over gadgeteer port.
+	Talon SRX Firmware (TalonSrx-Application-10.17-RemovedDebugIoAddedRetry.crf): Robustness improvements to gadgeteer uart client stack.
+	Pigeon Firmware (Pigeon-Application-0-7.crf): Initial release for Pigeon-IMU.
+	Pigeon Firmware (Pigeon-Application-0-8.crf): Fixed bug where math error would reset Pigeon.
+	Pigeon Firmware (Pigeon-Application-0-9.crf): Various improvements to several calibration routines.
+	Pigeon Firmware (Pigeon-Application-0-9.crf): Fixed the CAN signals for quaternion frame.
+	libfrccanfirmwareupdate: Plugin updated with Pigeon support, Self-Test now says CTRE Build to delineate between CTRE and NI built binaries.
+	libfrccanfirmwareupdate: Rebuilt with latest FRC_NetworkComm to fix crash in 2017 image.
+
+	Known Limitations
+		-LifeBoat animation of Pigeon Cube is updated slowely.
+		-LifeBoat animation of Pigeon Cube does not function if Pigeon is on CANbus and has a nonzero device ID.
+		-Pigeon UART connection to Talon momentarily disconnects and reconnects after several minutes of use when using gadgeteer cable. 
+		-Pigeon does not zero Fused Heading on boot.
+		-roboRIO web-based config only supports CAN Pigeon.  Ribbon-cabled-to-Talon Pigeons are next.
+		-LabVIEW Pigeon Set VIs are currently not functional.  This will be fixed in a future update.
+		-Java error reporting has been temporarily disabled to prevent linking issues with the WPI Library.
+		-LifeBoat limitation: Only one instance of LifeBoat may be open at once.  If more than one is opened, all instances will be non-functional.
+CTRE Toolsuite 4.4.1.1 Installer
+	Class Library (Cpp, Java, LabVIEW for FRC): Added libraries for the FRC programming languages.  These require the use of a roboRIO and FRC software packages.
+HERO Beta SDK 4.4.1.0 Installer
+	Installer (CTRE Toolsuite v4.4.1.0.exe): New Installer Technology.  Requires uninstallation of previous installers before installation.
+	New "HERO Talon Custom Persistent Settings" added to Visual Studio.				
+	Class Library (CTRE.dll 4.4.0.11): SetVoltageRampRate() will set ramp to minimal possible value if nonzero param is unreasonably small (instead of truncating to 0/no-ramp).
+	Class Library (CTRE.dll 4.4.0.11): Current Limiting API added to Talon SRX.
+HERO Beta SDK 4.4.0.25 Installer
+	Class Library (CTRE.dll 4.4.0.10): Added PWMSpeedController.cs.  This class is used to drive PWM Motor Controllers.
+	Class Library (CTRE.dll 4.4.0.10): Updated HERO.IO.cs so that Port 3 includes all 5 available PWM outputs.
+	Class Library (CTRE.dll 4.4.0.10): Fixed bug in Watchdog class where IsEnabled returned the wrong value.
+	Class Library (CTRE.dll 4.4.0.10): Changed SafeOutputPort to only attempt re-enabling output when Watchdog status is enabled.
+	Class Library (ctre_netmf_native.dll 1.3.0.0): Addded back-end support for PWMSpeedController.
+	HERO Firmware (hero_netmf_beta-0.10.0.1.crf): Bug fix for timer registers.
+	HERO Firmware (hero_netmf_beta-0.10.0.1.crf):  Out-of-bounds read fix in HERO firmware (however no erroneous symptom was caused by it).
+	HERO Firmware (hero_netmf_beta-0.10.0.1.crf): Fixed two PWM outputs that weren't functional and added and verified two more (bringing the total available number of PWM signal outputs to 5). (Added in 0.10.0.0)
+	HERO Firmware (hero_netmf_beta-0.10.0.1.crf): Added PWM signals to Watchdog routines.   (Added in 0.10.0.0)
+	Talon SRX Firmware (TalonSrx-Application-10.13-nonFRC-CustomParams.crf): Added new signals CustomParam0, CustomParam1, PersStorageIsSaving.
+	Talon SRX Firmware (TalonSrx-Application-10.13-nonFRC-CustomParams.crf): Added Current Limit feature to Talon SRX. (Added in 10.12)
+	Talon SRX Firmware (TalonSrx-Application-10.13-nonFRC-CustomParams.crf): Voltage Ramp is applied every 1ms instead of 10ms (ramp is more resolute now).  (Added in 10.12)
+	Talon SRX Firmware (TalonSrx-Application-10.13-nonFRC-CustomParams.crf): Fixed bug where motion-magic acceleration and cruise velocity does not load from persistent storage on power boot.  (Added in 10.12)
+HERO Beta SDK 4.4.0.24 Installer
+	New "HERO Driver Module Example" added to Visual Studio.
+	New "HERO Continuous Position Servo Example" added to Visual Studio.
+	Class Library (CTRE.dll 4.4.0.9): Added Utilities.cs to hold general utility functions.
+	Class Library (CTRE.dll 4.4.0.9): Added StatusCodes.cs to hold definitions of all status codes.
+	Class Library (CTRE.dll 4.4.0.9): Updated CANBusDevice.cs to reference StatusCodes instead of literals.
+	Class Library (CTRE.dll 4.4.0.9): Updated Reporting.cs to use StatusCodes and report unique error messages.
+	Class Library (CTRE.dll 4.4.0.9): Updated HERO.IO.cs to have ports be a static implementation of a generic type class and port type interfaces.  This is to facilitate passing ports as an argument to the constructors of future gadgeteer module classes.
+	Class Library (CTRE.dll 4.4.0.9): Added DriverModule.cs, which contains the DriverModule class.  This class supports the CTRE Gadgeteer Low-Side Driver Module.
+	HERO Firmware (hero_netmf_beta-0.9.7.1.crf): Fixes an issue where analog pins 3, 4, and 5 were not declared in firmware.
+HERO Beta SDK 4.4.0.23 Installer
+	Rebuild for testing.
+HERO Beta SDK 4.4.0.22 Installer
+	Updated Analog Input and Serial example to use the HERO IO constants.
+	USB Drivers uninstalled/reinstalled every time setup runs.
+HERO Beta SDK 4.4.0.21 Installer
+	Requirements: HERO must be updated to hero_netmf_beta-0.9.7.0.crf
+	New "HERO Motion Magic Example" added to Visual Studio.
+	LifeBoat (0.9.3.0) DLL(0.9.3.0): Added Clear NETMF button to just clear the deployed NETMF application.
+	LifeBoat (0.9.3.0) DLL(0.9.3.0): Added Configuration Tab for changing Talon persistent settings.
+	Class Library (CTRE.dll 4.4.0.8): Added HERO.IO.cs (merge commit from github)
+	Class Library (CTRE.dll 4.4.0.8): Talon SRX Setters now have an optional timeout and error return, this allows developers to check if initialization routines were successful.
+	Class Library (CTRE.dll 4.4.0.8): Talon SRX class has a setter for "Throttle Bump" which allows HERO to specify a throttle-offset to add to the closed-loop output, thus allowing cascaded PIDs (for gyro compensation for example).
+	Class Library (CTRE.dll 4.4.0.8): Talon SRX supports MotionMagic control mode.  New setter for selecting acceleration and cruise velocity added.
+	Class Library (CTRE.dll 4.4.0.8): Added a new class called SafeOutputPort that will automatically go high-z when HERO is disabled.  This is useful for automatically disabling relays when robot is disabled.
+	Class Library (CTRE.dll 4.4.0.8): Added getter for the "low level object" in Talon SRX and PCM.  This is helpful for advanced users who intend to quickly extend the functionality beyond what the user-level class accomplishes.
+	Class Library (CTRE.dll 4.4.0.8): GamepadValues has two vendor specific members.  This will populate with vendor specific signals, such as the MODE selection button on certain Logitech gamepads.
+	Class Library (ctre_netmf_native.dll 1.2.0.9): Added back-end support for SafeOutputPort
+	HERO Firmware (hero_netmf_beta-0.9.7.0.crf): USB Gamepad: Added support for USB device reports passed 10 bytes.  Necessary for decoding the MODE button on certain Logitech gamepads.
+	HERO Firmware (hero_netmf_beta-0.9.7.0.crf): Various performance improvements for CAN periodic transmissions.  Retested on Robot Arm Demo.
+	Talon SRX Firmware (TalonSrx-Application-10.11-nonFRC-MotionMagicAndNewPersis.crf): Added Motion Magic Control Mode.
+	Talon SRX Firmware (TalonSrx-Application-10.11-nonFRC-MotionMagicAndNewPersis.crf): Persistent memory storage redesigned to fit future features.
+	Talons with firmware less than 10.10 will have its persistent settings defaulted when updating up to 10.11 or greater.  However brake and limit-switch settings are not affected.
+
+HERO Beta SDK 4.4.0.20 Installer
+	Added HERO Serial Example project and HERO Position Closed-looping Example.
+	hero_netmf_beta-0.9.4.0.crf (firmware): Added UART support.
+	CTRE.dll 4.4.0.6: Added second parameter to TalonSrx contructor called externalEnable to allow one robot-controller to motor-enable a Talon, and another robot-controller to control/update the Talon.
+		This can be useful when using one robot-controller to safely enable/disable your robot, while other HEROs are used to control the behavior of CAN actuators when robot is enabled.
+	ctre_netmf_native.dll 1.2.0.8: Changed copyright to 2016.
+
+HERO Beta SDK 4.4.0.19 Installer
+	CTRE.dll 4.4.0.5: Added PCM user-facing class.
+	CTRE.dll 4.4.0.5: Getter for detecting if USB gamepad is present.
+
+HERO Beta SDK 4.4.0.18 Installer
+	LifeBoat (0.9.2.3) DLL(0.9.2.0): Easter Egg added for testing purposes.
+
+HERO Beta SDK 4.4.0.17 Installer
+	hero_netmf_beta-0.9.2.3.crf (firmware): HDU MSC turned off.
+	hero_netmf_beta-0.9.2.3.crf (firmware): CAN driver message abort times adjusted.
+	hero_netmf_beta-0.9.2.0.crf (firmware): Replaced the red-black tree with sorted handwritten arrayList. rbtree seemed to be losing its sort order.  New module is called linkedlist.cpp, though by the time I was done it become array based (not a linked list).
+	hero_netmf_beta-0.9.2.0.crf (firmware): Fixed issue where LifeBoat loses communication with HERO after a few minutes of use.
+	hero_netmf_beta-0.9.2.0.crf (firmware): Decreased the full threshold for CAN IsFull tx, from 1 to 2.  This is a workaround to an intermittent dropped tx can frame.
+	hero_netmf_beta-0.9.2.0.crf (firmware): Hero catches iso15 tx requests for devID changes, and synchronously updates the data objects that stores poll results.
+	hero_netmf_beta-0.9.2.0.crf (firmware): If firmware can't keep up with eth frames over rndis, entire frame gets dropped.  Before there was a chance that data and datalen wasn't updated atomically causes corrupted data to be processed.
+	hero_netmf_beta-0.9.2.0.crf (firmware): Lots of changes to cleanly remove CAN devices in device list after they are physically removed from the canbus.
+	hero_netmf_beta-0.9.2.0.crf (firmware): Justice Client modified to only decode datagrams.  As it stands the frame decoded is too fragile for datastreams.
+	hero_direct_drive-0.0.3.0.crf (firmware): Picked up all of fixes above since last build.
+	LifeBoat (0.9.2.1) DLL(0.9.2.0): Various GUI fixes and improvements.
+	LifeBoat (0.9.2.1) DLL(0.9.2.0): Runtime detection of a known issue where Windows 10 erroneously enumerates WINUSB devices as a USB Serial Device.  LifeBoat will instruct how to apply the workaround.
+HERO Beta SDK 4.4.0.15 Installer
+	hero_netmf_beta-0.9.1.1.crf (firmware): Fixed issue where more than 10 CTRE devices would cause HERO to reset.
+
+HERO Beta SDK 4.4.0.14 Installer
+	hero_netmf_beta-0.9.1.0.crf (firmware): Fixed issue where single Talon stays blinking red if HERO and one single Talon are on CANBus.
+	hero_netmf_beta-0.9.1.0.crf (firmware): Fixed issue where HERO would reset after so-many HDU USB disconnect/reconnents.
+	hero_direct_drive-0.0.2.0.crf (firmware): Rebuilt to pick up HDU USB fixes.
+
+HERO Beta SDK 4.4.0.13 Installer
+	hero_netmf-1.3.2.0.crf (firmware): netmf RAM increased to 100KB.
+	hero_simple_drive-0.0.1.0.crf (firmware): Drives all Talons with HID Gamepad.  This is useful for simply driving Talons on a CANBus with a HERO and Gamepad.  
+		This firmware requires no Visual Studio or coding whatsoever.  HERO LifeBoat can still be used to discover and config CAN devices.
+	HERO Beta SDK 4.4.0.13: Updated example projects to use latest CTRE.TalonSRX class.
+	HERO Beta SDK 4.4.0.13: New example added for Talon SRX Motion Profile control mode.

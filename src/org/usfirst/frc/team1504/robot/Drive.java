@@ -79,7 +79,7 @@ public class Drive implements Updatable {
 	private DriverStation _ds = DriverStation.getInstance();
 	private Logger _logger = Logger.getInstance();
 	private volatile boolean _new_data = false;
-	private volatile double[] _input = {0.0, 0.0};
+	private volatile double[] _input = {0.0, 0.0, 0.0};
 	private volatile double _rotation_offset = 0.0;
 	private DriveGlide _glide = new DriveGlide();
 	private Groundtruth _groundtruth = Groundtruth.getInstance();
@@ -192,8 +192,8 @@ public class Drive implements Updatable {
 	}
 	
 	/**
-	 * Convert the Forward, Right and Antoclockwise values into 4 motor outputs
-	 * @param input - Double array containing Forward, Right and Antoclockwise values
+	 * Convert the Forward, Right and Anticlockwise values into 4 motor outputs
+	 * @param input - Double array containing Forward, Right and Anticlockwise values
 	 * @param output - Double array containing motor output values
 	 */
 	private double[] outputCompute(double[] input) {
