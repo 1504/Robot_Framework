@@ -10,6 +10,9 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.hal.HAL;
+import edu.wpi.first.wpilibj.hal.FRCNetComm.tInstances;
+import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -109,10 +112,13 @@ public class Robot extends RobotBase {
      * to be enabled again.
      */
     public void startCompetition() {
+        HAL.report(tResourceType.kResourceType_Framework,tInstances.kFramework_Simple);
+
         // first and one-time initialization
         LiveWindow.setEnabled(false);
         robotInit();
 
+        HAL.observeUserProgramStarting();
         while (true) {
             if (isDisabled()) {
                 m_ds.InDisabled(true);

@@ -8,7 +8,7 @@ public class Digit_Board
 	private DriverStation _ds;	
 	private DigitBoard _board;
 	
-	private long _thread_sleep_delay;
+	private long _thread_sleep_delay = 100;
 	private int _thread_sleep_counter;
 	
 	private double _voltage;
@@ -82,7 +82,7 @@ public class Digit_Board
 		if (_current_pot != _last_pot)
 		{
 			_board.writeDigits("  " + Double.toString(_current_pot));
-			_thread_sleep_delay = 100;
+			//_thread_sleep_delay = 100;
 			_thread_sleep_counter = 0;
 		}
 		else
@@ -95,7 +95,7 @@ public class Digit_Board
 			else
 			{
 				_board.writeDigits(Double.toString(_voltage).substring(0, 4) + "V");
-				_thread_sleep_delay = 750;
+				//_thread_sleep_delay = 750;
 			}
 		}
 		_last_pot = _current_pot;

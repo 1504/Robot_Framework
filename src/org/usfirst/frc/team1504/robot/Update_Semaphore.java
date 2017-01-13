@@ -93,7 +93,7 @@ public class Update_Semaphore
 			}
 			else
 			{
-				System.out.println("thread not updated!");
+//				System.out.println("thread not updated!");
 			}
 		}
 	}
