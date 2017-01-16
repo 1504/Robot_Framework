@@ -24,6 +24,7 @@ public class Robot extends RobotBase {
 	private Logger _logger = Logger.getInstance();
 	private Autonomous _autonomous = Autonomous.getInstance();
 	private Vision _vision = Vision.getInstance();
+	private Arduino _arduino = Arduino.getInstance();
 	Pneumatics t3 = Pneumatics.getInstance();
 	Drive t5 = Drive.getInstance();
 	private Thread _dashboard_task;
@@ -50,6 +51,7 @@ public class Robot extends RobotBase {
 				PowerDistributionPanel pdp = new PowerDistributionPanel();
 				while(true)
 				{	
+//					System.out.println("Arduino Data: " + (char) _arduino.getSensor()[0] + " " + (char)_arduino.getSensor()[1] + " " + (char)_arduino.getSensor()[2] + " " + (char)_arduino.getSensor()[3] + " " + (char)_arduino.getSensor()[4] + " " + (char)_arduino.getSensor()[5]);
 					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					SmartDashboard.putNumber("Robot Voltage", m_ds.getBatteryVoltage());
 					SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());

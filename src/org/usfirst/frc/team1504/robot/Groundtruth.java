@@ -9,6 +9,7 @@ public class Groundtruth implements Updatable {
 	private static final Groundtruth instance = new Groundtruth();
 	
 	private Logger _logger = Logger.getInstance();
+	private Arduino _arduino = Arduino.getInstance();
 	//private volatile byte[] _raw_data = null;
 	private volatile List<Byte> _raw_data = new ArrayList<Byte>();
 	private double[] _position = {0.0, 0.0, 0.0};
@@ -94,10 +95,11 @@ public class Groundtruth implements Updatable {
 	 * Input the current data from the ground truth sensors
 	 * @param data - Data format: LEFT_X, LEFT_Y, LEFT_SQUAL, RIGHT_X, RIGHT_Y, RIGHT_SQUAL
 	 */
-	public void getData(byte[] data)
+	public void getData()
 	{
 		// Data format: LEFT_X LEFT_Y LEFT_SQUAL RIGHT_X RIGHT_Y RIGHT_SQUAL
 		//_raw_data = data;
+		byte[] data = _arduino.getSensor();
 		_raw_data.set(0, (byte) (_raw_data.get(0) + 1));
 		for(byte b : data)
 			_raw_data.add(b);
