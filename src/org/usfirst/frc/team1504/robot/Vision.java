@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.CameraServer;
 
 public class Vision implements VisionRunner.Listener<GripPipelineee>{
 	
-	UsbCamera _usb = new UsbCamera("camera", 0); //or path
-	UsbCamera _usb1 = new UsbCamera("camera", 1); 
+	UsbCamera _usb = new UsbCamera("camera", Map.VISION_INTERFACE_PORT1); //or path
+	UsbCamera _usb1 = new UsbCamera("camera", Map.VISION_INTERFACE_PORT2); 
 
 	private static final Vision _instance = new Vision();
 	private GripPipelineee _pipe = new GripPipelineee();
@@ -20,7 +20,7 @@ public class Vision implements VisionRunner.Listener<GripPipelineee>{
 	public double _target = 0.0;
 	private enum AimState {WAIT_FOR_IMAGE_GOOD, GET_IMAGE, AIM_ROBOT, AIMED, BAD_IMAGE}
 	public AimState _state;
-	public static int cur_cam = 0; //the current camera we're looking at
+	public static int cur_cam = Map.VISION_INTERFACE_PORT1; //0, current camera we're looking at
 	public boolean port_toggle = false; //default on forward camera
 
 	private Vision() 
@@ -42,13 +42,13 @@ public class Vision implements VisionRunner.Listener<GripPipelineee>{
 		if(IO.camera_port() && !port_toggle)
 		{
 			port_toggle = true;
-			return 1;
+			return Map.VISION_INTERFACE_PORT2;
 		}
 		
 		else if(IO.camera_port() && port_toggle)
 		{
 			port_toggle = false;
-			return 0; //default cam
+			return Map.VISION_INTERFACE_PORT1; //default cam
 		}
 		
 		else //no joystick input, return current camera
@@ -66,7 +66,7 @@ public class Vision implements VisionRunner.Listener<GripPipelineee>{
 		if(!IO.camera_port()) //no joystick input
 		{	
 			cur_cam = dir;
-			if (dir == 0) //might be wrong depending on frontside
+			if (dir == Map.VISION_INTERFACE_PORT1) //might be wrong depending on frontside
 				_usb = CameraServer.getInstance().startAutomaticCapture(dir);
 			else
 				_usb1 = CameraServer.getInstance().startAutomaticCapture(dir);

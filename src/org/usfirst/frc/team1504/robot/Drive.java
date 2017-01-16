@@ -39,7 +39,7 @@ public class Drive implements Updatable {
 	private char _direction = 0;
 	private TimerTask _osc = new TimerTask() { public void run() { _direction++; } };
 	private Timer _timer = new Timer();
-	public static int _dir = 0;
+	public static int _dir = Map.VISION_INTERFACE_PORT1;
 	
     /**
      * Gets an instance of the Drive
@@ -318,10 +318,10 @@ public class Drive implements Updatable {
 				
 				if(input[1] > 0) //check y
 				{
-					_dir = 0; //forward is default
+					_dir = Map.VISION_INTERFACE_PORT1; //forward is default
 				}
 				else
-					_dir = 1;
+					_dir = Map.VISION_INTERFACE_PORT2;
 				
 				// Output to motors - as fast as this loop will go
 				motorOutput(outputCompute(input));
