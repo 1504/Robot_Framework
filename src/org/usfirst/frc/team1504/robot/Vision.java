@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj.CameraServer;
 
 public class Vision implements VisionRunner.Listener<GripPipelineee>{
 	
-	UsbCamera _usb = new UsbCamera("camera", 1); //or path
+	UsbCamera _usb = new UsbCamera("camera", 0); //or path
+	UsbCamera _usb1 = new UsbCamera("camera", 1); 
+
 	private static final Vision _instance = new Vision();
 	private GripPipelineee _pipe = new GripPipelineee();
 	private VisionThread _thread = new VisionThread(_usb, _pipe, this);
@@ -18,16 +20,66 @@ public class Vision implements VisionRunner.Listener<GripPipelineee>{
 	public double _target = 0.0;
 	private enum AimState {WAIT_FOR_IMAGE_GOOD, GET_IMAGE, AIM_ROBOT, AIMED, BAD_IMAGE}
 	public AimState _state;
+	public static int cur_cam = 0; //the current camera we're looking at
+	public boolean port_toggle = false; //default on forward camera
 
-	private Vision() //(int port)
+	private Vision() 
 	{
 		System.out.println("Vision initialized");
-		getImage(_usb); //, port);
+		//getImage(_usb); 
+		//_usb = CameraServer.getInstance().startAutomaticCapture(0);
+		//_usb1 = CameraServer.getInstance().startAutomaticCapture(1);
+		startSecondaryCapture(Drive._dir);
 	}
 	
 	public static Vision getInstance()
 	{
 		return _instance;
+	}
+	
+	public int setPort()
+	{
+		if(IO.camera_port() && !port_toggle)
+		{
+			port_toggle = true;
+			return 1;
+		}
+		
+		else if(IO.camera_port() && port_toggle)
+		{
+			port_toggle = false;
+			return 0; //default cam
+		}
+		
+		else //no joystick input, return current camera
+			return cur_cam;
+	}
+	
+	public void getImage(UsbCamera usb) 
+	{
+		//usb = _usb;
+        usb = CameraServer.getInstance().startAutomaticCapture(setPort());
+	}
+	
+	public void startSecondaryCapture(int dir)
+	{		
+		if(!IO.camera_port()) //no joystick input
+		{	
+			cur_cam = dir;
+			if (dir == 0) //might be wrong depending on frontside
+				_usb = CameraServer.getInstance().startAutomaticCapture(dir);
+			else
+				_usb1 = CameraServer.getInstance().startAutomaticCapture(dir);
+			
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else
+			CameraServer.getInstance().startAutomaticCapture(setPort());
 	}
 	
 	public void settle_camera()
@@ -49,13 +101,6 @@ public class Vision implements VisionRunner.Listener<GripPipelineee>{
 		_pipe._val2 = val2;
 		_pipe._circ1 = circ1;
 		_pipe._circ2 = circ2;
-
-	}
-	
-	public void getImage(UsbCamera usb) { //, int port) { 
-
-		usb = _usb;
-        _usb = CameraServer.getInstance().startAutomaticCapture(0); //port);
 
 	}
 	
@@ -129,7 +174,9 @@ public class Vision implements VisionRunner.Listener<GripPipelineee>{
 	@Override
 	public void copyPipelineOutputs(GripPipelineee pipeline) {
 		// TODO Auto-generated method stub
-		
+		/*groundtruth
+		 * 
+		 * */
 	}
 
 }

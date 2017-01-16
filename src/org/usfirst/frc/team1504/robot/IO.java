@@ -4,6 +4,8 @@ public class IO
 {
 	private static Latch_Joystick _drive_forward = new Latch_Joystick(Map.DRIVE_CARTESIAN_JOYSTICK);
 	private static Latch_Joystick _drive_rotation = new Latch_Joystick(Map.DRIVE_POLAR_JOYSTICK);
+	private static Latch_Joystick _secondary = new Latch_Joystick(Map.DRIVE_SECONDARY_JOYSTICK);
+
 	
 	public static final long ROBOT_START_TIME = System.currentTimeMillis();
 	
@@ -15,6 +17,11 @@ public class IO
 	 * Handle getting joystick values
 	 * @return
 	 */
+	public static boolean camera_port()
+	{
+		return _secondary.getRawButton(Map.VISION_INTERFACE_PORT_BUTTON);
+	}
+	
 	public static double[] drive_input() {
 		double[] inputs = new double[3];
 

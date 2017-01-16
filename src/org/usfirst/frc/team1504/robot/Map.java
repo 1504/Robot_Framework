@@ -13,6 +13,7 @@ public class Map {
  */
 	public static final int DRIVE_CARTESIAN_JOYSTICK = 0;
 	public static final int DRIVE_POLAR_JOYSTICK = 1;
+	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
 	
 	// Joystick inputs
 	
@@ -76,6 +77,9 @@ public class Map {
 /**
  * Vision Interface stuff
  */
+	public static final int VISION_INTERFACE_PORT1 = 0;
+	public static final int VISION_INTERFACE_PORT2 = 1;
+	public static final int VISION_INTERFACE_PORT_BUTTON = 3;
 	public static final int VISION_INTERFACE_OVERRIDE_BUTTON = 2;
 	public static final double VISION_INTERFACE_VIDEO_WIDTH = 600; //800; //480; // FOV UPDATE
 	public static final double VISION_INTERFACE_VIDEO_FOV = 50;//68;
