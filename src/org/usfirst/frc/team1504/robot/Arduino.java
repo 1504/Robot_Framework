@@ -95,20 +95,46 @@ public class Arduino
  * @param l_intensity: double from 0-1 indicating intensity of the left gearholder light, as a percentage.
  * @param r_intensity: double from 0-1 indicating intensity of the right gearholder light, as a percentage.
  */
+	public void setGearLights(GEAR_MODE mode)
+	{
+		byte[] data = new byte[2];
+		data[0] = Map.FRONTSIDE_LIGHTS_ADDRESS;
+		data[1] = (byte) mode.ordinal();
+
+		_bus.writeBulk(data);
+	}
 	public void setGearLights(GEAR_MODE mode, double l_intensity, double r_intensity)
 	{
 		byte[] data = new byte[4];
 		data[0] = Map.FRONTSIDE_LIGHTS_ADDRESS;
 		data[1] = (byte) mode.ordinal();
 		
-		int l = (int)(l_intensity * 255.0);
-		int r = (int)(r_intensity * 255.0);
+		if (l_intensity < 0.0)
+		{
+			l_intensity = 0.0;
+		}
+		else if (r_intensity < 0.0)
+		{
+			r_intensity = 0.0;
+		}
+		else if (l_intensity > 1.0)
+		{
+			l_intensity = 1.0;
+		}
+		else if (r_intensity > 1.0)
+		{
+			r_intensity = 1.0;
+		}
 		
-		data[2] = (byte) l;
-		data[3] = (byte) r;
+		byte l = (byte)(l_intensity * 255.0);
+		byte r = (byte)(r_intensity * 255.0);
+		
+		data[2] = l;
+		data[3] = r;
 		
 		_bus.writeBulk(data);
 	}
+
 	
 /**
  * Changes the shooter lights to indicate what the robot is doing.
