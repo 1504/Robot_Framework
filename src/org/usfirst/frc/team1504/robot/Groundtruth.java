@@ -99,7 +99,7 @@ public class Groundtruth implements Updatable {
 	{
 		// Data format: LEFT_X LEFT_Y LEFT_SQUAL RIGHT_X RIGHT_Y RIGHT_SQUAL
 		//_raw_data = data;
-		byte[] data = _arduino.getSensor();
+		byte[] data = _arduino.getSensorData();
 		_raw_data.set(0, (byte) (_raw_data.get(0) + 1));
 		for(byte b : data)
 			_raw_data.add(b);

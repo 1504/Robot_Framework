@@ -60,7 +60,6 @@ public class Robot extends RobotBase {
 			}
 		});
     	_dashboard_task.start();
-    	
     	//System.out.println(new String(Base64.getDecoder().decode(Map.ROBOT_BANNER)));
         System.out.println("Quixote Initialized ( robotInit() ) @ " + IO.ROBOT_START_TIME);
     }
