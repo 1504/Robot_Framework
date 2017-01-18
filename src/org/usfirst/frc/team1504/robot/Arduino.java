@@ -12,6 +12,8 @@ public class Arduino
 	
 	public enum FRONTSIDE_MODE {DEFAULT, REVERSE, OFF};
 	
+	public enum GEAR_MODE {OFF, PULSE, INDIVIDUAL_INTENSITY};
+	
 	public enum INTAKE_LIGHT_MODE {OFF, ON};
 	
 	private static Arduino instance = new Arduino();
@@ -89,16 +91,21 @@ public class Arduino
 	
 /**
  * Sets the intensity of the left and right gearholder lignts.
- * @param l_intensity: integer from 0-255 indicating intensity of the left gearholder light.
- * @param r_intensity: integer from 0-255 indicating intensity of the right gearholder light.
+ * @param mode: either OFF, PULSE, or INDIVIDUAL INTENSITY mode. In PULSE mode, both lights pulse on and off and any other input is ignored. In INDIVIDUAL INTENSITY mode, l_intensity and r_intensity control the intensity level of the LEFT and RIGHT gearholder lights, respectively.
+ * @param l_intensity: double from 0-1 indicating intensity of the left gearholder light, as a percentage.
+ * @param r_intensity: double from 0-1 indicating intensity of the right gearholder light, as a percentage.
  */
-	public void setGearLights(int l_intensity, int r_intensity)
+	public void setGearLights(GEAR_MODE mode, double l_intensity, double r_intensity)
 	{
-		byte[] data = new byte[3];
-		
+		byte[] data = new byte[4];
 		data[0] = Map.FRONTSIDE_LIGHTS_ADDRESS;
-		data[1] = (byte) l_intensity;
-		data[2] = (byte) r_intensity;
+		data[1] = (byte) mode.ordinal();
+		
+		int l = (int)(l_intensity * 255.0);
+		int r = (int)(r_intensity * 255.0);
+		
+		data[2] = (byte) l;
+		data[3] = (byte) r;
 		
 		_bus.writeBulk(data);
 	}
@@ -123,10 +130,24 @@ public class Arduino
  */
 	public void setIntakeLights(INTAKE_LIGHT_MODE mode)
 	{
-		byte[] data = new byte[3];
+		byte[] data = new byte[2];
 		
 		data[0] = Map.INTAKE_LIGHTS_ADDRESS;
 		data[1] = (byte) mode.ordinal();
+		
+		_bus.writeBulk(data);
+	}
+
+/**
+ * Sets the speed of the pulsing
+ * @param speed: A number, 1 - 255, that controls how fast the pulsing happens. Higher is faster. Based on adding the pulse number to the current pulse byte at a 10ms update rate - so a pulse rate of 1 pulses OFF to ON in 2550ms.
+ */
+	public void setPulseSpeed(int speed)
+	{
+		byte[] data = new byte[2];
+		
+		data[0] = Map.PULSE_SPEED_ADDRESS;
+		data[1] = (byte) speed;
 		
 		_bus.writeBulk(data);
 	}
