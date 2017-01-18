@@ -109,22 +109,8 @@ public class Arduino
 		data[0] = Map.FRONTSIDE_LIGHTS_ADDRESS;
 		data[1] = (byte) mode.ordinal();
 		
-		if (l_intensity < 0.0)
-		{
-			l_intensity = 0.0;
-		}
-		else if (r_intensity < 0.0)
-		{
-			r_intensity = 0.0;
-		}
-		else if (l_intensity > 1.0)
-		{
-			l_intensity = 1.0;
-		}
-		else if (r_intensity > 1.0)
-		{
-			r_intensity = 1.0;
-		}
+		l_intensity = Utils.snap(l_intensity, 0.0, 1.0);
+		r_intensity = Utils.snap(r_intensity, 0.0, 1.0);
 		
 		byte l = (byte)(l_intensity * 255.0);
 		byte r = (byte)(r_intensity * 255.0);
