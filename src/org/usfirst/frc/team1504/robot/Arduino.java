@@ -40,7 +40,11 @@ public class Arduino
 
 /**
  *Requests the images from the left and right sensors
- * @return the images, 648 bytes, representing the LEFT and RIGHT sensor images in order. The first 324 bytes are the LEFT sensor image, the next 324 bytes are the RIGHT sensor image.
+ * @return the images, 648 bytes, representing the LEFT and RIGHT sensor images in order. 
+ * The first 324 bytes are the LEFT sensor image, the next 324 bytes are the RIGHT sensor image.
+ * The image is actually returned in 27 24-byte chunks, due to the 32-byte restriction on I2C transactions. 
+ * First a 0 is written to READ OFFSET, then transactions with 1 through 27 are read from the 
+ * sensor to build up the full 648-byte image array.
  */
 	public synchronized byte[] getSensorImage()
 	{
@@ -62,7 +66,7 @@ public class Arduino
 			{
 			_bus.transaction(buffer, buffer.length, incoming_img_data, incoming_img_data.length);
 			for(int j = 0; j < incoming_img_data.length; j++)
-			final_image[((i*24)-1) + j] = incoming_img_data[j];
+			final_image[((i - 1) * 24) + j] = incoming_img_data[j];
 			}
 		}
 
@@ -104,7 +108,9 @@ public class Arduino
 	
 /**
  * Sets the intensity of the left and right gearholder lignts.
- * @param mode: either OFF, PULSE, or INDIVIDUAL INTENSITY mode. In PULSE mode, both lights pulse on and off and any other input is ignored. In INDIVIDUAL INTENSITY mode, l_intensity and r_intensity control the intensity level of the LEFT and RIGHT gearholder lights, respectively.
+ * @param mode: either OFF, PULSE, or INDIVIDUAL INTENSITY mode. In PULSE mode, both lights pulse on and 
+ * off and any other input is ignored. In INDIVIDUAL INTENSITY mode, l_intensity and r_intensity control 
+ * the intensity level of the LEFT and RIGHT gearholder lights, respectively.
  * @param l_intensity: double from 0-1 indicating intensity of the left gearholder light, as a percentage.
  * @param r_intensity: double from 0-1 indicating intensity of the right gearholder light, as a percentage.
  */
@@ -165,7 +171,9 @@ public class Arduino
 
 /**
  * Sets the speed of the pulsing
- * @param speed: A number, 1 - 255, that controls how fast the pulsing happens. Higher is faster. Based on adding the pulse number to the current pulse byte at a 10ms update rate - so a pulse rate of 1 pulses OFF to ON in 2550ms.
+ * @param speed: A number, 1 - 255, that controls how fast the pulsing happens. Higher is faster. 
+ * Based on adding the pulse number to the current pulse byte at a 10ms update rate - so a pulse 
+ * rate of 1 pulses OFF to ON in 2550ms.
  */
 	public void setPulseSpeed(int speed)
 	{
