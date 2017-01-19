@@ -1,5 +1,10 @@
 package org.usfirst.frc.team1504.robot;
 
+import org.usfirst.frc.team1504.robot.Arduino.FRONTSIDE_MODE;
+import org.usfirst.frc.team1504.robot.Arduino.GEAR_MODE;
+import org.usfirst.frc.team1504.robot.Arduino.INTAKE_LIGHT_MODE;
+import org.usfirst.frc.team1504.robot.Arduino.SHOOTER_STATUS;
+
 //import java.io.BufferedReader;
 //import java.io.IOException;
 //import java.io.InputStreamReader;
@@ -51,11 +56,16 @@ public class Robot extends RobotBase {
 				PowerDistributionPanel pdp = new PowerDistributionPanel();
 				while(true)
 				{	
-//					System.out.println("Arduino Data: " + (char) _arduino.getSensor()[0] + " " + (char)_arduino.getSensor()[1] + " " + (char)_arduino.getSensor()[2] + " " + (char)_arduino.getSensor()[3] + " " + (char)_arduino.getSensor()[4] + " " + (char)_arduino.getSensor()[5]);
+					byte[] img = _arduino.getSensorImage();
+					for(int i = 0; i < 6; i++)
+					{
+						System.out.print(img[i]);
+					}
+					System.out.println("");
 					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					SmartDashboard.putNumber("Robot Voltage", m_ds.getBatteryVoltage());
 					SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
-					Timer.delay(.05);
+					Timer.delay(1);
 				}
 			}
 		});

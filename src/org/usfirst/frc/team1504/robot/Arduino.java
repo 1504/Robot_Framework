@@ -6,8 +6,6 @@ public class Arduino
 {
 	private I2C _bus = new I2C(I2C.Port.kOnboard, Map.ARDUINO_ADDRESS);//B-U+S using ascii decimal values
 	
-	boolean _read_status = false;
-	
 	public enum SHOOTER_STATUS {OFF, AIMING, AIM_LOCK};
 	
 	public enum FRONTSIDE_MODE {DEFAULT, REVERSE, OFF};
@@ -24,7 +22,7 @@ public class Arduino
 	}
 	
 
-/**
+/** 
  * Requests for groundtruth data from the sensors.
  * @return the groundtruth data, 6 bytes: LEFT_X, LEFT_Y, LEFT_SQUAL, RIGHT_X, RIGHT_Y, RIGHT_SQUAL
  */
@@ -36,7 +34,7 @@ public class Arduino
 		buffer[0] = Map.GROUNDTRUTH_ADDRESS;
 		buffer[1] = 1;
 		
-		_read_status = _bus.transaction(buffer, buffer.length, sensor_data, sensor_data.length);
+		_bus.transaction(buffer, buffer.length, sensor_data, sensor_data.length);
 		return sensor_data;
 	}
 
@@ -44,16 +42,31 @@ public class Arduino
  *Requests the images from the left and right sensors
  * @return the images, 648 bytes, representing the LEFT and RIGHT sensor images in order. The first 324 bytes are the LEFT sensor image, the next 324 bytes are the RIGHT sensor image.
  */
-	public byte[] getSensorImage()
-	{	
-		byte[] buffer = new byte[1];
-		byte[] img_data = new byte[648];
+	public synchronized byte[] getSensorImage()
+	{
+		byte[] buffer = new byte[3];
+		byte[] incoming_img_data = new byte[24];
+		byte[] final_image = new byte[648];
 		
 		buffer[0] = Map.GROUNDTRUTH_ADDRESS;
 		buffer[1] = 2;
 		
-		_read_status = _bus.transaction(buffer, buffer.length, img_data, img_data.length);
-		return img_data;
+		for(int i = 0; i <= 27; i++)
+		{
+			buffer[2] = (byte) i;
+			if (i == 0)
+			{
+				_bus.writeBulk(buffer);
+			}
+			else
+			{
+			_bus.transaction(buffer, buffer.length, incoming_img_data, incoming_img_data.length);
+			for(int j = 0; j < incoming_img_data.length; j++)
+			final_image[((i*24)-1) + j] = incoming_img_data[j];
+			}
+		}
+
+		return final_image;
 
 	}
 
@@ -98,7 +111,7 @@ public class Arduino
 	public void setGearLights(GEAR_MODE mode)
 	{
 		byte[] data = new byte[2];
-		data[0] = Map.FRONTSIDE_LIGHTS_ADDRESS;
+		data[0] = Map.GEAR_LIGHTS_ADDRESS;
 		data[1] = (byte) mode.ordinal();
 
 		_bus.writeBulk(data);
@@ -106,7 +119,7 @@ public class Arduino
 	public void setGearLights(GEAR_MODE mode, double l_intensity, double r_intensity)
 	{
 		byte[] data = new byte[4];
-		data[0] = Map.FRONTSIDE_LIGHTS_ADDRESS;
+		data[0] = Map.GEAR_LIGHTS_ADDRESS;
 		data[1] = (byte) mode.ordinal();
 		
 		l_intensity = Utils.snap(l_intensity, 0.0, 1.0);
