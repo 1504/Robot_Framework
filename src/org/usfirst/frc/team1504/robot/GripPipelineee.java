@@ -17,6 +17,9 @@ import org.opencv.features2d.FeatureDetector;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.*;
 import org.opencv.objdetect.*;
+//import org.usfirst.frc.team1504.robot.Vision.AimState;
+import org.usfirst.frc.team1504.robot.Vision.AimState;
+
 
 /**
 * GripPipelineee class.
@@ -41,6 +44,9 @@ public class GripPipelineee implements VisionPipeline {
 	public double _val2;
 	public double _circ1;
 	public double _circ2;
+	public Vision.AimState _state;
+	public double _target = 0.0;
+
 
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -58,6 +64,7 @@ public class GripPipelineee implements VisionPipeline {
 	{
 		// Step HSV_Threshold0:
 		hue1 = _hue1;
+		System.out.println("in process from pipeline");
 		Mat hsvThresholdInput = source0;
 		double[] hsvThresholdHue = {hue1, hue2}; //{0.0, 56.23089983022071};
 		double[] hsvThresholdSaturation = {sat1, sat2}; //{153.64208633093526, 198.7181663837012};
@@ -77,7 +84,56 @@ public class GripPipelineee implements VisionPipeline {
 		Mat findContoursInput = cvErodeOutput;
 		boolean findContoursExternalOnly = false;
 		_output = findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
+		
+		System.out.println("inside vision update");
+		double[] area = _output[4];
+		double[] position = _output[0];
 
+		if(area.length == 0)
+		{
+			_state = Vision.AimState.BAD_IMAGE;
+			return;
+		}
+		
+		int largest = 0;
+		for(int i = 0; i < area.length; i++)
+		{
+			if(area[i] < area[largest])
+			{
+				largest = i;
+			}
+		}
+		
+		_target = largest;
+		System.out.println("largest target is " + _target);
+		_target = (2 * position[largest] / 160) - 1; //width is 160
+		_target *= 120 / -2.0; //height is 120
+		
+		checkAim();
+
+	}
+	
+
+	public void checkAim()
+	{
+		if(offset_aim_factor() < .75)
+		{
+			_state = AimState.AIMED;
+			System.out.println("aimed");
+		}
+		
+		else
+		{
+			_state = AimState.AIM_ROBOT;
+			System.out.println("need to aim");
+
+		}
+	}
+	
+	private double offset_aim_factor()
+	{
+		//return _target - _gyro.getAngle(); // offset
+		return 1.0; //TODO - put gyro back in when we have it
 	}
 
 	/**
@@ -193,8 +249,7 @@ public class GripPipelineee implements VisionPipeline {
 		return _output;
 	}
 
-
-
+	
 
 }
 

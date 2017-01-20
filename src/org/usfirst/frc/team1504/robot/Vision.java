@@ -10,15 +10,16 @@ import edu.wpi.first.wpilibj.CameraServer;
 
 public class Vision implements VisionRunner.Listener<GripPipelineee>{
 	
-	UsbCamera _usb = new UsbCamera("camera", Map.VISION_INTERFACE_PORT1); //or path
-	UsbCamera _usb1 = new UsbCamera("camera", Map.VISION_INTERFACE_PORT2); 
+	//UsbCamera _usb = new UsbCamera("camera", Map.VISION_INTERFACE_PORT1); //or path
+	VideoSource _usb;// = new UsbCamera("camera", Map.VISION_INTERFACE_PORT1); //or path
+	//UsbCamera _usb1 = new UsbCamera("camera", Map.VISION_INTERFACE_PORT2); 
 
 	private static final Vision _instance = new Vision();
 	private GripPipelineee _pipe = new GripPipelineee();
 	private VisionThread _thread = new VisionThread(_usb, _pipe, this);
-	private ADXRS450_Gyro _gyro = new ADXRS450_Gyro();
+	//private ADXRS450_Gyro _gyro = new ADXRS450_Gyro();
 	public double _target = 0.0;
-	private enum AimState {WAIT_FOR_IMAGE_GOOD, GET_IMAGE, AIM_ROBOT, AIMED, BAD_IMAGE}
+	public enum AimState {WAIT_FOR_IMAGE_GOOD, GET_IMAGE, AIM_ROBOT, AIMED, BAD_IMAGE}
 	public AimState _state;
 	public static int cur_cam = Map.VISION_INTERFACE_PORT1; //0, current camera we're looking at
 	public boolean port_toggle = false; //default on forward camera
@@ -27,9 +28,13 @@ public class Vision implements VisionRunner.Listener<GripPipelineee>{
 	{
 		System.out.println("Vision initialized");
 		//getImage(_usb); 
-		//_usb = CameraServer.getInstance().startAutomaticCapture(0);
+		_usb = CameraServer.getInstance().startAutomaticCapture(0);//("camera", 1);
+		setParams(0.0, 56.23089983022071, 153.64208633093526, 198.7181663837012, 192.62589928057554, 255.0, 0.0, 0.0);
+		_thread = new VisionThread(_usb, _pipe, this);
+		_thread.start();
+		//update();
 		//_usb1 = CameraServer.getInstance().startAutomaticCapture(1);
-		startSecondaryCapture(Drive._dir);
+		//startSecondaryCapture(0);//Drive._dir);
 	}
 	
 	public static Vision getInstance()
@@ -62,14 +67,14 @@ public class Vision implements VisionRunner.Listener<GripPipelineee>{
 	}
 	
 	public void startSecondaryCapture(int dir)
-	{		
+	{	
 		if(!IO.camera_port()) //no joystick input
 		{	
 			cur_cam = dir;
 			if (dir == Map.VISION_INTERFACE_PORT1) //might be wrong depending on frontside
 				_usb = CameraServer.getInstance().startAutomaticCapture(dir);
-			else
-				_usb1 = CameraServer.getInstance().startAutomaticCapture(dir);
+			//else
+				//_usb1 = CameraServer.getInstance().startAutomaticCapture(dir);
 			
 			try {
 				Thread.sleep(3000);
@@ -106,7 +111,8 @@ public class Vision implements VisionRunner.Listener<GripPipelineee>{
 	
 	private double offset_aim_factor()
 	{
-		return _target - _gyro.getAngle(); // offset
+		//return _target - _gyro.getAngle(); // offset
+		return 1.0; //TODO
 	}
 	
 	public void checkAim()
@@ -114,19 +120,23 @@ public class Vision implements VisionRunner.Listener<GripPipelineee>{
 		if(offset_aim_factor() < Map.VISION_INTERFACE_AIM_DEADZONE)
 		{
 			_state = AimState.AIMED;
+			System.out.println("aimed");
 		}
 		
 		else
 		{
 			_state = AimState.AIM_ROBOT;
+			System.out.println("need to aim");
+
 		}
 	}
 	
 	public void update()
 	{
+		System.out.println("inside vision update");
 		double[] area = _pipe._output[4];
 		double[] position = _pipe._output[0];
-		
+		System.out.println("area is " + area);
 		if(area.length == 0)
 		{
 			_state = AimState.BAD_IMAGE;

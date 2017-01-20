@@ -50,9 +50,9 @@ public class Robot extends RobotBase {
 				PowerDistributionPanel pdp = new PowerDistributionPanel();
 				while(true)
 				{	
-					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
-					SmartDashboard.putNumber("Robot Voltage", m_ds.getBatteryVoltage());
-					SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
+					//SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
+					//SmartDashboard.putNumber("Robot Voltage", m_ds.getBatteryVoltage());
+					//SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
 					Timer.delay(.05);
 				}
 			}

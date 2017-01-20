@@ -84,7 +84,7 @@ public class Drive implements Updatable {
 	private volatile double _rotation_offset = 0.0;
 	private DriveGlide _glide = new DriveGlide();
 	private Groundtruth _groundtruth = Groundtruth.getInstance();
-	
+	//private Vision _vision = Vision.getInstance();
 	private CANTalon[] _motors = new CANTalon[Map.DRIVE_MOTOR_PORTS.length];
 	
 	private volatile int _loops_since_last_dump = 0;
