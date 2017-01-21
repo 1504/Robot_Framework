@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+//import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.HashMap;
 
@@ -63,8 +63,8 @@ public class GripPipelineee implements VisionPipeline {
 	public void process(Mat source0, double hue1, double hue2, double sat1, double sat2, double val1, double val2, double circ1, double circ2)
 	{
 		// Step HSV_Threshold0:
-		hue1 = _hue1;
 		System.out.println("in process from pipeline");
+		System.out.println("hue2 is " + hue2); //check parameter setting successful
 		Mat hsvThresholdInput = source0;
 		double[] hsvThresholdHue = {hue1, hue2}; //{0.0, 56.23089983022071};
 		double[] hsvThresholdSaturation = {sat1, sat2}; //{153.64208633093526, 198.7181663837012};
@@ -106,8 +106,8 @@ public class GripPipelineee implements VisionPipeline {
 		
 		_target = largest;
 		System.out.println("largest target is " + _target);
-		_target = (2 * position[largest] / 160) - 1; //width is 160
-		_target *= 120 / -2.0; //height is 120
+		_target = (2 * position[largest] / Map.VISION_INTERFACE_VIDEO_WIDTH) - 1; 
+		_target *= Map.VISION_INTERFACE_VIDEO_FOV / -2.0; //TODO what is FOV of camera
 		
 		checkAim();
 
@@ -116,7 +116,7 @@ public class GripPipelineee implements VisionPipeline {
 
 	public void checkAim()
 	{
-		if(offset_aim_factor() < .75)
+		if(offset_aim_factor() < Map.VISION_INTERFACE_AIM_DEADZONE)
 		{
 			_state = AimState.AIMED;
 			System.out.println("aimed");

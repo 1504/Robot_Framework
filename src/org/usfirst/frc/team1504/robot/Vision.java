@@ -8,14 +8,14 @@ import org.opencv.core.Mat;
 import edu.wpi.cscore.*;
 import edu.wpi.first.wpilibj.CameraServer;
 
-public class Vision implements VisionRunner.Listener<GripPipelineee>{
+public class Vision implements VisionRunner.Listener<GripPipeline>{
 	
 	//UsbCamera _usb = new UsbCamera("camera", Map.VISION_INTERFACE_PORT1); //or path
 	VideoSource _usb;// = new UsbCamera("camera", Map.VISION_INTERFACE_PORT1); //or path
 	//UsbCamera _usb1 = new UsbCamera("camera", Map.VISION_INTERFACE_PORT2); 
 
 	private static final Vision _instance = new Vision();
-	private GripPipelineee _pipe = new GripPipelineee();
+	private GripPipeline _pipe = new GripPipeline();
 	private VisionThread _thread = new VisionThread(_usb, _pipe, this);
 	//private ADXRS450_Gyro _gyro = new ADXRS450_Gyro();
 	public double _target = 0.0;
@@ -29,7 +29,7 @@ public class Vision implements VisionRunner.Listener<GripPipelineee>{
 		System.out.println("Vision initialized");
 		//getImage(_usb); 
 		_usb = CameraServer.getInstance().startAutomaticCapture(0);//("camera", 1);
-		setParams(0.0, 56.23089983022071, 153.64208633093526, 198.7181663837012, 192.62589928057554, 255.0, 0.0, 0.0);
+		//setParams(0.0, 56.23089983022071, 153.64208633093526, 198.7181663837012, 192.62589928057554, 255.0, 0.0, 0.0); //yellow object
 		_thread = new VisionThread(_usb, _pipe, this);
 		_thread.start();
 		//update();
@@ -182,7 +182,7 @@ public class Vision implements VisionRunner.Listener<GripPipelineee>{
 	}
 
 	@Override
-	public void copyPipelineOutputs(GripPipelineee pipeline) {
+	public void copyPipelineOutputs(GripPipeline pipeline) {
 		// TODO Auto-generated method stub
 		/*groundtruth
 		 * 
