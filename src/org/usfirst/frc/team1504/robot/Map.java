@@ -53,6 +53,23 @@ public class Map {
 	
 	public static final int DRIVE_MAX_UNLOGGED_LOOPS = 15;
 	
+/**
+ * Arduino addresses
+ */
+	public static final byte ARDUINO_ADDRESS = 64;
+	public static final byte GROUNDTRUTH_ADDRESS = 01;
+	public static final byte MAIN_LIGHTS_ADDRESS = 02;
+	public static final byte FRONTSIDE_LIGHTS_ADDRESS = 03;
+	public static final byte GEAR_LIGHTS_ADDRESS = 04;
+	public static final byte SHOOTER_LIGHTS_ADDRESS = 05;
+	public static final byte INTAKE_LIGHTS_ADDRESS = 06;
+	public static final byte PULSE_SPEED_ADDRESS = 11;
+		
+/**
+ * Gear stuff
+ */
+	public static final double GEAR_DISTANCE = .02;
+	public static final int GEAR_BUTTON = 4;
 	
 /**
  * Ground truth sensor
@@ -79,8 +96,8 @@ public class Map {
  */
 	public static final int VISION_INTERFACE_PORT1 = 0;
 	public static final int VISION_INTERFACE_PORT2 = 1;
-	public static final int VISION_INTERFACE_PORT_BUTTON = 3;
-	public static final int VISION_INTERFACE_OVERRIDE_BUTTON = 2;
+	public static final int VISION_INTERFACE_PORT_BUTTON = 2;
+	public static final int VISION_INTERFACE_OVERRIDE_BUTTON = 3;
 	public static final double VISION_INTERFACE_VIDEO_WIDTH = 600; //800; //480; // FOV UPDATE
 	public static final double VISION_INTERFACE_VIDEO_FOV = 50;//68;
 	public static double VISION_INTERFACE_AIM_OFFSET = -7.5; // 0.85; // FOV UPDATE 

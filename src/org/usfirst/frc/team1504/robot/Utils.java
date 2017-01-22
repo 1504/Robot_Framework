@@ -1,7 +1,13 @@
 package org.usfirst.frc.team1504.robot;
 
 public class Utils
+
 {
+	public static double snap(double val, double min, double max)
+	{
+		return Math.min(Math.max(val, min), max);
+	}
+	
 	public static byte double_to_byte(double input)
 	{
 		if(input < 0) {

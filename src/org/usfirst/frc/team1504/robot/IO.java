@@ -19,7 +19,13 @@ public class IO
 	 */
 	public static boolean camera_port()
 	{
+		System.out.println("check camera button press");
 		return _secondary.getRawButton(Map.VISION_INTERFACE_PORT_BUTTON);
+	}
+	
+	public static boolean gear_input()
+	{
+		return _secondary.getRawButtonOnRisingEdge(Map.GEAR_BUTTON);
 	}
 	
 	public static double[] drive_input() {

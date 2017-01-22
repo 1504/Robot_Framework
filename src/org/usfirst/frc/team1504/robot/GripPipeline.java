@@ -52,6 +52,7 @@ public class GripPipeline implements VisionPipeline{
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
 	 */
 	public void process(Mat source0) {
+		//Vision.getInstance().getImage();
 		// Step HSV_Threshold0:
 		Mat hsvThresholdInput = source0;
 		double[] hsvThresholdHue = {42, 146};//{50.17985611510791, 85.26315789473685};

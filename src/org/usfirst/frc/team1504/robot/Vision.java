@@ -28,10 +28,21 @@ public class Vision implements VisionRunner.Listener<GripPipeline>{
 	{
 		System.out.println("Vision initialized");
 		//getImage(_usb); 
-		_usb = CameraServer.getInstance().startAutomaticCapture(0);//("camera", 1);
+		Thread _camThread = new Thread(new Runnable() {
+			public void run() {
+				while(true)
+				{
+					System.out.println("in thread");
+					getImage();	
+				}
+				}
+		});
+		_camThread.start();
+		//getImage();
+		//_usb = CameraServer.getInstance().startAutomaticCapture(0);//("camera", 1);
 		//setParams(0.0, 56.23089983022071, 153.64208633093526, 198.7181663837012, 192.62589928057554, 255.0, 0.0, 0.0); //yellow object
-		_thread = new VisionThread(_usb, _pipe, this);
-		_thread.start();
+		//_thread = new VisionThread(_usb, _pipe, this);
+		//_thread.start();
 		//update();
 		//_usb1 = CameraServer.getInstance().startAutomaticCapture(1);
 		//startSecondaryCapture(0);//Drive._dir);
@@ -47,6 +58,7 @@ public class Vision implements VisionRunner.Listener<GripPipeline>{
 		if(IO.camera_port() && !port_toggle)
 		{
 			port_toggle = true;
+			System.out.println("it should be pressed");
 			return Map.VISION_INTERFACE_PORT2;
 		}
 		
@@ -60,14 +72,18 @@ public class Vision implements VisionRunner.Listener<GripPipeline>{
 			return cur_cam;
 	}
 	
-	public void getImage(UsbCamera usb) 
+	public void getImage() 
 	{
 		//usb = _usb;
-        usb = CameraServer.getInstance().startAutomaticCapture(setPort());
+		System.out.println("** get image");
+        _usb = CameraServer.getInstance().startAutomaticCapture(setPort());
+        _thread = new VisionThread(_usb, _pipe, this);
+		_thread.start();
 	}
 	
 	public void startSecondaryCapture(int dir)
 	{	
+		//_usb = CameraServer.getInstance().startAutomaticCapture(dir);
 		if(!IO.camera_port()) //no joystick input
 		{	
 			cur_cam = dir;
