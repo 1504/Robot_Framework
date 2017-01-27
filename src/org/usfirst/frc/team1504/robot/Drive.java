@@ -86,6 +86,7 @@ public class Drive implements Updatable {
 	private Groundtruth _groundtruth = Groundtruth.getInstance();
 	//private Vision _vision = Vision.getInstance();
 	private CANTalon[] _motors = new CANTalon[Map.DRIVE_MOTOR_PORTS.length];
+	private Gear _gear = Gear.getInstance();
 	
 	private volatile int _loops_since_last_dump = 0;
 	
@@ -315,6 +316,7 @@ public class Drive implements Updatable {
 				
 				// Ground speed offset
 				input = groundtruth_correction(input);
+				input = _gear.setDriveInput();
 				
 				if(input[1] > 0) //check y
 				{

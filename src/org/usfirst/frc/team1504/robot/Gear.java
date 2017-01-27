@@ -9,6 +9,8 @@ public class Gear implements Updatable{
 	AnalogInput _port;
 	AnalogInput _star;
 	Arduino.GEAR_MODE _mode;
+	double _portDist;
+	double _starDist;
 
 	public static Gear getInstance() {
 		
@@ -16,41 +18,59 @@ public class Gear implements Updatable{
 
 	}
 	
-	private Gear()
+	public Gear()
 	{
+		Update_Semaphore.getInstance().register(this);
 		//drive methods in gear class, call from drive
-		//put it on semaphore.
 	}
 	
-	public double getTurn()
+	public double [] setDriveInput()
 	{
-		return 1;
-	}
-	
-	public double getForward()
-	{
-		return 1;
+		double [] input = getInput();
+		double [] output = new double[2];
+		
+		output[0] = Math.max(_starDist, _portDist) - Map.GEAR_DISTANCE;
+		output[1] = 0;
+		output[2] = _portDist - _starDist;
+		
+		return output;
 	}
 	
 	public void semaphore_update()
 	{
-		
+		getInput();
 	}
 	
-	public double getInput()
+	public double [] getInput()
 	{	
-		double portDist = _port.getAverageValue()/1024;
-		double starDist = _star.getAverageValue()/1024;
+		_portDist = _port.getAverageValue()/1024;
+		_starDist = _star.getAverageValue()/1024;
 		
-		System.out.println("analog port is " + portDist);
-		System.out.println("analog starboard is " + starDist);
+		System.out.println("distance from port side " + _portDist);
+		System.out.println("distance from starboard side " + _starDist);
 		
-		if(portDist > Map.GEAR_DISTANCE)
+		if(_portDist > Map.GEAR_DISTANCE)
 		{
 			_mode = Arduino.GEAR_MODE.INDIVIDUAL_INTENSITY;
 		}
 		
-		return 1;
+		else if(_starDist > Map.GEAR_DISTANCE)
+		{
+			_mode = Arduino.GEAR_MODE.INDIVIDUAL_INTENSITY;
+		}
+		
+		else if(_portDist > Map.GEAR_DISTANCE && _starDist > Map.GEAR_DISTANCE)
+		{
+			_mode = Arduino.GEAR_MODE.OFF;
+		}
+		
+		else if(_portDist <= Map.GEAR_DISTANCE && _starDist <= Map.GEAR_DISTANCE)
+		{
+			_mode = Arduino.GEAR_MODE.PULSE;
+		}
+		
+		double [] arr = {_portDist, _starDist};
+		return arr;
 
 	}
 }
