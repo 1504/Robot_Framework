@@ -29,9 +29,9 @@ public class Gear implements Updatable{
 		double [] input = getInput();
 		double [] output = new double[2];
 		
-		output[0] = Math.max(_starDist, _portDist) - Map.GEAR_DISTANCE;
+		output[0] = Map.GEAR_GAIN * (Math.max(_starDist, _portDist) - Map.GEAR_DISTANCE);
 		output[1] = 0;
-		output[2] = _portDist - _starDist;
+		output[2] = Map.GEAR_GAIN * (_portDist - _starDist);
 		
 		return output;
 	}

@@ -70,6 +70,7 @@ public class Map {
  */
 	public static final double GEAR_DISTANCE = .02;
 	public static final int GEAR_BUTTON = 4;
+	public static final double GEAR_GAIN = 1.0;
 	
 /**
  * Ground truth sensor
