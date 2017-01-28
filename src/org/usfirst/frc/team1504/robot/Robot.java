@@ -7,6 +7,8 @@ package org.usfirst.frc.team1504.robot;
 //import java.util.Base64;
 
 import com.ctre.CANTalon;
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
@@ -23,8 +25,10 @@ public class Robot extends RobotBase {
 	private Update_Semaphore _semaphore = Update_Semaphore.getInstance();
 	private Logger _logger = Logger.getInstance();
 	private Autonomous _autonomous = Autonomous.getInstance();
-	private Vision _vision = Vision.getInstance();
-	Pneumatics t3 = Pneumatics.getInstance();
+	private Navx _navx = Navx.getInstance();
+	private CameraInterface ci = CameraInterface.getInstance();
+	//private Vision _vision = Vision.getInstance();
+	//Pneumatics t3 = Pneumatics.getInstance();
 	Drive t5 = Drive.getInstance();
 	private Thread _dashboard_task;
 	
@@ -100,7 +104,21 @@ public class Robot extends RobotBase {
      * Test code should go here.
      * Users should add test code to this method that should run while the robot is in test mode.
      */
-    public void test() {}
+    
+    public void test()
+    {
+    	System.out.println("Test Mode!");
+    	CameraInterface ci = CameraInterface.getInstance();
+    	//ci.set_mode(CameraInterface.CAMERA_MODE.MULTI);
+    	//ci.set_mode(CameraInterface.CAMERA_MODE.SINGLE);
+    	while (isTest() && isEnabled())
+    	{
+    		// Switch camera views every 5 seconds like a pro
+    		ci.set_active_camera(ci.get_active_camera() == CameraInterface.CAMERAS.GEARSIDE ? CameraInterface.CAMERAS.INTAKESIDE : CameraInterface.CAMERAS.GEARSIDE);
+            System.out.println("Switching active camera to " + ci.get_active_camera().toString());
+            Timer.delay(5);
+    	}
+    }
 
     /**
      * Start a competition.

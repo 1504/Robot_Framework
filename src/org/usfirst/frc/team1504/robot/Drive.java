@@ -5,7 +5,7 @@ import java.util.TimerTask;
 import java.util.Timer;
 
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
-
+import com.kauailabs.navx.frc.AHRS;
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -87,7 +87,6 @@ public class Drive implements Updatable {
 	//private Vision _vision = Vision.getInstance();
 	private CANTalon[] _motors = new CANTalon[Map.DRIVE_MOTOR_PORTS.length];
 	private Gear _gear = Gear.getInstance();
-	
 	private volatile int _loops_since_last_dump = 0;
 	
 	/**
@@ -310,13 +309,22 @@ public class Drive implements Updatable {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}*/
+					if(IO.gear_input())
+					{
+						double [] gear = _gear.setDriveInput();
+						for(int i = 0; i < input.length; i++)
+						{
+							input[i] += gear[i];
+						}
+					}
+					
+					_input = input;
 					_new_data = false;
 					dump = true;
 				}
 				
 				// Ground speed offset
 				input = groundtruth_correction(input);
-				input = _gear.setDriveInput();
 				
 				if(input[1] > 0) //check y
 				{

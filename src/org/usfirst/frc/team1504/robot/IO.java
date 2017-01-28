@@ -25,7 +25,7 @@ public class IO
 	
 	public static boolean gear_input()
 	{
-		return _secondary.getRawButtonOnRisingEdge(Map.GEAR_BUTTON);
+		return _secondary.getRawButtonLatch(Map.GEAR_BUTTON);
 	}
 	
 	public static double[] drive_input() {

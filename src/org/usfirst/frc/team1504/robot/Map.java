@@ -68,9 +68,10 @@ public class Map {
 /**
  * Gear stuff
  */
-	public static final double GEAR_DISTANCE = .02;
+	public static final double GEAR_DISTANCE = .096;
 	public static final int GEAR_BUTTON = 4;
-	public static final double GEAR_GAIN = 1.0;
+	public static final double GEAR_GAIN = .75;
+	public static final double GEAR_MAX_OUTPUT_POWER = .25;
 	
 /**
  * Ground truth sensor

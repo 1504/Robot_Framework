@@ -6,11 +6,18 @@ import edu.wpi.first.wpilibj.AnalogInput;
 public class Gear implements Updatable{
 	
 	private static final Gear _instance = new Gear();
-	AnalogInput _port;
-	AnalogInput _star;
+	AnalogInput _port = new AnalogInput(0);
+	AnalogInput _star = new AnalogInput(1);
 	Arduino.GEAR_MODE _mode;
 	double _portDist;
 	double _starDist;
+	double [] _starAverage = new double[4];
+	double _starSum = 0;
+	int _starIndex = 0;
+	double [] _portAverage = new double[4];
+	double _portSum = 0;
+	int _portIndex = 0;
+
 
 	public static Gear getInstance() {
 		
@@ -27,11 +34,19 @@ public class Gear implements Updatable{
 	public double [] setDriveInput()
 	{
 		double [] input = getInput();
-		double [] output = new double[2];
+		double [] output = new double[3];
 		
 		output[0] = Map.GEAR_GAIN * (Math.max(_starDist, _portDist) - Map.GEAR_DISTANCE);
 		output[1] = 0;
 		output[2] = Map.GEAR_GAIN * (_portDist - _starDist);
+		
+		output[0] = Math.max(Math.min(output[0], Map.GEAR_MAX_OUTPUT_POWER), -Map.GEAR_MAX_OUTPUT_POWER);
+		output[2] = Math.max(Math.min(output[2], Map.GEAR_MAX_OUTPUT_POWER), -Map.GEAR_MAX_OUTPUT_POWER);
+		
+		//_average[0] = 
+				
+		System.out.println("y input " + output[0]);
+		System.out.println("x input " + output[2]);
 		
 		return output;
 	}
@@ -43,21 +58,17 @@ public class Gear implements Updatable{
 	
 	public double [] getInput()
 	{	
-		_portDist = _port.getAverageValue()/1024;
-		_starDist = _star.getAverageValue()/1024;
+		double portDist = _port.getValue()/4096.0;
+		double starDist = _star.getValue()/4096.0;
 		
-		System.out.println("distance from port side " + _portDist);
-		System.out.println("distance from starboard side " + _starDist);
+		//System.out.println("distance from port side " + _portDist); //_port.getAverageValue());
+		//System.out.println("distance from star side " + _starDist);//_star.getAverageValue());
 		
-		if(_portDist > Map.GEAR_DISTANCE)
+		if(_portDist > Map.GEAR_DISTANCE || _starDist > Map.GEAR_DISTANCE)
 		{
 			_mode = Arduino.GEAR_MODE.INDIVIDUAL_INTENSITY;
 		}
 		
-		else if(_starDist > Map.GEAR_DISTANCE)
-		{
-			_mode = Arduino.GEAR_MODE.INDIVIDUAL_INTENSITY;
-		}
 		
 		else if(_portDist > Map.GEAR_DISTANCE && _starDist > Map.GEAR_DISTANCE)
 		{
@@ -68,6 +79,20 @@ public class Gear implements Updatable{
 		{
 			_mode = Arduino.GEAR_MODE.PULSE;
 		}
+		
+		_starIndex = ++_starIndex % _starAverage.length;
+		_starSum += -_starAverage[_starIndex] + starDist;
+		_starAverage[_starIndex] = starDist;
+		_starDist  = _starSum/_starAverage.length;
+		
+		_portIndex = ++_portIndex % _portAverage.length;
+		_portSum += -_portAverage[_portIndex] + portDist;
+		_portAverage[_portIndex] = portDist;
+		_portDist = _portSum/_portAverage.length;
+		
+		//System.out.println("average port distance " + _portDist);
+		//System.out.println("average star distance " + _starDist);
+
 		
 		double [] arr = {_portDist, _starDist};
 		return arr;
