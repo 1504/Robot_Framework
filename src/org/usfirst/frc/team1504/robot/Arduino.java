@@ -64,9 +64,11 @@ public class Arduino
 			}
 			else
 			{
-			_bus.transaction(buffer, buffer.length, incoming_img_data, incoming_img_data.length);
-			for(int j = 0; j < incoming_img_data.length; j++)
-			final_image[((i - 1) * 24) + j] = incoming_img_data[j];
+				_bus.transaction(buffer, buffer.length, incoming_img_data, incoming_img_data.length);
+				for(int j = 0; j < incoming_img_data.length; j++)
+				{
+					final_image[((i - 1) * 24) + j] = incoming_img_data[j];
+				}
 			}
 		}
 
