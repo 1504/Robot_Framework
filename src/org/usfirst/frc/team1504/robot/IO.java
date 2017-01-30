@@ -19,7 +19,7 @@ public class IO
 	 */
 	public static boolean camera_port()
 	{
-		System.out.println("check camera button press");
+		System.out.println("camera button pressed");
 		return _secondary.getRawButton(Map.VISION_INTERFACE_PORT_BUTTON);
 	}
 	

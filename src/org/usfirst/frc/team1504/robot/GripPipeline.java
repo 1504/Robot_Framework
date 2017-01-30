@@ -16,7 +16,7 @@ import org.opencv.features2d.FeatureDetector;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.*;
 import org.opencv.objdetect.*;
-import org.usfirst.frc.team1504.robot.Vision.AimState;
+import org.usfirst.frc.team1504.robot.CameraInterface.AimState;
 
 /**
 * GripPipeline class.
@@ -33,15 +33,7 @@ public class GripPipeline implements VisionPipeline{
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
 	
 	public double[][] _output;
-	public double _hue1;
-	public double _hue2;
-	public double _sat1;
-	public double _sat2;
-	public double _val1;
-	public double _val2;
-	public double _circ1;
-	public double _circ2;
-	public Vision.AimState _state;
+	public CameraInterface.AimState _state;
 	public double _target = 0.0;
 
 	static {
@@ -55,9 +47,9 @@ public class GripPipeline implements VisionPipeline{
 		//Vision.getInstance().getImage();
 		// Step HSV_Threshold0:
 		Mat hsvThresholdInput = source0;
-		double[] hsvThresholdHue = {42, 146};//{50.17985611510791, 85.26315789473685};
-		double[] hsvThresholdSaturation = {119, 246};
-		double[] hsvThresholdValue = {243.0755395683453, 255.0};
+		double[] hsvThresholdHue = {Map.VISION_HUE1, Map.VISION_HUE2};//{50.17985611510791, 85.26315789473685};
+		double[] hsvThresholdSaturation = {Map.VISION_SAT1, Map.VISION_SAT2};
+		double[] hsvThresholdValue = {Map.VISION_VAL1, Map.VISION_VAL2};
 		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 
 		// Step CV_erode0:
@@ -81,7 +73,7 @@ public class GripPipeline implements VisionPipeline{
 
 		if(area.length == 0)
 		{
-			_state = Vision.AimState.BAD_IMAGE;
+			_state = CameraInterface.AimState.BAD_IMAGE;
 			System.out.println("area is 0");
 			return;
 		}

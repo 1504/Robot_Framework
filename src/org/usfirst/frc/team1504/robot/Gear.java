@@ -33,7 +33,6 @@ public class Gear implements Updatable{
 	
 	public double [] setDriveInput()
 	{
-		double [] input = getInput();
 		double [] output = new double[3];
 		
 		output[0] = Map.GEAR_GAIN * (Math.max(_starDist, _portDist) - Map.GEAR_DISTANCE);

@@ -112,7 +112,7 @@ public class Vision implements VisionRunner.Listener<GripPipeline>{
 		update();
 	}
 	
-	public void setParams(double hue1, double hue2, double sat1, double sat2, double val1, double val2, double circ1, double circ2)
+	/*public void setParams(double hue1, double hue2, double sat1, double sat2, double val1, double val2, double circ1, double circ2)
 	{
 		_pipe._hue1 = hue1;
 		_pipe._hue2 = hue2;
@@ -123,7 +123,7 @@ public class Vision implements VisionRunner.Listener<GripPipeline>{
 		_pipe._circ1 = circ1;
 		_pipe._circ2 = circ2;
 
-	}
+	}*/
 	
 	private double offset_aim_factor()
 	{

@@ -108,6 +108,15 @@ public class Map {
 	public static final double VISION_INTERFACE_TURN_MAX_OUTPUT = 0.15;
 	public static final int VISION_INTERFACE_IMAGE_CAPTURE_SETTLE_TIMEOUT = 1750;
 	
+	public static final double VISION_HUE1 = 42.0;
+	public static final double VISION_HUE2 = 146.0;
+	public static final double VISION_SAT1 = 119.0;
+	public static final double VISION_SAT2 = 246.0;
+	public static final double VISION_VAL1 = 243.0755395683453;
+	public static final double VISION_VAL2 = 255.0;
+
+
+	
 /**
  * Pneumatics stuff
  */
