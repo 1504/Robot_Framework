@@ -63,6 +63,7 @@ public class Map {
 	public static final byte GEAR_LIGHTS_ADDRESS = 04;
 	public static final byte SHOOTER_LIGHTS_ADDRESS = 05;
 	public static final byte INTAKE_LIGHTS_ADDRESS = 06;
+	public static final byte PARTY_MODE_ADDRESS = 07;
 	public static final byte PULSE_SPEED_ADDRESS = 11;
 /**
  * Ground truth sensor
