@@ -25,8 +25,9 @@ public class Robot extends RobotBase {
 	private Update_Semaphore _semaphore = Update_Semaphore.getInstance();
 	private Logger _logger = Logger.getInstance();
 	private Autonomous _autonomous = Autonomous.getInstance();
-	private Navx _navx = Navx.getInstance();
-	private CameraInterface ci = CameraInterface.getInstance();
+
+	//private Navx _navx = Navx.getInstance();
+	//private CameraInterface ci = CameraInterface.getInstance();
 	//private Vision _vision = Vision.getInstance();
 	//Pneumatics t3 = Pneumatics.getInstance();
 	Drive t5 = Drive.getInstance();

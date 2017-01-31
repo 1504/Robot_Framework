@@ -20,6 +20,7 @@ public class CameraInterface implements VisionRunner.Listener<GripPipeline>
 	private CAMERAS _active_camera = null;
 	private GripPipeline _pipe = new GripPipeline();
 	private VisionThread _thread;
+	private VisionRunner _runner;
 	public double _target = 0.0;
 	public enum AimState {WAIT_FOR_IMAGE_GOOD, GET_IMAGE, AIM_ROBOT, AIMED, BAD_IMAGE}
 	public AimState _state;
@@ -39,12 +40,20 @@ public class CameraInterface implements VisionRunner.Listener<GripPipeline>
 		
 		_servers[_servers.length - 1] = CameraServer.getInstance().addServer("serve_combi");
 		set_active_camera(CAMERAS.GEARSIDE);
+		
+		if(Drive._dir == 1)
+			set_active_camera(CAMERAS.INTAKESIDE);
+		else
+			set_active_camera(CAMERAS.GEARSIDE);
+			
 		for(int i = 0; i < _servers.length; i++)
 			server_ports += "\t" + _servers[i].getName() + " at port " + _servers[i].getPort() + "\n";
 		
 		System.out.print("Camera Interface Initialized\n" + server_ports);
 		
-		Thread _camThread = new Thread(new Runnable() {
+		//_runner.runOnce();
+		
+		/*Thread _camThread = new Thread(new Runnable() {
 			public void run() {
 				while(IO.camera_port())
 				{
@@ -53,13 +62,13 @@ public class CameraInterface implements VisionRunner.Listener<GripPipeline>
 				}
 				}
 		});
-		_camThread.start();
+		_camThread.start();*/
 	}
 
 	public void getImage() 
 	{
         _thread = new VisionThread(_cameras[get_active_camera().ordinal()], _pipe, this);
-		_thread.start();
+		_thread.start(); //vision runner instead 
 	}
 	
 	public static CameraInterface getInstance()

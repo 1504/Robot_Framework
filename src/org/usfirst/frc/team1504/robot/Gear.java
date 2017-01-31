@@ -89,8 +89,8 @@ public class Gear implements Updatable{
 		_portAverage[_portIndex] = portDist;
 		_portDist = _portSum/_portAverage.length;
 		
-		//System.out.println("average port distance " + _portDist);
-		//System.out.println("average star distance " + _starDist);
+		System.out.println("average port distance " + _portDist);
+		System.out.println("average star distance " + _starDist);
 
 		
 		double [] arr = {_portDist, _starDist};

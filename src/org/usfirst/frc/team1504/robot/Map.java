@@ -41,6 +41,8 @@ public class Map {
 	public static final double DRIVE_INPUT_TURN_FACTOR = 0.2;
 	public static final int DRIVE_INPUT_TURN_FACTOR_OVERRIDE_BUTTON = 1;
 	
+	public static final double DRIVE_INPUT_VISION_SPEED = 0.75;
+	
 	// Drive Front Side changing
 	public static final int DRIVE_FRONTSIDE_FRONT = 3;
 	public static final int DRIVE_FRONTSIDE_BACK = 2;

@@ -40,6 +40,8 @@ public class Drive implements Updatable {
 	private TimerTask _osc = new TimerTask() { public void run() { _direction++; } };
 	private Timer _timer = new Timer();
 	public static int _dir = Map.VISION_INTERFACE_PORT1;
+	private int _index;
+	private double[] _dircn = new double[6];
 	
     /**
      * Gets an instance of the Drive
@@ -84,7 +86,7 @@ public class Drive implements Updatable {
 	private volatile double _rotation_offset = 0.0;
 	private DriveGlide _glide = new DriveGlide();
 	private Groundtruth _groundtruth = Groundtruth.getInstance();
-	private CameraInterface _camera = CameraInterface.getInstance();
+	//private CameraInterface _camera = CameraInterface.getInstance();
 	private CANTalon[] _motors = new CANTalon[Map.DRIVE_MOTOR_PORTS.length];
 	private Gear _gear = Gear.getInstance();
 	private volatile int _loops_since_last_dump = 0;
@@ -285,9 +287,16 @@ public class Drive implements Updatable {
 		update_dashboard(new byte[] {output[1], output[4], output[7], output[10]});
 	}
 	
+	private void inputHistory()
+	{
+		_index = ++_index % _dircn.length;
+		_dircn[_index] = _input[0];		
+	}
+	
 	/**
 	 * Update motors as fast as possible, but only compute all the joystick stuff when there's new data
 	 */
+	
 	private void fastTask()
 	{
 		// Damn you, Java, and your lack of local static variables!
@@ -319,19 +328,23 @@ public class Drive implements Updatable {
 					}
 					
 					_input = input;
+					inputHistory();
 					_new_data = false;
 					dump = true;
 				}
 				
 				// Ground speed offset
 				input = groundtruth_correction(input);
-				
-				if(input[1] > 0) //check y
+
+				int sum = 0;
+				for(int i = 0; i < _dircn.length; i++)
 				{
-					_dir = Map.VISION_INTERFACE_PORT1; //forward is default
+					sum += Math.signum(input[0]);
 				}
-				else
-					_dir = Map.VISION_INTERFACE_PORT2;
+				if(sum == _dircn.length || _input[0] > Map.DRIVE_INPUT_VISION_SPEED)
+					_dir = 1; //forward - intake
+				else if(sum == -_dircn.length || _input[0] < -Map.DRIVE_INPUT_VISION_SPEED)
+					_dir = 0;
 				
 				// Output to motors - as fast as this loop will go
 				motorOutput(outputCompute(input));
