@@ -11,11 +11,11 @@ import org.usfirst.frc.team1504.robot.Arduino.SHOOTER_STATUS;
 //import edu.wpi.first.wpilibj.DriverStation;
 //import java.util.Base64;
 
-import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.hal.HAL;
+import edu.wpi.first.wpilibj.hal.HALUtil;
 import edu.wpi.first.wpilibj.hal.FRCNetComm.tInstances;
 import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -53,6 +53,7 @@ public class Robot extends RobotBase {
     protected void robotInit() {
     	_dashboard_task = new Thread(new Runnable() {
 			public void run() {
+				char edge_track = 0;
 				PowerDistributionPanel pdp = new PowerDistributionPanel();
 				while(true)
 				{	
@@ -65,7 +66,16 @@ public class Robot extends RobotBase {
 					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					SmartDashboard.putNumber("Robot Voltage", m_ds.getBatteryVoltage());
 					SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
-					Timer.delay(1);
+					
+					/*
+					 * Borrowed from Mike
+					 */
+					edge_track = (char)( ( (edge_track << 1) + (HALUtil.getFPGAButton() ? 1 : 0) ) & 3);
+					if(edge_track == 1) // Get image from groundtruth sensors, output it to the DS
+					{
+						SmartDashboard.putString("Groundtruth raw image", new String(_arduino.getSensorImage()));
+					}
+						Timer.delay(0.5);
 				}
 			}
 		});
