@@ -23,6 +23,16 @@ public class IO
 		return _secondary.getRawButton(Map.VISION_INTERFACE_PORT_BUTTON);
 	}
 	
+	public static double winch_input()
+	{
+		return Utils.deadzone(Math.abs(_secondary.getRawAxis(Map.WINCH_POWER_AXIS))) * Map.WINCH_DIRECTION;
+	}
+	
+	public static boolean operator_override()
+	{
+		return _secondary.getRawButtonLatch(Map.UTIL_OPERATOR_OVERRIDE_BUTTON);
+	}
+	
 	public static boolean gear_input()
 	{
 		return _secondary.getRawButtonLatch(Map.GEAR_BUTTON);

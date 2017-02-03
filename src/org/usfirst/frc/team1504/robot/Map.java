@@ -5,7 +5,8 @@ public class Map {
  * Utilities
  */
 	public static final double UTIL_JOYSTICK_DEADZONE = 0.05;
-	
+	public static final int UTIL_OPERATOR_OVERRIDE_BUTTON = 1;
+
 	public static final int UTIL_OVERRIDE_BUTTON = 11;
 	
 /**
@@ -54,6 +55,16 @@ public class Map {
 	public static final double[] DRIVE_OUTPUT_MAGIC_NUMBERS = { -1.0, -1.0, 1.0, 1.0 };	
 	
 	public static final int DRIVE_MAX_UNLOGGED_LOOPS = 15;
+	
+/**
+ * Winch stuff
+ */	
+		public static final int WINCH_TALON_PORT_NANCY = 20;
+		public static final int WINCH_TALON_PORT_MEAD = 21;
+		
+		public static final int WINCH_POWER_AXIS = 1;
+		
+		public static final double WINCH_DIRECTION = 1.0;
 	
 /**
  * Arduino addresses

@@ -26,7 +26,8 @@ public class Robot extends RobotBase {
 	private Logger _logger = Logger.getInstance();
 	private Autonomous _autonomous = Autonomous.getInstance();
 
-	//private Navx _navx = Navx.getInstance();
+	private Navx _navx = Navx.getInstance();
+	private Winch _winch = Winch.getInstance();
 	//private CameraInterface ci = CameraInterface.getInstance();
 	//private Vision _vision = Vision.getInstance();
 	//Pneumatics t3 = Pneumatics.getInstance();
@@ -52,12 +53,14 @@ public class Robot extends RobotBase {
     protected void robotInit() {
     	_dashboard_task = new Thread(new Runnable() {
 			public void run() {
-				PowerDistributionPanel pdp = new PowerDistributionPanel();
+				//PowerDistributionPanel pdp = new PowerDistributionPanel();
 				while(true)
 				{	
 					//SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
-					//SmartDashboard.putNumber("Robot Voltage", m_ds.getBatteryVoltage());
-					//SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
+					SmartDashboard.putNumber("Robot Voltage", m_ds.getBatteryVoltage());
+					SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
+					SmartDashboard.putString("Groundtruth raw image",  "aaaaaaaaaaaa");
+
 					Timer.delay(.05);
 				}
 			}

@@ -31,19 +31,19 @@ public class Navx implements Updatable
 	
 	public void getData()
 	{
-		System.out.println("Connected = " + _ahrs.isConnected());
+		/*System.out.println("Connected = " + _ahrs.isConnected());
 		System.out.println("Calibrating = " + _ahrs.isCalibrating());
 		System.out.println("Roll = " + _ahrs.getRoll());
 		System.out.println("Pitch = " + _ahrs.getPitch());
 		System.out.println("Yaw = " + _ahrs.getYaw());	
 		System.out.println("is moving is " + _ahrs.isMoving());
 		System.out.println("is rotating is " + _ahrs.isRotating());
-		System.out.println("Raw gyro x is " + _ahrs.getRawGyroX());
-		System.out.println("RawGyro_Y" + _ahrs.getRawGyroY());
-		System.out.println("RawGyro_Z" + _ahrs.getRawGyroZ());
-		System.out.println("RawMag_X" + _ahrs.getRawMagX());
-		System.out.println("RawMag_Y" + _ahrs.getRawMagY());
-		System.out.println("RawMag_Z" + _ahrs.getRawMagZ());
+		System.out.println("RawGyro_X = " + _ahrs.getRawGyroX());
+		System.out.println("RawGyro_Y = " + _ahrs.getRawGyroY());
+		System.out.println("RawGyro_Z = " + _ahrs.getRawGyroZ());*/
+		System.out.println("RawMag_X = " + _ahrs.getRawMagX());
+		System.out.println("RawMag_Y = " + _ahrs.getRawMagY());
+		System.out.println("RawMag_Z = " + _ahrs.getRawMagZ());
 
 
 		

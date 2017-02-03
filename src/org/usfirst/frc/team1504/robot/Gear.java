@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1504.robot;
 
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
+import org.usfirst.frc.team1504.utils.Average;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 public class Gear implements Updatable{
@@ -17,6 +18,8 @@ public class Gear implements Updatable{
 	double [] _portAverage = new double[4];
 	double _portSum = 0;
 	int _portIndex = 0;
+	Average _portAvg;
+	Average _starAvg;
 
 
 	public static Gear getInstance() {
@@ -44,8 +47,8 @@ public class Gear implements Updatable{
 		
 		//_average[0] = 
 				
-		System.out.println("y input " + output[0]);
-		System.out.println("x input " + output[2]);
+		//System.out.println("y input " + output[0]);
+		//System.out.println("x input " + output[2]);
 		
 		return output;
 	}
@@ -79,7 +82,11 @@ public class Gear implements Updatable{
 			_mode = Arduino.GEAR_MODE.PULSE;
 		}
 		
-		_starIndex = ++_starIndex % _starAverage.length;
+		_portDist = _portAvg.findAverage(portDist);
+		_starDist = _starAvg.findAverage(starDist);
+
+		
+		/*_starIndex = ++_starIndex % _starAverage.length;
 		_starSum += -_starAverage[_starIndex] + starDist;
 		_starAverage[_starIndex] = starDist;
 		_starDist  = _starSum/_starAverage.length;
@@ -87,10 +94,10 @@ public class Gear implements Updatable{
 		_portIndex = ++_portIndex % _portAverage.length;
 		_portSum += -_portAverage[_portIndex] + portDist;
 		_portAverage[_portIndex] = portDist;
-		_portDist = _portSum/_portAverage.length;
+		_portDist = _portSum/_portAverage.length;*/
 		
-		System.out.println("average port distance " + _portDist);
-		System.out.println("average star distance " + _starDist);
+		//System.out.println("average port distance " + _portDist);
+		//System.out.println("average star distance " + _starDist);
 
 		
 		double [] arr = {_portDist, _starDist};
