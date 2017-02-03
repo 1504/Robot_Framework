@@ -38,6 +38,11 @@ public class IO
 		return _secondary.getRawButtonLatch(Map.GEAR_BUTTON);
 	}
 	
+	public static boolean shooter_input()
+	{
+		return _secondary.getRawButton(Map.SHOOTER_FIRE_BUTTON);
+	}
+	
 	public static double[] drive_input() {
 		double[] inputs = new double[3];
 

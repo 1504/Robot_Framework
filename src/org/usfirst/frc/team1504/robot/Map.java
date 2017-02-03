@@ -17,6 +17,17 @@ public class Map {
 	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
 	
 	// Joystick inputs
+/**
+ * Shooter stuff
+ */
+	
+	public static final int SHOOTER_MOTOR = 22;
+	public static final double SHOOTER_INTAKE_SPEED = -1.0;
+	public static /*final*/ double SHOOTER_TARGET_SPEED = 6610.0; //6575.0;//6775.0;
+	public static final double SHOOTER_GAIN_P = 0.014;
+	public static final double SHOOTER_GAIN_I = 0.00005; //0.0001;
+	public static final double SHOOTER_SPEED_GOOD_DEADBAND = 15.0;
+	public static final int SHOOTER_FIRE_BUTTON = 5;
 	
 /**
  * Drive class things
