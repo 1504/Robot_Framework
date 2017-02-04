@@ -87,7 +87,6 @@ public class Update_Semaphore
 				});
 				_tlist.set(i, t);
 				_tlist.get(i).start(); //t.start()
-				
 			//	_button_mask &= _clear_mask;
 			//	_button_mask_rising_edge &= _clear_mask_rising_edge;
 			}

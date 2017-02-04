@@ -36,4 +36,12 @@ public class IO
 		return (_drive_rotation.getRawButton(4) ? -1.0 : 0.0) + (_drive_rotation.getRawButton(5) ? 1.0 : 0.0);
 	}
 
+	public static boolean get_intake_on()
+	{
+		return _secondary.getRawButton(Map.INTAKE_ON_BUTTON);
+	}
+	public static boolean get_intake_off()
+	{
+		return _secondary.getRawButton(Map.INTAKE_OFF_BUTTON);
+	}
 }

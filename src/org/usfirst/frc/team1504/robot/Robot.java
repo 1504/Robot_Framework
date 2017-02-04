@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1504.robot;
 
+import java.util.Arrays;
+
 import org.usfirst.frc.team1504.robot.Arduino.FRONTSIDE_MODE;
 import org.usfirst.frc.team1504.robot.Arduino.GEAR_MODE;
 import org.usfirst.frc.team1504.robot.Arduino.INTAKE_LIGHT_MODE;
@@ -53,8 +55,10 @@ public class Robot extends RobotBase {
     protected void robotInit() {
     	_dashboard_task = new Thread(new Runnable() {
 			public void run() {
-				char edge_track = 0;
+//				char edge_track = 0;
 				PowerDistributionPanel pdp = new PowerDistributionPanel();
+				char[] testImages = new char[20];
+				Arrays.fill(testImages, 'a');
 				while(true)
 				{	
 					byte[] img = _arduino.getSensorImage();
@@ -66,15 +70,15 @@ public class Robot extends RobotBase {
 					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					SmartDashboard.putNumber("Robot Voltage", m_ds.getBatteryVoltage());
 					SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
-					
+					SmartDashboard.putString("Groundtruth raw image", new String(testImages));
 					/*
 					 * Borrowed from Mike
-					 */
-					edge_track = (char)( ( (edge_track << 1) + (HALUtil.getFPGAButton() ? 1 : 0) ) & 3);
-					if(edge_track == 1) // Get image from groundtruth sensors, output it to the DS
-					{
-						SmartDashboard.putString("Groundtruth raw image", new String(_arduino.getSensorImage()));
-					}
+					 */	
+//					edge_track = (char)( ( (edge_track << 1) + (HALUtil.getFPGAButton() ? 1 : 0) ) & 3);
+//					if(edge_track == 1) // Get image from groundtruth sensors, output it to the DS
+//					{
+//						SmartDashboard.putString("Groundtruth raw image", new String(_arduino.getSensorImage()));
+//					}
 						Timer.delay(0.5);
 				}
 			}
