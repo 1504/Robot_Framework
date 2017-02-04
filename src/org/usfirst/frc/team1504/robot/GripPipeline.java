@@ -89,11 +89,11 @@ public class GripPipeline implements VisionPipeline{
 			}
 			
 			_target = largest;
-			System.out.println("*****************largest target is " + _target);
+			System.out.println("largest target is " + _target);
 			//_target = (2 * position[largest] / Map.VISION_INTERFACE_VIDEO_WIDTH) - 1; 
 			//_target *= Map.VISION_INTERFACE_VIDEO_FOV / -2.0; //TODO what is FOV of camera
 			_target = _output[0][largest];
-			System.out.println("***target is " + _target);
+			System.out.println("target is " + _target);
 			checkAim();
 		}
 	}

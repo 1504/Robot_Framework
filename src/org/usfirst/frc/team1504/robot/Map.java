@@ -21,9 +21,10 @@ public class Map {
  * Shooter stuff
  */
 	
-	public static final int SHOOTER_MOTOR = 22;
+	public static final int SHOOTER_MOTOR = 30;
+	public static final int CONVEYOR_MOTOR = 31;
 	public static final double SHOOTER_INTAKE_SPEED = -1.0;
-	public static /*final*/ double SHOOTER_TARGET_SPEED = 6610.0; //6575.0;//6775.0;
+	public static /*final*/ double SHOOTER_TARGET_SPEED = 1500.0; //6575.0;//6775.0;
 	public static final double SHOOTER_GAIN_P = 0.014;
 	public static final double SHOOTER_GAIN_I = 0.00005; //0.0001;
 	public static final double SHOOTER_SPEED_GOOD_DEADBAND = 15.0;
@@ -66,6 +67,7 @@ public class Map {
 	public static final double[] DRIVE_OUTPUT_MAGIC_NUMBERS = { -1.0, -1.0, 1.0, 1.0 };	
 	
 	public static final int DRIVE_MAX_UNLOGGED_LOOPS = 15;
+	public static int FRONT_SIDE_BUTTON = 7;
 	
 /**
  * Winch stuff
@@ -76,6 +78,14 @@ public class Map {
 		public static final int WINCH_POWER_AXIS = 1;
 		
 		public static final double WINCH_DIRECTION = 1.0;
+		public static final int WINCH_DEPLOY_BUTTON = 6;
+		public static final int WINCH_SERVO1 = 0;
+		public static final int WINCH_SERVO2 = 0;
+		public static final double WINCH_SERVO_DEPLOYED = 1.0;
+		public static final double WINCH_SERVO_STORED = 0.0;
+
+
+
 	
 /**
  * Arduino addresses

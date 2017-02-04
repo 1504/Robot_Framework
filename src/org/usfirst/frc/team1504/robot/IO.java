@@ -10,18 +10,23 @@ public class IO
 	public static final long ROBOT_START_TIME = System.currentTimeMillis();
 	
 	/**
-	 * Drive stuff
-	 */
-	
-	/**
 	 * Handle getting joystick values
 	 * @return
 	 */
+	
+	/*
+	 * Camera stuff
+	 */
+	
 	public static boolean camera_port()
 	{
 		System.out.println("camera button pressed");
 		return _secondary.getRawButton(Map.VISION_INTERFACE_PORT_BUTTON);
 	}
+	
+	/*
+	 * Winch stuff
+	 */
 	
 	public static double winch_input()
 	{
@@ -33,15 +38,33 @@ public class IO
 		return _secondary.getRawButtonLatch(Map.UTIL_OPERATOR_OVERRIDE_BUTTON);
 	}
 	
+	public static boolean winch_deploy()
+	{
+		return _secondary.getRawButtonLatch(Map.WINCH_DEPLOY_BUTTON);
+	}
+	
+	/*
+	 * Gear stuff
+	 */
+	
 	public static boolean gear_input()
 	{
 		return _secondary.getRawButtonLatch(Map.GEAR_BUTTON);
 	}
+
+	
+	/*
+	 * Shooter stuff
+	 */
 	
 	public static boolean shooter_input()
 	{
 		return _secondary.getRawButton(Map.SHOOTER_FIRE_BUTTON);
 	}
+	
+	/**
+	 * Drive stuff
+	 */
 	
 	public static double[] drive_input() {
 		double[] inputs = new double[3];
@@ -55,6 +78,15 @@ public class IO
 	public static double drive_wiggle()
 	{
 		return (_drive_rotation.getRawButton(4) ? -1.0 : 0.0) + (_drive_rotation.getRawButton(5) ? 1.0 : 0.0);
+	}
+	
+	public static double set_front_side()
+	{
+		if(_secondary.getRawButtonLatch(Map.FRONT_SIDE_BUTTON))
+				return 180.0;
+		else 
+			return 0.0;
+		
 	}
 
 }

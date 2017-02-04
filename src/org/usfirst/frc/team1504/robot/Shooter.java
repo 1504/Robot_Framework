@@ -11,28 +11,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter implements Updatable
 {
-	
-	private static class ShooterTask implements Runnable
-	{
-
-        private Shooter _task;
-
-        ShooterTask(Shooter t)
-        {
-        	_task = t;
-        }
-
-        public void run()
-        {
-        	_task.shooter_task();
-        }
-        
-	}
-	
 	private CANTalon _shooter;
+	private CANTalon _conveyor;
+
 	private static final Shooter instance = new Shooter();
 	private static final DriverStation _ds = DriverStation.getInstance();
-	private boolean _thread_alive = true;
 	private Thread _task_thread;
 	
 	private final int _sensor_status;
@@ -40,6 +23,8 @@ public class Shooter implements Updatable
 	public Shooter()
 	{
 		_shooter = new CANTalon(Map.SHOOTER_MOTOR);
+		_conveyor = new CANTalon(Map.CONVEYOR_MOTOR);
+
 		_sensor_status = _shooter.isSensorPresent(FeedbackDevice.CtreMagEncoder_Relative) == CANTalon.FeedbackDeviceStatus.FeedbackStatusPresent ? 1 : 0;
 		
 
@@ -55,9 +40,6 @@ public class Shooter implements Updatable
 		SmartDashboard.putNumber("Shooter Target Speed", Map.SHOOTER_TARGET_SPEED);
 		SmartDashboard.putBoolean("Shooter port encoder good", (_sensor_status & 1) != 0);
 		SmartDashboard.putBoolean("Shooter star encoder good", (_sensor_status & 2) != 0);
-		
-		_task_thread = new Thread(new ShooterTask(this), "1504_Shooter");
-		_task_thread.start();
 		
 		Update_Semaphore.getInstance().register(this);
 		System.out.println("Shooter Initialized");
@@ -80,23 +62,21 @@ public class Shooter implements Updatable
 		//_stopmotion.set_speeds(_shooter_motor_port.getSpeed(), _shooter_motor_star.getSpeed());
 	}
 	
-	public void shooter_task()
-	{
-		while (_thread_alive)
-		{
-			if(IO.shooter_input())
-			{
-				_shooter.set(1000);
-				
-			}
-		}
-	}
-	
 	public void semaphore_update()
 	{
-		//if(_ds.isOperatorControl())
-			//_override = IO.override();
-		//set(IO.shooter_input());
+		if(IO.shooter_input())
+		{
+			_shooter.set(1500);
+			/*if(Math.abs(_conveyor.getSpeed() - Map.SHOOTER_TARGET_SPEED) <= Map.SHOOTER_SPEED_GOOD_DEADBAND)
+			{
+				_conveyor.set(.75);
+			}
+			else
+				_conveyor.set(0);*/
+			
+		}
+		else
+			_shooter.set(0);
 	}
 	
 }

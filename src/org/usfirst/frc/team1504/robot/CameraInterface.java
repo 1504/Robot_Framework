@@ -5,6 +5,7 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.vision.VisionRunner;
 import edu.wpi.first.wpilibj.vision.VisionThread;
+import edu.wpi.first.wpilibj.vision.VisionRunner.Listener;
 
 public class CameraInterface implements VisionRunner.Listener<GripPipeline>
 {
@@ -21,6 +22,9 @@ public class CameraInterface implements VisionRunner.Listener<GripPipeline>
 	private GripPipeline _pipe = new GripPipeline();
 	private VisionThread _thread;
 	private VisionRunner _runner;
+	private VisionRunner.Listener<GripPipeline> _listener = new VisionRunner.Listener<GripPipeline>() {
+		public void copyPipelineOutputs(GripPipeline pipeline) {}
+	};
 	public double _target = 0.0;
 	public enum AimState {WAIT_FOR_IMAGE_GOOD, GET_IMAGE, AIM_ROBOT, AIMED, BAD_IMAGE}
 	public AimState _state;
@@ -40,6 +44,7 @@ public class CameraInterface implements VisionRunner.Listener<GripPipeline>
 		
 		_servers[_servers.length - 1] = CameraServer.getInstance().addServer("serve_combi");
 		set_active_camera(CAMERAS.GEARSIDE);
+		_runner = new VisionRunner(_cameras[get_active_camera().ordinal()], _pipe, _listener);
 		
 		if(Drive._dir == 1)
 			set_active_camera(CAMERAS.INTAKESIDE);
@@ -53,7 +58,7 @@ public class CameraInterface implements VisionRunner.Listener<GripPipeline>
 		
 		//_runner.runOnce();
 		
-		/*Thread _camThread = new Thread(new Runnable() {
+		Thread _camThread = new Thread(new Runnable() {
 			public void run() {
 				while(IO.camera_port())
 				{
@@ -62,7 +67,7 @@ public class CameraInterface implements VisionRunner.Listener<GripPipeline>
 				}
 				}
 		});
-		_camThread.start();*/
+		_camThread.start();
 	}
 
 	public void getImage() 
