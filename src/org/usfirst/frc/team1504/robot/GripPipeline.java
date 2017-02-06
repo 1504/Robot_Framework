@@ -1,22 +1,21 @@
 package org.usfirst.frc.team1504.robot;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+//import java.io.File;
+//import java.io.FileWriter;
+//import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 //import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.HashMap;
+//import java.util.stream.Collectors;
+//import java.util.HashMap;
 import edu.wpi.first.wpilibj.vision.VisionPipeline;
 
 import org.opencv.core.*;
-import org.opencv.core.Core.*;
-import org.opencv.features2d.FeatureDetector;
-import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.*;
-import org.opencv.objdetect.*;
-import org.usfirst.frc.team1504.robot.CameraInterface.AimState;
+//import org.opencv.core.Core.*;
+//import org.opencv.features2d.FeatureDetector;
+//import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
+//import org.opencv.objdetect.*;
 
 /**
 * GripPipeline class.
@@ -31,9 +30,10 @@ public class GripPipeline implements VisionPipeline{
 	private Mat hsvThresholdOutput = new Mat();
 	private Mat cvErodeOutput = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
+	public enum AimState {WAIT_FOR_IMAGE_GOOD, GET_IMAGE, AIM_ROBOT, AIMED, BAD_IMAGE}
 	
 	public double[][] _output;
-	public CameraInterface.AimState _state;
+	public AimState _state;
 	public double _target = 0.0;
 
 	static {
@@ -73,7 +73,7 @@ public class GripPipeline implements VisionPipeline{
 
 		if(area.length == 0)
 		{
-			_state = CameraInterface.AimState.BAD_IMAGE;
+			_state = AimState.BAD_IMAGE;
 			System.out.println("area is 0");
 			return;
 		}
@@ -89,7 +89,7 @@ public class GripPipeline implements VisionPipeline{
 			}
 			
 			_target = largest;
-			System.out.println("largest target is " + _target);
+			//System.out.println("largest target is " + _target);
 			//_target = (2 * position[largest] / Map.VISION_INTERFACE_VIDEO_WIDTH) - 1; 
 			//_target *= Map.VISION_INTERFACE_VIDEO_FOV / -2.0; //TODO what is FOV of camera
 			_target = _output[0][largest];
@@ -238,9 +238,5 @@ public class GripPipeline implements VisionPipeline{
 			//_output = output;
 			return output;
 		}
-
-
-
-
 }
 

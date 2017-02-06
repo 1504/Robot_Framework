@@ -10,14 +10,14 @@ public class Gear implements Updatable{
 	AnalogInput _port = new AnalogInput(0);
 	AnalogInput _star = new AnalogInput(1);
 	Arduino.GEAR_MODE _mode;
-	double _portDist;
-	double _starDist;
-	double [] _starAverage = new double[4];
+	double _portDist = 0;
+	double _starDist = 0;
+	/*double [] _starAverage = new double[4];
 	double _starSum = 0;
 	int _starIndex = 0;
 	double [] _portAverage = new double[4];
 	double _portSum = 0;
-	int _portIndex = 0;
+	int _portIndex = 0;*/
 	Average _portAvg;
 	Average _starAvg;
 

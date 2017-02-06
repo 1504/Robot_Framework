@@ -25,11 +25,6 @@ public class CameraInterface implements VisionRunner.Listener<GripPipeline>
 	private VisionRunner.Listener<GripPipeline> _listener = new VisionRunner.Listener<GripPipeline>() {
 		public void copyPipelineOutputs(GripPipeline pipeline) {}
 	};
-	public double _target = 0.0;
-	public enum AimState {WAIT_FOR_IMAGE_GOOD, GET_IMAGE, AIM_ROBOT, AIMED, BAD_IMAGE}
-	public AimState _state;
-	public static int cur_cam = Map.VISION_INTERFACE_PORT1; //0, current camera we're looking at
-	public boolean port_toggle = false; //default on forward camera
 	
 	protected CameraInterface()
 	{

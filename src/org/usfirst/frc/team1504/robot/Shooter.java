@@ -23,7 +23,7 @@ public class Shooter implements Updatable
 	public Shooter()
 	{
 		_shooter = new CANTalon(Map.SHOOTER_MOTOR);
-		_conveyor = new CANTalon(Map.CONVEYOR_MOTOR);
+		//_conveyor = new CANTalon(Map.CONVEYOR_MOTOR);
 
 		_sensor_status = _shooter.isSensorPresent(FeedbackDevice.CtreMagEncoder_Relative) == CANTalon.FeedbackDeviceStatus.FeedbackStatusPresent ? 1 : 0;
 		

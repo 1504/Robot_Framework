@@ -14,7 +14,7 @@ public class IO
 	 * @return
 	 */
 	
-	/*
+	/**
 	 * Camera stuff
 	 */
 	
@@ -24,7 +24,7 @@ public class IO
 		return _secondary.getRawButton(Map.VISION_INTERFACE_PORT_BUTTON);
 	}
 	
-	/*
+	/**
 	 * Winch stuff
 	 */
 	
@@ -43,7 +43,7 @@ public class IO
 		return _secondary.getRawButtonLatch(Map.WINCH_DEPLOY_BUTTON);
 	}
 	
-	/*
+	/**
 	 * Gear stuff
 	 */
 	
@@ -51,9 +51,8 @@ public class IO
 	{
 		return _secondary.getRawButtonLatch(Map.GEAR_BUTTON);
 	}
-
 	
-	/*
+	/**
 	 * Shooter stuff
 	 */
 	
@@ -85,8 +84,6 @@ public class IO
 		if(_secondary.getRawButtonLatch(Map.FRONT_SIDE_BUTTON))
 				return 180.0;
 		else 
-			return 0.0;
-		
+			return 0.0;	
 	}
-
 }
