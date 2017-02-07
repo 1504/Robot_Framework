@@ -16,6 +16,18 @@ public class Map {
 	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
 	
 	// Joystick inputs
+/**
+ * Shooter stuff
+ */
+	
+	public static final int SHOOTER_MOTOR = 30;
+	public static final int CONVEYOR_MOTOR = 31;
+	public static final double SHOOTER_INTAKE_SPEED = -1.0;
+	public static /*final*/ double SHOOTER_TARGET_SPEED = 1500.0; //6575.0;//6775.0;
+	public static final double SHOOTER_GAIN_P = 0.014;
+	public static final double SHOOTER_GAIN_I = 0.00005; //0.0001;
+	public static final double SHOOTER_SPEED_GOOD_DEADBAND = 15.0;
+	public static final int SHOOTER_FIRE_BUTTON = 5;
 	
 /**
  * Drive class things
@@ -41,6 +53,8 @@ public class Map {
 	public static final double DRIVE_INPUT_TURN_FACTOR = 0.2;
 	public static final int DRIVE_INPUT_TURN_FACTOR_OVERRIDE_BUTTON = 1;
 	
+	public static final double DRIVE_INPUT_VISION_SPEED = 0.75;
+	
 	// Drive Front Side changing
 	public static final int DRIVE_FRONTSIDE_FRONT = 3;
 	public static final int DRIVE_FRONTSIDE_BACK = 2;
@@ -52,7 +66,26 @@ public class Map {
 	public static final double[] DRIVE_OUTPUT_MAGIC_NUMBERS = { -1.0, -1.0, 1.0, 1.0 };	
 	
 	public static final int DRIVE_MAX_UNLOGGED_LOOPS = 15;
+	public static int FRONT_SIDE_BUTTON = 7;
+	
+/**
+ * Winch stuff
+ */	
+		public static final int WINCH_TALON_PORT_NANCY = 20;
+		public static final int WINCH_TALON_PORT_MEAD = 21;
+		
+		public static final int WINCH_POWER_AXIS = 1;
+		
+		public static final double WINCH_DIRECTION = 1.0;
+		public static final int WINCH_DEPLOY_BUTTON = 6;
+		public static final int WINCH_SERVO1 = 0;
+		public static final int WINCH_SERVO2 = 0;
+		public static final double WINCH_SERVO_DEPLOYED = 1.0;
+		public static final double WINCH_SERVO_STORED = 0.0;
 
+
+
+	
 /**
  * Arduino addresses
  */
@@ -65,6 +98,15 @@ public class Map {
 	public static final byte INTAKE_LIGHTS_ADDRESS = 06;
 	public static final byte PARTY_MODE_ADDRESS = 07;
 	public static final byte PULSE_SPEED_ADDRESS = 11;
+		
+/**
+ * Gear stuff
+ */
+	public static final double GEAR_DISTANCE = .096;
+	public static final int GEAR_BUTTON = 4;
+	public static final double GEAR_GAIN = .75;
+	public static final double GEAR_MAX_OUTPUT_POWER = .25;
+	
 /**
  * Ground truth sensor
  */

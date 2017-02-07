@@ -13,11 +13,11 @@ import org.usfirst.frc.team1504.robot.Arduino.SHOOTER_STATUS;
 //import edu.wpi.first.wpilibj.DriverStation;
 //import java.util.Base64;
 
+import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.hal.HAL;
-import edu.wpi.first.wpilibj.hal.HALUtil;
 import edu.wpi.first.wpilibj.hal.FRCNetComm.tInstances;
 import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -30,9 +30,12 @@ public class Robot extends RobotBase {
 	private Update_Semaphore _semaphore = Update_Semaphore.getInstance();
 	private Logger _logger = Logger.getInstance();
 	private Autonomous _autonomous = Autonomous.getInstance();
-	private Vision _vision = Vision.getInstance();
 	private Arduino _arduino = Arduino.getInstance();
-	Pneumatics t3 = Pneumatics.getInstance();
+	//private Navx _navx = Navx.getInstance();
+	private Winch _winch = Winch.getInstance();
+	private CameraInterface ci = CameraInterface.getInstance();
+	//private Vision _vision = Vision.getInstance();
+	//Pneumatics t3 = Pneumatics.getInstance();
 	Drive t5 = Drive.getInstance();
 	private Thread _dashboard_task;
 	
@@ -84,6 +87,7 @@ public class Robot extends RobotBase {
 			}
 		});
     	_dashboard_task.start();
+    	
     	//System.out.println(new String(Base64.getDecoder().decode(Map.ROBOT_BANNER)));
         System.out.println("Quixote Initialized ( robotInit() ) @ " + IO.ROBOT_START_TIME);
     }
@@ -125,7 +129,21 @@ public class Robot extends RobotBase {
      * Test code should go here.
      * Users should add test code to this method that should run while the robot is in test mode.
      */
-    public void test() {}
+    
+    public void test()
+    {
+    	System.out.println("Test Mode!");
+    	CameraInterface ci = CameraInterface.getInstance();
+    	//ci.set_mode(CameraInterface.CAMERA_MODE.MULTI);
+    	//ci.set_mode(CameraInterface.CAMERA_MODE.SINGLE);
+    	while (isTest() && isEnabled())
+    	{
+    		// Switch camera views every 5 seconds like a pro
+    		ci.set_active_camera(ci.get_active_camera() == CameraInterface.CAMERAS.GEARSIDE ? CameraInterface.CAMERAS.INTAKESIDE : CameraInterface.CAMERAS.GEARSIDE);
+            System.out.println("Switching active camera to " + ci.get_active_camera().toString());
+            Timer.delay(5);
+    	}
+    }
 
     /**
      * Start a competition.

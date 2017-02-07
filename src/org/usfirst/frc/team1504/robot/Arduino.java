@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1504.robot;
 
 import edu.wpi.first.wpilibj.I2C;
+
 public class Arduino
 {
 	private I2C _bus = new I2C(I2C.Port.kOnboard, Map.ARDUINO_ADDRESS);//B-U+S using ascii decimal values

@@ -5,7 +5,7 @@ import java.util.TimerTask;
 import java.util.Timer;
 
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
-
+import com.kauailabs.navx.frc.AHRS;
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -40,6 +40,9 @@ public class Drive implements Updatable {
 	private TimerTask _osc = new TimerTask() { public void run() { _direction++; } };
 	private Timer _timer = new Timer();
 	public static int _dir = Map.VISION_INTERFACE_PORT1;
+	private int _index;
+	private double[] _dircn = new double[6];
+	private boolean _winchDeployed = false;
 	
     /**
      * Gets an instance of the Drive
@@ -84,9 +87,10 @@ public class Drive implements Updatable {
 	private volatile double _rotation_offset = 0.0;
 	private DriveGlide _glide = new DriveGlide();
 	private Groundtruth _groundtruth = Groundtruth.getInstance();
-	
+	private Winch _winch = Winch.getInstance();
+	private CameraInterface _camera = CameraInterface.getInstance();
 	private CANTalon[] _motors = new CANTalon[Map.DRIVE_MOTOR_PORTS.length];
-	
+	private Gear _gear = Gear.getInstance();
 	private volatile int _loops_since_last_dump = 0;
 	
 	/**
@@ -140,6 +144,13 @@ public class Drive implements Updatable {
 	/**
 	 * Programmatically switch the direction the robot goes when the stick gets pushed
 	 */
+	
+	private double[] front_side(double[] input) {
+		double[] dir_offset = input;
+		if(_rotation_offset == 180.0)
+			dir_offset[0] *= -1.0;
+		return dir_offset;
+	}
 	
 	public void setFrontAngle(double rotation_offset)
 	{
@@ -285,9 +296,19 @@ public class Drive implements Updatable {
 		update_dashboard(new byte[] {output[1], output[4], output[7], output[10]});
 	}
 	
+	/*
+	 * Track direction of input to determine which camera we should use
+	 */
+	private void inputHistory()
+	{
+		_index = ++_index % _dircn.length;
+		_dircn[_index] = _input[0];		
+	}
+	
 	/**
 	 * Update motors as fast as possible, but only compute all the joystick stuff when there's new data
 	 */
+	
 	private void fastTask()
 	{
 		// Damn you, Java, and your lack of local static variables!
@@ -309,19 +330,42 @@ public class Drive implements Updatable {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}*/
+					double rotation_offset = IO.set_front_side();
+					if(!Double.isNaN(rotation_offset))
+						setFrontAngle(rotation_offset);
+					
+					input = front_side(input);
+					if(IO.gear_input())
+					{
+						double [] gear = _gear.setDriveInput();
+						for(int i = 0; i < input.length; i++)
+						{
+							input[i] += gear[i];
+						}
+					}
+					
+					if(_winch.get_deployed())
+						setFrontAngle(270.0);
+						front_side(input);
+					
+					_input = input;
+					inputHistory();
 					_new_data = false;
 					dump = true;
 				}
 				
 				// Ground speed offset
 				input = groundtruth_correction(input);
-				
-				if(input[1] > 0) //check y
+
+				int sum = 0;
+				for(int i = 0; i < _dircn.length; i++)
 				{
-					_dir = Map.VISION_INTERFACE_PORT1; //forward is default
+					sum += Math.signum(input[0]);
 				}
-				else
-					_dir = Map.VISION_INTERFACE_PORT2;
+				if(sum == _dircn.length || _input[0] > Map.DRIVE_INPUT_VISION_SPEED)
+					_dir = 1; //forward -> intake
+				else if(sum == -_dircn.length || _input[0] < -Map.DRIVE_INPUT_VISION_SPEED)
+					_dir = 0;
 				
 				// Output to motors - as fast as this loop will go
 				motorOutput(outputCompute(input));
