@@ -3,9 +3,6 @@ package org.usfirst.frc.team1504.robot;
 import java.util.List;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import org.usfirst.frc.team1504.robot.Latch_Joystick;
-
-//import org.usfirst.frc.team1504.robot.Latch_Joystick._button_mask;
 
 public class Update_Semaphore
 {
@@ -15,16 +12,14 @@ public class Update_Semaphore
 	}
 	
 	private List<Updatable> _list = new ArrayList<Updatable>();
-	private List<Thread> _tlist = new ArrayList<Thread>();
+
+	private List<Thread> _thread_pool = new ArrayList<Thread>();
 	private Logger _logger = Logger.getInstance();
 	private long _last_update;
 	
+	private Object _test = new Object();
+	
 	private static final Update_Semaphore instance = new Update_Semaphore();
-	//private int _clear_mask_rising_edge;
-	//private int _clear_mask;
-	//private int _button_mask;// = Latch_Joystick._button_mask;
-	//private int _button_mask_rising_edge;// = Latch_Joystick._button_mask_rising;
-
 	
 	protected Update_Semaphore()
 	{
@@ -53,12 +48,31 @@ public class Update_Semaphore
 	{
 		_list.add(e);
 		System.out.println("\tSemaphore - registered " + e.getClass().getName());
-		//obj.semaphore_update();
-		
-		// Let's see about this. Creating several threads at 20hz might be an overhead issue...
-		Thread t = new Thread();
-		
-		_tlist.add(t);
+		_thread_pool.add(
+				new Thread(
+						new Runnable()
+						{
+							public void run()
+							{
+								System.out.println("\tSemaphore - starting pool thread for " + e.getClass().getName());
+								//Update_Semaphore semaphore = Update_Semaphore.getInstance();
+								while(true)
+								{
+									try {
+										synchronized (_test)
+										{
+											_test.wait(); // Will wait indefinitely until notified
+										}
+										e.semaphore_update();
+									} catch (InterruptedException error) {
+										error.printStackTrace();
+									}
+								}
+							}
+						}
+				)
+		);
+		_thread_pool.get(_thread_pool.size() - 1).start();
 	}
 	
 	private void dump()
@@ -70,6 +84,17 @@ public class Update_Semaphore
 	}
 	
 	public void newData()
+	{
+		_last_update = System.currentTimeMillis();
+		dump();
+		
+		synchronized (_test)
+		{
+			_test.notifyAll();
+		}
+	}
+	
+	/*public void newData()
 	{
 		_last_update = System.currentTimeMillis();
 		dump();
@@ -87,6 +112,7 @@ public class Update_Semaphore
 				});
 				_tlist.set(i, t);
 				_tlist.get(i).start(); //t.start()
+				
 			//	_button_mask &= _clear_mask;
 			//	_button_mask_rising_edge &= _clear_mask_rising_edge;
 			}
@@ -95,5 +121,5 @@ public class Update_Semaphore
 //				System.out.println("thread not updated!");
 			}
 		}
-	}
+	}*/
 }

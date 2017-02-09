@@ -5,6 +5,7 @@ public class Map {
  * Utilities
  */
 	public static final double UTIL_JOYSTICK_DEADZONE = 0.05;
+	public static final int UTIL_OPERATOR_OVERRIDE_BUTTON = 1;
 	
 	public static final int UTIL_OVERRIDE_BUTTON = 11;
 	
@@ -141,6 +142,14 @@ public class Map {
 	public static final double VISION_INTERFACE_AIM_DEADZONE = 0.75; //1; //0.075;
 	public static final double VISION_INTERFACE_TURN_MAX_OUTPUT = 0.15;
 	public static final int VISION_INTERFACE_IMAGE_CAPTURE_SETTLE_TIMEOUT = 1750;
+
+	
+	public static final double VISION_HUE1 = 42.0;
+	public static final double VISION_HUE2 = 146.0;
+	public static final double VISION_SAT1 = 119.0;
+	public static final double VISION_SAT2 = 246.0;
+	public static final double VISION_VAL1 = 243.0755395683453;
+	public static final double VISION_VAL2 = 255.0;
 
 	
 /**
