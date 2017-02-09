@@ -53,7 +53,10 @@ public class Drive implements Updatable {
     {
         return Drive.instance;
     }
-    
+	public static void initialize()
+	{
+		getInstance();
+	}
 	protected Drive()
 	{
 		_task_thread = new Thread(new DriveTask(this), "1504_Drive");
@@ -157,6 +160,10 @@ public class Drive implements Updatable {
 		_rotation_offset = rotation_offset;
 	}
 	
+	public void setFrontAngleDegrees(double rotation_offset)
+	{
+		setFrontAngle(rotation_offset * Math.PI / 180.0);
+	}
 	/**
 	 * Ground truth sensor corrections
 	 * @param input - Joystick input to correct towards
@@ -259,6 +266,8 @@ public class Drive implements Updatable {
 	{
 		SmartDashboard.putNumber("Drive input forward", _input[0]);
 		SmartDashboard.putNumber("Drive input anticlockwise", _input[1]);
+		
+		SmartDashboard.putNumber("Drive rotation offset", _rotation_offset);
 		
 		SmartDashboard.putNumber("Drive FL current", currents[0]);
 		SmartDashboard.putNumber("Drive BL current", currents[1]);

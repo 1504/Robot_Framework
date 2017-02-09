@@ -27,7 +27,10 @@ public class Gear implements Updatable{
 		return Gear._instance;
 
 	}
-	
+	public static void initialize()
+	{
+		getInstance();
+	}
 	public Gear()
 	{
 		Update_Semaphore.getInstance().register(this);

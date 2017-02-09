@@ -64,7 +64,7 @@ public class Robot extends RobotBase {
 				Arrays.fill(testImages, 'a');
 				while(true)
 				{	
-					byte[] img = _arduino.getSensorImage();
+					char[] img = _arduino.getSensorImage();
 					for(int i = 0; i < 6; i++)
 					{
 						System.out.print(img[i]);

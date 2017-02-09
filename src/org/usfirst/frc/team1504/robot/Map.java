@@ -5,7 +5,7 @@ public class Map {
  * Utilities
  */
 	public static final double UTIL_JOYSTICK_DEADZONE = 0.05;
-	public static final int UTIL_OPERATOR_OVERRIDE_BUTTON = 1;
+	public static final int UTIL_OPERATOR_OVERRIDE_BUTTON = 11;
 	
 	public static final int UTIL_OVERRIDE_BUTTON = 11;
 	
@@ -28,7 +28,8 @@ public class Map {
 	public static final double SHOOTER_GAIN_P = 0.014;
 	public static final double SHOOTER_GAIN_I = 0.00005; //0.0001;
 	public static final double SHOOTER_SPEED_GOOD_DEADBAND = 15.0;
-	public static final int SHOOTER_FIRE_BUTTON = 5;
+	
+	public static final int SHOOTER_FIRE_BUTTON = 1;
 	
 /**
  * Drive class things

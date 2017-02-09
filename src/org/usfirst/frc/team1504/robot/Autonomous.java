@@ -40,7 +40,10 @@ public class Autonomous
 	{
 		return instance;
 	}
-	
+	public static void initialize()
+	{
+		getInstance();
+	}
 	
 	public void start()
 	{	

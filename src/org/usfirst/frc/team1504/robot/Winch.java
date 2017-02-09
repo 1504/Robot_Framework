@@ -31,7 +31,10 @@ public class Winch implements Updatable
 	{
 		return _instance;
 	}
-	
+	public static void initialize()
+	{
+		getInstance();
+	}
 	public boolean get_deployed()
 	{
 		return _deployed;

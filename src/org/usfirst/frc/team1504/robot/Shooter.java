@@ -49,7 +49,11 @@ public class Shooter implements Updatable
 	{
 		return Shooter.instance;
 	}
-
+	
+	public static void initialize()
+	{
+		getInstance();
+	}
 	private void update_dashboard()
 	{
 		//Map.SHOOTER_TARGET_SPEED = SmartDashboard.getNumber("Shooter Target Speed");

@@ -19,6 +19,10 @@ public class Intake implements Updatable
 		return instance;
 	}
 	
+	public static void initialize()
+	{
+		getInstance();
+	}
 	private Intake()
 	{	
 		_motor = new CANTalon(Map.INTAKE_TALON_PORT);

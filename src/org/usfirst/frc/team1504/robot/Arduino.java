@@ -48,11 +48,11 @@ public class Arduino
  * First a 0 is written to READ OFFSET, then transactions with 1 through 27 are read from the 
  * sensor to build up the full 648-byte image array.
  */
-	public synchronized byte[] getSensorImage()
+	public synchronized char[] getSensorImage()
 	{
 		byte[] buffer = new byte[3];
 		byte[] incoming_img_data = new byte[24];
-		byte[] final_image = new byte[648];
+		char[] final_image = new char[648];
 		
 		buffer[0] = Map.GROUNDTRUTH_ADDRESS;
 		buffer[1] = 2;
@@ -69,7 +69,7 @@ public class Arduino
 				_bus.transaction(buffer, buffer.length, incoming_img_data, incoming_img_data.length);
 				for(int j = 0; j < incoming_img_data.length; j++)
 				{
-					final_image[((i - 1) * 24) + j] = incoming_img_data[j];
+					final_image[((i - 1) * 24) + j] = (char) incoming_img_data[j];
 				}
 			}
 		}

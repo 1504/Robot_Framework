@@ -52,7 +52,10 @@ public class Vision implements VisionRunner.Listener<GripPipeline>{
 	{
 		return _instance;
 	}
-	
+	public static void initialize()
+	{
+		getInstance();
+	}
 	public int setPort()
 	{
 		if(IO.camera_port() && !port_toggle)

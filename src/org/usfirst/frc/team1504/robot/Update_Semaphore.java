@@ -4,6 +4,8 @@ import java.util.List;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
+//import org.usfirst.frc.team1504.robot.Latch_Joystick._button_mask;
+
 public class Update_Semaphore
 {
 	interface Updatable
@@ -11,31 +13,55 @@ public class Update_Semaphore
 		void semaphore_update();
 	}
 	
+	private class Pool_Thread implements Runnable
+	{
+		public volatile boolean run = false;
+		private Object _lock;
+		private Updatable _update_class; 
+		
+		/**
+		 * Thread pool class for running the semaphore
+		 * @param l - Lock object to sync on
+		 * @param u - Updatable class to run on semaphore update
+		 */
+		Pool_Thread(Object l, Updatable u)
+		{
+			_lock = l;
+			_update_class = u;
+		}
+		
+		public void run()
+		{
+			System.out.println("\tSemaphore - starting pool thread for " + _update_class.getClass().getName());
+			while(true)
+			{
+				try {
+					synchronized (_lock)
+					{
+						while(!run) // Prevent spurious wakeups
+							_lock.wait(); // Will wait indefinitely until notified
+						run = false;
+					}
+					_update_class.semaphore_update();
+				} catch (InterruptedException error) {
+					error.printStackTrace();
+				}
+			}
+		}
+	}
+	
 	private List<Updatable> _list = new ArrayList<Updatable>();
-
-	private List<Thread> _thread_pool = new ArrayList<Thread>();
+	private List<Pool_Thread> _thread_pool = new ArrayList<Pool_Thread>();
 	private Logger _logger = Logger.getInstance();
 	private long _last_update;
 	
-	private Object _test = new Object();
+	private final Object _lock = new Object();
 	
 	private static final Update_Semaphore instance = new Update_Semaphore();
+
 	
 	protected Update_Semaphore()
 	{
-		ClassLoader class_loader = Update_Semaphore.class.getClassLoader();
-		for(int i = 1; i < Map.LOGGED_CLASSES.values().length; i++)
-		{
-			String subclass = Utils.toCamelCase(Map.LOGGED_CLASSES.values()[i].toString());
-			try {
-				System.out.println("Semaphore - Attempting to load org.usfirst.frc.team1504.robot." + subclass);
-				class_loader.loadClass("org.usfirst.frc.team1504.robot." + subclass);
-				//Class.forName("org.usfirst.frc.team1504.robot." + subclass);
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
-		
 		System.out.println("Semaphore Initialized");
 	}
 	
@@ -44,35 +70,19 @@ public class Update_Semaphore
 		return instance;
 	}
 	
-	public void register(Updatable e)
+	public static void initialize()
 	{
-		_list.add(e);
-		System.out.println("\tSemaphore - registered " + e.getClass().getName());
-		_thread_pool.add(
-				new Thread(
-						new Runnable()
-						{
-							public void run()
-							{
-								System.out.println("\tSemaphore - starting pool thread for " + e.getClass().getName());
-								//Update_Semaphore semaphore = Update_Semaphore.getInstance();
-								while(true)
-								{
-									try {
-										synchronized (_test)
-										{
-											_test.wait(); // Will wait indefinitely until notified
-										}
-										e.semaphore_update();
-									} catch (InterruptedException error) {
-										error.printStackTrace();
-									}
-								}
-							}
-						}
-				)
-		);
-		_thread_pool.get(_thread_pool.size() - 1).start();
+		getInstance();
+	}
+	
+	public void register(Updatable update_class)
+	{
+		_list.add(update_class);
+		
+		_thread_pool.add(new Pool_Thread(_lock, update_class));
+		new Thread(_thread_pool.get(_thread_pool.size() - 1)).start();		
+		
+		System.out.println("\tSemaphore - registered " + update_class.getClass().getName());
 	}
 	
 	private void dump()
@@ -88,38 +98,11 @@ public class Update_Semaphore
 		_last_update = System.currentTimeMillis();
 		dump();
 		
-		synchronized (_test)
+		synchronized (_lock)
 		{
-			_test.notifyAll();
+			for(Pool_Thread item : _thread_pool)
+				item.run = true;
+			_lock.notifyAll();
 		}
 	}
-	
-	/*public void newData()
-	{
-		_last_update = System.currentTimeMillis();
-		dump();
-		//System.out.println("semaphore");
-		
-		for(int i = 0; i < _list.size(); i++)
-		{
-			if(_tlist.get(i) == null || !_tlist.get(i).isAlive())
-			{
-				Updatable u = _list.get(i);
-				Thread t = new Thread(new Runnable() {
-					public void run() {
-						u.semaphore_update();
-					}
-				});
-				_tlist.set(i, t);
-				_tlist.get(i).start(); //t.start()
-				
-			//	_button_mask &= _clear_mask;
-			//	_button_mask_rising_edge &= _clear_mask_rising_edge;
-			}
-			else
-			{
-//				System.out.println("thread not updated!");
-			}
-		}
-	}*/
 }
