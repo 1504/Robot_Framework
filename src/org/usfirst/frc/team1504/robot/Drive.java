@@ -14,25 +14,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive implements Updatable {
 	
-	private static class DriveTask implements Runnable
+	/*private static class DriveTask implements Runnable
 	{
-
         private Drive _d;
-
         DriveTask(Drive d)
         {
             _d = d;
         }
-
         public void run()
         {
             _d.fastTask();
         }
-    }
+    }*/
 	
 	private static final Drive instance = new Drive();
+	private Object _test = new Object();
 	
-	private Thread _task_thread;
+	//private Thread _task_thread;
 	private Thread _dump_thread;
 	private volatile boolean _thread_alive = true;
 	
@@ -42,7 +40,7 @@ public class Drive implements Updatable {
 	public static int _dir = Map.VISION_INTERFACE_PORT1;
 	private int _index;
 	private double[] _dircn = new double[6];
-	private boolean _winchDeployed = false;
+	//private boolean _winchDeployed = false;
 	
     /**
      * Gets an instance of the Drive
@@ -53,15 +51,17 @@ public class Drive implements Updatable {
     {
         return Drive.instance;
     }
+
 	public static void initialize()
 	{
 		getInstance();
 	}
+    
 	protected Drive()
 	{
-		_task_thread = new Thread(new DriveTask(this), "1504_Drive");
-		_task_thread.setPriority((Thread.NORM_PRIORITY + Thread.MAX_PRIORITY) / 2);
-		_task_thread.start();
+		//_task_thread = new Thread(new DriveTask(this), "1504_Drive");
+		//_task_thread.setPriority((Thread.NORM_PRIORITY + Thread.MAX_PRIORITY) / 2);
+		//_task_thread.start();
 		
 		Update_Semaphore.getInstance().register(this);
 		
@@ -70,6 +70,29 @@ public class Drive implements Updatable {
 		_timer.scheduleAtFixedRate(_osc, 0, 250);
 		
 		System.out.println("Drive Initialized");
+		
+		new Thread(
+				new Runnable()
+				{
+					public void run()
+					{
+						System.out.println("Drive thread starting");
+						//Update_Semaphore semaphore = Update_Semaphore.getInstance();
+						while(true)
+						{
+							try {
+								synchronized (_test)
+								{
+									_test.wait(); // Will wait indefinitely until notified
+								}
+								instance.fastTask();
+							} catch (InterruptedException error) {
+								error.printStackTrace();
+							}
+						}
+					}
+				}
+		).start();
 	}
 	
 	public void release()
@@ -90,10 +113,10 @@ public class Drive implements Updatable {
 	private volatile double _rotation_offset = 0.0;
 	private DriveGlide _glide = new DriveGlide();
 	private Groundtruth _groundtruth = Groundtruth.getInstance();
-	private Winch _winch = Winch.getInstance();
+	//private Winch _winch = Winch.getInstance();
 	private CameraInterface _camera = CameraInterface.getInstance();
 	private CANTalon[] _motors = new CANTalon[Map.DRIVE_MOTOR_PORTS.length];
-	private Gear _gear = Gear.getInstance();
+	//private Gear _gear = Gear.getInstance();
 	private volatile int _loops_since_last_dump = 0;
 	
 	/**
@@ -116,6 +139,8 @@ public class Drive implements Updatable {
 	{
 		// Get new values from the map
 		// Do all configurating first (orbit, front, etc.)
+    	System.out.println("new print statement!!!!!!");
+
 		if(!_ds.isAutonomous())
 		{
 			if(IO.drive_wiggle() != 0.0)
@@ -160,10 +185,6 @@ public class Drive implements Updatable {
 		_rotation_offset = rotation_offset;
 	}
 	
-	public void setFrontAngleDegrees(double rotation_offset)
-	{
-		setFrontAngle(rotation_offset * Math.PI / 180.0);
-	}
 	/**
 	 * Ground truth sensor corrections
 	 * @param input - Joystick input to correct towards
@@ -267,8 +288,6 @@ public class Drive implements Updatable {
 		SmartDashboard.putNumber("Drive input forward", _input[0]);
 		SmartDashboard.putNumber("Drive input anticlockwise", _input[1]);
 		
-		SmartDashboard.putNumber("Drive rotation offset", _rotation_offset);
-		
 		SmartDashboard.putNumber("Drive FL current", currents[0]);
 		SmartDashboard.putNumber("Drive BL current", currents[1]);
 		SmartDashboard.putNumber("Drive BR current", currents[2]);
@@ -346,16 +365,16 @@ public class Drive implements Updatable {
 					input = front_side(input);
 					if(IO.gear_input())
 					{
-						double [] gear = _gear.setDriveInput();
-						for(int i = 0; i < input.length; i++)
-						{
-							input[i] += gear[i];
-						}
+						//double [] gear = _gear.setDriveInput();
+						//for(int i = 0; i < input.length; i++)
+						//{
+							//input[i] += gear[i];
+						//}
 					}
 					
-					if(_winch.get_deployed())
-						setFrontAngle(270.0);
-						front_side(input);
+					//if(_winch.get_deployed())
+						//setFrontAngle(270.0);
+						//front_side(input);
 					
 					_input = input;
 					inputHistory();

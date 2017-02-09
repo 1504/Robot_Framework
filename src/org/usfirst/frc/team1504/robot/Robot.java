@@ -44,6 +44,11 @@ public class Robot extends RobotBase {
      */
     public Robot() {
     	super();
+    	Drive.initialize();
+    	DigitBoard.initialize();
+    	Digit_Board.initialize();
+    	Autonomous.initialize();
+    	Shooter.initialize();
     	//System.out.println(new String(Base64.getDecoder().decode(Map.TEAM_BANNER)));
     }
 
