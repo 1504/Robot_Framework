@@ -25,15 +25,37 @@ public class Autonomous
 	
 	//private Groundtruth _groundtruth = Groundtruth.getInstance();
 	private Drive _drive = Drive.getInstance();
-	
+	private Object _test = new Object();
+
 	private Timer _task_timer;
 	private volatile boolean _thread_alive = true;
 	private long _start_time;
 	
 	protected Autonomous()
 	{
-		//
 		System.out.println("Autonomous Initialized");
+		new Thread(
+				new Runnable()
+				{
+					public void run()
+					{
+						System.out.println("Drive thread starting");
+						//Update_Semaphore semaphore = Update_Semaphore.getInstance();
+						while(true)
+						{
+							try {
+								synchronized (_test)
+								{
+									_test.wait(); // Will wait indefinitely until notified
+								}
+								instance.auto_task();
+							} catch (InterruptedException error) {
+								error.printStackTrace();
+							}
+						}
+					}
+				}
+		).run();
 	}
 	
 	public static Autonomous getInstance()

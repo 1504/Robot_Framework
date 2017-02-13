@@ -14,23 +14,53 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive implements Updatable {
 	
-	/*private static class DriveTask implements Runnable
+	private static class DriveTask //implements Runnable
 	{
         private Drive _d;
+    	private Object _test = new Object();
+        DriveTask(Drive d)
+        {
+        	_d = d;
+        	new Thread(
+    				new Runnable()
+    				{
+    					public void run()
+    					{
+    						System.out.println("Drive thread starting");
+    						//Update_Semaphore semaphore = Update_Semaphore.getInstance();
+    						while(true)
+    						{
+    							try {
+    								synchronized (_test)
+    								{
+    									_test.wait(); // Will wait indefinitely until notified
+    								}
+    								_d.fastTask();
+    							} catch (InterruptedException error) {
+    								error.printStackTrace();
+    							}
+    						}
+    					}
+    				}
+    		).start();
+        }
+       
+        /*private Drive _d;
+
         DriveTask(Drive d)
         {
             _d = d;
         }
+        
         public void run()
         {
             _d.fastTask();
-        }
-    }*/
+        }*/
+    }
 	
 	private static final Drive instance = new Drive();
-	private Object _test = new Object();
 	
-	//private Thread _task_thread;
+	private DriveTask _task_thread;
 	private Thread _dump_thread;
 	private volatile boolean _thread_alive = true;
 	
@@ -59,7 +89,7 @@ public class Drive implements Updatable {
     
 	protected Drive()
 	{
-		//_task_thread = new Thread(new DriveTask(this), "1504_Drive");
+		_task_thread = new DriveTask(this);//new Thread(new DriveTask(this), "1504_Drive");
 		//_task_thread.setPriority((Thread.NORM_PRIORITY + Thread.MAX_PRIORITY) / 2);
 		//_task_thread.start();
 		
@@ -71,7 +101,7 @@ public class Drive implements Updatable {
 		
 		System.out.println("Drive Initialized");
 		
-		new Thread(
+		/*new Thread(
 				new Runnable()
 				{
 					public void run()
@@ -92,7 +122,7 @@ public class Drive implements Updatable {
 						}
 					}
 				}
-		).start();
+		).start();*/
 	}
 	
 	public void release()
@@ -139,7 +169,7 @@ public class Drive implements Updatable {
 	{
 		// Get new values from the map
 		// Do all configurating first (orbit, front, etc.)
-    	System.out.println("new print statement!!!!!!");
+    	//System.out.println("new print statement!!!!!!");
 
 		if(!_ds.isAutonomous())
 		{

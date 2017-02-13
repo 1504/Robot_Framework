@@ -68,9 +68,14 @@ public class Shooter implements Updatable
 	
 	public void semaphore_update()
 	{
+		
+		update_dashboard();
 		if(IO.shooter_input())
 		{
+			_shooter.setP(Map.SHOOTER_GAIN_P);
+			_shooter.setI(Map.SHOOTER_GAIN_I);
 			_shooter.set(1500);
+			System.out.println("shooter running");
 			/*if(Math.abs(_conveyor.getSpeed() - Map.SHOOTER_TARGET_SPEED) <= Map.SHOOTER_SPEED_GOOD_DEADBAND)
 			{
 				_conveyor.set(.75);
@@ -79,8 +84,13 @@ public class Shooter implements Updatable
 				_conveyor.set(0);*/
 			
 		}
+		
 		else
+		{
 			_shooter.set(0);
+			System.out.println("shooter stopped");
+		}
+
 	}
 	
 }

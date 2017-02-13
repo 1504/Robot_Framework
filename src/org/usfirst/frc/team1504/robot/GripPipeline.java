@@ -30,7 +30,7 @@ public class GripPipeline implements VisionPipeline{
 	private Mat hsvThresholdOutput = new Mat();
 	private Mat cvErodeOutput = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
-	public enum AimState {WAIT_FOR_IMAGE_GOOD, GET_IMAGE, AIM_ROBOT, AIMED, BAD_IMAGE}
+	public enum AimState {AIM_ROBOT, AIMED, BAD_IMAGE}
 	
 	public double[][] _output;
 	public AimState _state;
@@ -69,7 +69,7 @@ public class GripPipeline implements VisionPipeline{
 		double[] area = _output[4];
 		//System.out.println("length of area is " + area.length);
 		//System.out.println("area is "+ area);
-		double[] position = _output[0];
+		//double[] position = _output[0];
 
 		if(area.length == 0)
 		{
