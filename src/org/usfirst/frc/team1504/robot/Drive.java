@@ -202,8 +202,8 @@ public class Drive implements Updatable
 				
 				_groundtruth.getData();
 				input = groundtruth_correction(input);
-				
 				output = outputCompute(input);
+//				System.out.println("output computed, input: " + input[0] + " " + input[1] + " " + input[2] + "|||| output: " + output[0] + " " + output[1] + " " + output[2] + " " + output[3]);
 				motorOutput(output);
 				
 				_loops_since_last_dump++;

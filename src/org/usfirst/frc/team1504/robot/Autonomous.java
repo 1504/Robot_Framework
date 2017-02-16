@@ -24,7 +24,7 @@ public class Autonomous
 	private static final Autonomous instance = new Autonomous();
 	
 	//private Groundtruth _groundtruth = Groundtruth.getInstance();
-	private Drive_Old _drive = Drive_Old.getInstance();
+	private Drive _drive = Drive.getInstance();
 	private Object _test = new Object();
 
 	private Timer _task_timer;
@@ -39,7 +39,7 @@ public class Autonomous
 				{
 					public void run()
 					{
-						System.out.println("Drive thread starting");
+						System.out.println("Auton thread starting");
 						//Update_Semaphore semaphore = Update_Semaphore.getInstance();
 						while(true)
 						{

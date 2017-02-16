@@ -88,7 +88,7 @@ public class Shooter implements Updatable
 		else
 		{
 			_shooter.set(0);
-			System.out.println("shooter stopped");
+//			System.out.println("shooter stopped");
 		}
 
 	}

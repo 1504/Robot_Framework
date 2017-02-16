@@ -29,7 +29,7 @@ public class Robot extends RobotBase {
 	private Digit_Board _digit_board = Digit_Board.getInstance();
 	private Update_Semaphore _semaphore = Update_Semaphore.getInstance();
 	private Logger _logger = Logger.getInstance();
-	private Autonomous _autonomous = Autonomous.getInstance();
+//	private Autonomous _autonomous = Autonomous.getInstance();
 	private Arduino _arduino = Arduino.getInstance();
 	//private Navx _navx = Navx.getInstance();
 	private Winch _winch = Winch.getInstance();
@@ -44,10 +44,10 @@ public class Robot extends RobotBase {
     public Robot() {
     	super();
     	Drive.initialize();
-//    	Drive_Old.initialize();
     	DigitBoard.initialize();
     	Digit_Board.initialize();
-    	Autonomous.initialize();
+    	Intake.initialize(); 
+//    	Autonomous.initialize();
     	Shooter.initialize();
     	//System.out.println(new String(Base64.getDecoder().decode(Map.TEAM_BANNER)));
     }
