@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.hal.HAL;
+import edu.wpi.first.wpilibj.hal.HALUtil;
 import edu.wpi.first.wpilibj.hal.FRCNetComm.tInstances;
 import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -25,7 +26,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends RobotBase {
 	
-	private DigitBoard _db = DigitBoard.getInstance();
 	private Digit_Board _digit_board = Digit_Board.getInstance();
 	private Update_Semaphore _semaphore = Update_Semaphore.getInstance();
 	private Logger _logger = Logger.getInstance();
@@ -33,10 +33,9 @@ public class Robot extends RobotBase {
 	private Arduino _arduino = Arduino.getInstance();
 	//private Navx _navx = Navx.getInstance();
 	private Winch _winch = Winch.getInstance();
-	private CameraInterface ci = CameraInterface.getInstance();
+//	private CameraInterface ci = CameraInterface.getInstance();
 	//private Vision _vision = Vision.getInstance();
 	//Pneumatics t3 = Pneumatics.getInstance();
-	Drive t5 = Drive.getInstance();
 	private Thread _dashboard_task;
 	
     /**
@@ -45,6 +44,7 @@ public class Robot extends RobotBase {
     public Robot() {
     	super();
     	Drive.initialize();
+//    	Drive_Old.initialize();
     	DigitBoard.initialize();
     	Digit_Board.initialize();
     	Autonomous.initialize();
@@ -63,18 +63,13 @@ public class Robot extends RobotBase {
     protected void robotInit() {
     	_dashboard_task = new Thread(new Runnable() {
 			public void run() {
-//				char edge_track = 0;
+				char edge_track = 0;
 				PowerDistributionPanel pdp = new PowerDistributionPanel();
 				char[] testImages = new char[20];
 				Arrays.fill(testImages, 'a');
 				while(true)
 				{	
-					char[] img = _arduino.getSensorImage();
-					for(int i = 0; i < 6; i++)
-					{
-						System.out.print(img[i]);
-					}
-					System.out.println("");
+
 					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					SmartDashboard.putNumber("Robot Voltage", m_ds.getBatteryVoltage());
 					SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
@@ -82,11 +77,11 @@ public class Robot extends RobotBase {
 					/*
 					 * Borrowed from Mike
 					 */	
-//					edge_track = (char)( ( (edge_track << 1) + (HALUtil.getFPGAButton() ? 1 : 0) ) & 3);
-//					if(edge_track == 1) // Get image from groundtruth sensors, output it to the DS
-//					{
-//						SmartDashboard.putString("Groundtruth raw image", new String(_arduino.getSensorImage()));
-//					}
+					edge_track = (char)( ( (edge_track << 1) + (HALUtil.getFPGAButton() ? 1 : 0) ) & 3);
+					if(edge_track == 1) // Get image from groundtruth sensors, output it to the DS
+					{
+						SmartDashboard.putString("Groundtruth raw image", new String(_arduino.getSensorImage()));
+					}
 						Timer.delay(0.5);
 				}
 			}
@@ -94,7 +89,7 @@ public class Robot extends RobotBase {
     	_dashboard_task.start();
     	
     	//System.out.println(new String(Base64.getDecoder().decode(Map.ROBOT_BANNER)));
-        System.out.println("Quixote Initialized ( robotInit() ) @ " + IO.ROBOT_START_TIME);
+        System.out.println("Babbage Initialized ( robotInit() ) @ " + IO.ROBOT_START_TIME);
     }
 
     /**
@@ -106,6 +101,7 @@ public class Robot extends RobotBase {
      */
     protected void disabled() {
         System.out.println("Robot Disabled");
+        _arduino.setPulseSpeed(1);
     }
 
     /**
@@ -138,15 +134,15 @@ public class Robot extends RobotBase {
     public void test()
     {
     	System.out.println("Test Mode!");
-    	CameraInterface ci = CameraInterface.getInstance();
+//    	CameraInterface ci = CameraInterface.getInstance();
     	//ci.set_mode(CameraInterface.CAMERA_MODE.MULTI);
     	//ci.set_mode(CameraInterface.CAMERA_MODE.SINGLE);
     	while (isTest() && isEnabled())
     	{
     		// Switch camera views every 5 seconds like a pro
-    		ci.set_active_camera(ci.get_active_camera() == CameraInterface.CAMERAS.GEARSIDE ? CameraInterface.CAMERAS.INTAKESIDE : CameraInterface.CAMERAS.GEARSIDE);
-            System.out.println("Switching active camera to " + ci.get_active_camera().toString());
-            Timer.delay(5);
+//    		ci.set_active_camera(ci.get_active_camera() == CameraInterface.CAMERAS.GEARSIDE ? CameraInterface.CAMERAS.INTAKESIDE : CameraInterface.CAMERAS.GEARSIDE);
+//            System.out.println("Switching active camera to " + ci.get_active_camera().toString());
+//            Timer.delay(5);
     	}
     }
 

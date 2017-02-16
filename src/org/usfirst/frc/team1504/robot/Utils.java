@@ -3,6 +3,9 @@ package org.usfirst.frc.team1504.robot;
 public class Utils
 
 {
+	public static double distance(double a, double b) {
+		return Math.sqrt(a * a + b * b);
+	}
 
 	public static double snap(double val, double min, double max)
 	{

@@ -24,7 +24,7 @@ public class Autonomous
 	private static final Autonomous instance = new Autonomous();
 	
 	//private Groundtruth _groundtruth = Groundtruth.getInstance();
-	private Drive _drive = Drive.getInstance();
+	private Drive_Old _drive = Drive_Old.getInstance();
 	private Object _test = new Object();
 
 	private Timer _task_timer;
