@@ -19,7 +19,7 @@ public class IO
 	 */
 	public static boolean camera_port()
 	{
-		return _secondary.getRawButton(Map.VISION_INTERFACE_PORT_BUTTON);
+		return _secondary.getRawButton(Map.VISION_INTERFACE_CAMERA_PORT_BUTTON);
 	}
 	
 	/**
@@ -31,9 +31,9 @@ public class IO
 		return Utils.deadzone(Math.abs(_secondary.getRawAxis(Map.WINCH_POWER_AXIS))) * Map.WINCH_DIRECTION;
 	}
 	
-	public static boolean operator_override()
+	public static boolean winch_override()
 	{
-		return _secondary.getRawButtonLatch(Map.UTIL_OPERATOR_OVERRIDE_BUTTON);
+		return _secondary.getRawButtonLatch(Map.WINCH_OVERRIDE_BUTTON);
 	}
 	
 	public static boolean winch_deploy()
@@ -59,6 +59,11 @@ public class IO
 		if(_secondary.getRawButton(Map.SHOOTER_FIRE_BUTTON))
 			System.out.println("shooter joystick input");
 		return _secondary.getRawButton(Map.SHOOTER_FIRE_BUTTON);
+	}
+	
+	public static boolean shooter_override()
+	{
+		return _secondary.getRawButtonLatch(Map.SHOOTER_OVERRIDE_BUTTON);
 	}
 	
 	/**

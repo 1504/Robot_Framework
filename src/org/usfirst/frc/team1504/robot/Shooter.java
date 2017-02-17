@@ -6,6 +6,7 @@ import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -17,29 +18,31 @@ public class Shooter implements Updatable
 	private static final Shooter instance = new Shooter();
 	private static final DriverStation _ds = DriverStation.getInstance();
 	private Thread _task_thread;
+	private double [][] PID = {{.03, .00015}, {.05, .00017}};
+	private static Preferences _pref = Preferences.getInstance();
 	
-	private final int _sensor_status;
+	//private final int _sensor_status;
 	
 	public Shooter()
 	{
 		_shooter = new CANTalon(Map.SHOOTER_MOTOR);
 		//_conveyor = new CANTalon(Map.CONVEYOR_MOTOR);
 
-		_sensor_status = _shooter.isSensorPresent(FeedbackDevice.CtreMagEncoder_Relative) == CANTalon.FeedbackDeviceStatus.FeedbackStatusPresent ? 1 : 0;
+		//_sensor_status = _shooter.isSensorPresent(FeedbackDevice.CtreMagEncoder_Relative) == CANTalon.FeedbackDeviceStatus.FeedbackStatusPresent ? 1 : 0;
 		
-
-		if((_sensor_status & 1) != 0)
+		//if(_shooter.getSpeed() < Map.SHOOTER_TARGET_SPEED)
+		if(_shooter.isSensorPresent(FeedbackDevice.CtreMagEncoder_Relative) == CANTalon.FeedbackDeviceStatus.FeedbackStatusPresent)
 		{
 			_shooter.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 			_shooter.changeControlMode(TalonControlMode.Speed);
-			_shooter.setP(Map.SHOOTER_GAIN_P);
-			_shooter.setI(Map.SHOOTER_GAIN_I);
-			_shooter.reverseSensor(true);
+			_shooter.setP(PID[0][0]);
+			_shooter.setI(PID[0][1]);
+			_shooter.reverseSensor(false);
 		}
 		
 		SmartDashboard.putNumber("Shooter Target Speed", Map.SHOOTER_TARGET_SPEED);
-		SmartDashboard.putBoolean("Shooter port encoder good", (_sensor_status & 1) != 0);
-		SmartDashboard.putBoolean("Shooter star encoder good", (_sensor_status & 2) != 0);
+		//SmartDashboard.putBoolean("Shooter port encoder good", (_sensor_status & 1) != 0);
+		//SmartDashboard.putBoolean("Shooter star encoder good", (_sensor_status & 2) != 0);
 		
 		Update_Semaphore.getInstance().register(this);
 		System.out.println("Shooter Initialized");
@@ -53,6 +56,16 @@ public class Shooter implements Updatable
 	public static void initialize()
 	{
 		getInstance();
+	}
+	
+	public boolean getSpeedGood()
+	{
+		return Math.abs(getTargetSpeed() - _pref.getDouble("Shooter Target Speed", 0.0)) < Map.SHOOTER_PID_DEADZONE;
+	}
+	
+	public double getTargetSpeed()
+	{
+		return _pref.getDouble("Shooter target speed", 0.0);
 	}
 	private void update_dashboard()
 	{
@@ -70,12 +83,25 @@ public class Shooter implements Updatable
 	{
 		
 		update_dashboard();
-		if(IO.shooter_input())
+		if(_ds.isEnabled() && IO.shooter_input())
 		{
-			_shooter.setP(Map.SHOOTER_GAIN_P);
+			if(getSpeedGood() || IO.shooter_override())
+			{
+				_shooter.setP(PID[1][0]);
+				_shooter.setI(PID[1][1]);
+				_shooter.set(getTargetSpeed());
+			}
+			else
+			{
+				_shooter.setP(PID[0][0]);
+				_shooter.setI(PID[0][1]);
+				_shooter.set(getTargetSpeed());
+			}
+
+			/*_shooter.setP(Map.SHOOTER_GAIN_P);
 			_shooter.setI(Map.SHOOTER_GAIN_I);
 			_shooter.set(1500);
-			System.out.println("shooter running");
+			System.out.println("shooter running");*/
 			/*if(Math.abs(_conveyor.getSpeed() - Map.SHOOTER_TARGET_SPEED) <= Map.SHOOTER_SPEED_GOOD_DEADBAND)
 			{
 				_conveyor.set(.75);
@@ -87,6 +113,8 @@ public class Shooter implements Updatable
 		
 		else
 		{
+			_shooter.setP(PID[0][0]);
+			_shooter.setI(PID[0][1]);
 			_shooter.set(0);
 //			System.out.println("shooter stopped");
 		}

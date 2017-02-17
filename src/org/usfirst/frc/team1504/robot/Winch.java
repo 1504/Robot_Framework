@@ -42,7 +42,7 @@ public class Winch implements Updatable
 	
 	public void semaphore_update()
 	{
-		if(_driver_station.getMatchTime() > 30.0 && !IO.operator_override())
+		if(_driver_station.getMatchTime() > 30.0 && !IO.winch_override())
 			return;
 		
 		// Deploy winch out the side of the robot
@@ -61,7 +61,7 @@ public class Winch implements Updatable
 		{
 			//_servo1.set(Map.WINCH_SERVO_STORED);
 			//_servo2.set(Map.WINCH_SERVO_STORED);
-			//_deployed = false;
+			_deployed = false;
 		}
 		
 		// Run that thang!
