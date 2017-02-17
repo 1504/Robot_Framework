@@ -125,6 +125,7 @@ public class Robot extends RobotBase {
      */
     public void operatorControl() {
     	System.out.println("Operator Control");
+    	_arduino.setGearLights(GEAR_MODE.INDIVIDUAL_INTENSITY, .50, .50);
     }
 
     /**
