@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1504.robot;
 
+import org.usfirst.frc.team1504.robot.Arduino.GEAR_MODE;
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 import org.usfirst.frc.team1504.utils.Average;
 
@@ -9,7 +10,7 @@ public class Gear implements Updatable{
 	private static final Gear _instance = new Gear();
 	AnalogInput _port = new AnalogInput(0);
 	AnalogInput _star = new AnalogInput(1);
-	Arduino.GEAR_MODE _mode;
+	Arduino _duino = Arduino.getInstance();
 	double _portDist = 0;
 	double _starDist = 0;
 	/*double [] _starAverage = new double[4];
@@ -22,7 +23,8 @@ public class Gear implements Updatable{
 	Average _starAvg;
 
 
-	public static Gear getInstance() {
+	public static Gear getInstance() 
+	{
 		
 		return Gear._instance;
 
@@ -71,18 +73,19 @@ public class Gear implements Updatable{
 		
 		if(_portDist > Map.GEAR_DISTANCE || _starDist > Map.GEAR_DISTANCE)
 		{
-			_mode = Arduino.GEAR_MODE.INDIVIDUAL_INTENSITY;
+			_duino.setGearLights(GEAR_MODE.INDIVIDUAL_INTENSITY, 1.0-portDist, 1.0-starDist);
 		}
 		
 		
 		else if(_portDist > Map.GEAR_DISTANCE && _starDist > Map.GEAR_DISTANCE)
 		{
-			_mode = Arduino.GEAR_MODE.OFF;
+//			_mode = Arduino.GEAR_MODE.OFF;
+			_duino.setGearLights(GEAR_MODE.OFF);
 		}
 		
 		else if(_portDist <= Map.GEAR_DISTANCE && _starDist <= Map.GEAR_DISTANCE)
 		{
-			_mode = Arduino.GEAR_MODE.PULSE;
+			_duino.setGearLights(GEAR_MODE.PULSE);
 		}
 		
 		_portDist = _portAvg.findAverage(portDist);

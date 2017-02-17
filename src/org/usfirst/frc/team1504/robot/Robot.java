@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends RobotBase {
-	
+
 	private Digit_Board _digit_board = Digit_Board.getInstance();
 	private Update_Semaphore _semaphore = Update_Semaphore.getInstance();
 	private Logger _logger = Logger.getInstance();
@@ -102,6 +102,7 @@ public class Robot extends RobotBase {
     protected void disabled() {
         System.out.println("Robot Disabled");
         _arduino.setPulseSpeed(1);
+        _arduino.setGearLights(GEAR_MODE.PULSE);
     }
 
     /**
@@ -134,6 +135,8 @@ public class Robot extends RobotBase {
     public void test()
     {
     	System.out.println("Test Mode!");
+    	_arduino.setPulseSpeed(10);
+    	_arduino.setGearLights(GEAR_MODE.PULSE);
 //    	CameraInterface ci = CameraInterface.getInstance();
     	//ci.set_mode(CameraInterface.CAMERA_MODE.MULTI);
     	//ci.set_mode(CameraInterface.CAMERA_MODE.SINGLE);

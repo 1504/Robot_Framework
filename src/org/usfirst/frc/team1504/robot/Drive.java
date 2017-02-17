@@ -101,6 +101,7 @@ public class Drive implements Updatable
 	}
 	
 	private DriverStation _ds = DriverStation.getInstance();
+	private Gear _gear = Gear.getInstance();
 	private Logger _log = Logger.getInstance();
 	private DriveGlide _glide = new DriveGlide();
 	private Groundtruth _groundtruth = Groundtruth.getInstance();
@@ -185,6 +186,7 @@ public class Drive implements Updatable
 		while(_thread_alive)
 		{
 			input = _input;
+			
 			if(_ds.isEnabled())
 			{
 				if (_new_data)
@@ -202,6 +204,8 @@ public class Drive implements Updatable
 				
 				_groundtruth.getData();
 				input = groundtruth_correction(input);
+				if(IO.gear_input())
+					input = _gear.setDriveInput();
 				output = outputCompute(input);
 //				System.out.println("output computed, input: " + input[0] + " " + input[1] + " " + input[2] + "|||| output: " + output[0] + " " + output[1] + " " + output[2] + " " + output[3]);
 				motorOutput(output);

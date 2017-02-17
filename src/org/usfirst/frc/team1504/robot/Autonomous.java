@@ -34,28 +34,6 @@ public class Autonomous
 	protected Autonomous()
 	{
 		System.out.println("Autonomous Initialized");
-		new Thread(
-				new Runnable()
-				{
-					public void run()
-					{
-						System.out.println("Auton thread starting");
-						//Update_Semaphore semaphore = Update_Semaphore.getInstance();
-						while(true)
-						{
-							try {
-								synchronized (_test)
-								{
-									_test.wait(); // Will wait indefinitely until notified
-								}
-								instance.auto_task();
-							} catch (InterruptedException error) {
-								error.printStackTrace();
-							}
-						}
-					}
-				}
-		).run();
 	}
 	
 	public static Autonomous getInstance()
