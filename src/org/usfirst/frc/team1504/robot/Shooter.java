@@ -17,8 +17,8 @@ public class Shooter implements Updatable
 
 	private static final Shooter instance = new Shooter();
 	private static final DriverStation _ds = DriverStation.getInstance();
-	private static final CameraInterface _camera = CameraInterface.getInstance();
-	private Thread _task_thread;
+//	private static final CameraInterface _camera = CameraInterface.getInstance();
+	private Thread thread;
 	private double [][] PID = {{.03, .00015}, {.05, .00017}};
 	private static Preferences _pref = Preferences.getInstance();
 	
@@ -38,7 +38,7 @@ public class Shooter implements Updatable
 			_shooter.changeControlMode(TalonControlMode.Speed);
 			_shooter.setP(PID[0][0]);
 			_shooter.setI(PID[0][1]);
-			_shooter.reverseSensor(false);
+			_shooter.reverseSensor(true);
 		}
 		
 		SmartDashboard.putNumber("Shooter Target Speed", Map.SHOOTER_TARGET_SPEED);
@@ -84,19 +84,22 @@ public class Shooter implements Updatable
 	{
 		
 		update_dashboard();
-		if(_ds.isEnabled() && IO.shooter_input() || _camera._isAimed)
+
+		if(_ds.isEnabled() && IO.shooter_input())//|| _camera._isAimed)
 		{
+			System.out.println("should shoot");
 			if(getSpeedGood() || IO.shooter_override())
 			{
 				_shooter.setP(PID[1][0]);
 				_shooter.setI(PID[1][1]);
-				_shooter.set(getTargetSpeed());
+				_shooter.set(-1500);//getTargetSpeed());
 			}
-			else
+			
+			else if(!getSpeedGood())
 			{
 				_shooter.setP(PID[0][0]);
 				_shooter.setI(PID[0][1]);
-				_shooter.set(getTargetSpeed());
+				_shooter.set(-1500);//getTargetSpeed());	
 			}
 
 			/*_shooter.setP(Map.SHOOTER_GAIN_P);
@@ -109,16 +112,15 @@ public class Shooter implements Updatable
 			}
 			else
 				_conveyor.set(0);*/
-			
+
 		}
-		
 		else
 		{
 			_shooter.setP(PID[0][0]);
 			_shooter.setI(PID[0][1]);
 			_shooter.set(0);
 //			System.out.println("shooter stopped");
-		}
+		} 
 
 	}
 	

@@ -29,12 +29,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends RobotBase {
 
-	private Digit_Board _digit_board = Digit_Board.getInstance();
+	private Digit_Board _db = Digit_Board.getInstance();
 	private DriverStation _ds = DriverStation.getInstance();
 	private Drive _drive = Drive.getInstance();
 	private Update_Semaphore _semaphore = Update_Semaphore.getInstance();
 	private Logger _logger = Logger.getInstance();
-//	private Autonomous _autonomous = Autonomous.getInstance();
+	private Autonomous _autonomous = Autonomous.getInstance();
 	private Arduino _arduino = Arduino.getInstance();
 	//private Navx _navx = Navx.getInstance();
 	private Winch _winch = Winch.getInstance();
@@ -188,6 +188,18 @@ public class Robot extends RobotBase {
                 _logger.start("Auto");
                 
                 autonomous();
+                
+                if(_db.pos%3 == 0)
+	                //Move forward, turn right, move forward
+	                _autonomous.setup_path(new double[][] {{0.5, 0.0, 0.0, 0, 3000}, {0.0, 0.0, 0.5, 0, 4000}, {0.5, 0.0, 0.0, 0, 6000}, {0.15, 0.0, 0.0, 0, 8000}});
+                else if (_db.pos%3 == 1)
+	                //Move forward, turn left, move forward
+	                _autonomous.setup_path(new double[][] {{0.5, 0.0, 0.0, 0, 3000}, {0.0, 0.0, -0.5, 0, 4000}, {0.5, 0.0, 0.0, 0, 6000}, {0.15, 0.0, 0.0, 0, 8000}});
+                else if (_db.pos%3 == 2)
+	                //Move forward
+	                _autonomous.setup_path(new double[][] {{0.5, 0.0, 0.0, 0, 5000}});
+
+                _autonomous.start();
                 
                 while (isAutonomous() && !isDisabled()) {
                 	m_ds.waitForData(150);

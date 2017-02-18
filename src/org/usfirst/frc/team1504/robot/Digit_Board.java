@@ -10,12 +10,20 @@ public class Digit_Board
 	
 	private long _thread_sleep_delay = 100;
 	private int _thread_sleep_counter;
+	String mode = "p";
 	
 	private double _voltage;
 	
 	private double _current_pot;
 	private double _last_pot;
+	
+	private boolean _a;
+	private boolean _b;
+	
+	private static String[] _positions =  {"P  1", "P  2", "P  3"};
+	public int pos = 0;
 
+	
 	//Setting up a separate thread for the Digit Board
 	private static class Board_Task implements Runnable
 	{
@@ -77,6 +85,8 @@ public class Digit_Board
 	{
 		_current_pot = _board.getPotentiometer();
 		_voltage = _ds.getBatteryVoltage();
+		_a = _board.getAOnRisingEdge();
+		_b = _board.getBOnRisingEdge();
 	}
 	
 	//Writes the values to the digit board.
@@ -85,14 +95,24 @@ public class Digit_Board
 		if (_current_pot != _last_pot)
 		{
 			_board.writeDigits("  " + Double.toString(_current_pot));
-			//_thread_sleep_delay = 100;
+			mode = "pot";
 			_thread_sleep_counter = 0;
+		}
+		if(_a)
+		{
+			_board.writeDigits(_positions[pos%3]);
+			mode = "pos";
+			_thread_sleep_counter = 0;
+			pos++;
 		}
 		else
 		{
 			if (_thread_sleep_counter < 7)
 			{
-				_board.writeDigits("  " + Double.toString(_current_pot));
+				if(mode == "pot")
+					_board.writeDigits("  " + Double.toString(_current_pot));
+				else if (mode == "pos")
+					_board.writeDigits(_positions[pos%3]);
 				_thread_sleep_counter++;
 			}
 			else

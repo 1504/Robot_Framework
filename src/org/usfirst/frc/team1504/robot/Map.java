@@ -19,7 +19,7 @@ public class Map {
  * Shooter stuff
  */
 	
-	public static final int SHOOTER_MOTOR = 21;//30;
+	public static final int SHOOTER_MOTOR = 30;
 	public static final int CONVEYOR_MOTOR = 31;
 	public static final double SHOOTER_INTAKE_SPEED = -1.0;
 	public static /*final*/ double SHOOTER_TARGET_SPEED = 1500.0; //6575.0;//6775.0;
@@ -27,7 +27,11 @@ public class Map {
 	public static final double SHOOTER_GAIN_I = 0.00005; //0.0001;
 	public static final double SHOOTER_SPEED_GOOD_DEADBAND = 15.0;
 	public static final int SHOOTER_PID_DEADZONE = 50;
-
+	
+/**
+ * Intake stuff
+ */
+		public static final int INTAKE_TALON_PORT = 40;
 	
 /**
  * Drive class things
@@ -70,7 +74,7 @@ public class Map {
  * Winch stuff
  */	
 	public static final int WINCH_TALON_PORT_NANCY = 20;
-	public static final int WINCH_TALON_PORT_MEAD = 22;//21;
+	public static final int WINCH_TALON_PORT_MEAD = 21;
 	
 	public static final int WINCH_POWER_AXIS = 1;
 	
@@ -165,10 +169,6 @@ public class Map {
 	public static final double VISION_VAL2 = 255.0;
 
 	
-/**
- * Intake stuff
- */
-	public static final int INTAKE_TALON_PORT = 40;
 	
 /**
  * Pneumatics stuff
