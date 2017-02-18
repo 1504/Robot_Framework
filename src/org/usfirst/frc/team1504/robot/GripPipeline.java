@@ -98,19 +98,20 @@ public class GripPipeline implements VisionPipeline{
 		}
 	}
 	
-	public void checkAim()
+	public boolean checkAim()
 	{
 		if(offset_aim_factor() < 10)// TODO Map.VISION_INTERFACE_AIM_DEADZONE)
 		{
 			_state = AimState.AIMED;
-			System.out.println("aimed");
+			System.out.println("camera interface checkAim = aimed");
+			return true;
 		}
 		
 		else
 		{
 			_state = AimState.AIM_ROBOT;
-			System.out.println("need to aim");
-
+			System.out.println("camera interface checkAim = need to aim");
+			return false;
 		}	
 	}
 	

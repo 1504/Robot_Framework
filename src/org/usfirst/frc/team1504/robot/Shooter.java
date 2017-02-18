@@ -17,6 +17,7 @@ public class Shooter implements Updatable
 
 	private static final Shooter instance = new Shooter();
 	private static final DriverStation _ds = DriverStation.getInstance();
+	private static final CameraInterface _camera = CameraInterface.getInstance();
 	private Thread _task_thread;
 	private double [][] PID = {{.03, .00015}, {.05, .00017}};
 	private static Preferences _pref = Preferences.getInstance();
@@ -83,7 +84,7 @@ public class Shooter implements Updatable
 	{
 		
 		update_dashboard();
-		if(_ds.isEnabled() && IO.shooter_input())
+		if(_ds.isEnabled() && IO.shooter_input() || _camera._isAimed)
 		{
 			if(getSpeedGood() || IO.shooter_override())
 			{
