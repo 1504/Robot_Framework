@@ -20,6 +20,7 @@ public class CameraInterface implements Updatable
 	private MjpegServer[] _servers = new MjpegServer[CAMERAS.values().length +1];
 	VisionThreadSingleFrame test;
 	private CAMERAS _active_camera = null;
+	public boolean _isAimed = false;
 	
 	protected CameraInterface()
 	{
@@ -40,6 +41,7 @@ public class CameraInterface implements Updatable
 		System.out.print("Camera Interface Initialized\n" + server_ports);
 		
 		GripPipeline _pipe = new GripPipeline();
+		_isAimed = _pipe.checkAim();
 		//VisionRunner<VisionPipeline> _runner = new VisionRunner<>(_cameras[get_active_camera().ordinal()], _pipe, null);
 		//_runner.runOnce();
 		VisionRunner.Listener<GripPipeline> _listener = new VisionRunner.Listener<GripPipeline>() {
@@ -72,6 +74,14 @@ public class CameraInterface implements Updatable
 		_active_camera = camera;
 		_servers[_servers.length - 1].setSource(_cameras[camera.ordinal()]);
 	}
+	
+	public void distance()
+	{
+		
+	}
+	/*
+	 * take vertical position on image and translate to 
+	 * */
 	
 	public CAMERAS get_active_camera()
 	{

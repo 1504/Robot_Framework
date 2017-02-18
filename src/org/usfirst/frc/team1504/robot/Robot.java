@@ -18,6 +18,7 @@ import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.hal.HAL;
 import edu.wpi.first.wpilibj.hal.HALUtil;
@@ -73,7 +74,6 @@ public class Robot extends RobotBase {
 				Arrays.fill(testImages, 'a');
 				while(true)
 				{	
-
 					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					SmartDashboard.putNumber("Robot Voltage", m_ds.getBatteryVoltage());
 					SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
@@ -222,6 +222,8 @@ public class Robot extends RobotBase {
                 }
                 
                 _logger.stop();
+                //_winch.set_deployed(false);
+                //Timer.delay(1);
                 m_ds.InOperatorControl(false);
             }
         } /* while loop */

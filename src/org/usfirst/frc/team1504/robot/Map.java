@@ -77,7 +77,7 @@ public class Map {
 	public static final double WINCH_DIRECTION = 1.0;
 	public static final int WINCH_SERVO1 = 0;
 	public static final int WINCH_SERVO2 = 0;
-	public static final double WINCH_SERVO_DEPLOYED = 1.0;
+	public static final double WINCH_SERVO_DEPLOYED = 180.0;
 	public static final double WINCH_SERVO_STORED = 0.0;
 
 /**
