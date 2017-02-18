@@ -15,6 +15,7 @@ import org.opencv.core.*;
 //import org.opencv.features2d.FeatureDetector;
 //import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.imgproc.Moments;
 //import org.opencv.objdetect.*;
 
 /**
@@ -80,19 +81,35 @@ public class GripPipeline implements VisionPipeline{
 		
 		else {
 			int largest = 0;
+			int second_largest = 0;
 			for(int i = 0; i < area.length; i++)
 			{
 				if(area[i] > area[largest])
 				{
 					largest = i;
 				}
+				
 			}
 			
 			_target = largest;
+			
+			for(int i = 0; i < area.length; i++)
+			{
+				if(area[i] > area[second_largest] && second_largest != _target)
+				{
+					second_largest = i;
+				}
+			}	
+			
 			//System.out.println("largest target is " + _target);
 			//_target = (2 * position[largest] / Map.VISION_INTERFACE_VIDEO_WIDTH) - 1; 
 			//_target *= Map.VISION_INTERFACE_VIDEO_FOV / -2.0; //TODO what is FOV of camera
 			_target = _output[0][largest];
+			
+			Moments m = Imgproc.moments(findContoursInput);
+			Point centroid = new Point();
+			centroid.x = m.get_m10() / m.get_m00();
+			centroid.y = m.get_m01() / m.get_m00();
 			System.out.println("target is " + _target);
 			checkAim();
 		}

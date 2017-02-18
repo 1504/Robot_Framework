@@ -75,6 +75,14 @@ public class CameraInterface implements Updatable
 		_servers[_servers.length - 1].setSource(_cameras[camera.ordinal()]);
 	}
 	
+	public void distance()
+	{
+		
+	}
+	/*
+	 * take vertical position on image and translate to 
+	 * */
+	
 	public CAMERAS get_active_camera()
 	{
 		return _active_camera;
