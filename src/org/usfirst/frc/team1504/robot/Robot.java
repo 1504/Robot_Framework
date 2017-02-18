@@ -14,6 +14,8 @@ import org.usfirst.frc.team1504.robot.Arduino.SHOOTER_STATUS;
 //import java.util.Base64;
 
 import com.ctre.CANTalon;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
@@ -27,6 +29,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends RobotBase {
 
 	private Digit_Board _digit_board = Digit_Board.getInstance();
+	private DriverStation _ds = DriverStation.getInstance();
+	private Drive _drive = Drive.getInstance();
 	private Update_Semaphore _semaphore = Update_Semaphore.getInstance();
 	private Logger _logger = Logger.getInstance();
 //	private Autonomous _autonomous = Autonomous.getInstance();
@@ -101,6 +105,12 @@ public class Robot extends RobotBase {
      */
     protected void disabled() {
         System.out.println("Robot Disabled");
+        if (_ds.getAlliance() == DriverStation.Alliance.Blue)
+        	_arduino.setMainLightsColor(0, 0, 255);
+        else if (_ds.getAlliance() == DriverStation.Alliance.Red)
+        	_arduino.setMainLightsColor(255, 0, 0);
+        else
+        	_arduino.setMainLightsColor(0, 255, 0);
         _arduino.setPulseSpeed(1);
         _arduino.setGearLights(GEAR_MODE.PULSE);
     }
