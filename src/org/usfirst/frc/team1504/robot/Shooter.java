@@ -12,26 +12,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Shooter implements Updatable
 {
-	private CANTalon _shooter;
-	private CANTalon _conveyor;
+	private CANTalon _shooter = new CANTalon(Map.SHOOTER_MOTOR);
+	private CANTalon _helicopter = new CANTalon(Map.HELICOPTER_MOTOR);
 
 	private static final Shooter instance = new Shooter();
 	private static final DriverStation _ds = DriverStation.getInstance();
 //	private static final CameraInterface _camera = CameraInterface.getInstance();
 	private Thread thread;
+
 	private double [][] PID = {{.03, .00015}, {.05, .00017}};
 	private static Preferences _pref = Preferences.getInstance();
 	
-	//private final int _sensor_status;
-	
 	public Shooter()
 	{
-		_shooter = new CANTalon(Map.SHOOTER_MOTOR);
-		//_conveyor = new CANTalon(Map.CONVEYOR_MOTOR);
-
-		//_sensor_status = _shooter.isSensorPresent(FeedbackDevice.CtreMagEncoder_Relative) == CANTalon.FeedbackDeviceStatus.FeedbackStatusPresent ? 1 : 0;
-		
-		//if(_shooter.getSpeed() < Map.SHOOTER_TARGET_SPEED)
 		if(_shooter.isSensorPresent(FeedbackDevice.CtreMagEncoder_Relative) == CANTalon.FeedbackDeviceStatus.FeedbackStatusPresent)
 		{
 			_shooter.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
@@ -51,7 +44,7 @@ public class Shooter implements Updatable
 	
 	public static Shooter getInstance()
 	{
-		return Shooter.instance;
+		return instance;
 	}
 	
 	public static void initialize()
@@ -81,11 +74,10 @@ public class Shooter implements Updatable
 	}
 	
 	public void semaphore_update()
-	{
-		
+	{		
 		update_dashboard();
 
-		if(_ds.isEnabled() && IO.shooter_input())//|| _camera._isAimed)
+		if(_ds.isEnabled() && IO.shooter_input())
 		{
 			System.out.println("should shoot");
 			if(getSpeedGood() || IO.shooter_override())
@@ -97,15 +89,13 @@ public class Shooter implements Updatable
 			
 			else if(!getSpeedGood())
 			{
-				_shooter.setP(PID[0][0]);
-				_shooter.setI(PID[0][1]);
-				_shooter.set(-1500);//getTargetSpeed());	
+
+				//_shooter.setP(PID[0][0]);
+				//_shooter.setI(PID[0][1]);
+				_shooter.set(-1500);//getTargetSpeed());
 			}
 
-			/*_shooter.setP(Map.SHOOTER_GAIN_P);
-			_shooter.setI(Map.SHOOTER_GAIN_I);
-			_shooter.set(1500);
-			System.out.println("shooter running");*/
+			//hopper stuff
 			/*if(Math.abs(_conveyor.getSpeed() - Map.SHOOTER_TARGET_SPEED) <= Map.SHOOTER_SPEED_GOOD_DEADBAND)
 			{
 				_conveyor.set(.75);
@@ -121,7 +111,23 @@ public class Shooter implements Updatable
 			_shooter.set(0);
 //			System.out.println("shooter stopped");
 		} 
-
+		
+		/*else if(_ds.isEnabled() && IO.camera_shooter_input()) //|| _camera._isAimed)
+		{
+			if(_camera._isAimed)
+			{
+				_shooter.setP(PID[0][0]);
+				_shooter.setI(PID[0][1]);
+				_shooter.set(_camera.get_shooter_speed());
+			}
+			else
+			{
+				_shooter.setP(PID[1][0]);
+				_shooter.setI(PID[1][1]);
+				_shooter.set(_camera.get_shooter_speed());
+			}
+			_camera.set_drive_input(); //align to target
+		}*/	
 	}
 	
 }

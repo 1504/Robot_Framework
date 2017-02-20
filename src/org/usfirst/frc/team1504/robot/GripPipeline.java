@@ -15,7 +15,6 @@ import org.opencv.core.*;
 //import org.opencv.features2d.FeatureDetector;
 //import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
-import org.opencv.imgproc.Moments;
 //import org.opencv.objdetect.*;
 
 /**
@@ -31,11 +30,15 @@ public class GripPipeline implements VisionPipeline{
 	private Mat hsvThresholdOutput = new Mat();
 	private Mat cvErodeOutput = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
+	private Point _centroid = new Point();
+	//private List<MatOfPoint> _contours = new List<MatOfPoint>();
+	Rect[] _bb; 
+
 	public enum AimState {AIM_ROBOT, AIMED, BAD_IMAGE}
 	
 	public double[][] _output;
 	public AimState _state;
-	public double _target = 0.0;
+	//public double _target = 0.0;
 
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -82,6 +85,7 @@ public class GripPipeline implements VisionPipeline{
 		else {
 			int largest = 0;
 			int second_largest = 0;
+			
 			for(int i = 0; i < area.length; i++)
 			{
 				if(area[i] > area[largest])
@@ -91,11 +95,11 @@ public class GripPipeline implements VisionPipeline{
 				
 			}
 			
-			_target = largest;
+			//_target = largest;
 			
 			for(int i = 0; i < area.length; i++)
 			{
-				if(area[i] > area[second_largest] && second_largest != _target)
+				if(area[i] > area[second_largest] && second_largest != largest)
 				{
 					second_largest = i;
 				}
@@ -104,15 +108,31 @@ public class GripPipeline implements VisionPipeline{
 			//System.out.println("largest target is " + _target);
 			//_target = (2 * position[largest] / Map.VISION_INTERFACE_VIDEO_WIDTH) - 1; 
 			//_target *= Map.VISION_INTERFACE_VIDEO_FOV / -2.0; //TODO what is FOV of camera
-			_target = _output[0][largest];
+			//_target = _output[0][largest];
 			
-			Moments m = Imgproc.moments(findContoursInput);
+			/*Mat[] array = new Mat[2];
+			array[0] = findContoursOutput.get(largest);
+			array[1] = findContoursOutput.get(second_largest);*/
+			
+			_centroid = new Point((_bb[largest].x + _bb[second_largest].x)  /  2, (_bb[largest].y + _bb[second_largest].y)  /  2);
+			
+			/*Moments m = Imgproc.moments(array[0]);
 			Point centroid = new Point();
 			centroid.x = m.get_m10() / m.get_m00();
-			centroid.y = m.get_m01() / m.get_m00();
-			System.out.println("target is " + _target);
-			checkAim();
+			centroid.y = m.get_m01() / m.get_m00();*/
+			//System.out.println("target is " + _target);
+			//checkAim();
 		}
+	}
+	
+	public double getDistance() //get distance from y of centroid
+	{
+		return _centroid.y*.03 + 1;
+	}
+	
+	public double setShooterSpeed() //set speed based on distance
+	{
+		return getDistance()*100 + 50;
 	}
 	
 	public boolean checkAim()
@@ -127,17 +147,32 @@ public class GripPipeline implements VisionPipeline{
 		else
 		{
 			_state = AimState.AIM_ROBOT;
+			//set_drive_input();
 			System.out.println("camera interface checkAim = need to aim");
 			return false;
 		}	
 	}
 	
+	public double [] set_drive_input()
+	{	
+		double[] input = new double[3];
+		if(!checkAim())
+		{
+			input[0] = 0.0;
+			input[1] = 0.0;
+			input[2] = offset_aim_factor() * .1; //TODO
+			System.out.println("turn value = " + input[2]);
+		}
+		else
+			input[0] = input[1] = input[2] = 0.0;
+		
+		return input;
+	}
+	
 	private double offset_aim_factor()
 	{
-		System.out.println(80 - _target);
-		return Math.abs(80 -_target);//_gyro.getAngle(); // offset
-		//return 1.0; //TODO - put gyro back in when we have it
-
+		System.out.println(80 - _centroid.x);
+		return Math.abs(80 - _centroid.x);//_gyro.getAngle(); // offset
 	}
 
 	/**
@@ -213,8 +248,9 @@ public class GripPipeline implements VisionPipeline{
 	 * @param output The image in which to store the output.
 	 */
 	
-	private double[][] findContours(Mat input, boolean externalOnly,
-			List<MatOfPoint> contours) {
+	private double[][] findContours(Mat input, boolean externalOnly, List<MatOfPoint> contours) 
+	{
+			//_contours = contours;
 			Mat hierarchy = new Mat();
 			contours.clear();
 			int mode;
@@ -228,6 +264,7 @@ public class GripPipeline implements VisionPipeline{
 			Imgproc.findContours(input, contours, hierarchy, mode, method);
 			
 			Rect[] bb = new Rect[(int) contours.size()];
+			_bb = bb;
 			double[][] output = {
 					new double[(int) contours.size()],
 					new double[(int) contours.size()],
@@ -245,6 +282,7 @@ public class GripPipeline implements VisionPipeline{
 				output[2][i] = bb[i].width;
 				output[3][i] = bb[i].height;
 				output[4][i] = Imgproc.contourArea(contours.get(i), false);
+
 				//contours.get(i).
 				System.out.println("area is " + output[4][i]);
 				System.out.println("center is " + output[0][i]);

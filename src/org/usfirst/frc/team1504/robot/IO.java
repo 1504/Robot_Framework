@@ -61,9 +61,21 @@ public class IO
 		return _secondary.getRawButton(Map.SHOOTER_FIRE_BUTTON);
 	}
 	
+	public static boolean helicopter_input() //TODO
+	{
+		if(_secondary.getRawButton(Map.SHOOTER_FIRE_BUTTON))
+			System.out.println("shooter joystick input");
+		return _secondary.getRawButton(Map.SHOOTER_FIRE_BUTTON);
+	}
+	
 	public static boolean shooter_override()
 	{
 		return _secondary.getRawButtonLatch(Map.SHOOTER_OVERRIDE_BUTTON);
+	}
+	
+	public static boolean camera_shooter_input()
+	{
+		return _secondary.getRawButtonLatch(Map.CAMERA_SHOOTER_INPUT_BUTTON);
 	}
 	
 	/**

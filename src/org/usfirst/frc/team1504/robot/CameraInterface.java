@@ -21,7 +21,8 @@ public class CameraInterface implements Updatable
 	VisionThreadSingleFrame test;
 	private CAMERAS _active_camera = null;
 	public boolean _isAimed = false;
-	
+	private double _shooter_speed = 0.0;
+	private GripPipeline _pipe;
 	protected CameraInterface()
 	{
 		String server_ports = "";
@@ -40,21 +41,22 @@ public class CameraInterface implements Updatable
 		
 		System.out.print("Camera Interface Initialized\n" + server_ports);
 		
-		GripPipeline _pipe = new GripPipeline();
+		_pipe = new GripPipeline();
 		_isAimed = _pipe.checkAim();
-		//VisionRunner<VisionPipeline> _runner = new VisionRunner<>(_cameras[get_active_camera().ordinal()], _pipe, null);
-		//_runner.runOnce();
+		_shooter_speed = _pipe.setShooterSpeed();
+		
 		VisionRunner.Listener<GripPipeline> _listener = new VisionRunner.Listener<GripPipeline>() {
 			private int called_times = 0;
 			public void copyPipelineOutputs(GripPipeline pipeline) { System.out.println("Image processed "+(++called_times)+" times"); }
 		};
+		
 		test = new VisionThreadSingleFrame(_cameras[CAMERAS.GEARSIDE.ordinal()], _pipe, _listener);
-		test.processImage();
+		//test.processImage();
+		
+		/*test.processImage();
 		System.out.println("Image processed in " + test.lastExecutionTime());
 		test.processImage();
-		System.out.println("Image processed in " + test.lastExecutionTime());
-		test.processImage();
-		System.out.println("Image processed in " + test.lastExecutionTime());
+		System.out.println("Image processed in " + test.lastExecutionTime());*/
 		Update_Semaphore.getInstance().register(this);
 		System.out.println("camera interface initialized");
 	}
@@ -75,13 +77,10 @@ public class CameraInterface implements Updatable
 		_servers[_servers.length - 1].setSource(_cameras[camera.ordinal()]);
 	}
 	
-	public void distance()
+	public double get_shooter_speed()
 	{
-		
+		return _shooter_speed;
 	}
-	/*
-	 * take vertical position on image and translate to 
-	 * */
 	
 	public CAMERAS get_active_camera()
 	{
@@ -95,9 +94,22 @@ public class CameraInterface implements Updatable
 
 	}
 	
+	public double [] set_drive_input()
+	{
+		return _pipe.set_drive_input();
+
+		/*if(IO.camera_shooter_input())
+	 		return _pipe.set_drive_input();
+
+		else
+			return new double [] {0.0, 0.0};*/
+	}
+	
 	public void process()
 	{
 		test.processImage();
+		set_drive_input();
+		
 		//System.out.println("Image processed in " + test.lastExecutionTime());
 	}
 }

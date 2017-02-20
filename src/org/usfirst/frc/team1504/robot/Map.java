@@ -20,7 +20,7 @@ public class Map {
  */
 	
 	public static final int SHOOTER_MOTOR = 30;
-	public static final int CONVEYOR_MOTOR = 31;
+	public static final int HELICOPTER_MOTOR = 31;
 	public static final double SHOOTER_INTAKE_SPEED = -1.0;
 	public static /*final*/ double SHOOTER_TARGET_SPEED = 1500.0; //6575.0;//6775.0;
 	public static final double SHOOTER_GAIN_P = 0.014;
@@ -79,7 +79,7 @@ public class Map {
 	public static final int WINCH_POWER_AXIS = 1;
 	
 	public static final double WINCH_DIRECTION = 1.0;
-	public static final int WINCH_SERVO1 = 0;
+	public static final int WINCH_SERVO1 = 1;
 	public static final int WINCH_SERVO2 = 0;
 	public static final double WINCH_SERVO_DEPLOYED = 180.0;
 	public static final double WINCH_SERVO_STORED = 0.0;
@@ -95,7 +95,8 @@ public class Map {
  */
 	//public static final int DRIVE_INPUT_TURN_FACTOR_OVERRIDE_BUTTON = 1;
 	public static final int SHOOTER_FIRE_BUTTON = 1;
-	public static final int VISION_INTERFACE_OVERRIDE_BUTTON = 2;
+	//public static final int VISION_INTERFACE_OVERRIDE_BUTTON = 2;
+	public static final int CAMERA_SHOOTER_INPUT_BUTTON = 2;
 	public static final int VISION_INTERFACE_CAMERA_PORT_BUTTON = 3;
 	public static final int GEAR_BUTTON = 4;
 	public static final int INTAKE_ON_BUTTON = 6;
@@ -104,8 +105,6 @@ public class Map {
 	public static int FRONT_SIDE_BUTTON = 9;
 	public static final int WINCH_DEPLOY_BUTTON = 10;
 	public static final int WINCH_OVERRIDE_BUTTON = 11;
-
-	
 	
 /**
  * Arduino addresses
