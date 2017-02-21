@@ -97,7 +97,8 @@ public class Map {
 	public static final int SHOOTER_FIRE_BUTTON = 1;
 	//public static final int VISION_INTERFACE_OVERRIDE_BUTTON = 2;
 	public static final int CAMERA_SHOOTER_INPUT_BUTTON = 2;
-	public static final int VISION_INTERFACE_CAMERA_PORT_BUTTON = 3;
+	public static final int HELICOPTER_PULSE_BUTTON = 3;
+	public static final int VISION_INTERFACE_CAMERA_PORT_BUTTON = 5;
 	public static final int GEAR_BUTTON = 4;
 	public static final int INTAKE_ON_BUTTON = 6;
 	public static final int INTAKE_OFF_BUTTON = 7;

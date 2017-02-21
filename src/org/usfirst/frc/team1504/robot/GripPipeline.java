@@ -127,6 +127,7 @@ public class GripPipeline implements VisionPipeline{
 	
 	public double getDistance() //get distance from y of centroid
 	{
+		System.out.println("distance is " + _centroid.y*.03 + 1);
 		return _centroid.y*.03 + 1;
 	}
 	

@@ -68,6 +68,11 @@ public class IO
 		return _secondary.getRawButton(Map.SHOOTER_FIRE_BUTTON);
 	}
 	
+	public static boolean helicopter_pulse()
+	{
+		return _secondary.getRawButton(Map.HELICOPTER_PULSE_BUTTON);
+	}
+	
 	public static boolean shooter_override()
 	{
 		return _secondary.getRawButtonLatch(Map.SHOOTER_OVERRIDE_BUTTON);

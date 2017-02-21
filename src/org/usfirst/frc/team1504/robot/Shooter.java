@@ -17,7 +17,7 @@ public class Shooter implements Updatable
 
 	private static final Shooter instance = new Shooter();
 	private static final DriverStation _ds = DriverStation.getInstance();
-//	private static final CameraInterface _camera = CameraInterface.getInstance();
+	//private static final CameraInterface _camera = CameraInterface.getInstance();
 	private Thread thread;
 
 	private double [][] PID = {{.03, .00015}, {.05, .00017}};
@@ -31,7 +31,7 @@ public class Shooter implements Updatable
 			_shooter.changeControlMode(TalonControlMode.Speed);
 			_shooter.setP(PID[0][0]);
 			_shooter.setI(PID[0][1]);
-			_shooter.reverseSensor(true);
+			_shooter.reverseSensor(false);
 		}
 		
 		SmartDashboard.putNumber("Shooter Target Speed", Map.SHOOTER_TARGET_SPEED);
@@ -51,10 +51,29 @@ public class Shooter implements Updatable
 	{
 		getInstance();
 	}
-	
+
 	public boolean getSpeedGood()
 	{
 		return Math.abs(getTargetSpeed() - _pref.getDouble("Shooter Target Speed", 0.0)) < Map.SHOOTER_PID_DEADZONE;
+	}
+	
+	/*public boolean getSpeedGoodfromCamera()
+	{
+		return Math.abs(getTargetSpeed() - setLinearSpeed(_camera._pipe.getDistance())) < Map.SHOOTER_PID_DEADZONE;
+	}*/
+	
+	public double setLinearSpeed(double distance) //distance in inches for now cuz reasons
+	{
+		return distance * 14.054 + 2980;
+	}
+	
+	public double setCubicSpeed(double distance) 
+	{
+		double speed = .0096*Math.pow(distance, 3) - 1.8304*Math.pow(distance,  2) + 120.1*distance + 1144.3;
+		
+		System.out.println("Speed is " + speed + "for distance of " + distance);
+
+		return speed;
 	}
 	
 	public double getTargetSpeed()
@@ -64,8 +83,8 @@ public class Shooter implements Updatable
 	private void update_dashboard()
 	{
 		//Map.SHOOTER_TARGET_SPEED = SmartDashboard.getNumber("Shooter Target Speed");
-		SmartDashboard.putNumber("Shooter port speed", _shooter.getSpeed());
-		SmartDashboard.putNumber("Shooter port current", _shooter.getOutputCurrent());
+		SmartDashboard.putNumber("Shooter Target Speed", getTargetSpeed());
+		SmartDashboard.putNumber("Shooter Speed", _shooter.getSpeed());
 		//SmartDashboard.putBoolean("Shooter speed good", _speed_good);
 		//SmartDashboard.putString("Shooter State", _state.toString());
 		//SmartDashboard.putBoolean("Shooter Override", _override);
@@ -80,37 +99,35 @@ public class Shooter implements Updatable
 		if(_ds.isEnabled() && IO.shooter_input())
 		{
 			System.out.println("should shoot");
-			if(getSpeedGood() || IO.shooter_override())
-			{
-				_shooter.setP(PID[1][0]);
-				_shooter.setI(PID[1][1]);
-				_shooter.set(-1500);//getTargetSpeed());
-			}
-			
-			else if(!getSpeedGood())
-			{
-
-				//_shooter.setP(PID[0][0]);
-				//_shooter.setI(PID[0][1]);
-				_shooter.set(-1500);//getTargetSpeed());
-			}
-
-			//hopper stuff
-			/*if(Math.abs(_conveyor.getSpeed() - Map.SHOOTER_TARGET_SPEED) <= Map.SHOOTER_SPEED_GOOD_DEADBAND)
-			{
-				_conveyor.set(.75);
-			}
-			else
-				_conveyor.set(0);*/
-
-		}
-		else
-		{
 			_shooter.setP(PID[0][0]);
 			_shooter.setI(PID[0][1]);
-			_shooter.set(0);
-//			System.out.println("shooter stopped");
-		} 
+			_shooter.set(-getTargetSpeed());
+			System.out.println("speed is " + -getTargetSpeed());
+			//_shooter.set(setLinearSpeed(_camera._pipe.getDistance()));
+
+			if(IO.helicopter_pulse())
+ 			{
+ 				_helicopter.set(1.0);
+ 				
+ 			}
+			
+			else if(getSpeedGood() || IO.shooter_override())
+			{
+ 				_helicopter.set(-1.0); 
+			}
+			
+			else
+			{
+ 				_helicopter.set(0.0); 
+			}
+		}
+
+		else// if(!IO.shooter_input())
+		{
+			//_shooter.setP(PID[0][0]);
+			//_shooter.setI(PID[0][1]);
+			_shooter.set(0.0);
+		}
 		
 		/*else if(_ds.isEnabled() && IO.camera_shooter_input()) //|| _camera._isAimed)
 		{

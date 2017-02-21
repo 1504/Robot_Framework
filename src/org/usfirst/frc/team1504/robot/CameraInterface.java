@@ -22,7 +22,7 @@ public class CameraInterface implements Updatable
 	private CAMERAS _active_camera = null;
 	public boolean _isAimed = false;
 	private double _shooter_speed = 0.0;
-	private GripPipeline _pipe;
+	public GripPipeline _pipe;
 	protected CameraInterface()
 	{
 		String server_ports = "";
