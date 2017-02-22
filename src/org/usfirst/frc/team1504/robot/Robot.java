@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.usfirst.frc.team1504.robot.Arduino.FRONTSIDE_MODE;
 import org.usfirst.frc.team1504.robot.Arduino.GEAR_MODE;
 import org.usfirst.frc.team1504.robot.Arduino.INTAKE_LIGHT_MODE;
+import org.usfirst.frc.team1504.robot.Arduino.PARTY_MODE;
 import org.usfirst.frc.team1504.robot.Arduino.SHOOTER_STATUS;
 
 //import java.io.BufferedReader;
@@ -68,16 +69,14 @@ public class Robot extends RobotBase {
     protected void robotInit() {
     	_dashboard_task = new Thread(new Runnable() {
 			public void run() {
+				_arduino.setPartyMode(PARTY_MODE.ON);
 				char edge_track = 0;
 				PowerDistributionPanel pdp = new PowerDistributionPanel();
-				char[] testImages = new char[20];
-				Arrays.fill(testImages, 'a');
 				while(true)
 				{	
 					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					SmartDashboard.putNumber("Robot Voltage", m_ds.getBatteryVoltage());
 					SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
-					SmartDashboard.putString("Groundtruth raw image", new String(testImages));
 					/*
 					 * Borrowed from Mike
 					 */	
@@ -105,14 +104,9 @@ public class Robot extends RobotBase {
      */
     protected void disabled() {
         System.out.println("Robot Disabled");
-        if (_ds.getAlliance() == DriverStation.Alliance.Blue)
-        	_arduino.setMainLightsColor(0, 0, 255);
-        else if (_ds.getAlliance() == DriverStation.Alliance.Red)
-        	_arduino.setMainLightsColor(255, 0, 0);
-        else
-        	_arduino.setMainLightsColor(0, 255, 0);
-        _arduino.setPulseSpeed(1);
+        _arduino.setPartyMode(PARTY_MODE.ON);
         _arduino.setGearLights(GEAR_MODE.PULSE);
+        _arduino.setPulseSpeed(1);
     }
 
     /**
@@ -135,7 +129,15 @@ public class Robot extends RobotBase {
      */
     public void operatorControl() {
     	System.out.println("Operator Control");
-    	_arduino.setGearLights(GEAR_MODE.INDIVIDUAL_INTENSITY, .50, .50);
+    	_arduino.setPulseSpeed(4);
+        _arduino.setPartyMode(PARTY_MODE.OFF);
+        if (_ds.getAlliance() == DriverStation.Alliance.Blue)
+        	_arduino.setMainLightsColor(0, 255, 0);
+        else if (_ds.getAlliance() == DriverStation.Alliance.Red)
+        	_arduino.setMainLightsColor(0, 0, 255);
+        else
+        	_arduino.setMainLightsColor(255, 0, 0);
+    	_arduino.setGearLights(GEAR_MODE.INDIVIDUAL_INTENSITY, 0.5, 0.5);
     }
 
     /**
@@ -146,8 +148,6 @@ public class Robot extends RobotBase {
     public void test()
     {
     	System.out.println("Test Mode!");
-    	_arduino.setPulseSpeed(10);
-    	_arduino.setGearLights(GEAR_MODE.PULSE);
 //    	CameraInterface ci = CameraInterface.getInstance();
     	//ci.set_mode(CameraInterface.CAMERA_MODE.MULTI);
     	//ci.set_mode(CameraInterface.CAMERA_MODE.SINGLE);

@@ -34,7 +34,7 @@ public class Shooter implements Updatable
 			_shooter.reverseSensor(false);
 		}
 		
-		SmartDashboard.putNumber("Shooter Target Speed", Map.SHOOTER_TARGET_SPEED);
+		//SmartDashboard.putNumber("Shooter Target Speed", Map.SHOOTER_TARGET_SPEED);
 		//SmartDashboard.putBoolean("Shooter port encoder good", (_sensor_status & 1) != 0);
 		//SmartDashboard.putBoolean("Shooter star encoder good", (_sensor_status & 2) != 0);
 		
@@ -54,7 +54,7 @@ public class Shooter implements Updatable
 
 	public boolean getSpeedGood()
 	{
-		return Math.abs(getTargetSpeed() - _pref.getDouble("Shooter Target Speed", 0.0)) < Map.SHOOTER_PID_DEADZONE;
+		return Math.abs(getTargetSpeed() - SmartDashboard.getNumber("Shooter Target Speed", 0.0)) < Map.SHOOTER_PID_DEADZONE; //pref
 	}
 	
 	/*public boolean getSpeedGoodfromCamera()
@@ -78,12 +78,19 @@ public class Shooter implements Updatable
 	
 	public double getTargetSpeed()
 	{
-		return _pref.getDouble("Shooter target speed", 0.0);
+		return -SmartDashboard.getNumber("Shooter target speed", 0.0);
+	}
+	
+	public void setTargetSpeed(double speed)
+	{
+		SmartDashboard.putNumber("Shooter Target Speed", speed);
+		//_pref.putDouble("Shooter Target Speed", speed);
+		
 	}
 	private void update_dashboard()
 	{
 		//Map.SHOOTER_TARGET_SPEED = SmartDashboard.getNumber("Shooter Target Speed");
-		SmartDashboard.putNumber("Shooter Target Speed", getTargetSpeed());
+//		SmartDashboard.putNumber("Shooter Target Speed", getTargetSpeed());
 		SmartDashboard.putNumber("Shooter Speed", _shooter.getSpeed());
 		//SmartDashboard.putBoolean("Shooter speed good", _speed_good);
 		//SmartDashboard.putString("Shooter State", _state.toString());
@@ -94,15 +101,16 @@ public class Shooter implements Updatable
 	
 	public void semaphore_update()
 	{		
-		update_dashboard();
-
 		if(_ds.isEnabled() && IO.shooter_input())
 		{
 			System.out.println("should shoot");
 			_shooter.setP(PID[0][0]);
 			_shooter.setI(PID[0][1]);
-			_shooter.set(-getTargetSpeed());
-			System.out.println("speed is " + -getTargetSpeed());
+			_shooter.set(-SmartDashboard.getNumber("Shooter Target Speed", 0.0));//getTargetSpeed());
+			
+			if(-SmartDashboard.getNumber("Shooter Target Speed", 0.0) != getTargetSpeed())
+				setTargetSpeed(-SmartDashboard.getNumber("Shooter Target Speed", 0.0));
+			System.out.println("speed is " + -SmartDashboard.getNumber("Shooter Target Speed", 0.0));
 			//_shooter.set(setLinearSpeed(_camera._pipe.getDistance()));
 
 			if(IO.helicopter_pulse())
@@ -145,6 +153,9 @@ public class Shooter implements Updatable
 			}
 			_camera.set_drive_input(); //align to target
 		}*/	
+		//update_dashboard();
 	}
+	
+
 	
 }

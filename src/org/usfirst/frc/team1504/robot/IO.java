@@ -56,15 +56,11 @@ public class IO
 	
 	public static boolean shooter_input()
 	{
-		if(_secondary.getRawButton(Map.SHOOTER_FIRE_BUTTON))
-			System.out.println("shooter joystick input");
 		return _secondary.getRawButton(Map.SHOOTER_FIRE_BUTTON);
 	}
 	
 	public static boolean helicopter_input() //TODO
 	{
-		if(_secondary.getRawButton(Map.SHOOTER_FIRE_BUTTON))
-			System.out.println("shooter joystick input");
 		return _secondary.getRawButton(Map.SHOOTER_FIRE_BUTTON);
 	}
 	

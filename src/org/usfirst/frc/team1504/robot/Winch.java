@@ -86,8 +86,6 @@ public class Winch implements Updatable
 			_deployed = true;
 		}
 		set_servo();
-		System.out.println("servo set");
-		
 		
 		
 		// Run that thang!
