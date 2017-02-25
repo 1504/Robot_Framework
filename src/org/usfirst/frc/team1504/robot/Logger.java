@@ -24,7 +24,7 @@ public class Logger {
 	
 	protected Logger()
 	{
-		System.out.println("Logger Initialized");
+		System.out.println("Big Brother ready to watch.");
 	}
 	
 	public static Logger getInstance()
@@ -60,7 +60,7 @@ public class Logger {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Logger started @ " + _start_time + " using \"~/log/" + prefix + "-" + filetime + ".log\"");
+		System.out.println("Big Brother started watching you @ " + _start_time + " using \"~/log/" + prefix + "-" + filetime + ".log\"");
 	}
 	
 	/**
@@ -77,7 +77,7 @@ public class Logger {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("Logger Stopped");
+		System.out.println("Big Brother is no longer watching you.");
 	}
 	
 	/**

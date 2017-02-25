@@ -27,7 +27,7 @@ public class Shooter implements Updatable
 			_shooter.reverseSensor(false);
 		}
 		Update_Semaphore.getInstance().register(this);
-		System.out.println("Shooter initialized to shoot");
+		System.out.println("Shot gunner is ready to gun some shots");
 	}
 	
 	public static Shooter getInstance()

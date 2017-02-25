@@ -27,7 +27,7 @@ public class Winch implements Updatable
 		//_servo2 = new Servo(Map.WINCH_SERVO2);
 
 		Update_Semaphore.getInstance().register(this);
-		System.out.println("Winch initialized");
+		System.out.println("Winch is ready to end the game. And end your life.");
 	}
 	
 	public static Winch getInstance()

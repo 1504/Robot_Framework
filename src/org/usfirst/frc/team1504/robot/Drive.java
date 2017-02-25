@@ -92,7 +92,7 @@ public class Drive implements Updatable
 		
 		_timer.schedule(_osc,  0, 250);
 		
-		System.out.println("New Drive is here to kick ass and chew bubblegum, but doesn't want to muck up the transmission with bubble gum.");
+		System.out.println("Drive is here to kick ass and chew bubblegum, but doesn't want to muck up the transmission with bubble gum.");
 		
 	}
 	public void release()

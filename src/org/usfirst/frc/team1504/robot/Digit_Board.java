@@ -54,7 +54,7 @@ public class Digit_Board
 		
 		start();
 
-		System.out.println("1504 Digit Board Encapsulation Successful.");
+		System.out.println("1504 Digit Board is getting really Digit Bored...");
 	}
 	public void start()
 	{

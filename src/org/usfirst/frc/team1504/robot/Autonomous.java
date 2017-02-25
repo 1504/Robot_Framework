@@ -51,7 +51,7 @@ public class Autonomous
 	protected Autonomous()
 	{
 		//
-		System.out.println("Autonomous Initialized");
+		System.out.println("Auto Nom Ous");
 	}
 	
 	public static Autonomous getInstance()
