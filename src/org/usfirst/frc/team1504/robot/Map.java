@@ -73,8 +73,10 @@ public class Map {
 /**
  * Winch stuff
  */	
-	public static final int WINCH_TALON_PORT_NANCY = 20;
-	public static final int WINCH_TALON_PORT_MEAD = 21;
+	public static final int NANCY_TALON_PORT = 20;
+	public static final int MEAD_TALON_PORT = 21;
+	
+	public static final int WINCH_CURRENT_LIMIT = 70;
 	
 	public static final int WINCH_POWER_AXIS = 1;
 	

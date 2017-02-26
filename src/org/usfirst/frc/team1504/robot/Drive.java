@@ -111,7 +111,7 @@ public class Drive implements Updatable
 	private volatile int _loops_since_last_dump = 0;
 	
 	private volatile double[] _input = {0.0, 0.0, 0.0};
-	private volatile double _rot_offset = 0.0;
+	private volatile double _rot_offset = 90.0;
 	private volatile double[] _orbit_point = {0.0, -1.15}; //{0.0, 1.15};
 
 	private CANTalon[] _motors = new CANTalon[Map.DRIVE_MOTOR_PORTS.length];

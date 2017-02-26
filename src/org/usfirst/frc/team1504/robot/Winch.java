@@ -11,21 +11,31 @@ import edu.wpi.first.wpilibj.Timer;
 public class Winch implements Updatable
 {
 	private static Winch _instance = new Winch();
-	private Servo _servo1;//, _servo2;
+	private Servo _servo1;
 	private boolean _deployed = false;
-
+	
+	private boolean _override = false;
+	
 	private DriverStation _ds = DriverStation.getInstance();
 	
-	private CANTalon _winch_motor_nancy = new CANTalon(Map.WINCH_TALON_PORT_NANCY);
-	private CANTalon _winch_motor_mead = new CANTalon(Map.WINCH_TALON_PORT_MEAD);
+	private CANTalon _nancy;
+	private CANTalon _mead;
 	
 	//1 servo pwm = 0, 0 deg and 180 = extended
 	
 	protected Winch()
 	{
 		_servo1 = new Servo(Map.WINCH_SERVO1);
-		//_servo2 = new Servo(Map.WINCH_SERVO2);
 
+		_nancy = new CANTalon(Map.NANCY_TALON_PORT);
+		_nancy.EnableCurrentLimit(true);
+		_nancy.setCurrentLimit(Map.WINCH_CURRENT_LIMIT);
+		
+		_mead = new CANTalon(Map.MEAD_TALON_PORT);
+		_mead.EnableCurrentLimit(true);
+		_mead.setCurrentLimit(Map.WINCH_CURRENT_LIMIT);
+
+		
 		Update_Semaphore.getInstance().register(this);
 		System.out.println("Winch is ready to end the game. And end your life.");
 	}
@@ -64,14 +74,24 @@ public class Winch implements Updatable
 			_deployed = false;
 		}
 	}
+	private void set_current_limit(boolean override)
+	{
+		if (_override != override)
+		{
+			_nancy.EnableCurrentLimit(!_override);
+			_mead.EnableCurrentLimit(!_override);
+		}
+		_override = override;
+	}
 	
 	public void semaphore_update()
 	{
+		set_current_limit(IO.winch_override());
+		
 		if(_ds.getMatchTime() > 30.0 && !IO.winch_override())
 			return;
 		
 		// Deploy winch out the side of the robot
-		//TODO: What is the mechanism?
 		if(IO.winch_deploy())
 		{
 			if(!get_deployed())
@@ -89,7 +109,7 @@ public class Winch implements Updatable
 		
 		
 		// Run that thang!
-		_winch_motor_nancy.set(IO.winch_input());
-		_winch_motor_mead.set(-IO.winch_input());
+		_nancy.set(IO.winch_input());
+		_mead.set(-IO.winch_input());
 	}
 }

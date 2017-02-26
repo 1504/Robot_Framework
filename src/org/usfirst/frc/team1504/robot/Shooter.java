@@ -69,8 +69,9 @@ public class Shooter implements Updatable
 			{
 				set_target_speed(get_target_speed()); //map the preferences value over to SmartDashboard
 			}
-			
+
 			_shooter.set(-get_target_speed());
+			System.out.print(_shooter.getSpeed());
 			
 			if(getSpeedGood() || IO.shooter_override())
 			{
