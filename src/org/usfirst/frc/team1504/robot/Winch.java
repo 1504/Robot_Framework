@@ -11,9 +11,10 @@ import edu.wpi.first.wpilibj.Timer;
 public class Winch implements Updatable
 {
 	private static Winch _instance = new Winch();
-	private Servo _servo1;
+
+	//private Servo _servo1;//, _servo2;
+
 	private boolean _deployed = false;
-	
 	private boolean _override = false;
 	
 	private DriverStation _ds = DriverStation.getInstance();
@@ -21,12 +22,8 @@ public class Winch implements Updatable
 	private CANTalon _nancy;
 	private CANTalon _mead;
 	
-	//1 servo pwm = 0, 0 deg and 180 = extended
-	
 	protected Winch()
 	{
-		_servo1 = new Servo(Map.WINCH_SERVO1);
-
 		_nancy = new CANTalon(Map.NANCY_TALON_PORT);
 		_nancy.EnableCurrentLimit(true);
 		_nancy.setCurrentLimit(Map.WINCH_CURRENT_LIMIT);
@@ -56,24 +53,19 @@ public class Winch implements Updatable
 	public void set_deployed(boolean deployed)
 	{
 		_deployed = deployed;
-		set_servo();
+	}
+
+	//Deploy the winch
+	private void deploy_winch()
+	{
+		_nancy.set(1); 
+		_mead.set(-1);
+		Timer.delay(.5); 
+		
+		_nancy.set(0);
+		_mead.set(0);			
 	}
 	
-	private void set_servo()
-	{
-		if(get_deployed())
-		{
-			_servo1.set(Map.WINCH_SERVO_DEPLOYED);
-			
-			//_servo2.set(Map.WINCH_SERVO_DEPLOYED);
-		}
-		else //if(!get_deployed() || !_ds.isEnabled())
-		{
-			_servo1.set(Map.WINCH_SERVO_STORED);
-			//_servo2.set(Map.WINCH_SERVO_STORED);
-			_deployed = false;
-		}
-	}
 	private void set_current_limit(boolean override)
 	{
 		if (_override != override)
@@ -91,22 +83,11 @@ public class Winch implements Updatable
 		if(_ds.getMatchTime() > 30.0 && !IO.winch_override())
 			return;
 		
-		// Deploy winch out the side of the robot
+		// Deploy winch
 		if(IO.winch_deploy())
 		{
-			if(!get_deployed())
-			{
-				new Thread(new Runnable() {public void run() 
-					{
-						Timer.delay(3); 
-						set_deployed(false);
-					}
-				}).start();
-			}
-			_deployed = true;
+			deploy_winch();
 		}
-		set_servo();
-		
 		
 		// Run that thang!
 		_nancy.set(IO.winch_input());

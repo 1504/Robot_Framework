@@ -59,11 +59,6 @@ public class IO
 		return _secondary.getRawButton(Map.SHOOTER_FIRE_BUTTON);
 	}
 	
-	public static boolean helicopter_input() //TODO
-	{
-		return _secondary.getRawButton(Map.SHOOTER_FIRE_BUTTON);
-	}
-	
 	public static boolean helicopter_pulse()
 	{
 		return _secondary.getRawButton(Map.HELICOPTER_PULSE_BUTTON);

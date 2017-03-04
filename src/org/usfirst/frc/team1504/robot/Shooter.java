@@ -6,6 +6,7 @@ import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -14,6 +15,7 @@ public class Shooter implements Updatable
 	CANTalon _shooter = new CANTalon(Map.SHOOTER_MOTOR);
 	CANTalon _helicopter = new CANTalon(Map.HELICOPTER_MOTOR);
 	Preferences _pref = Preferences.getInstance();
+	public double _shotCount = 0;
 	private static Shooter _instance = new Shooter();
 	
 	public Shooter()
@@ -26,8 +28,11 @@ public class Shooter implements Updatable
 			_shooter.setI(.0015);
 			_shooter.reverseSensor(false);
 		}
+		
 		Update_Semaphore.getInstance().register(this);
 		System.out.println("Shot gunner is ready to gun some shots");
+
+		set_target_speed(Map.SHOOTER_TARGET_SPEED);
 	}
 	
 	public static Shooter getInstance()
@@ -61,6 +66,16 @@ public class Shooter implements Updatable
 		SmartDashboard.putNumber("Shooter Target Speed", get_target_speed());
 	}
 	
+	public boolean countShots()
+	{
+		return Math.abs(_shooter.getOutputCurrent() - Map.SHOOTER_COUNT_CURRENT) < 2;
+	}
+	
+	public boolean reverseShooter() //because a fuel is stuck in the shooter
+	{
+		return Math.abs(_shooter.getOutputCurrent() - Map.SHOOTER_REVERSE_CURRENT) < 2;
+	}
+	
 	public void semaphore_update()
 	{
 		if(IO.shooter_input())
@@ -76,7 +91,17 @@ public class Shooter implements Updatable
 			if(getSpeedGood() || IO.shooter_override())
 			{
 				_helicopter.set(1.0);
+				if(countShots())
+					_shotCount++;
 			}
+			
+			if(reverseShooter())
+			{
+				_shooter.set(-1.0);
+				Timer.delay(.5);
+				_shooter.set(0.0);
+			}
+			
 		}
 		
 		else
