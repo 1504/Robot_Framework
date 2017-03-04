@@ -203,8 +203,8 @@ public class Drive implements Updatable
 					_dump = true;
 				}
 				
-				_groundtruth.getData();
-				input = groundtruth_correction(input);
+				//_groundtruth.getData();
+				//input = groundtruth_correction(input);
 				
 				if(IO.gear_input())
 					input = _gear.setDriveInput();

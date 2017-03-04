@@ -53,7 +53,10 @@ public class IO
 	/**
 	 * Shooter stuff
 	 */
-	
+	public static boolean shooter_enable()
+	{
+		return _secondary.getRawButton(Map.SHOOTER_FIRE_BUTTON);
+	}
 	public static boolean shooter_input()
 	{
 		return _secondary.getRawButton(Map.SHOOTER_FIRE_BUTTON);
