@@ -16,8 +16,8 @@ public class Shooter implements Updatable
 	private static DriverStation _driver_station = DriverStation.getInstance();
 	private static Preferences _preferences = Preferences.getInstance();
 	
-	private CANTalon _shooter_motor = new CANTalon(30);
-	//private CANTalon _hopper_motor = new CANTalon(31);
+	private CANTalon _shooter = new CANTalon(30);
+	private CANTalon _helicopter = new CANTalon(31);
 	//private CANTalon _turret_motor;
 	
 	private boolean _enabled  = false;
@@ -26,18 +26,19 @@ public class Shooter implements Updatable
 	
 	private double PID_values[][] = {{.03, .00015}, {.05, .00017}};
 	private double PID_DEADZONE = 50;
+	private double _shotCount = 0;
 	
 	protected Shooter()
 	{
-		if(_shooter_motor.isSensorPresent(FeedbackDevice.CtreMagEncoder_Relative) == CANTalon.FeedbackDeviceStatus.FeedbackStatusPresent)
+		if(_shooter.isSensorPresent(FeedbackDevice.CtreMagEncoder_Relative) == CANTalon.FeedbackDeviceStatus.FeedbackStatusPresent)
 		{
-			_shooter_motor.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-			_shooter_motor.changeControlMode(TalonControlMode.Speed);
+			_shooter.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+			_shooter.changeControlMode(TalonControlMode.Speed);
 			//_shooter_motor.setP(Map.SHOOTER_GAIN_P);
-			_shooter_motor.setP(0.03);
-			_shooter_motor.setI(0.00015);
+			_shooter.setP(0.03);
+			_shooter.setI(0.00015);
 			//_shooter_motor.setI(Map.SHOOTER_GAIN_I);
-			_shooter_motor.reverseSensor(false);
+			_shooter.reverseSensor(false);
 		}
 		
 		// Retain last set value across robot reboots
@@ -99,7 +100,7 @@ public class Shooter implements Updatable
 	 */
 	public double getCurrentSpeed()
 	{
-		return _shooter_motor.getSpeed();
+		return _shooter.getSpeed();
 	}
 	
 	/**
@@ -108,7 +109,7 @@ public class Shooter implements Updatable
 	 */
 	public boolean getSpeedGood()
 	{
-		return (Math.abs(_shooter_motor.getSpeed() + getTargetSpeed()) < PID_DEADZONE);
+		return (Math.abs(_shooter.getSpeed() + getTargetSpeed()) < PID_DEADZONE);
 	}
 	
 	/**
@@ -120,12 +121,22 @@ public class Shooter implements Updatable
 		_override = override;
 	}
 	
+	public boolean countShots()
+	{
+		return Math.abs(_shooter.getOutputCurrent() - Map.SHOOTER_COUNT_CURRENT) < 2;
+	}
+	
+	public boolean reverseShooter() //because a fuel is stuck in the shooter
+	{
+		return Math.abs(_shooter.getOutputCurrent() - Map.SHOOTER_REVERSE_CURRENT) < 2;
+	}
+	
 	public void semaphore_update()
 	{
 		if(_driver_station.isOperatorControl())
 		{
 			setEnabled(IO.shooter_enable());
-			//setOverride(IO.operator_override());
+			//setOverride(IO.operator_override()); TODO
 		}
 		
 		// Update stored speed value if changed from the DS.
@@ -133,29 +144,43 @@ public class Shooter implements Updatable
 			setTargetSpeed(SmartDashboard.getNumber("Shooter Target Speed", 0.0));
 		
 		if(_enabled)
-//		if(SmartDashboard.getBoolean("Shooter enable", false))
 		{
-			_shooter_motor.set(-getTargetSpeed());
+			_shooter.set(-getTargetSpeed());
 			
 			if(getSpeedGood() || _override)
 			{
-				_shooter_motor.setP(PID_values[1][0]);
-				_shooter_motor.setI(PID_values[1][1]);
-				//_hopper_motor.set(1.0);
+				_shooter.setP(PID_values[1][0]);
+				_shooter.setI(PID_values[1][1]);
+				//_helicopter.set(1.0);
+				
+				if(countShots())
+				{
+					_shotCount++;
+				}
+				
+				if(reverseShooter() || IO.helicopter_reverse_override())
+				{
+					_helicopter.set(1.0);
+				}
+				
+				else
+				{
+					_helicopter.set(-1.0);
+				}
 			}
 			else
 			{
-				_shooter_motor.setP(PID_values[0][0]);
-				_shooter_motor.setI(PID_values[0][1]);
-				//_hopper_motor.set(0.0);
+				_shooter.setP(PID_values[0][0]);
+				_shooter.setI(PID_values[0][1]);
+				_helicopter.set(0.0);
 			}
 		}
 		else
 		{
-			_shooter_motor.setP(PID_values[0][0]);
-			_shooter_motor.setI(PID_values[0][1]);
-			_shooter_motor.set(0);
-			//_hopper_motor.set(0.0);
+			_shooter.setP(PID_values[0][0]);
+			_shooter.setI(PID_values[0][1]);
+			_shooter.set(0);
+			_helicopter.set(0.0);
 		}
 		
 		SmartDashboard.putNumber("Shooter Speed", getCurrentSpeed());

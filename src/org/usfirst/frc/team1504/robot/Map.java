@@ -89,6 +89,8 @@ public class Map {
 	public static final int WINCH_SERVO2 = 0;
 	public static final double WINCH_SERVO_DEPLOYED = 180.0;
 	public static final double WINCH_SERVO_STORED = 0.0;
+	public static final double WINCH_BRAKE_TIMEOUT = 15.0;
+
 
 /**
  * Robot config stuff
@@ -109,7 +111,9 @@ public class Map {
 	public static final int INTAKE_ON_BUTTON = 6;
 	public static final int INTAKE_OFF_BUTTON = 7;
 	public static final int SHOOTER_OVERRIDE_BUTTON = 8;
-	public static int FRONT_SIDE_BUTTON = 9;
+	//public static int FRONT_SIDE_BUTTON = 9;
+	public static final int HELICOPTER_OVERRIDE_BUTTON = 9;
+
 	public static final int WINCH_DEPLOY_BUTTON = 10;
 	public static final int WINCH_OVERRIDE_BUTTON = 11;
 	

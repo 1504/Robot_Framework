@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1504.robot;
 
+import java.util.TimerTask;
+
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 
 import com.ctre.CANTalon;
@@ -12,8 +14,6 @@ public class Winch implements Updatable
 {
 	private static Winch _instance = new Winch();
 
-	//private Servo _servo1;//, _servo2;
-
 	private boolean _deployed = false;
 	private boolean _override = false;
 	
@@ -21,6 +21,7 @@ public class Winch implements Updatable
 	
 	private CANTalon _nancy;
 	private CANTalon _mead;
+	private Thread _winch;
 	
 	protected Winch()
 	{
@@ -31,8 +32,74 @@ public class Winch implements Updatable
 		_mead = new CANTalon(Map.MEAD_TALON_PORT);
 		_mead.EnableCurrentLimit(true);
 		_mead.setCurrentLimit(Map.WINCH_CURRENT_LIMIT);
-
 		
+		new Thread( new Runnable() {
+			public void run() {
+				double timeout = Map.WINCH_BRAKE_TIMEOUT;
+
+				while(true)
+				{
+					if(_ds.isEnabled())
+					{
+						_mead.enableBrakeMode(true);
+						_nancy.enableBrakeMode(true);
+					}
+					
+					else if(!_ds.isEnabled())
+					{
+						System.out.println("Winch brakes OFF in "+ timeout +" seconds.");
+						new Thread( new Runnable()
+						{
+							public void run() 
+							{
+								Timer.delay(timeout);
+								if(_ds.isEnabled())
+									return;
+								_nancy.enableBrakeMode(false); //only on disable
+								_mead.enableBrakeMode(false);
+								System.out.println("Winch brakes OFF");
+							}
+						}).start();
+					}
+					Timer.delay(.2);
+				}
+			}
+		}).start();
+		
+		_mead.enableBrakeMode(true);
+		_nancy.enableBrakeMode(true);
+		
+		_winch = new Thread(new Runnable() {
+			public void run()
+			{
+				while(!_deployed) //while winch not deployed, periodically backdrive winch to keep tension
+				{
+					_nancy.set(-.25);
+					_mead.set(.25);
+					Timer.delay(.01);
+					_nancy.set(0.0);
+					_mead.set(0.0);
+					
+					try {
+						Thread.sleep(500); //ms
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				//_deployed = false;
+				
+				_nancy.set(1.0); //deploy winch
+				_mead.set(-1.0);
+				Timer.delay(2); 
+				_nancy.set(0.0);
+				_mead.set(0.0);
+				
+				_deployed = true;
+				
+			}
+		}); 
+		_winch.start();
+
 		Update_Semaphore.getInstance().register(this);
 		System.out.println("Winch is ready to end the game. And end your life.");
 	}
@@ -55,17 +122,6 @@ public class Winch implements Updatable
 		_deployed = deployed;
 	}
 
-	//Deploy the winch
-	private void deploy_winch()
-	{
-		_nancy.set(1); 
-		_mead.set(-1);
-		Timer.delay(.5); 
-		
-		_nancy.set(0);
-		_mead.set(0);			
-	}
-	
 	private void set_current_limit(boolean override)
 	{
 		if (_override != override)
@@ -86,7 +142,7 @@ public class Winch implements Updatable
 		// Deploy winch
 		if(IO.winch_deploy())
 		{
-			deploy_winch();
+			set_deployed(true);
 		}
 		
 		// Run that thang!

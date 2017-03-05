@@ -195,7 +195,7 @@ public class Drive implements Updatable
 					if(_ds.isOperatorControl())
 					{
 						input = detents(input);
-						input = frontside(input);
+						//input = frontside(input);
 						input = orbit_point(input);
 //						input = _glide.gain_adjust(input);
 					}

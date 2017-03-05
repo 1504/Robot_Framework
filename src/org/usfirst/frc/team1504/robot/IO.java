@@ -72,6 +72,11 @@ public class IO
 		return _secondary.getRawButtonLatch(Map.SHOOTER_OVERRIDE_BUTTON);
 	}
 	
+	public static boolean helicopter_reverse_override()
+	{
+		return _secondary.getRawButtonLatch(Map.HELICOPTER_OVERRIDE_BUTTON);
+	}
+	
 	public static boolean camera_shooter_input()
 	{
 		return _secondary.getRawButtonLatch(Map.CAMERA_SHOOTER_INPUT_BUTTON);
@@ -89,13 +94,13 @@ public class IO
 		inputs[2] = Map.DRIVE_INPUT_MAGIC_NUMBERS[2] * Math.pow(Utils.deadzone(_drive_rotation.getRawAxis(Map.JOYSTICK_X_AXIS)), 2) * Math.signum(_drive_rotation.getRawAxis(Map.JOYSTICK_X_AXIS));//w
 		return inputs;
 	}
-		public static double set_front_side()
-	{
-		if(_secondary.getRawButtonLatch(Map.FRONT_SIDE_BUTTON))
-				return 180.0;
-		else 
-			return 0.0;	
-	}
+	//	public static double set_front_side()
+	//{
+		//if(_secondary.getRawButtonLatch(Map.FRONT_SIDE_BUTTON))
+			//	return 180.0;
+		//else 
+		//	return 0.0;	
+	//}
 	public static double drive_wiggle()
 	{
 		return (_drive_rotation.getRawButton(4) ? -1.0 : 0.0) + (_drive_rotation.getRawButton(5) ? 1.0 : 0.0);
