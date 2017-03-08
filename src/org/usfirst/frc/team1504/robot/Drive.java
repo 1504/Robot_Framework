@@ -78,7 +78,6 @@ public class Drive implements Updatable
 							_dumplock.wait();
 						} catch (InterruptedException e)
 						{
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						
@@ -196,7 +195,8 @@ public class Drive implements Updatable
 					{
 						input = detents(input);
 						//input = frontside(input);
-						input = orbit_point(input);
+						if (!IO.get_drive_op_toggle())
+							input = orbit_point(input);
 //						input = _glide.gain_adjust(input);
 					}
 					_new_data = false;

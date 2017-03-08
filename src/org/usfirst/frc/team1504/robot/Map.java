@@ -56,6 +56,20 @@ public class Map {
 			FRONT_RIGHT_TALON_PORT
 	};
 	
+	// Drive disable orbit point buttons
+	
+	public static final int DRIVE_LEFT_BOTTOM = 7;
+	public static final int DRIVE_LEFT_TOP = 6;
+	public static final int DRIVE_RIGHT_BOTTOM = 10;
+	public static final int DRIVE_RIGHT_TOP = 11;
+	
+	public static final int[]DRIVE_OP_BUTTONS = {
+			DRIVE_LEFT_BOTTOM, 
+			DRIVE_LEFT_TOP, 
+			DRIVE_RIGHT_BOTTOM, 
+			DRIVE_RIGHT_TOP};
+
+	
 	// Drive Input magic numbers
 	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { 1.0, -1.0, 0.6 };
 	public static final double DRIVE_INPUT_TURN_FACTOR = 0.2;
