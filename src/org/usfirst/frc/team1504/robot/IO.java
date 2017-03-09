@@ -105,7 +105,14 @@ public class IO
 	{
 		return (_drive_rotation.getRawButton(4) ? -1.0 : 0.0) + (_drive_rotation.getRawButton(5) ? 1.0 : 0.0);
 	}
-
+	public static boolean reset_front_side()
+	{
+		return (_drive_forward.getRawButton(Map.DRIVE_FRONTSIDE_FRONT));
+	}
+	public static boolean front_side_reverse()
+	{
+		return (_drive_rotation.getRawButton(Map.DRIVE_FRONTSIDE_BACK));
+	}
 	public static boolean get_drive_op_toggle()
 	{
 		return (_drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[0]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[1]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[2]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[3]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[0]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[1]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[2]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[3]));
@@ -113,10 +120,10 @@ public class IO
 	
 	public static boolean get_intake_on()
 	{
-		return _secondary.getRawButton(Map.INTAKE_ON_BUTTON);
+		return _secondary.getRawButton(8);
 	}
 	public static boolean get_intake_off()
 	{
-		return _secondary.getRawButton(Map.INTAKE_OFF_BUTTON);
+		return _secondary.getRawButton(9);
 	}
 }

@@ -77,8 +77,8 @@ public class Map {
 	public static final double DRIVE_INPUT_VISION_SPEED = 0.75;
 	
 	// Drive Front Side changing
-	public static final int DRIVE_FRONTSIDE_FRONT = 3;
-	public static final int DRIVE_FRONTSIDE_BACK = 2;
+	public static final int DRIVE_FRONTSIDE_FRONT = 1;
+	public static final int DRIVE_FRONTSIDE_BACK = 1;
 	
 	// Glide gain
 	public static final double[][] DRIVE_GLIDE_GAIN = {{0.0015, 0.003}, {0.008, 0.008}};
@@ -122,13 +122,11 @@ public class Map {
 	public static final int HELICOPTER_PULSE_BUTTON = 3;
 	public static final int VISION_INTERFACE_CAMERA_PORT_BUTTON = 5;
 	public static final int GEAR_BUTTON = 4;
-	public static final int INTAKE_ON_BUTTON = 6;
-	public static final int INTAKE_OFF_BUTTON = 7;
 	public static final int SHOOTER_OVERRIDE_BUTTON = 8;
 	//public static int FRONT_SIDE_BUTTON = 9;
 	public static final int HELICOPTER_OVERRIDE_BUTTON = 9;
 
-	public static final int WINCH_DEPLOY_BUTTON = 10;
+	public static final int WINCH_DEPLOY_BUTTON = 7;
 	public static final int WINCH_OVERRIDE_BUTTON = 11;
 	
 /**

@@ -110,7 +110,7 @@ public class Drive implements Updatable
 	private volatile int _loops_since_last_dump = 0;
 	
 	private volatile double[] _input = {0.0, 0.0, 0.0};
-	private volatile double _rot_offset = 90.0;
+	private volatile double _rot_offset = 0.0;
 	private volatile double[] _orbit_point = {0.0, -1.15}; //{0.0, 1.15};
 
 	private CANTalon[] _motors = new CANTalon[Map.DRIVE_MOTOR_PORTS.length];
@@ -194,13 +194,20 @@ public class Drive implements Updatable
 					if(_ds.isOperatorControl())
 					{
 						input = detents(input);
-						//input = frontside(input);
+						if(IO.reset_front_side())
+						{
+							fSideAngleDegrees(0.0);
+						}
+						input = frontside(input);
 						if (!IO.get_drive_op_toggle())
+						{
 							input = orbit_point(input);
+						}
 //						input = _glide.gain_adjust(input);
 					}
 					_new_data = false;
 					_dump = true;
+					_input = input;
 				}
 				
 				//_groundtruth.getData();

@@ -47,7 +47,7 @@ public class Winch implements Updatable
 					
 					else if(!_ds.isEnabled())
 					{
-						System.out.println("Winch brakes OFF in "+ timeout +" seconds.");
+//						System.out.println("Winch brakes OFF in "+ timeout +" seconds.");
 						new Thread( new Runnable()
 						{
 							public void run() 
@@ -57,7 +57,7 @@ public class Winch implements Updatable
 									return;
 								_nancy.enableBrakeMode(false); //only on disable
 								_mead.enableBrakeMode(false);
-								System.out.println("Winch brakes OFF");
+//								System.out.println("Winch brakes OFF");
 							}
 						}).start();
 					}
@@ -86,7 +86,7 @@ public class Winch implements Updatable
 						e.printStackTrace();
 					}
 				}
-				//_deployed = false;
+				_deployed = false;
 				
 				_nancy.set(1.0); //deploy winch
 				_mead.set(-1.0);
@@ -143,6 +143,7 @@ public class Winch implements Updatable
 		if(IO.winch_deploy())
 		{
 			set_deployed(true);
+			Drive.getInstance().fSideAngleDegrees(90);
 		}
 		
 		// Run that thang!
