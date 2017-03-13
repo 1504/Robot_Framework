@@ -27,7 +27,7 @@ public class Map {
 	public static final double SHOOTER_GAIN_I = 0.00005; //0.0001;
 	public static final double SHOOTER_SPEED_GOOD_DEADBAND = 15.0;
 	public static final int SHOOTER_PID_DEADZONE = 50;
-	public static final int SHOOTER_COUNT_CURRENT = 9;
+	public static final double SHOOTER_COUNT_CURRENT = 6.5;
 	public static final int SHOOTER_REVERSE_CURRENT = 17;
 
 
@@ -117,7 +117,7 @@ public class Map {
  */
 	//public static final int DRIVE_INPUT_TURN_FACTOR_OVERRIDE_BUTTON = 1;
 	public static final int SHOOTER_FIRE_BUTTON = 1;
-	//public static final int VISION_INTERFACE_OVERRIDE_BUTTON = 2;
+	public static final int SHOOTER_TURN_BUTTON = 2;//VISION_INTERFACE_OVERRIDE_BUTTON = 2;
 	public static final int CAMERA_SHOOTER_INPUT_BUTTON = 2;
 	public static final int HELICOPTER_PULSE_BUTTON = 3;
 	public static final int VISION_INTERFACE_CAMERA_PORT_BUTTON = 5;

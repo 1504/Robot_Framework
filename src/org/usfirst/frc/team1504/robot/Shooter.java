@@ -22,11 +22,12 @@ public class Shooter implements Updatable
 	
 	private boolean _enabled  = false;
 	private boolean _override = false;
-	private long _shot_estimate = 0;
 	
 	private double PID_values[][] = {{.03, .00015}, {.05, .00017}};
 	private double PID_DEADZONE = 50;
 	private double _shotCount = 0;
+	private double _current_watcher = 0;
+	private double _speed_good_time = 0;
 	
 	protected Shooter()
 	{
@@ -121,7 +122,7 @@ public class Shooter implements Updatable
 		_override = override;
 	}
 	
-	public boolean countShots()
+	public boolean getCurrentShotSpike()
 	{
 		return Math.abs(_shooter.getOutputCurrent() - Map.SHOOTER_COUNT_CURRENT) < 2;
 	}
@@ -136,7 +137,7 @@ public class Shooter implements Updatable
 		if(_driver_station.isOperatorControl())
 		{
 			setEnabled(IO.shooter_enable());
-			//setOverride(IO.operator_override()); TODO
+			setOverride(IO.shooter_override());
 		}
 		
 		// Update stored speed value if changed from the DS.
@@ -147,15 +148,22 @@ public class Shooter implements Updatable
 		{
 			_shooter.set(-getTargetSpeed());
 			
+			if(IO.shooter_turn_enable())
+			{
+				Drive.getInstance().drive_inputs(0, 0, IO.shooter_turn_input());
+			}
+			
 			if(getSpeedGood() || _override)
 			{
+				_speed_good_time = System.currentTimeMillis();
 				_shooter.setP(PID_values[1][0]);
 				_shooter.setI(PID_values[1][1]);
 				//_helicopter.set(1.0);
-				
-				if(countShots())
+								
+				if(_shooter.getOutputCurrent() > Map.SHOOTER_COUNT_CURRENT && System.currentTimeMillis() - _speed_good_time > 360)
 				{
 					_shotCount++;
+					_speed_good_time = 0;
 				}
 				
 				if(reverseShooter() || IO.helicopter_reverse_override())
@@ -170,15 +178,15 @@ public class Shooter implements Updatable
 			}
 			else
 			{
-				_shooter.setP(PID_values[0][0]);
-				_shooter.setI(PID_values[0][1]);
+				//_shooter.setP(PID_values[0][0]);
+				//_shooter.setI(PID_values[0][1]);
 				_helicopter.set(0.0);
 			}
 		}
 		else
 		{
-			_shooter.setP(PID_values[0][0]);
-			_shooter.setI(PID_values[0][1]);
+			//_shooter.setP(PID_values[0][0]);
+			//_shooter.setI(PID_values[0][1]);
 			_shooter.set(0);
 			_helicopter.set(0.0);
 		}

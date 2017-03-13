@@ -62,6 +62,17 @@ public class IO
 		return _secondary.getRawButton(Map.SHOOTER_FIRE_BUTTON);
 	}
 	
+	public static boolean shooter_turn_enable()
+	{
+		return _secondary.getRawButton(Map.SHOOTER_TURN_BUTTON);
+	}
+	
+	public static double shooter_turn_input()
+	{
+		return Map.DRIVE_INPUT_MAGIC_NUMBERS[2] * Math.pow(Utils.deadzone(_secondary.getRawAxis(Map.JOYSTICK_X_AXIS)), 2) * Math.signum(_secondary.getRawAxis(Map.JOYSTICK_X_AXIS));
+
+	}
+	
 	public static boolean helicopter_pulse()
 	{
 		return _secondary.getRawButton(Map.HELICOPTER_PULSE_BUTTON);
