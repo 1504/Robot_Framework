@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1504.robot;
 
+import java.nio.ByteBuffer;
+
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 
 import com.ctre.CANTalon;
@@ -13,20 +15,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Shooter implements Updatable
 {	
 	private static Shooter _instance = new Shooter();
-	private static DriverStation _driver_station = DriverStation.getInstance();
+	private static DriverStation _ds = DriverStation.getInstance();
+	private static GripPipeline _pipe = GripPipeline.getInstance();
 	private static Preferences _preferences = Preferences.getInstance();
 	
 	private CANTalon _shooter = new CANTalon(30);
 	private CANTalon _helicopter = new CANTalon(31);
 	//private CANTalon _turret_motor;
 	
-	private boolean _enabled  = false;
+	public boolean _enabled  = false;
 	private boolean _override = false;
 	
 	private double PID_values[][] = {{.03, .00015}, {.05, .00017}};
 	private double PID_DEADZONE = 50;
 	private double _shotCount = 0;
-	private double _current_watcher = 0;
+	private long _current_watcher = 0;
+	private long _speed_watcher = 0;
 	private double _speed_good_time = 0;
 	
 	protected Shooter()
@@ -92,7 +96,7 @@ public class Shooter implements Updatable
 	 */
 	public double getTargetSpeed()
 	{
-		return _preferences.getDouble("Shooter Target Speed", 0.0);
+		return _ds.isAutonomous() ? _pipe.setShooterSpeed() : _preferences.getDouble("Shooter Target Speed", 0.0);
 	}
 	
 	/**
@@ -132,40 +136,45 @@ public class Shooter implements Updatable
 		return Math.abs(_shooter.getOutputCurrent() - Map.SHOOTER_REVERSE_CURRENT) < 2;
 	}
 	
+	public void dump()
+	{
+	}
 	public void semaphore_update()
 	{
-		if(_driver_station.isOperatorControl())
+		setEnabled(IO.shooter_enable());
+		
+		if(_ds.isOperatorControl())
 		{
-			setEnabled(IO.shooter_enable());
 			setOverride(IO.shooter_override());
 		}
 		
 		// Update stored speed value if changed from the DS.
-		if(SmartDashboard.getNumber("Shooter Target Speed", 0.0) != getTargetSpeed())
+		if(!_ds.isAutonomous() && SmartDashboard.getNumber("Shooter Target Speed", 0.0) != getTargetSpeed())
 			setTargetSpeed(SmartDashboard.getNumber("Shooter Target Speed", 0.0));
 		
 		if(_enabled)
 		{
-			_shooter.set(-getTargetSpeed());
+			_shooter.set(_ds.isAutonomous() ? _pipe.setShooterSpeed() : -getTargetSpeed());
 			
 			if(IO.shooter_turn_enable())
 			{
 				Drive.getInstance().drive_inputs(0, 0, IO.shooter_turn_input());
 			}
 			
+			_speed_watcher = (_speed_watcher << 1) + (getSpeedGood() ? 1 : 0) & 262143;
+			_current_watcher = (_current_watcher << 1) + (_shooter.getOutputCurrent() > Map.SHOOTER_COUNT_CURRENT ? 1 : 0) & 3;
+							
+			if(_speed_watcher > 1 && _current_watcher == 1)
+			{
+				_shotCount++;
+			}
+			
 			if(getSpeedGood() || _override)
 			{
-				_speed_good_time = System.currentTimeMillis();
 				_shooter.setP(PID_values[1][0]);
 				_shooter.setI(PID_values[1][1]);
 				//_helicopter.set(1.0);
 								
-				if(_shooter.getOutputCurrent() > Map.SHOOTER_COUNT_CURRENT && System.currentTimeMillis() - _speed_good_time > 360)
-				{
-					_shotCount++;
-					_speed_good_time = 0;
-				}
-				
 				if(reverseShooter() || IO.helicopter_reverse_override())
 				{
 					_helicopter.set(1.0);
@@ -193,6 +202,7 @@ public class Shooter implements Updatable
 		
 		SmartDashboard.putNumber("Shooter Speed", getCurrentSpeed());
 		SmartDashboard.putBoolean("Shooter At Speed", getSpeedGood());
+		dump();
 	}
 
 }

@@ -213,8 +213,8 @@ public class Drive implements Updatable
 				//_groundtruth.getData();
 				//input = groundtruth_correction(input);
 				
-				if(IO.gear_input())
-					input = _gear.setDriveInput();
+				//if(IO.gear_input())
+					//input = _gear.setDriveInput();
 				//if(IO.camera_shooter_input())
 					//input = _camera.set_drive_input(); 
 				

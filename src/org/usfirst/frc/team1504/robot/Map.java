@@ -107,6 +107,13 @@ public class Map {
 
 
 /**
+* Gear
+*/
+	public static final int GEAR_TALON_PORT = 40;
+	public static final int GEAR_MAGIC_NUMBER = 1;
+
+	
+/**
  * Robot config stuff
  */	
 	public static final double ROBOT_WARNING_TIME_LONG = 20.0;
@@ -121,7 +128,7 @@ public class Map {
 	public static final int CAMERA_SHOOTER_INPUT_BUTTON = 2;
 	public static final int HELICOPTER_PULSE_BUTTON = 3;
 	public static final int VISION_INTERFACE_CAMERA_PORT_BUTTON = 5;
-	public static final int GEAR_BUTTON = 4;
+	public static final int GEAR_BUTTON = 3;
 	public static final int SHOOTER_OVERRIDE_BUTTON = 8;
 	//public static int FRONT_SIDE_BUTTON = 9;
 	public static final int HELICOPTER_OVERRIDE_BUTTON = 9;

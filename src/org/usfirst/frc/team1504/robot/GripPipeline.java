@@ -31,6 +31,7 @@ public class GripPipeline implements VisionPipeline{
 	private Mat cvErodeOutput = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
 	private Point _centroid = new Point();
+	private static GripPipeline _instance = new GripPipeline();
 	//private List<MatOfPoint> _contours = new List<MatOfPoint>();
 	Rect[] _bb; 
 
@@ -44,6 +45,11 @@ public class GripPipeline implements VisionPipeline{
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 	}
 
+	public static GripPipeline getInstance()
+	{
+		return _instance;
+	}
+	
 	/**
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
 	 */

@@ -42,6 +42,8 @@ public class Autonomous
 	
 	//private Groundtruth _groundtruth = Groundtruth.getInstance();
 	private Drive _drive = Drive.getInstance();
+	private static GripPipeline _pipe = GripPipeline.getInstance();
+	private Shooter _shooter = Shooter.getInstance();
 	private Timer _task_timer;
 	private volatile boolean _thread_alive = true;
 	private long _start_time;
@@ -83,6 +85,7 @@ public class Autonomous
 	public void stop()
 	{
 		_drive.drive_inputs(0.0, 0.0, 0.0);
+		_shooter._enabled = false;
 
 		if(!_thread_alive)
 			return;
@@ -96,7 +99,7 @@ public class Autonomous
 	
 	protected void auto_task()
 	{
-		while(_thread_alive)
+		//while(_thread_alive)
 		{
 			// Don't drive around if we're not getting good sensor data
 			// Otherwise we drive super fast and out of control
@@ -138,7 +141,10 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 2)
 			{
-
+				// Calculate P(ID) output for the drive thread 
+				for(int value = 0; value < 3; value++) // P loop
+					output[value] = _path[step][value];
+				_pipe.set_drive_input();
 			}
 //			double[] testoutput = {1.0, 1.0, 1.0, 1.0};
 			_drive.drive_inputs(output);
