@@ -138,6 +138,7 @@ public class Shooter implements Updatable
 	
 	public void dump()
 	{
+		
 	}
 	public void semaphore_update()
 	{
@@ -154,7 +155,8 @@ public class Shooter implements Updatable
 		
 		if(_enabled)
 		{
-			_shooter.set(_ds.isAutonomous() ? _pipe.setShooterSpeed() : -getTargetSpeed());
+			setTargetSpeed(-getTargetSpeed() + IO.shooter_speed_override());
+			_shooter.set(_ds.isAutonomous() ? _pipe.setShooterSpeed() : -getTargetSpeed()); // + IO.shooter_speed_override());
 			
 			if(IO.shooter_turn_enable())
 			{

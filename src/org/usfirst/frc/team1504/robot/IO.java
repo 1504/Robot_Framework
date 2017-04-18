@@ -70,7 +70,12 @@ public class IO
 	public static double shooter_turn_input()
 	{
 		return Map.DRIVE_INPUT_MAGIC_NUMBERS[2] * Math.pow(Utils.deadzone(_secondary.getRawAxis(Map.JOYSTICK_X_AXIS)), 2) * Math.signum(_secondary.getRawAxis(Map.JOYSTICK_X_AXIS));
-
+	}
+	
+	//secondary control of shooter speed
+	public static double shooter_speed_override() 
+	{
+		return (_secondary.getRawAxis(Map.JOYSTICK_Y_AXIS) < .5 ? 0.0 : -1.0 * Map.DRIVE_INPUT_MAGIC_NUMBERS[2] * _secondary.getRawAxis(Map.JOYSTICK_Y_AXIS) * Math.signum(_secondary.getRawAxis(Map.JOYSTICK_Y_AXIS)));
 	}
 	
 	public static boolean helicopter_pulse()
