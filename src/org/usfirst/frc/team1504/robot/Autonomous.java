@@ -43,7 +43,6 @@ public class Autonomous
 	//private Groundtruth _groundtruth = Groundtruth.getInstance();
 	private Drive _drive = Drive.getInstance();
 	private static GripPipeline _pipe = GripPipeline.getInstance();
-	private Shooter _shooter = Shooter.getInstance();
 	private Timer _task_timer;
 	private volatile boolean _thread_alive = true;
 	private long _start_time;
@@ -85,7 +84,6 @@ public class Autonomous
 	public void stop()
 	{
 		_drive.drive_inputs(0.0, 0.0, 0.0);
-		_shooter._enabled = false;
 
 		if(!_thread_alive)
 			return;

@@ -6,9 +6,8 @@ import java.util.Timer;
 
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 import com.kauailabs.navx.frc.AHRS;
-import com.ctre.CANTalon;
-
 import edu.wpi.first.wpilibj.DriverStation;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 //import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -100,7 +99,6 @@ public class Drive implements Updatable
 	}
 	
 	private DriverStation _ds = DriverStation.getInstance();
-	private Gear _gear = Gear.getInstance();
 	private Logger _log = Logger.getInstance();
 	private DriveGlide _glide = new DriveGlide();
 	private Groundtruth _groundtruth = Groundtruth.getInstance();
@@ -113,7 +111,7 @@ public class Drive implements Updatable
 	private volatile double _rot_offset = 0.0;
 	private volatile double[] _orbit_point = {0.0, -1.15}; //{0.0, 1.15};
 
-	private CANTalon[] _motors = new CANTalon[Map.DRIVE_MOTOR_PORTS.length];
+	private WPI_TalonSRX[] _motors = new WPI_TalonSRX[Map.DRIVE_MOTOR_PORTS.length];
 
 
 	/**
@@ -123,7 +121,7 @@ public class Drive implements Updatable
 	{
 		for(int i = 0; i < Map.DRIVE_MOTOR_PORTS.length; i++)
 		{
-			_motors[i] = new CANTalon(Map.DRIVE_MOTOR_PORTS[i]);
+			_motors[i] = new WPI_TalonSRX(Map.DRIVE_MOTOR_PORTS[i]);
 		}		
 	}
 	
