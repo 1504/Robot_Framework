@@ -16,6 +16,7 @@ import org.usfirst.frc.team1504.robot.Arduino.SHOOTER_STATUS;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -51,6 +52,7 @@ public class Robot extends RobotBase {
     	Drive.initialize();
     	DigitBoard.initialize();
     	Digit_Board.initialize();
+    	CameraServer.getInstance().startAutomaticCapture();
     	//System.out.println(new String(Base64.getDecoder().decode(Map.TEAM_BANNER)));
     }
 

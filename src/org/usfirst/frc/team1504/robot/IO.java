@@ -134,11 +134,11 @@ public class IO
 		return (_drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[0]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[1]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[2]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[3]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[0]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[1]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[2]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[3]));
 	}
 	
-	public static boolean get_intake_on()
+	public static boolean get_pickup_on()
 	{
 		return _secondary.getRawButton(8);
 	}
-	public static boolean get_intake_off()
+	public static boolean get_pickup_off()
 	{
 		return _secondary.getRawButton(9);
 	}

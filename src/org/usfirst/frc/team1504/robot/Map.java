@@ -35,7 +35,8 @@ public class Map {
 /**
  * Intake stuff
  */
-		public static final int INTAKE_TALON_PORT = 40;
+		public static final int PICKUP_TALON_PORT_LEFT = 40;
+		public static final int PICKUP_TALON_PORT_RIGHT = 41;
 	
 /**
  * Drive class things
