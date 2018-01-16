@@ -53,6 +53,8 @@ public class Robot extends RobotBase {
     	DigitBoard.initialize();
     	Digit_Board.initialize();
     	CameraServer.getInstance().startAutomaticCapture();
+    	System.out.println(_ds.getGameSpecificMessage()); 
+    	//RRL - Right side switch (closer), Right side scale, Left side switch (farther)
     	//System.out.println(new String(Base64.getDecoder().decode(Map.TEAM_BANNER)));
     }
 

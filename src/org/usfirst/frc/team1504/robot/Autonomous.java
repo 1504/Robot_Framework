@@ -2,6 +2,7 @@ package org.usfirst.frc.team1504.robot;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import edu.wpi.first.wpilibj.DriverStation;
 
 public class Autonomous 
 {
@@ -16,7 +17,6 @@ public class Autonomous
 		public TYPE type;
 		public double timeout;
 		public double[] setpoint = new double[2];
-		
 		public Autonomus_Waypoint() {}
 		public Autonomus_Waypoint(TYPE t, double t_o, double[] sp)
 			{ type = t; timeout = t_o; setpoint = sp; }
@@ -48,11 +48,11 @@ public class Autonomous
 	private long _start_time;
 	private double[][] _path;
 	private int _path_step;
-	
 	protected Autonomous()
 	{
 		//
 		System.out.println("Auto Nom Ous");
+		
 	}
 	
 	public static Autonomous getInstance()
