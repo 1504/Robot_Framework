@@ -23,14 +23,17 @@ public class IO
 	}
 	
 	/**
-	 * Winch stuff
+	 * Pickup stuff
 	 */
 	
 	public static double winch_input()
 	{
 		return Utils.deadzone(Math.abs(_secondary.getRawAxis(Map.WINCH_POWER_AXIS))) * Map.WINCH_DIRECTION;
 	}
-	
+	public static boolean get_override_pickup()
+	{
+		return _secondary.getRawButton(Map.PICKUP_OVERRIDE);
+	}
 	
 	/**
 	 * Gear stuff

@@ -33,7 +33,7 @@ public class Map {
 
 	
 /**
- * Intake stuff
+ * Pickup stuff
  */
 		public static final int DROP_PICKUP_RIGHT = 38;
 		public static final int DROP_PICKUP_LEFT = 39;
@@ -124,6 +124,7 @@ public class Map {
  * Buttons
  */
 	public static final int VISION_INTERFACE_CAMERA_PORT_BUTTON = 5;
+	public static final int PICKUP_OVERRIDE = 6;
 	
 /**
  * Arduino addresses

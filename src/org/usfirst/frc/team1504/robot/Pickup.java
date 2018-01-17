@@ -85,10 +85,18 @@ public class Pickup implements Updatable {
 			_motorR.set(0);
 		}
 	}
-
+	private void override_pickup()
+	{
+		if (IO.get_override_pickup())
+		{
+			_motorDropL.set(IO.winch_input()*Map.PICKUP_LEFT_MAGIC);
+			_motorDropR.set(IO.winch_input()*Map.PICKUP_RIGHT_MAGIC);
+		}
+	}
 	public void semaphore_update()
 	{
 		update_mode();
 		set_motor();
+		override_pickup();
 	}
 }
