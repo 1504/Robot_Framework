@@ -109,6 +109,8 @@ public class Map {
 
 	public static final int WINCH_POWER_AXIS = 1;
 	public static final double WINCH_DIRECTION = 1.0;
+	public static final double PICKUP_RIGHT_MAGIC = 1.0;
+	public static final double PICKUP_LEFT_MAGIC = 1.0;
 	
 /**
  * Robot config stuff
