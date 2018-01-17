@@ -29,8 +29,10 @@ public class Pickup implements Updatable {
 	{	
 		_motorL = new WPI_TalonSRX(Map.PICKUP_TALON_PORT_LEFT);
 		_motorR = new WPI_TalonSRX(Map.PICKUP_TALON_PORT_RIGHT);
+		_motorDropL = new WPI_TalonSRX(Map.DROP_PICKUP_LEFT);
+		_motorDropR = new WPI_TalonSRX(Map.DROP_PICKUP_RIGHT);
 		hug = new DoubleSolenoid(0, 1); //0 is on/forward, 1 for off/reverse
-		hug.set(DoubleSolenoid.Value.kOff);
+		hug.set(DoubleSolenoid.Value.kOff); //not sure about this
 		Update_Semaphore.getInstance().register(this);
 		
 		System.out.println("Pickup Initialized.");
@@ -47,6 +49,9 @@ public class Pickup implements Updatable {
 			hug.set(DoubleSolenoid.Value.kForward);
 			if (on_count == 0)
 			{
+				//drop both cantalons based on sensor. Fake code for now
+				_motorDropL.set(0);
+				_motorDropR.set(0);
 				System.out.println("Pickup is intaking some cubes.");
 				on_count++;
 			}
@@ -58,6 +63,9 @@ public class Pickup implements Updatable {
 			_mode = state.OFF;
 			if (off_count == 0)
 			{
+				//pick up both cantalons based on sensor. Fake code for now
+				_motorDropL.set(0);
+				_motorDropR.set(0);
 				System.out.println("Pickup stopped intaking.");
 				off_count++;
 			}

@@ -35,6 +35,8 @@ public class Map {
 /**
  * Intake stuff
  */
+		public static final int DROP_PICKUP_RIGHT = 38;
+		public static final int DROP_PICKUP_LEFT = 39;
 		public static final int PICKUP_TALON_PORT_LEFT = 40;
 		public static final int PICKUP_TALON_PORT_RIGHT = 41;
 		public static final int LIFT_TALON_PORT = 42;
