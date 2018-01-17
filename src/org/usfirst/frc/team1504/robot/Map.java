@@ -37,6 +37,7 @@ public class Map {
  */
 		public static final int PICKUP_TALON_PORT_LEFT = 40;
 		public static final int PICKUP_TALON_PORT_RIGHT = 41;
+		public static final int LIFT_TALON_PORT = 42;
 	
 /**
  * Drive class things
@@ -92,7 +93,7 @@ public class Map {
 /**
  * Winch stuff
  */	
-	public static final int NANCY_TALON_PORT = 20;
+	/*public static final int NANCY_TALON_PORT = 20;
 	public static final int MEAD_TALON_PORT = 21;
 	
 	public static final int WINCH_CURRENT_LIMIT = 70;
@@ -104,15 +105,10 @@ public class Map {
 	public static final int WINCH_SERVO2 = 0;
 	public static final double WINCH_SERVO_DEPLOYED = 180.0;
 	public static final double WINCH_SERVO_STORED = 0.0;
-	public static final double WINCH_BRAKE_TIMEOUT = 15.0;
+	public static final double WINCH_BRAKE_TIMEOUT = 15.0;*/
 
-
-/**
-* Gear
-*/
-	public static final int GEAR_TALON_PORT = 40;
-	public static final int GEAR_MAGIC_NUMBER = 1;
-
+	public static final int WINCH_POWER_AXIS = 1;
+	public static final double WINCH_DIRECTION = 1.0;
 	
 /**
  * Robot config stuff
@@ -123,19 +119,7 @@ public class Map {
 /**
  * Buttons
  */
-	//public static final int DRIVE_INPUT_TURN_FACTOR_OVERRIDE_BUTTON = 1;
-	public static final int SHOOTER_FIRE_BUTTON = 1;
-	public static final int SHOOTER_TURN_BUTTON = 2;//VISION_INTERFACE_OVERRIDE_BUTTON = 2;
-	public static final int CAMERA_SHOOTER_INPUT_BUTTON = 2;
-	public static final int HELICOPTER_PULSE_BUTTON = 3;
 	public static final int VISION_INTERFACE_CAMERA_PORT_BUTTON = 5;
-	public static final int GEAR_BUTTON = 3;
-	public static final int SHOOTER_OVERRIDE_BUTTON = 8;
-	//public static int FRONT_SIDE_BUTTON = 9;
-	public static final int HELICOPTER_OVERRIDE_BUTTON = 9;
-
-	public static final int WINCH_DEPLOY_BUTTON = 7;
-	public static final int WINCH_OVERRIDE_BUTTON = 11;
 	
 /**
  * Arduino addresses

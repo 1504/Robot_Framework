@@ -38,6 +38,8 @@ public class Robot extends RobotBase {
 	private Logger _logger = Logger.getInstance();
 	private Autonomous _autonomous = Autonomous.getInstance();
 	private Arduino _arduino = Arduino.getInstance();
+	private Pickup _pickup = Pickup.getInstance();
+	private Lift _lift = Lift.getInstance();
 	//private Navx _navx = Navx.getInstance();
 //	private CameraInterface ci = CameraInterface.getInstance();
 	//private Vision _vision = Vision.getInstance();
@@ -52,7 +54,7 @@ public class Robot extends RobotBase {
     	Drive.initialize();
     	DigitBoard.initialize();
     	Digit_Board.initialize();
-    	CameraServer.getInstance().startAutomaticCapture();
+    	//CameraServer.getInstance().startAutomaticCapture();
     	System.out.println(_ds.getGameSpecificMessage()); 
     	//RRL - Right side switch (closer), Right side scale, Left side switch (farther)
     	//System.out.println(new String(Base64.getDecoder().decode(Map.TEAM_BANNER)));
