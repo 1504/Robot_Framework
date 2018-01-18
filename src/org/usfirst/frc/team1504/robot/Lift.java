@@ -59,7 +59,7 @@ public class Lift implements Updatable
 	{
 		if (_mode == state.ON)
 		{
-			_motor.set(IO.winch_input());
+			_motor.set(IO.intake_input());
 		}
 		if (_mode == state.OFF)
 		{
