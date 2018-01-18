@@ -116,7 +116,7 @@ public class Autonomous
 				//get IMU reading
 				
 				//correct for amount off
-				double[] output = new double[3];
+				double[] output = {0.0, 0.0, 0.0};
 				double off = 1.0; //get reading
 				double threshold = 5.0;//margin of error so it stops jittering.
 				while (Math.abs(off) < threshold){ //needs to be replaced with checking if the gyro is 0 yet.

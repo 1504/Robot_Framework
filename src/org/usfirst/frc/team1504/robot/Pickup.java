@@ -76,8 +76,8 @@ public class Pickup implements Updatable {
 	{
 		if (_mode == state.ON)
 		{
-			_motorL.set(IO.winch_input()*Map.PICKUP_LEFT_MAGIC);
-			_motorR.set(IO.winch_input()*Map.PICKUP_RIGHT_MAGIC);
+			_motorL.set(IO.intake_input()*Map.PICKUP_LEFT_MAGIC);
+			_motorR.set(IO.intake_input()*Map.PICKUP_RIGHT_MAGIC);
 		}
 		if (_mode == state.OFF)
 		{
@@ -89,8 +89,8 @@ public class Pickup implements Updatable {
 	{
 		if (IO.get_override_pickup())
 		{
-			_motorDropL.set(IO.winch_input()*Map.PICKUP_LEFT_MAGIC);
-			_motorDropR.set(IO.winch_input()*Map.PICKUP_RIGHT_MAGIC);
+			_motorDropL.set(IO.intake_input()*Map.PICKUP_LEFT_MAGIC);
+			_motorDropR.set(IO.intake_input()*Map.PICKUP_RIGHT_MAGIC);
 		}
 	}
 	public void semaphore_update()

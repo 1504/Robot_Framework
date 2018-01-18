@@ -26,7 +26,7 @@ public class IO
 	 * Pickup stuff
 	 */
 	
-	public static double winch_input()
+	public static double intake_input()
 	{
 		return Utils.deadzone(Math.abs(_secondary.getRawAxis(Map.WINCH_POWER_AXIS))) * Map.WINCH_DIRECTION;
 	}
