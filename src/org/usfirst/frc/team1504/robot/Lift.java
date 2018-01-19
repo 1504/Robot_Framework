@@ -16,6 +16,7 @@ public class Lift implements Updatable
 	boolean get_bottom_lift_sensor;
 	
 	private static final Lift instance = new Lift();
+	private Pickup _pickup = Pickup.getInstance();
 	
 	public static Lift getInstance()
 	{
@@ -33,6 +34,15 @@ public class Lift implements Updatable
 		Update_Semaphore.getInstance().register(this);
 	}
 	
+	public static double get_elevator_height()
+	{
+		return 0.0; //_blahblahblah.magneticEncoder;
+	}
+	
+	public boolean pickup_safe() 
+	{
+		return (get_elevator_height() < 5);
+	}
 	
 	private void update_mode()
 	{
@@ -58,13 +68,16 @@ public class Lift implements Updatable
 			}
 		}
 		
-		if (IO.get_elevator_height() == Map.ELEVATOR_MAX_HEIGHT) {
+		if (get_elevator_height() == Map.ELEVATOR_MAX_HEIGHT) 
+		{
 			get_top_lift_sensor = true;
 		}
-		else if (IO.get_elevator_height() == Map.ELEVATOR_MIN_HEIGHT) {
+		else if (get_elevator_height() == Map.ELEVATOR_MIN_HEIGHT) 
+		{
 			get_bottom_lift_sensor = true;
 		}
-		else {
+		else 
+		{
 			get_top_lift_sensor = false;
 			get_bottom_lift_sensor = false;
 		}
@@ -82,19 +95,21 @@ public class Lift implements Updatable
 		}
 		// (IO.get_elevator_height < Map.ELEVATOR_MAX_HEIGHT) || (IO.get_elevator_height > Map.ELEVATOR_MIN_HEIGHT)
 		
-		if (get_top_lift_sensor) {
+		if (get_top_lift_sensor) 
+		{
 			_motor.set(0);
 			System.out.println("At top, stopping");
 			if (IO.get_lift_up()) 
 			{
 				_motor.set(0);
 			}
-			if(IO.get_lift_down()) 
+			if(IO.get_lift_down() && _pickup.lift_safe()) 
 			{
 				_motor.set(Map.ELEVATOR_DOWN);
 			}
 		}
-		else {
+		else 
+		{
 			System.out.println("Not at top...");
 		}
 		
@@ -105,12 +120,13 @@ public class Lift implements Updatable
 			{
 				_motor.set(0);
 			}
-			if(IO.get_lift_up()) 
+			if(IO.get_lift_up() && _pickup.lift_safe()) 
 			{
 				_motor.set(Map.ELEVATOR_UP);
 			}
 		}
-		else {
+		else 
+		{
 			System.out.println("Not at bottom...");
 		}
 	}
