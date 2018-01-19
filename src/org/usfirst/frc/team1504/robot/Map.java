@@ -40,7 +40,9 @@ public class Map {
 		public static final int PICKUP_TALON_PORT_LEFT = 40;
 		public static final int PICKUP_TALON_PORT_RIGHT = 41;
 		public static final int LIFT_TALON_PORT = 42;
-	
+		public static final int ELEVATOR_MAX_HEIGHT = 10; //maybe make this a double with the correct height
+		public static final int ELEVATOR_MIN_HEIGHT = 0; //maybe make this a double
+		
 /**
  * Drive class things
  */
