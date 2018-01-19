@@ -100,15 +100,15 @@ public class IO
 	}
 	public static boolean get_lift_up()
 	{
-		return _secondary.getRawButton(3);
+		return _secondary.getRawButton(10);
 	}
 	public static boolean get_lift_down()
 	{
-		return _secondary.getRawButton(4);
+		return _secondary.getRawButton(11);
 	}
 
 	public static double get_elevator_height()
 	{
-		return blahblahblah.magneticEncoder;
+		return 0.0; //_blahblahblah.magneticEncoder;
 	}
 }

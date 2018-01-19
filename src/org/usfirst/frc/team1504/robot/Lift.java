@@ -45,8 +45,6 @@ public class Lift implements Updatable
 				System.out.println("Lifting things");
 				on_count++;
 			}
-				
-			
 		}
 		else if (IO.get_lift_off())
 		{
@@ -83,23 +81,37 @@ public class Lift implements Updatable
 			_motor.set(0);
 		}
 		// (IO.get_elevator_height < Map.ELEVATOR_MAX_HEIGHT) || (IO.get_elevator_height > Map.ELEVATOR_MIN_HEIGHT)
-		while(true) { //needs to change
-			
-			if (get_top_lift_sensor) {
+		
+		if (get_top_lift_sensor) {
+			_motor.set(0);
+			System.out.println("At top, stopping");
+			if (IO.get_lift_up()) 
+			{
 				_motor.set(0);
-				System.out.println("At top, stopping");
 			}
-			else {
-				System.out.println("Not at top...");
+			if(IO.get_lift_down()) 
+			{
+				_motor.set(Map.ELEVATOR_DOWN);
 			}
-			
-			if (get_bottom_lift_sensor) {
+		}
+		else {
+			System.out.println("Not at top...");
+		}
+		
+		if (get_bottom_lift_sensor) {
+			_motor.set(0);
+			System.out.println("At bottom, stopping");
+			if (IO.get_lift_down()) 
+			{
 				_motor.set(0);
-				System.out.println("At bottom, stopping");
 			}
-			else {
-				System.out.println("Not at bottom...");
+			if(IO.get_lift_up()) 
+			{
+				_motor.set(Map.ELEVATOR_UP);
 			}
+		}
+		else {
+			System.out.println("Not at bottom...");
 		}
 	}
 	
