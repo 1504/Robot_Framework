@@ -113,6 +113,19 @@ public class Autonomous
 			if(step > _path_step)
 			{
 				System.out.println("\tAutonomous step " + step + " @ " + (double)(System.currentTimeMillis() - _start_time)/1000);
+				//get IMU reading
+				
+				//correct for amount off
+				double[] output = {0.0, 0.0, 0.0};
+				double off = 1.0; //get reading
+				double threshold = 5.0;//margin of error so it stops jittering.
+				while (Math.abs(off) < threshold){ //needs to be replaced with checking if the gyro is 0 yet.
+					 //get reading
+					output[2] = Math.signum(off)*.2; //.2 is turn speed
+					_drive.drive_inputs(output);
+					off = 1.0;
+				}
+				//reset imu
 				_path_step = step;
 			}
 			
