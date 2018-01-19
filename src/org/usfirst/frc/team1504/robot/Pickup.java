@@ -39,7 +39,11 @@ public class Pickup implements Updatable {
 		System.out.println("Pickup Disabled");
 	}
 	
-	
+	public boolean lift_safe() //says whether or not the pickup arms are backed where the lift can be
+	{
+		double pos = 0.0; //pseudocode
+		return (pos > 0);
+	}
 	private void update_mode()
 	{
 		if (IO.get_pickup_on())
