@@ -210,9 +210,7 @@ public class Drive implements Updatable
 				
 				//_groundtruth.getData();
 				//input = groundtruth_correction(input);
-				if (input[2] == 0.0){
-					input = accelerometer_correction(input);
-				}
+				input = accelerometer_correction(input);
 				//if(IO.gear_input())
 					//input = _gear.setDriveInput();
 				//if(IO.camera_shooter_input())
@@ -369,20 +367,21 @@ public class Drive implements Updatable
 	}
 	private double[] accelerometer_correction(double[] input)
 	{
-		//get IMU reading
-		
-		//correct for amount off
-		double[] output = {0.0, 0.0, 0.0};
-		double off = 1.0; //get reading
-		double threshold = 5.0;//margin of error so it stops jittering.
-		if (Math.abs(off) > threshold){ //needs to be replaced with checking if the gyro is 0 yet.
-			 //get reading
-			output[2] = Math.signum(off)*.2; //.2 is turn speed
-			off = 1.0;
-			return output;
+		if (Math.abs(input[2]) < 0.001){
+			//correct for amount off
+			double off = 1.0; //get reading
+			double threshold = 5.0;//margin of error so it stops jittering.
+			if (Math.abs(off) > threshold){ //needs to be replaced with checking if the gyro is 0 yet.
+				 //get reading
+				input[2] = Math.signum(off)*.2; //.2 is turn speed
+				return input;
+			}
+		} else
+		{
+			//reset imu
+			
 		}
 		return input;
-		//reset imu
 	}
 	/**
 	 * Normalization function for arrays to normalize full scale to +- 1 <br>
