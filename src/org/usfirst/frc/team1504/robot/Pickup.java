@@ -1,6 +1,9 @@
 package org.usfirst.frc.team1504.robot;
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class Pickup implements Updatable {
 	private WPI_TalonSRX _motor_left;
@@ -31,6 +34,13 @@ public class Pickup implements Updatable {
 		_motor_right = new WPI_TalonSRX(Map.PICKUP_TALON_PORT_RIGHT);
 		_motor_arm_left = new WPI_TalonSRX(Map.DROP_PICKUP_LEFT);
 		_motor_arm_right = new WPI_TalonSRX(Map.DROP_PICKUP_RIGHT);
+		_motor_arm_right.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 200); //200 here is the ms timeout when trying to connect
+		_motor_arm_right.config_kP(0, 0.03, 200); //200 is the timeout ms
+		_motor_arm_right.config_kI(0, 0.00015, 200);
+		_motor_arm_left.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 200); //200 here is the ms timeout when trying to connect
+		_motor_arm_left.config_kP(0, 0.03, 200); //200 is the timeout ms
+		_motor_arm_left.config_kI(0, 0.00015, 200);
+		//_motor_arm_left.set(ControlMode.Velocity, 0);
 		_grab_piston = new DoubleSolenoid(0, 1); //0 is on/forward, 1 for off/reverse
 		_grab_piston.set(DoubleSolenoid.Value.kOff); //not sure about this
 		Update_Semaphore.getInstance().register(this);
@@ -54,8 +64,8 @@ public class Pickup implements Updatable {
 			if (on_count == 0)
 			{
 				//drop both cantalons based on sensor. Fake code for now
-				_motor_arm_left.set(0);
-				_motor_arm_right.set(0);
+				_motor_arm_left.set(ControlMode.Velocity, 0);
+				_motor_arm_right.set(ControlMode.Velocity, 0);
 				System.out.println("Pickup is intaking some cubes.");
 				on_count++;
 			}
@@ -68,8 +78,8 @@ public class Pickup implements Updatable {
 			if (off_count == 0)
 			{
 				//pick up both cantalons based on sensor. Fake code for now
-				_motor_arm_left.set(0);
-				_motor_arm_right.set(0);
+				_motor_arm_left.set(ControlMode.Velocity, 0);
+				_motor_arm_right.set(ControlMode.Velocity, 0);
 				System.out.println("Pickup stopped intaking.");
 				off_count++;
 			}
@@ -93,8 +103,8 @@ public class Pickup implements Updatable {
 	{
 		if (IO.get_override_pickup())
 		{
-			_motor_arm_left.set(IO.intake_input()*Map.PICKUP_LEFT_MAGIC);
-			_motor_arm_right.set(IO.intake_input()*Map.PICKUP_RIGHT_MAGIC);
+			_motor_arm_left.set(ControlMode.Velocity, IO.intake_input()*Map.PICKUP_LEFT_MAGIC);
+			_motor_arm_right.set(ControlMode.Velocity, IO.intake_input()*Map.PICKUP_RIGHT_MAGIC);
 		}
 	}
 	public void semaphore_update()
