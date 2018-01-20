@@ -15,9 +15,11 @@ import org.usfirst.frc.team1504.robot.Arduino.SHOOTER_STATUS;
 //import java.util.Base64;
 
 import com.ctre.CANTalon;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -39,8 +41,8 @@ public class Robot extends RobotBase {
 	private Logger _logger = Logger.getInstance();
 	private Autonomous _autonomous = Autonomous.getInstance();
 	private Arduino _arduino = Arduino.getInstance();
-	private Pickup _pickup = Pickup.getInstance();
-	private Lift _lift = Lift.getInstance();
+	//private Pickup _pickup = Pickup.getInstance();
+	//private Lift _lift = Lift.getInstance();
 	//private Navx _navx = Navx.getInstance();
 //	private CameraInterface ci = CameraInterface.getInstance();
 	//private Vision _vision = Vision.getInstance();
@@ -55,8 +57,8 @@ public class Robot extends RobotBase {
     	Drive.initialize();
     	DigitBoard.initialize();
     	Digit_Board.initialize();
-    	Pickup.initialize();
-    	Lift.initialize();
+    	//Pickup.initialize();
+    	//Lift.initialize();
     	//CameraServer.getInstance().startAutomaticCapture();
     	System.out.println(_ds.getGameSpecificMessage()); 
     	//RRL - Right side switch (closer), Right side scale, Left side switch (farther)
@@ -150,9 +152,10 @@ public class Robot extends RobotBase {
      * Users should add test code to this method that should run while the robot is in test mode.
      */
     
-    public void test()
-    {
+    
+    public void test() {
     	System.out.println("Test Mode!");
+    	DoubleSolenoid _piston1 = new DoubleSolenoid(0, 1);
     	WPI_TalonSRX _motorL = new WPI_TalonSRX(Map.PICKUP_TALON_PORT_LEFT);
 		WPI_TalonSRX _motorR = new WPI_TalonSRX(Map.PICKUP_TALON_PORT_RIGHT);
 		Latch_Joystick control = new Latch_Joystick(0);
@@ -162,6 +165,12 @@ public class Robot extends RobotBase {
     	//ci.set_mode(CameraInterface.CAMERA_MODE.SINGLE); 4 or 5
     	while (isTest() && isEnabled())
     	{
+    		
+    		if(control.getRawButton(1)) {
+    			_piston1.set(DoubleSolenoid.Value.kForward);
+    		} else if (control.getRawButton(2)) {
+    			_piston1.set(DoubleSolenoid.Value.kReverse);
+    		}
     		
     		if(control.getRawButton(1)){
     			magic = 1.0;
