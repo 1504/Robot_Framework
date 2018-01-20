@@ -5,7 +5,7 @@ import java.util.TimerTask;
 import java.util.Timer;
 
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
-import com.kauailabs.navx.frc.AHRS;
+//import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 //import edu.wpi.first.wpilibj.Timer;
