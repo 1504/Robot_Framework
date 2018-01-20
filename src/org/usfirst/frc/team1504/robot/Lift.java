@@ -85,7 +85,7 @@ public class Lift implements Updatable
 	
 	private void set_motor()
 	{
-		if (_mode == state.ON)
+		if (IO.get_override_lift())
 		{
 			_motor.set(IO.intake_input());
 		}

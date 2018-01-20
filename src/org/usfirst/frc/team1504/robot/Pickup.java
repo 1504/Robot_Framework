@@ -6,16 +6,14 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class Pickup implements Updatable {
-	private WPI_TalonSRX _motor_left;
-	private WPI_TalonSRX _motor_right;
-	private WPI_TalonSRX _motor_arm_left;
-	private WPI_TalonSRX _motor_arm_right;
+	private WPI_TalonSRX _grab_left;
+	private WPI_TalonSRX _grab_right;
+	private WPI_TalonSRX arm_left;
+	private WPI_TalonSRX arm_right;
 	DoubleSolenoid _grab_piston; 
+	private Lift _lift = Lift.getInstance();
 	private enum state {OFF, ON};
 	private state _mode = state.OFF; 
-	
-	int on_count = 0;
-	int off_count = 0;
 	
 	private static final Pickup instance = new Pickup();
 	
@@ -30,17 +28,17 @@ public class Pickup implements Updatable {
 	}
 	private Pickup()
 	{	
-		_motor_left = new WPI_TalonSRX(Map.PICKUP_TALON_PORT_LEFT);
-		_motor_right = new WPI_TalonSRX(Map.PICKUP_TALON_PORT_RIGHT);
-		_motor_arm_left = new WPI_TalonSRX(Map.DROP_PICKUP_LEFT);
-		_motor_arm_right = new WPI_TalonSRX(Map.DROP_PICKUP_RIGHT);
-		_motor_arm_right.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 200); //200 here is the ms timeout when trying to connect
-		_motor_arm_right.config_kP(0, 0.03, 200); //200 is the timeout ms
-		_motor_arm_right.config_kI(0, 0.00015, 200);
-		_motor_arm_left.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 200); //200 here is the ms timeout when trying to connect
-		_motor_arm_left.config_kP(0, 0.03, 200); //200 is the timeout ms
-		_motor_arm_left.config_kI(0, 0.00015, 200);
-		//_motor_arm_left.set(ControlMode.Velocity, 0);
+		_grab_left = new WPI_TalonSRX(Map.PICKUP_TALON_PORT_LEFT);
+		_grab_right = new WPI_TalonSRX(Map.PICKUP_TALON_PORT_RIGHT);
+		arm_left = new WPI_TalonSRX(Map.DROP_PICKUP_LEFT);
+		arm_right = new WPI_TalonSRX(Map.DROP_PICKUP_RIGHT);
+		arm_right.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 200); //200 here is the ms timeout when trying to connect
+		arm_right.config_kP(0, 0.03, 200); //200 is the timeout ms
+		arm_right.config_kI(0, 0.00015, 200);
+		arm_left.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 200); //200 here is the ms timeout when trying to connect
+		arm_left.config_kP(0, 0.03, 200); //200 is the timeout ms
+		arm_left.config_kI(0, 0.00015, 200);
+		//arm_left.set(ControlMode.Velocity, 0);
 		_grab_piston = new DoubleSolenoid(0, 1); //0 is on/forward, 1 for off/reverse
 		_grab_piston.set(DoubleSolenoid.Value.kOff); //not sure about this
 		Update_Semaphore.getInstance().register(this);
@@ -58,31 +56,28 @@ public class Pickup implements Updatable {
 	{
 		if (IO.get_pickup_on())
 		{
-			off_count = 0;
 			_mode = state.ON;
 			_grab_piston.set(DoubleSolenoid.Value.kForward);
-			if (on_count == 0)
-			{
-				//drop both cantalons based on sensor. Fake code for now
-				_motor_arm_left.set(ControlMode.Velocity, 0);
-				_motor_arm_right.set(ControlMode.Velocity, 0);
-				System.out.println("Pickup is intaking some cubes.");
-				on_count++;
-			}
+			//drop both cantalons based on sensor. Fake code for now
+			arm_left.set(ControlMode.Velocity, 0);
+			arm_right.set(ControlMode.Velocity, 0);
+			System.out.println("Pickup is intaking some cubes.");
+
 		}
 		else if (IO.get_pickup_off())
 		{
 			_grab_piston.set(DoubleSolenoid.Value.kReverse);
-			on_count = 0;
 			_mode = state.OFF;
-			if (off_count == 0)
-			{
-				//pick up both cantalons based on sensor. Fake code for now
-				_motor_arm_left.set(ControlMode.Velocity, 0);
-				_motor_arm_right.set(ControlMode.Velocity, 0);
+			//pick up both cantalons based on sensor. Fake code for now
+			if(arm_left.getSelectedSensorPosition(0) < 1000 && _lift.pickup_safe()){ //1000 is a constant
+				arm_left.set(ControlMode.Velocity, -0.3);
+				arm_right.set(ControlMode.Velocity, -0.3);
+			} else{
+				arm_left.set(ControlMode.Velocity, 0);
+				arm_right.set(ControlMode.Velocity, 0);
 				System.out.println("Pickup stopped intaking.");
-				off_count++;
 			}
+
 		}
 	}
 	
@@ -90,21 +85,21 @@ public class Pickup implements Updatable {
 	{
 		if (_mode == state.ON)
 		{
-			_motor_left.set(IO.intake_input()*Map.PICKUP_LEFT_MAGIC);
-			_motor_right.set(IO.intake_input()*Map.PICKUP_RIGHT_MAGIC);
+			_grab_left.set(IO.intake_input()*Map.PICKUP_LEFT_MAGIC);
+			_grab_right.set(IO.intake_input()*Map.PICKUP_RIGHT_MAGIC);
 		}
 		if (_mode == state.OFF)
 		{
-			_motor_left.set(0);
-			_motor_right.set(0);
+			_grab_left.set(0);
+			_grab_right.set(0);
 		}
 	}
 	private void override_pickup()
 	{
 		if (IO.get_override_pickup())
 		{
-			_motor_arm_left.set(ControlMode.Velocity, IO.intake_input()*Map.PICKUP_LEFT_MAGIC);
-			_motor_arm_right.set(ControlMode.Velocity, IO.intake_input()*Map.PICKUP_RIGHT_MAGIC);
+			arm_left.set(ControlMode.Velocity, IO.intake_input()*Map.PICKUP_LEFT_MAGIC);
+			arm_right.set(ControlMode.Velocity, IO.intake_input()*Map.PICKUP_RIGHT_MAGIC);
 		}
 	}
 	public void semaphore_update()

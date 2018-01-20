@@ -129,6 +129,8 @@ public class Map {
  */
 	public static final int VISION_INTERFACE_CAMERA_PORT_BUTTON = 5;
 	public static final int PICKUP_OVERRIDE = 6;
+	public static final int LIFT_OVERRIDE = 7;
+	public static final int MASTER_OVERRIDE = 8;
 	
 /**
  * Arduino addresses

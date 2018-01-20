@@ -379,7 +379,6 @@ public class Drive implements Updatable
 		} else
 		{
 			//reset imu
-			
 		}
 		return input;
 	}
