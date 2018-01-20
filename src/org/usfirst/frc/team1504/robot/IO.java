@@ -107,8 +107,4 @@ public class IO
 		return _secondary.getRawButton(11);
 	}
 
-	public static double get_elevator_height()
-	{
-		return 0.0; //_blahblahblah.magneticEncoder;
-	}
 }
