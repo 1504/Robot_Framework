@@ -9,9 +9,6 @@ public class Lift implements Updatable
 	private enum state {OFF, ON};
 	private state _mode = state.OFF; 
 	
-	int on_count = 0;
-	int off_count = 0;
-	
 	boolean get_top_lift_sensor;
 	boolean get_bottom_lift_sensor;
 	
@@ -48,24 +45,14 @@ public class Lift implements Updatable
 	{
 		if (IO.get_lift_on())
 		{
-			off_count = 0;
 			_mode = state.ON;
-			if (on_count == 0)
-			{
-				System.out.println("Lifting things");
-				on_count++;
-			}
+			System.out.println("Lifting things");
 		}
 		else if (IO.get_lift_off())
 		{
-			on_count = 0;
 			_mode = state.OFF;
 			_motor.set(0);
-			if (off_count == 0)
-			{
-				System.out.println("Not lifting things");
-				off_count++;
-			}
+			System.out.println("Not lifting things");
 		}
 		
 		if (get_elevator_height() == Map.ELEVATOR_MAX_HEIGHT) 
