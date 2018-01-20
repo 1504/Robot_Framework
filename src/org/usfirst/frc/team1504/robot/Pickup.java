@@ -6,7 +6,7 @@ public class Pickup implements Updatable {
 	private WPI_TalonSRX _motor_left;
 	private WPI_TalonSRX _motor_right;
 	private WPI_TalonSRX _motor_arm_left;
-	private WPI_TalonSRX _motor_drop_right;
+	private WPI_TalonSRX _motor_arm_right;
 	DoubleSolenoid _grab_piston; 
 	private enum state {OFF, ON};
 	private state _mode = state.OFF; 
@@ -30,7 +30,7 @@ public class Pickup implements Updatable {
 		_motor_left = new WPI_TalonSRX(Map.PICKUP_TALON_PORT_LEFT);
 		_motor_right = new WPI_TalonSRX(Map.PICKUP_TALON_PORT_RIGHT);
 		_motor_arm_left = new WPI_TalonSRX(Map.DROP_PICKUP_LEFT);
-		_motor_drop_right = new WPI_TalonSRX(Map.DROP_PICKUP_RIGHT);
+		_motor_arm_right = new WPI_TalonSRX(Map.DROP_PICKUP_RIGHT);
 		_grab_piston = new DoubleSolenoid(0, 1); //0 is on/forward, 1 for off/reverse
 		_grab_piston.set(DoubleSolenoid.Value.kOff); //not sure about this
 		Update_Semaphore.getInstance().register(this);
@@ -55,7 +55,7 @@ public class Pickup implements Updatable {
 			{
 				//drop both cantalons based on sensor. Fake code for now
 				_motor_arm_left.set(0);
-				_motor_drop_right.set(0);
+				_motor_arm_right.set(0);
 				System.out.println("Pickup is intaking some cubes.");
 				on_count++;
 			}
@@ -69,7 +69,7 @@ public class Pickup implements Updatable {
 			{
 				//pick up both cantalons based on sensor. Fake code for now
 				_motor_arm_left.set(0);
-				_motor_drop_right.set(0);
+				_motor_arm_right.set(0);
 				System.out.println("Pickup stopped intaking.");
 				off_count++;
 			}
@@ -94,7 +94,7 @@ public class Pickup implements Updatable {
 		if (IO.get_override_pickup())
 		{
 			_motor_arm_left.set(IO.intake_input()*Map.PICKUP_LEFT_MAGIC);
-			_motor_drop_right.set(IO.intake_input()*Map.PICKUP_RIGHT_MAGIC);
+			_motor_arm_right.set(IO.intake_input()*Map.PICKUP_RIGHT_MAGIC);
 		}
 	}
 	public void semaphore_update()
