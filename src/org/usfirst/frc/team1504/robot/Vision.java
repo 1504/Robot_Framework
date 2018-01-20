@@ -34,10 +34,12 @@ public class Vision implements VisionRunner.Listener<GripPipeline>{
 				{
 					System.out.println("in thread");
 					getImage();	
+					//CameraServer.getInstance().startAutomaticCapture();
 				}
 				}
 		});
 		_camThread.start();
+		
 		//getImage();
 		//_usb = CameraServer.getInstance().startAutomaticCapture(0);//("camera", 1);
 		//setParams(0.0, 56.23089983022071, 153.64208633093526, 198.7181663837012, 192.62589928057554, 255.0, 0.0, 0.0); //yellow object

@@ -33,10 +33,18 @@ public class Map {
 
 	
 /**
- * Intake stuff
+ * Pickup stuff
  */
-		public static final int INTAKE_TALON_PORT = 40;
-	
+		public static final int DROP_PICKUP_RIGHT = 38;
+		public static final int DROP_PICKUP_LEFT = 39;
+		public static final int PICKUP_TALON_PORT_LEFT = 40;
+		public static final int PICKUP_TALON_PORT_RIGHT = 41;
+		public static final int LIFT_TALON_PORT = 42;
+		public static final int ELEVATOR_MAX_HEIGHT = 10; //maybe make this a double with the correct height
+		public static final int ELEVATOR_MIN_HEIGHT = 0; //maybe make this a double
+		public static final int ELEVATOR_UP = 1;
+		public static final int ELEVATOR_DOWN = -1;
+		
 /**
  * Drive class things
  */
@@ -71,7 +79,7 @@ public class Map {
 
 	
 	// Drive Input magic numbers
-	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { 1.0, -1.0, 0.6 };
+	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { -1.0, 1.0, -0.6 };
 	public static final double DRIVE_INPUT_TURN_FACTOR = 0.2;
 	
 	public static final double DRIVE_INPUT_VISION_SPEED = 0.75;
@@ -84,14 +92,14 @@ public class Map {
 	public static final double[][] DRIVE_GLIDE_GAIN = {{0.0015, 0.003}, {0.008, 0.008}};
 	
 	// Drive Output magic numbers - for getting everything spinning the correct direction
-	public static final double[] DRIVE_OUTPUT_MAGIC_NUMBERS = { -1.0, -1.0, 1.0, 1.0 };	
+	public static final double[] DRIVE_OUTPUT_MAGIC_NUMBERS = { 1.0, 1.0, -1.0, -1.0 };
 	
 	public static final int DRIVE_MAX_UNLOGGED_LOOPS = 15;
 	
 /**
  * Winch stuff
  */	
-	public static final int NANCY_TALON_PORT = 20;
+	/*public static final int NANCY_TALON_PORT = 20;
 	public static final int MEAD_TALON_PORT = 21;
 	
 	public static final int WINCH_CURRENT_LIMIT = 70;
@@ -103,15 +111,12 @@ public class Map {
 	public static final int WINCH_SERVO2 = 0;
 	public static final double WINCH_SERVO_DEPLOYED = 180.0;
 	public static final double WINCH_SERVO_STORED = 0.0;
-	public static final double WINCH_BRAKE_TIMEOUT = 15.0;
+	public static final double WINCH_BRAKE_TIMEOUT = 15.0;*/
 
-
-/**
-* Gear
-*/
-	public static final int GEAR_TALON_PORT = 40;
-	public static final int GEAR_MAGIC_NUMBER = 1;
-
+	public static final int WINCH_POWER_AXIS = 1;
+	public static final double WINCH_DIRECTION = 1.0;
+	public static final double PICKUP_RIGHT_MAGIC = 1.0;
+	public static final double PICKUP_LEFT_MAGIC = 1.0;
 	
 /**
  * Robot config stuff
@@ -122,19 +127,8 @@ public class Map {
 /**
  * Buttons
  */
-	//public static final int DRIVE_INPUT_TURN_FACTOR_OVERRIDE_BUTTON = 1;
-	public static final int SHOOTER_FIRE_BUTTON = 1;
-	public static final int SHOOTER_TURN_BUTTON = 2;//VISION_INTERFACE_OVERRIDE_BUTTON = 2;
-	public static final int CAMERA_SHOOTER_INPUT_BUTTON = 2;
-	public static final int HELICOPTER_PULSE_BUTTON = 3;
 	public static final int VISION_INTERFACE_CAMERA_PORT_BUTTON = 5;
-	public static final int GEAR_BUTTON = 3;
-	public static final int SHOOTER_OVERRIDE_BUTTON = 8;
-	//public static int FRONT_SIDE_BUTTON = 9;
-	public static final int HELICOPTER_OVERRIDE_BUTTON = 9;
-
-	public static final int WINCH_DEPLOY_BUTTON = 7;
-	public static final int WINCH_OVERRIDE_BUTTON = 11;
+	public static final int PICKUP_OVERRIDE = 6;
 	
 /**
  * Arduino addresses

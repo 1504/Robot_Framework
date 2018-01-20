@@ -23,80 +23,28 @@ public class IO
 	}
 	
 	/**
-	 * Winch stuff
+	 * Pickup stuff
 	 */
 	
-	public static double winch_input()
+	public static double intake_input()
 	{
 		return Utils.deadzone(Math.abs(_secondary.getRawAxis(Map.WINCH_POWER_AXIS))) * Map.WINCH_DIRECTION;
 	}
-	
-	public static boolean winch_override()
+	public static boolean get_override_pickup()
 	{
-		return _secondary.getRawButtonLatch(Map.WINCH_OVERRIDE_BUTTON);
-	}
-	
-	public static boolean winch_deploy()
-	{
-		return _secondary.getRawButtonLatch(Map.WINCH_DEPLOY_BUTTON);
+		return _secondary.getRawButton(Map.PICKUP_OVERRIDE);
 	}
 	
 	/**
 	 * Gear stuff
 	 */
 	
-	public static boolean gear_input()
-	{
-		return _secondary.getRawButtonLatch(Map.GEAR_BUTTON);
-	}
-	
-	/**
-	 * Shooter stuff
-	 */
-	public static boolean shooter_enable()
-	{
-		return _secondary.getRawButton(Map.SHOOTER_FIRE_BUTTON);
-	}
-	public static boolean shooter_input()
-	{
-		return _secondary.getRawButton(Map.SHOOTER_FIRE_BUTTON);
-	}
-	
-	public static boolean shooter_turn_enable()
-	{
-		return _secondary.getRawButton(Map.SHOOTER_TURN_BUTTON);
-	}
 	
 	public static double shooter_turn_input()
 	{
 		return Map.DRIVE_INPUT_MAGIC_NUMBERS[2] * Math.pow(Utils.deadzone(_secondary.getRawAxis(Map.JOYSTICK_X_AXIS)), 2) * Math.signum(_secondary.getRawAxis(Map.JOYSTICK_X_AXIS));
 	}
 	
-	//secondary control of shooter speed
-	public static double shooter_speed_override() 
-	{
-		return (_secondary.getRawAxis(Map.JOYSTICK_Y_AXIS) < .5 ? 0.0 : -1.0 * Map.DRIVE_INPUT_MAGIC_NUMBERS[2] * _secondary.getRawAxis(Map.JOYSTICK_Y_AXIS) * Math.signum(_secondary.getRawAxis(Map.JOYSTICK_Y_AXIS)));
-	}
-	
-	public static boolean helicopter_pulse()
-	{
-		return _secondary.getRawButton(Map.HELICOPTER_PULSE_BUTTON);
-	}
-	
-	public static boolean shooter_override()
-	{
-		return _secondary.getRawButtonLatch(Map.SHOOTER_OVERRIDE_BUTTON);
-	}
-	
-	public static boolean helicopter_reverse_override()
-	{
-		return _secondary.getRawButtonLatch(Map.HELICOPTER_OVERRIDE_BUTTON);
-	}
-	
-	public static boolean camera_shooter_input()
-	{
-		return _secondary.getRawButtonLatch(Map.CAMERA_SHOOTER_INPUT_BUTTON);
-	}
 	
 	/**
 	 * Drive stuff
@@ -134,12 +82,29 @@ public class IO
 		return (_drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[0]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[1]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[2]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[3]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[0]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[1]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[2]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[3]));
 	}
 	
-	public static boolean get_intake_on()
+	public static boolean get_pickup_on()
 	{
 		return _secondary.getRawButton(8);
 	}
-	public static boolean get_intake_off()
+	public static boolean get_pickup_off()
 	{
 		return _secondary.getRawButton(9);
 	}
+	public static boolean get_lift_on()
+	{
+		return _secondary.getRawButton(6);
+	}
+	public static boolean get_lift_off()
+	{
+		return _secondary.getRawButton(7);
+	}
+	public static boolean get_lift_up()
+	{
+		return _secondary.getRawButton(10);
+	}
+	public static boolean get_lift_down()
+	{
+		return _secondary.getRawButton(11);
+	}
+
 }

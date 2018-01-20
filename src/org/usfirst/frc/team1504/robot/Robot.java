@@ -15,7 +15,9 @@ import org.usfirst.frc.team1504.robot.Arduino.SHOOTER_STATUS;
 //import java.util.Base64;
 
 import com.ctre.CANTalon;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -37,6 +39,8 @@ public class Robot extends RobotBase {
 	private Logger _logger = Logger.getInstance();
 	private Autonomous _autonomous = Autonomous.getInstance();
 	private Arduino _arduino = Arduino.getInstance();
+	private Pickup _pickup = Pickup.getInstance();
+	private Lift _lift = Lift.getInstance();
 	//private Navx _navx = Navx.getInstance();
 //	private CameraInterface ci = CameraInterface.getInstance();
 	//private Vision _vision = Vision.getInstance();
@@ -51,6 +55,11 @@ public class Robot extends RobotBase {
     	Drive.initialize();
     	DigitBoard.initialize();
     	Digit_Board.initialize();
+    	Pickup.initialize();
+    	Lift.initialize();
+    	//CameraServer.getInstance().startAutomaticCapture();
+    	System.out.println(_ds.getGameSpecificMessage()); 
+    	//RRL - Right side switch (closer), Right side scale, Left side switch (farther)
     	//System.out.println(new String(Base64.getDecoder().decode(Map.TEAM_BANNER)));
     }
 
@@ -144,11 +153,32 @@ public class Robot extends RobotBase {
     public void test()
     {
     	System.out.println("Test Mode!");
+    	WPI_TalonSRX _motorL = new WPI_TalonSRX(Map.PICKUP_TALON_PORT_LEFT);
+		WPI_TalonSRX _motorR = new WPI_TalonSRX(Map.PICKUP_TALON_PORT_RIGHT);
+		Latch_Joystick control = new Latch_Joystick(0);
+		double magic = 1.0;
 //    	CameraInterface ci = CameraInterface.getInstance();
     	//ci.set_mode(CameraInterface.CAMERA_MODE.MULTI);
-    	//ci.set_mode(CameraInterface.CAMERA_MODE.SINGLE);
+    	//ci.set_mode(CameraInterface.CAMERA_MODE.SINGLE); 4 or 5
     	while (isTest() && isEnabled())
     	{
+    		
+    		if(control.getRawButton(1)){
+    			magic = 1.0;
+    		} else{
+    			magic = 2.0;
+    		}
+    		if (control.getRawButton(4)){
+    			_motorL.set(control.getRawAxis(1)/magic*-1.0);
+    		}
+    		else if (control.getRawButton(5)){
+    			_motorR.set(control.getRawAxis(1)/magic);
+    		}
+    		else{
+    			_motorL.set(control.getRawAxis(1)/magic*-1.0);
+        		_motorR.set(control.getRawAxis(1)/magic);
+    		}
+    		
     		// Switch camera views every 5 seconds like a pro
 //    		ci.set_active_camera(ci.get_active_camera() == CameraInterface.CAMERAS.GEARSIDE ? CameraInterface.CAMERAS.INTAKESIDE : CameraInterface.CAMERAS.GEARSIDE);
 //            System.out.println("Switching active camera to " + ci.get_active_camera().toString());
@@ -187,13 +217,13 @@ public class Robot extends RobotBase {
                 
                 if(_db.pos%3 == 0)
 	                //Move forward, turn right, move forward
-	                _autonomous.setup_path(new double[][] {{-0.25, 0.0, 0.0, 0, 3000}, {0.0, 0.0, 0.25, 0, 4000}, {-0.25, 0.0, 0.0, 0, 6000}});
+	                _autonomous.setup_path(new double[][] {{0.25, 0.0, 0.0, 0, 3000}, {0.0, 0.0, -0.25, 0, 4000}, {0.25, 0.0, 0.0, 0, 6000}});
                 else if (_db.pos%3 == 1)
 	                //Move forward, turn left, move forward
-	                _autonomous.setup_path(new double[][] {{-0.25, 0.0, 0.0, 0, 3000}, {0.0, 0.0, -0.25, 0, 4200}, {-0.25, 0.0, 0.0, 0, 6200}});
+	                _autonomous.setup_path(new double[][] {{0.25, 0.0, 0.0, 0, 3000}, {0.0, 0.0, 0.25, 0, 4200}, { 0.25, 0.0, 0.0, 0, 6200}});
                 else if (_db.pos%3 == 2)
 	                //Move forward
-	                _autonomous.setup_path(new double[][] {{-0.25, 0.0, 0.0, 0, 4000}});
+	                _autonomous.setup_path(new double[][] {{0.25, 0.0, 0.0, 0, 4000}});
 
                 _autonomous.start();
                 

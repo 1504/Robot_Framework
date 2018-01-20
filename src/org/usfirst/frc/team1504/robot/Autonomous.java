@@ -2,6 +2,7 @@ package org.usfirst.frc.team1504.robot;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import edu.wpi.first.wpilibj.DriverStation;
 
 public class Autonomous 
 {
@@ -16,7 +17,6 @@ public class Autonomous
 		public TYPE type;
 		public double timeout;
 		public double[] setpoint = new double[2];
-		
 		public Autonomus_Waypoint() {}
 		public Autonomus_Waypoint(TYPE t, double t_o, double[] sp)
 			{ type = t; timeout = t_o; setpoint = sp; }
@@ -48,11 +48,11 @@ public class Autonomous
 	private long _start_time;
 	private double[][] _path;
 	private int _path_step;
-	
 	protected Autonomous()
 	{
 		//
 		System.out.println("Auto Nom Ous");
+		
 	}
 	
 	public static Autonomous getInstance()
@@ -113,6 +113,19 @@ public class Autonomous
 			if(step > _path_step)
 			{
 				System.out.println("\tAutonomous step " + step + " @ " + (double)(System.currentTimeMillis() - _start_time)/1000);
+				//get IMU reading
+				
+				//correct for amount off
+				double[] output = {0.0, 0.0, 0.0};
+				double off = 1.0; //get reading
+				double threshold = 5.0;//margin of error so it stops jittering.
+				while (Math.abs(off) < threshold){ //needs to be replaced with checking if the gyro is 0 yet.
+					 //get reading
+					output[2] = Math.signum(off)*.2; //.2 is turn speed
+					_drive.drive_inputs(output);
+					off = 1.0;
+				}
+				//reset imu
 				_path_step = step;
 			}
 			
