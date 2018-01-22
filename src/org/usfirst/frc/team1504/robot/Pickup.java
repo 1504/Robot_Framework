@@ -15,6 +15,9 @@ public class Pickup implements Updatable {
 	private enum state {OFF, ON};
 	private state _mode = state.OFF; 
 	
+	public enum arm {UP, DOWN};
+	public arm arm_state = arm.DOWN;
+	
 	private static final Pickup instance = new Pickup();
 	
 	public static Pickup getInstance()
