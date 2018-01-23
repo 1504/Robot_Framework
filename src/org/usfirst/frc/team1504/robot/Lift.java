@@ -47,6 +47,7 @@ public class Lift implements Updatable
 		{
 			_mode = state.ON;
 			System.out.println("Lifting things");
+			lift_top();
 		}
 		else if (IO.get_lift_off())
 		{
@@ -124,7 +125,7 @@ public class Lift implements Updatable
 		set_motor();
 	}
 	
-	public void auton_top_lift() 
+	public void lift_top() 
 	{
 		if (get_top_lift_sensor) 
 		{
