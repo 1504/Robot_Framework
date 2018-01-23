@@ -14,6 +14,8 @@ public class Pickup implements Updatable {
 	private Lift _lift = Lift.getInstance();
 	private enum state {OFF, ON};
 	private state _mode = state.OFF; 
+
+	
 	
 	public enum arm {UP, DOWN};
 	public arm arm_state = arm.DOWN;
@@ -23,6 +25,12 @@ public class Pickup implements Updatable {
 	public static Pickup getInstance()
 	{
 		return instance;
+	}
+	
+	public void set_flipper_speed(double speed) 
+	{
+		_grab_left.set(speed);
+		_grab_right.set(-speed);
 	}
 	
 	public static void initialize()
