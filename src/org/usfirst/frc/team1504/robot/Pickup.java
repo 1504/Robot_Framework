@@ -102,13 +102,13 @@ public class Pickup implements Updatable {
 
 		}
 	
-	public void set_state() 
+	public void set_state(arm state) 
 	{
-		if (arm_state == arm.UP)
+		if (state == arm.UP)
 		{
 			put_down();
 		}
-		else if (arm_state == arm.DOWN)
+		else if (state == arm.DOWN)
 		{
 			pick_up();
 		}
