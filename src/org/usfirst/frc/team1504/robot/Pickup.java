@@ -106,6 +106,7 @@ public class Pickup implements Updatable {
 			
 			//pick up both cantalons based on sensor. Fake code for now
 			put_down();
+			System.out.println("Pickup is ejecting some cubes.");
 			}
 
 		}
@@ -126,13 +127,11 @@ public class Pickup implements Updatable {
 	{
 		if (_mode == state.ON)
 		{
-			_grab_left.set(IO.intake_input()*Map.PICKUP_LEFT_MAGIC);
-			_grab_right.set(IO.intake_input()*Map.PICKUP_RIGHT_MAGIC);
+			set_flipper_speed(IO.intake_input()*Map.PICKUP_LEFT_MAGIC);
 		}
 		if (_mode == state.OFF)
 		{
-			_grab_left.set(0);
-			_grab_right.set(0);
+			set_flipper_speed(0);
 		}
 	}
 	private void override_pickup()
