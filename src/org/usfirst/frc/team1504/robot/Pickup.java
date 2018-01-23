@@ -50,9 +50,21 @@ public class Pickup implements Updatable {
 		System.out.println("Pickup Disabled");
 	}
 	
+	public void pick_up()
+	{
+		if(arm_left.getSelectedSensorPosition(0) > 1000 && _lift.pickup_safe()){ //1000 is a constant
+			arm_left.set(ControlMode.Velocity, 0.3);
+			arm_right.set(ControlMode.Velocity, 0.3);
+		} else{
+			arm_left.set(ControlMode.Velocity, 0);
+			arm_right.set(ControlMode.Velocity, 0);
+			System.out.println("Pickup started intaking.");
+		}
+	}
+	
 	public void put_down()
 	{
-		if(arm_left.getSelectedSensorPosition(0) < 1000 && _lift.pickup_safe()){ //1000 is a constant
+		if(arm_left.getSelectedSensorPosition(0) < 1000){ //1000 is a constant
 			arm_left.set(ControlMode.Velocity, -0.3);
 			arm_right.set(ControlMode.Velocity, -0.3);
 		} else{
@@ -61,9 +73,6 @@ public class Pickup implements Updatable {
 			System.out.println("Pickup stopped intaking.");
 		}
 	}
-	
-	
-	
 	
 	public boolean lift_safe() //says whether or not the pickup arms are backed where the lift can be
 	{
@@ -78,8 +87,7 @@ public class Pickup implements Updatable {
 			_mode = state.ON;
 			_grab_piston.set(DoubleSolenoid.Value.kForward);
 			//drop both cantalons based on sensor. Fake code for now
-			arm_left.set(ControlMode.Velocity, 0);
-			arm_right.set(ControlMode.Velocity, 0);
+			pick_up();
 			System.out.println("Pickup is intaking some cubes.");
 
 		}
@@ -87,12 +95,24 @@ public class Pickup implements Updatable {
 		{
 			_grab_piston.set(DoubleSolenoid.Value.kReverse);
 			_mode = state.OFF;
+			
 			//pick up both cantalons based on sensor. Fake code for now
 			put_down();
 			}
 
 		}
 	
+	public void set_state() 
+	{
+		if (arm_state == arm.UP)
+		{
+			put_down();
+		}
+		else if (arm_state == arm.DOWN)
+		{
+			pick_up();
+		}
+	}
 	
 	private void set_motor()
 	{
