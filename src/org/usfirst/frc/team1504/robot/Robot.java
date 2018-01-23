@@ -233,7 +233,7 @@ public class Robot extends RobotBase {
                 else if (_db.pos%3 == 2)
 	                //Move forward
 	                _autonomous.setup_path(new double[][] {{0.25, 0.0, 0.0, 0, 4000}});
-
+               //2 seconds forward//_autonomous.setup_path(new double[][] {{0.25, 0.0, 0.0, 0, 2000}});
                 _autonomous.start();
                 
                 while (isAutonomous() && !isDisabled()) {

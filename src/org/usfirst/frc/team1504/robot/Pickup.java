@@ -82,6 +82,16 @@ public class Pickup implements Updatable {
 		}
 	}
 	
+	public void open_arm()
+	{
+		_grab_piston.set(DoubleSolenoid.Value.kForward);
+	}
+	
+	public void close_arm()
+	{
+		_grab_piston.set(DoubleSolenoid.Value.kReverse);
+	}
+	
 	public boolean lift_safe() //says whether or not the pickup arms are backed where the lift can be
 	{
 		double pos = 0.0; //pseudocode

@@ -123,4 +123,27 @@ public class Lift implements Updatable
 		update_mode();
 		set_motor();
 	}
+	
+	public void auton_top_lift() 
+	{
+		if (get_top_lift_sensor) 
+		{
+			_motor.set(0);
+			System.out.println("At top, stopping");
+			if (IO.get_lift_up()) 
+			{
+				_motor.set(0);
+			}
+			/*if(IO.get_lift_down() && _pickup.lift_safe()) 
+			{
+				_motor.set(Map.ELEVATOR_DOWN);
+			}*/
+		}
+		else 
+		{
+			System.out.println("Not at top...");
+			_motor.set(0.5);
+			//FIGURE OUT WAY TO END WHEN AT TOP DURING AUTON(looping thread?)
+		}
+	}
 }
