@@ -226,7 +226,7 @@ public class Robot extends RobotBase {
                 
                 if(_db.pos%3 == 0)
 	                //Move forward, turn left, 
-	                _autonomous.setup_path(new double[][] {{0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.25, 0, 2000}, {0.25, 0.0, 0.0, 0, 6000}});
+	                _autonomous.setup_path(new double[][] {{0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.25, 0, 2000}, /* Method implementation goes here */{0, 0.0, -0.25, 0, 2000}, {0.25, 0.0, 0, 0, 2000}, /* Method implementation goes here */{0.25, 0.0, 0, 0, 2000}});
                 else if (_db.pos%3 == 1)
 	                //Move forward, turn left, move forward
 	                _autonomous.setup_path(new double[][] {{0.25, 0.0, 0.0, 0, 3000}, {0.0, 0.0, 0.25, 0, 4200}, { 0.25, 0.0, 0.0, 0, 6200}});
