@@ -155,7 +155,6 @@ public class Pickup implements Updatable {
 			arm_middle();
 		}	
 	}
-	
 
 	private void override_pickup()
 	{
