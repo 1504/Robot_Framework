@@ -60,7 +60,7 @@ public class Pickup implements Updatable {
 		set_flipper_speed(Map.FLIPPER_SPEED);
 	}
 	
-	public void flipper_excrete(double speed) 
+	public void flipper_excrete() 
 	{
 		set_flipper_speed(-Map.FLIPPER_SPEED);
 	}
