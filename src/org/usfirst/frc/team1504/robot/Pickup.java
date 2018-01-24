@@ -49,13 +49,19 @@ public class Pickup implements Updatable {
 		getInstance();
 	}
 	
-	public void set_flipper_speed(double speed) 
+	public void set_arm_speed(double speed) //sets both the right and left arm speeds
+	{
+		_arm_left.set(ControlMode.Velocity, speed);
+		_arm_right.set(ControlMode.Velocity, speed);
+	}
+	
+	public void set_flipper_speed(double speed) //sets both the right and left flipper speeds
 	{
 		_grab_left.set(speed);
 		_grab_right.set(-speed);
 	}
 	
-	public void flipper_intake() 
+	public void flipper_intake()
 	{
 		set_flipper_speed(Map.FLIPPER_SPEED);
 	}
@@ -65,13 +71,7 @@ public class Pickup implements Updatable {
 		set_flipper_speed(-Map.FLIPPER_SPEED);
 	}
 	
-	public void set_arm_speed(double speed) 
-	{
-		_arm_left.set(ControlMode.Velocity, speed);
-		_arm_right.set(ControlMode.Velocity, speed);
-	}
-	
-	public void arm_top()
+	public void arm_top() //moves arm to top
 	{
 		if(_arm_left.getSelectedSensorPosition(0) > Map.MAX_UP_ANGLE && _lift.pickup_safe()){ //1000 is a constant going up is higher
 			set_arm_speed(Map.ARM_SPEED);
@@ -81,7 +81,7 @@ public class Pickup implements Updatable {
 		}
 	}
 	
-	public void arm_middle()
+	public void arm_middle() //moves arm to middle
 	{
 		if(_arm_left.getSelectedSensorPosition(0) > Map.MAX_MID_ANGLE && _lift.pickup_safe()){ //1000 is a constant going up is higher
 
@@ -93,7 +93,7 @@ public class Pickup implements Updatable {
 		}
 	}
 	
-	public void arm_bottom()
+	public void arm_bottom() //moves arm to bottom
 	{
 		if(_arm_left.getSelectedSensorPosition(0) < Map.MAX_DOWN_ANGLE){ //1000 is a constant
 			set_arm_speed(-Map.ARM_SPEED);
