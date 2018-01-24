@@ -44,6 +44,7 @@ public class Map {
 		public static final int ELEVATOR_MIN_HEIGHT = 0; //maybe make this a double
 		public static final int ELEVATOR_UP = 1;
 		public static final int ELEVATOR_DOWN = -1;
+		public static final int MAXUP = 1000;
 		
 /**
  * Drive class things
