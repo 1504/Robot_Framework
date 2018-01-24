@@ -44,8 +44,7 @@ public class Pickup implements Updatable {
 		_grab_piston.set(DoubleSolenoid.Value.kOff); //not sure about this
 		Update_Semaphore.getInstance().register(this);
 		
-		System.out.println("Pickup Initialized.");
-		System.out.println("Pickup Disabled");
+		System.out.println("Pickup Initialized.\nPickup Disabled");
 	}
 	
 	public static void initialize()
