@@ -49,16 +49,20 @@ public class Pickup implements Updatable {
 		getInstance();
 	}
 	
-	public void flipper_intake(double speed) 
+	public void set_flipper_speed(double speed) 
 	{
 		_grab_left.set(speed);
 		_grab_right.set(-speed);
 	}
 	
+	public void flipper_intake() 
+	{
+		set_flipper_speed(Map.FLIPPER_SPEED);
+	}
+	
 	public void flipper_excrete(double speed) 
 	{
-		_grab_left.set(-speed);
-		_grab_right.set(speed);
+		set_flipper_speed(-Map.FLIPPER_SPEED);
 	}
 	
 	public void set_arm_speed(double speed) 
@@ -157,7 +161,7 @@ public class Pickup implements Updatable {
 	{
 		if (IO.get_override_pickup())
 		{
-			flipper_intake(Map.FLIPPER_SPEED);
+			set_flipper_speed(IO.intake_input()*Map.PICKUP_LEFT_MAGIC);
 		}
 	}
 	public void semaphore_update()
