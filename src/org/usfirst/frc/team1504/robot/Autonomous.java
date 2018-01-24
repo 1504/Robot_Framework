@@ -42,6 +42,8 @@ public class Autonomous
 	
 	//private Groundtruth _groundtruth = Groundtruth.getInstance();
 	private Drive _drive = Drive.getInstance();
+	private Pickup _pickup = Pickup.getInstance();
+	private Lift _lift = Lift.getInstance();
 	private static GripPipeline _pipe = GripPipeline.getInstance();
 	private Timer _task_timer;
 	private volatile boolean _thread_alive = true;
@@ -139,11 +141,23 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 2)
 			{
+				
+			}
+			else if(_path[step][3] == 3)
+			{
+				
+			}
+			else if(_path[step][3] == 4)
+			{
+				
+			}
+			/*else if(_path[step][3] == 2)
+			{
 				// Calculate P(ID) output for the drive thread 
 				for(int value = 0; value < 3; value++) // P loop
 					output[value] = _path[step][value];
 				_pipe.set_drive_input();
-			}
+			}*/
 //			double[] testoutput = {1.0, 1.0, 1.0, 1.0};
 			_drive.drive_inputs(output);
 			
