@@ -27,16 +27,6 @@ public class Pickup implements Updatable {
 		return instance;
 	}
 	
-	public void set_flipper_speed(double speed) 
-	{
-		_grab_left.set(speed);
-		_grab_right.set(-speed);
-	}
-	
-	public static void initialize()
-	{
-		getInstance();
-	}
 	private Pickup()
 	{	
 		_grab_left = new WPI_TalonSRX(Map.PICKUP_TALON_PORT_LEFT);
@@ -56,6 +46,23 @@ public class Pickup implements Updatable {
 		
 		System.out.println("Pickup Initialized.");
 		System.out.println("Pickup Disabled");
+	}
+	
+	public static void initialize()
+	{
+		getInstance();
+	}
+	
+	public void set_flipper_speed(double speed) 
+	{
+		_grab_left.set(speed);
+		_grab_right.set(-speed);
+	}
+	
+	public void set_arm_speed(double speed) 
+	{
+		arm_left.set(ControlMode.Velocity, speed);
+		arm_right.set(ControlMode.Velocity, speed);
 	}
 	
 	public void pick_up()
