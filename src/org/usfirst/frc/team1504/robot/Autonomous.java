@@ -165,7 +165,7 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 8) //extend lift all the way down
 			{
-				//_lift.
+				_lift.lift_bottom();
 			}
 			/*else if(_path[step][3] == 2)
 			{
