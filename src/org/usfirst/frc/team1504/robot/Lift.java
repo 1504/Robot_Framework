@@ -5,41 +5,23 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class Lift implements Updatable
 {
 	
-	private WPI_TalonSRX _motor;
+	private WPI_TalonSRX _motor; // declared for future use
+	private Pickup _pickup = Pickup.getInstance();// declared for future use 
 	
-	boolean get_top_lift_sensor;
-	boolean get_bottom_lift_sensor;
+	boolean get_top_lift_sensor; // used as a value to check position of lift
+	boolean get_bottom_lift_sensor; // used as a value to check position of lift 
 	
-	private static final Lift instance = new Lift();
-	private Pickup _pickup = Pickup.getInstance();
+	private static final Lift instance = new Lift(); // used later to initialize
 	
-	public static Lift getInstance()
-	{
-		return instance;
-	}
-	
-	public static void initialize()
-	{
-		getInstance();
-	}
-	private Lift()
+	private Lift() //assigns motor to lift
 	{	
 		_motor = new WPI_TalonSRX(Map.LIFT_TALON_PORT);
 		
 		Update_Semaphore.getInstance().register(this);
 	}
 	
-	public static double get_elevator_height()
-	{
-		return 0.0; //_blahblahblah.magneticEncoder;
-	}
-	
-	public boolean pickup_safe() 
-	{
-		return (get_elevator_height() < 5);
-	}
-	
-	private void update_mode()
+
+	private void update_mode() //checks where the lift is
 	{
 		if (IO.get_lift_on())
 		{
@@ -67,7 +49,7 @@ public class Lift implements Updatable
 		}
 	}
 	
-	private void set_motor()
+	private void set_motor() //sets the position of the lift
 	{
 		if (IO.get_override_lift())
 		{
@@ -110,7 +92,25 @@ public class Lift implements Updatable
 		}
 	}
 	
-	public void semaphore_update()
+	
+	public static Lift getInstance() //returns instance
+	{
+		return instance;
+	}
+		
+	public static void initialize() // returns instance
+	{
+		getInstance();
+	}
+	
+	public static double get_elevator_height() // i don't think this is finished?
+	{
+		return 0.0; //_blahblahblah.magneticEncoder;
+	}
+	
+	
+	
+	public void semaphore_update() //updates data from robot
 	{
 		update_mode();
 		set_motor();
@@ -138,7 +138,7 @@ public class Lift implements Updatable
 		}
 	}
 	
-	public void lift_middle()
+	public void lift_middle()//toggle based (no manual input, moves to middle)
 	{
 		if (get_elevator_height() == Map.ELEVATOR_MAX_HEIGHT / 2)
 			{
@@ -148,7 +148,7 @@ public class Lift implements Updatable
 		}
 	}
 	
-	public void lift_bottom()
+	public void lift_bottom()//toggle based (no manual input, falls to bottom)
 	{
 		if (get_bottom_lift_sensor)
 			{
@@ -165,6 +165,12 @@ public class Lift implements Updatable
 			_motor.set(Map.LIFT_MOTOR_SPEED);
 		}
 	}
+	
+	public boolean pickup_safe() //checks if it is safe to move lift so it won't crash into things
+	{
+		return (get_elevator_height() < 5);
+	}
+	
 	
 	public double lift_speed(int speed)//Toggle based (position based, y)
 	{
