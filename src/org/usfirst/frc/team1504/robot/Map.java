@@ -35,11 +35,7 @@ public class Map {
 		public static final int MAX_MID_ANGLE = 1000;
 		public static final double ARM_SPEED = 0.3;
 		public static final double LIFT_MOTOR_SPEED = 0.5;
-<<<<<<< HEAD
 		public static final double FLIPPER_SPEED = IO.intake_input()*Map.PICKUP_LEFT_MAGIC;
-=======
-		public static final double FLIPPER_SPEED = 0.7;
->>>>>>> 956b8b91d63d2fecd7aceafdfda0c72fc3927aa7
 		
 /**
  * Drive class things
