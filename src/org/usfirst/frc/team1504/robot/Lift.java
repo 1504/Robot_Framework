@@ -146,6 +146,43 @@ public class Lift implements Updatable
 			_motor.set(lift_speed(1));
 		}
 	}
+	
+	public void lift_middle()
+	{
+		if (get_elevator_height() == Map.ELEVATOR_MAX_HEIGHT / 2)
+			{
+			_motor.set(0);
+			System.out.println("At middle, stopping");
+			/*if (IO.get_lift_middle())
+			{
+				_motor.set(0);
+			}
+			}
+		else
+			{
+			System.out.println("Not at middle...");*/
+			_motor.set(0.5);
+		}
+	}
+	
+	public void lift_bottom()
+	{
+		if (get_bottom_lift_sensor)
+			{
+			_motor.set(0);
+			System.out.println("At bottom, stopping");
+			if (IO.get_lift_down())
+			{
+				_motor.set(0);
+			}
+			}
+		else
+			{
+			System.out.println("Not at bottom...");
+			_motor.set(0.5);
+		}
+	}
+	
 	public double lift_speed(int speed)//Toggle based (position based, y)
 	{
 		if(speed == 1)//v = x^2
