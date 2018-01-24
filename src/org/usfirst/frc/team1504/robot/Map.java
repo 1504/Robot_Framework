@@ -31,6 +31,7 @@ public class Map {
 		public static final int ELEVATOR_UP = 1;
 		public static final int ELEVATOR_DOWN = -1;
 		public static final int MAXUP = 1000;
+		public static final double ARM_SPEED = 0.3;
 		
 /**
  * Drive class things
