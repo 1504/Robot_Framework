@@ -224,22 +224,6 @@ public class Robot extends RobotBase {
                 
                 autonomous();
                 
-                /*If at right side and right end is the goal -- ram into switch -- assuming robot is positioned correctly
-                 *_autonomous.setup_path(new double[][] {0.5, 0.0, 0.0, 0, 3000});
-                 */
-                
-                /*If at left side and left side is the goal -- ram into switch -- assuming robot is positioned correctly
-                 *_autonomous.setup_path(new double[][] {0.5, 0.0, 0.0, 0, 3000});
-                 */
-                
-                /*If at left side and right end is the goal -- ram into switch -- assuming robot is positioned correctly
-                 *_autonomous.setup_path(new double[][] {0.25, 0.0, 0.0, 0, 1500}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 3500}, {0.0, 0.0, 0.25, 0, 1000}, {0.5, 0.0, 0.0, 0.0, 3000});
-                 */ 
-                
-                /*If at middle and left end is the goal -- ram into switch -- assuming robot is positioned correctly
-                 *_autonomous.setup_path(new double[][] {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1750}, {0.0, 0.0, 0.25, 0, 1000}, {0.5, 0.0, 0.0, 0, 2500}); 
-                 */
-                
                 if(_db.pos%3 == 0)
 	                //Move forward, turn left, 
 	                _autonomous.setup_path(new double[][] {{0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.25, 0, 2000}, /* Method implementation goes here */{0, 0.0, -0.25, 0, 2000}, {0.25, 0.0, 0, 0, 2000}, /* Method implementation goes here */{0.25, 0.0, 0, 0, 2000}});
@@ -250,12 +234,6 @@ public class Robot extends RobotBase {
 	                //Move forward
 	                _autonomous.setup_path(new double[][] {{0.25, 0.0, 0.0, 0, 4000}});
                 _autonomous.start();
-                /* If at right side and left end is goal (forward, turn left, forward, turn right, ram )
-                 	_autonomous.setup_path(new double[][] {{0.25, 0.0, 0.0, 0, 1000},{0.0, 0.0, 0.25, 0, 1000},{0.25, 0.0, 0.0, 0, 3000},{0.0, 25.0, 0.0, 0, 1000},{0.5, 0.0, 0.0, 0, 2000}, {-0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 0, 1000}}); 
-             		If at middle and right end is goal (forward, right, forward, left, ram)
-    				_autonomous.setup_path(new double[][] {{0.25, 0.0, 0.0, 0, 1000},{0.0, 0.25, 0.0, 0, 1000},{0.25, 0.0, 0.0, 0, 2000},{0.0, 0.0, 25.0, 0, 1000},{0.5, 0.0, 0.0, 0, 2000}, {-0.25, 0.0, 0.0, 0, 1000}, }); 
-             
-                 */
                 while (isAutonomous() && !isDisabled()) {
                 	m_ds.waitForData(150);
                 	_semaphore.newData();
