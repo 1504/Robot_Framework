@@ -194,6 +194,10 @@ public class Map {
 	public static final int PNEUMATICS_LOWSIDE_PORT = 1;
 	
 /**
+ * Auton stuff	
+ */
+	public static final double[][] AUTON_SEQUENCES = {{{}}};
+/**
  * Logger stuff
  */
 	public static enum LOGGED_CLASSES { SEMAPHORE, DRIVE, GROUNDTRUTH, PNEUMATICS, SHOOTER }

@@ -233,9 +233,13 @@ public class Robot extends RobotBase {
                 else if (_db.pos%3 == 2)
 	                //Move forward
 	                _autonomous.setup_path(new double[][] {{0.25, 0.0, 0.0, 0, 4000}});
-               //2 seconds forward//_autonomous.setup_path(new double[][] {{0.25, 0.0, 0.0, 0, 2000}});
                 _autonomous.start();
-                
+                /* If at right side and left end is goal (forward, turn left, forward, turn right, ram )
+                 	_autonomous.setup_path(new double[][] {{0.25, 0.0, 0.0, 0, 1000},{0.0, 0.0, 0.25, 0, 1000},{0.25, 0.0, 0.0, 0, 3000},{0.0, 25.0, 0.0, 0, 1000},{0.5, 0.0, 0.0, 0, 2000}, {-0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 0, 1000}}); 
+             		If at middle and right end is goal (forward, right, forward, left, ram)
+    				_autonomous.setup_path(new double[][] {{0.25, 0.0, 0.0, 0, 1000},{0.0, 0.25, 0.0, 0, 1000},{0.25, 0.0, 0.0, 0, 2000},{0.0, 0.0, 25.0, 0, 1000},{0.5, 0.0, 0.0, 0, 2000}, {-0.25, 0.0, 0.0, 0, 1000}, }); 
+             
+                 */
                 while (isAutonomous() && !isDisabled()) {
                 	m_ds.waitForData(150);
                 	_semaphore.newData();
