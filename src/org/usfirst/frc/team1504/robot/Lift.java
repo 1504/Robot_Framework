@@ -143,7 +143,7 @@ public class Lift implements Updatable
 		else 
 		{
 			System.out.println("Not at top...");
-			_motor.set(lift_speed(1));
+			_motor.set(Map.LIFT_MOTOR_SPEED);
 		}
 	}
 	
@@ -153,15 +153,7 @@ public class Lift implements Updatable
 			{
 			_motor.set(0);
 			System.out.println("At middle, stopping");
-			/*if (IO.get_lift_middle())
-			{
-				_motor.set(0);
-			}
-			}
-		else
-			{
-			System.out.println("Not at middle...");*/
-			_motor.set(0.5);
+			_motor.set(Map.LIFT_MOTOR_SPEED);
 		}
 	}
 	
@@ -179,7 +171,7 @@ public class Lift implements Updatable
 		else
 			{
 			System.out.println("Not at bottom...");
-			_motor.set(0.5);
+			_motor.set(Map.LIFT_MOTOR_SPEED);
 		}
 	}
 	

@@ -34,6 +34,7 @@ public class Map {
 		public static final int MAX_DOWN_ANGLE = 1000;
 		public static final int MAX_MID_ANGLE = 1000;
 		public static final double ARM_SPEED = 0.3;
+		public static final double LIFT_MOTOR_SPEED = 0.5;
 		
 /**
  * Drive class things
