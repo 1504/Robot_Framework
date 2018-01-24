@@ -135,21 +135,37 @@ public class Autonomous
 				for(int value = 0; value < 3; value++) // P loop
 					output[value] = _path[step][value];
 			}
-			else if(_path[step][3] == 1)
+			else if(_path[step][3] == 1) //bring arm down
 			{
-				
+				_pickup.arm_bottom();
 			}
-			else if(_path[step][3] == 2)
+			else if(_path[step][3] == 2) //open arm
 			{
-				
+				_pickup.open_arm();
 			}
-			else if(_path[step][3] == 3)
+			else if(_path[step][3] == 3) //eject cube
 			{
-				
+				_pickup.set_flipper_speed(-0.8);
 			}
-			else if(_path[step][3] == 4)
+			else if(_path[step][3] == 4) //bring arm up
 			{
-				
+				_pickup.arm_top();
+			}
+			else if(_path[step][3] == 5) //close arm
+			{
+				_pickup.close_arm();
+			}
+			else if(_path[step][3] == 6) //intake a cube
+			{
+				_pickup.set_flipper_speed(0.8);
+			}
+			else if(_path[step][3] == 7) //extend lift all the way up
+			{
+				_lift.lift_top();
+			}
+			else if(_path[step][3] == 8) //extend lift all the way down
+			{
+				_lift.lift_bottom();
 			}
 			/*else if(_path[step][3] == 2)
 			{

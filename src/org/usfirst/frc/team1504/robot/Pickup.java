@@ -12,9 +12,6 @@ public class Pickup implements Updatable {
 	private WPI_TalonSRX _arm_right;
 	DoubleSolenoid _grab_piston; 
 	private Lift _lift = Lift.getInstance();
-	private enum state {OFF, ON};
-	private state _mode = state.OFF; 
-
 	
 	
 	public enum arm {UP, DOWN, MIDDLE};
@@ -116,7 +113,6 @@ public class Pickup implements Updatable {
 		
 		if (IO.get_pickup_on())
 		{
-			_mode = state.ON;
 			open_arm();
 			//drop both cantalons based on sensor. Fake code for now
 			arm_top();
@@ -126,7 +122,6 @@ public class Pickup implements Updatable {
 		else if (IO.get_pickup_off())
 		{
 			close_arm();
-			_mode = state.OFF;
 			
 			//pick up both cantalons based on sensor. Fake code for now
 			arm_bottom();
@@ -151,17 +146,7 @@ public class Pickup implements Updatable {
 		}	
 	}
 	
-	private void set_motor()
-	{
-		if (_mode == state.ON)
-		{
-			set_flipper_speed(IO.intake_input()*Map.PICKUP_LEFT_MAGIC);
-		}
-		if (_mode == state.OFF)
-		{
-			set_flipper_speed(0);
-		}
-	}
+
 	private void override_pickup()
 	{
 		if (IO.get_override_pickup())
@@ -173,7 +158,6 @@ public class Pickup implements Updatable {
 	public void semaphore_update()
 	{
 		update_mode();
-		set_motor();
 		override_pickup();
 	}
 }
