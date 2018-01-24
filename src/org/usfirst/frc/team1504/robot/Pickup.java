@@ -77,7 +77,9 @@ public class Pickup implements Updatable {
 	public void arm_middle()
 	{
 		if(_arm_left.getSelectedSensorPosition(0) > 1000 && _lift.pickup_safe()){ //1000 is a constant going up is higher
+
 			set_arm_speed(Map.ARM_SPEED);
+
 		} else{
 			set_arm_speed(0);
 			System.out.println("Pickup started intaking.");
