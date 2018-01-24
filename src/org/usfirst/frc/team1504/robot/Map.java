@@ -15,20 +15,6 @@ public class Map {
 	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
 	
 	// Joystick inputs
-/**
- * Shooter stuff
- */
-	
-	public static final int SHOOTER_MOTOR = 30;
-	public static final int HELICOPTER_MOTOR = 31;
-	public static final double SHOOTER_INTAKE_SPEED = -1.0;
-	public static /*final*/ double SHOOTER_TARGET_SPEED = 1500.0; //6575.0;//6775.0;
-	public static final double SHOOTER_GAIN_P = 0.014;
-	public static final double SHOOTER_GAIN_I = 0.00005; //0.0001;
-	public static final double SHOOTER_SPEED_GOOD_DEADBAND = 15.0;
-	public static final int SHOOTER_PID_DEADZONE = 50;
-	public static final double SHOOTER_COUNT_CURRENT = 6.5;
-	public static final int SHOOTER_REVERSE_CURRENT = 17;
 
 
 	
