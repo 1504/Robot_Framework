@@ -150,8 +150,7 @@ public class Pickup implements Updatable {
 	{
 		if (IO.get_override_pickup())
 		{
-			arm_left.set(ControlMode.Velocity, IO.intake_input()*Map.PICKUP_LEFT_MAGIC);
-			arm_right.set(ControlMode.Velocity, IO.intake_input()*Map.PICKUP_RIGHT_MAGIC);
+			set_flipper_speed(IO.intake_input()*Map.PICKUP_RIGHT_MAGIC);
 		}
 	}
 	public void semaphore_update()
