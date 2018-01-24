@@ -17,7 +17,7 @@ public class Pickup implements Updatable {
 
 	
 	
-	public enum arm {UP, DOWN};
+	public enum arm {UP, DOWN, MIDDLE};
 	public arm arm_state = arm.DOWN;
 	
 	private static final Pickup instance = new Pickup();
@@ -65,7 +65,7 @@ public class Pickup implements Updatable {
 		arm_right.set(ControlMode.Velocity, speed);
 	}
 	
-	public void pick_up()
+	public void arm_top()
 	{
 		if(arm_left.getSelectedSensorPosition(0) > 1000 && _lift.pickup_safe()){ //1000 is a constant going up is higher
 			set_arm_speed(0.3);
@@ -75,7 +75,17 @@ public class Pickup implements Updatable {
 		}
 	}
 	
-	public void put_down()
+	public void arm_middle()
+	{
+		if(arm_left.getSelectedSensorPosition(0) > 1000 && _lift.pickup_safe()){ //1000 is a constant going up is higher
+			set_arm_speed(0.3);
+		} else{
+			set_arm_speed(0);
+			System.out.println("Pickup started intaking.");
+		}
+	}
+	
+	public void arm_bottom()
 	{
 		if(arm_left.getSelectedSensorPosition(0) < 1000){ //1000 is a constant
 			set_arm_speed(-0.3);
@@ -106,19 +116,19 @@ public class Pickup implements Updatable {
 		if (IO.get_pickup_on())
 		{
 			_mode = state.ON;
-			_grab_piston.set(DoubleSolenoid.Value.kForward);
+			open_arm();
 			//drop both cantalons based on sensor. Fake code for now
-			pick_up();
+			arm_top();
 			System.out.println("Pickup is intaking some cubes.");
 
 		}
 		else if (IO.get_pickup_off())
 		{
-			_grab_piston.set(DoubleSolenoid.Value.kReverse);
+			close_arm();
 			_mode = state.OFF;
 			
 			//pick up both cantalons based on sensor. Fake code for now
-			put_down();
+			arm_bottom();
 			System.out.println("Pickup is ejecting some cubes.");
 			}
 
@@ -128,12 +138,16 @@ public class Pickup implements Updatable {
 	{
 		if (state == arm.UP)
 		{
-			put_down();
+			arm_bottom();
 		}
 		else if (state == arm.DOWN)
 		{
-			pick_up();
+			arm_top();
 		}
+		else if (state == arm.MIDDLE);
+		{
+			arm_middle();
+		}	
 	}
 	
 	private void set_motor()
