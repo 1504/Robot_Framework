@@ -145,7 +145,8 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 3) //eject cube
 			{
-				_pickup.set_flipper_speed(-0.8);
+				_pickup.set_flipper_speed(-0.8);//probably need to put this in the map
+				//or listen to mike and make the pickup have an on and off method
 			}
 			else if(_path[step][3] == 4) //bring arm up
 			{
