@@ -66,7 +66,7 @@ public class Pickup implements Updatable {
 	
 	public void arm_top()
 	{
-		if(_arm_left.getSelectedSensorPosition(0) > 1000 && _lift.pickup_safe()){ //1000 is a constant going up is higher
+		if(_arm_left.getSelectedSensorPosition(0) > Map.MAX_UP_ANGLE && _lift.pickup_safe()){ //1000 is a constant going up is higher
 			set_arm_speed(Map.ARM_SPEED);
 		} else{
 			set_arm_speed(0);
@@ -76,7 +76,7 @@ public class Pickup implements Updatable {
 	
 	public void arm_middle()
 	{
-		if(_arm_left.getSelectedSensorPosition(0) > 1000 && _lift.pickup_safe()){ //1000 is a constant going up is higher
+		if(_arm_left.getSelectedSensorPosition(0) > Map.MAX_MID_ANGLE && _lift.pickup_safe()){ //1000 is a constant going up is higher
 
 			set_arm_speed(Map.ARM_SPEED);
 
@@ -88,7 +88,7 @@ public class Pickup implements Updatable {
 	
 	public void arm_bottom()
 	{
-		if(_arm_left.getSelectedSensorPosition(0) < 1000){ //1000 is a constant
+		if(_arm_left.getSelectedSensorPosition(0) < Map.MAX_DOWN_ANGLE){ //1000 is a constant
 			set_arm_speed(-Map.ARM_SPEED);
 		} else{
 			set_arm_speed(0);
