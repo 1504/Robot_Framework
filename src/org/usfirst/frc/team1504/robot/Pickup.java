@@ -33,6 +33,12 @@ public class Pickup implements Updatable {
 		_grab_right.set(-speed);
 	}
 	
+	public void set_arm_speed(double speed) 
+	{
+		arm_left.set(ControlMode.Velocity, speed);
+		arm_right.set(ControlMode.Velocity, speed);
+	}
+	
 	public static void initialize()
 	{
 		getInstance();
@@ -61,11 +67,9 @@ public class Pickup implements Updatable {
 	public void pick_up()
 	{
 		if(arm_left.getSelectedSensorPosition(0) > 1000 && _lift.pickup_safe()){ //1000 is a constant
-			arm_left.set(ControlMode.Velocity, 0.3);
-			arm_right.set(ControlMode.Velocity, 0.3);
+			set_arm_speed(0.3);
 		} else{
-			arm_left.set(ControlMode.Velocity, 0);
-			arm_right.set(ControlMode.Velocity, 0);
+			set_arm_speed(0);
 			System.out.println("Pickup started intaking.");
 		}
 	}
@@ -73,11 +77,9 @@ public class Pickup implements Updatable {
 	public void put_down()
 	{
 		if(arm_left.getSelectedSensorPosition(0) < 1000){ //1000 is a constant
-			arm_left.set(ControlMode.Velocity, -0.3);
-			arm_right.set(ControlMode.Velocity, -0.3);
+			set_arm_speed(-0.3);
 		} else{
-			arm_left.set(ControlMode.Velocity, 0);
-			arm_right.set(ControlMode.Velocity, 0);
+			set_arm_speed(0);
 			System.out.println("Pickup stopped intaking.");
 		}
 	}
