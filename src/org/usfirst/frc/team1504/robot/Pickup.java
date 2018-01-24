@@ -12,9 +12,6 @@ public class Pickup implements Updatable {
 	private WPI_TalonSRX _arm_right;
 	DoubleSolenoid _grab_piston; 
 	private Lift _lift = Lift.getInstance();
-	private enum state {OFF, ON};
-	private state _mode = state.OFF; 
-
 	
 	
 	public enum arm {UP, DOWN, MIDDLE};
@@ -52,10 +49,16 @@ public class Pickup implements Updatable {
 		getInstance();
 	}
 	
-	public void set_flipper_speed(double speed) 
+	public void flipper_intake(double speed) 
 	{
 		_grab_left.set(speed);
 		_grab_right.set(-speed);
+	}
+	
+	public void flipper_excrete(double speed) 
+	{
+		_grab_left.set(-speed);
+		_grab_right.set(speed);
 	}
 	
 	public void set_arm_speed(double speed) 
@@ -66,7 +69,7 @@ public class Pickup implements Updatable {
 	
 	public void arm_top()
 	{
-		if(_arm_left.getSelectedSensorPosition(0) > 1000 && _lift.pickup_safe()){ //1000 is a constant going up is higher
+		if(_arm_left.getSelectedSensorPosition(0) > Map.MAX_UP_ANGLE && _lift.pickup_safe()){ //1000 is a constant going up is higher
 			set_arm_speed(Map.ARM_SPEED);
 		} else{
 			set_arm_speed(0);
@@ -76,7 +79,7 @@ public class Pickup implements Updatable {
 	
 	public void arm_middle()
 	{
-		if(_arm_left.getSelectedSensorPosition(0) > 1000 && _lift.pickup_safe()){ //1000 is a constant going up is higher
+		if(_arm_left.getSelectedSensorPosition(0) > Map.MAX_MID_ANGLE && _lift.pickup_safe()){ //1000 is a constant going up is higher
 
 			set_arm_speed(Map.ARM_SPEED);
 
@@ -88,7 +91,7 @@ public class Pickup implements Updatable {
 	
 	public void arm_bottom()
 	{
-		if(_arm_left.getSelectedSensorPosition(0) < 1000){ //1000 is a constant
+		if(_arm_left.getSelectedSensorPosition(0) < Map.MAX_DOWN_ANGLE){ //1000 is a constant
 			set_arm_speed(-Map.ARM_SPEED);
 		} else{
 			set_arm_speed(0);
@@ -116,7 +119,6 @@ public class Pickup implements Updatable {
 		
 		if (IO.get_pickup_on())
 		{
-			_mode = state.ON;
 			open_arm();
 			//drop both cantalons based on sensor. Fake code for now
 			arm_top();
@@ -126,7 +128,6 @@ public class Pickup implements Updatable {
 		else if (IO.get_pickup_off())
 		{
 			close_arm();
-			_mode = state.OFF;
 			
 			//pick up both cantalons based on sensor. Fake code for now
 			arm_bottom();
@@ -151,29 +152,17 @@ public class Pickup implements Updatable {
 		}	
 	}
 	
-	private void set_motor()
-	{
-		if (_mode == state.ON)
-		{
-			set_flipper_speed(IO.intake_input()*Map.PICKUP_LEFT_MAGIC);
-		}
-		if (_mode == state.OFF)
-		{
-			set_flipper_speed(0);
-		}
-	}
+
 	private void override_pickup()
 	{
 		if (IO.get_override_pickup())
 		{
-			_arm_left.set(ControlMode.Velocity, IO.intake_input()*Map.PICKUP_LEFT_MAGIC);
-			_arm_right.set(ControlMode.Velocity, IO.intake_input()*Map.PICKUP_RIGHT_MAGIC);
+			flipper_intake(Map.FLIPPER_SPEED);
 		}
 	}
 	public void semaphore_update()
 	{
 		update_mode();
-		set_motor();
 		override_pickup();
 	}
 }

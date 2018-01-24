@@ -6,8 +6,6 @@ public class Lift implements Updatable
 {
 	
 	private WPI_TalonSRX _motor;
-	private enum state {OFF, ON};
-	private state _mode = state.OFF; 
 	
 	boolean get_top_lift_sensor;
 	boolean get_bottom_lift_sensor;
@@ -45,13 +43,11 @@ public class Lift implements Updatable
 	{
 		if (IO.get_lift_on())
 		{
-			_mode = state.ON;
 			System.out.println("Lifting things");
 			lift_top();
 		}
 		else if (IO.get_lift_off())
 		{
-			_mode = state.OFF;
 			_motor.set(0);
 			System.out.println("Not lifting things");
 		}
@@ -77,12 +73,7 @@ public class Lift implements Updatable
 		{
 			_motor.set(IO.intake_input());
 		}
-		if (_mode == state.OFF)
-		{
-			_motor.set(0);
-		}
-		// (IO.get_elevator_height < Map.ELEVATOR_MAX_HEIGHT) || (IO.get_elevator_height > Map.ELEVATOR_MIN_HEIGHT)
-		
+
 		if (get_top_lift_sensor) 
 		{
 			_motor.set(0);
@@ -143,7 +134,7 @@ public class Lift implements Updatable
 		else 
 		{
 			System.out.println("Not at top...");
-			_motor.set(lift_speed(1));
+			_motor.set(Map.LIFT_MOTOR_SPEED);
 		}
 	}
 	
@@ -153,15 +144,7 @@ public class Lift implements Updatable
 			{
 			_motor.set(0);
 			System.out.println("At middle, stopping");
-			/*if (IO.get_lift_middle())
-			{
-				_motor.set(0);
-			}
-			}
-		else
-			{
-			System.out.println("Not at middle...");*/
-			_motor.set(0.5);
+			_motor.set(Map.LIFT_MOTOR_SPEED);
 		}
 	}
 	
@@ -179,7 +162,7 @@ public class Lift implements Updatable
 		else
 			{
 			System.out.println("Not at bottom...");
-			_motor.set(0.5);
+			_motor.set(Map.LIFT_MOTOR_SPEED);
 		}
 	}
 	
