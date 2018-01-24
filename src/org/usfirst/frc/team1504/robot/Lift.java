@@ -125,7 +125,7 @@ public class Lift implements Updatable
 		set_motor();
 	}
 	
-	public void lift_top() 
+	public void lift_top()//toggle based (no manual input, rises to top)
 	{
 		if (get_top_lift_sensor) 
 		{
@@ -135,16 +135,63 @@ public class Lift implements Updatable
 			{
 				_motor.set(0);
 			}
-			/*if(IO.get_lift_down() && _pickup.lift_safe()) 
+			if(IO.get_lift_down() && _pickup.lift_safe()) 
 			{
 				_motor.set(Map.ELEVATOR_DOWN);
-			}*/
+			}
 		}
 		else 
 		{
 			System.out.println("Not at top...");
+			_motor.set(lift_speed(1));
+		}
+	}
+	
+	public void lift_middle()
+	{
+		if (get_elevator_height() == Map.ELEVATOR_MAX_HEIGHT / 2)
+			{
+			_motor.set(0);
+			System.out.println("At middle, stopping");
+			/*if (IO.get_lift_middle())
+			{
+				_motor.set(0);
+			}
+			}
+		else
+			{
+			System.out.println("Not at middle...");*/
 			_motor.set(0.5);
-			//FIGURE OUT WAY TO END WHEN AT TOP DURING AUTON(looping thread?)
+		}
+	}
+	
+	public void lift_bottom()
+	{
+		if (get_bottom_lift_sensor)
+			{
+			_motor.set(0);
+			System.out.println("At bottom, stopping");
+			if (IO.get_lift_down())
+			{
+				_motor.set(0);
+			}
+			}
+		else
+			{
+			System.out.println("Not at bottom...");
+			_motor.set(0.5);
+		}
+	}
+	
+	public double lift_speed(int speed)//Toggle based (position based, y)
+	{
+		if(speed == 1)//v = x^2
+		{	
+			return (((Map.ELEVATOR_MAX_HEIGHT-get_elevator_height())*(Map.ELEVATOR_MAX_HEIGHT-get_elevator_height()))/(Map.ELEVATOR_MAX_HEIGHT*Map.ELEVATOR_MAX_HEIGHT));
+		}
+		else//v = x
+		{
+			return ((Map.ELEVATOR_MAX_HEIGHT-get_elevator_height())/Map.ELEVATOR_MAX_HEIGHT);
 		}
 	}
 }
