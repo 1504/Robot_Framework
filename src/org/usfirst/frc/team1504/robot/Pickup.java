@@ -8,8 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class Pickup implements Updatable {
 	private WPI_TalonSRX _grab_left;
 	private WPI_TalonSRX _grab_right;
-	private WPI_TalonSRX _arm_left;
-	private WPI_TalonSRX _arm_right;
+	private WPI_TalonSRX _arm;
 	DoubleSolenoid _grab_piston; 
 	private Lift _lift = Lift.getInstance();
 	
@@ -28,14 +27,13 @@ public class Pickup implements Updatable {
 	{	
 		_grab_left = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_LEFT);
 		_grab_right = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_RIGHT);
-		_arm_left = new WPI_TalonSRX(Map.ARM_TALON_PORT_LEFT);
-		_arm_right = new WPI_TalonSRX(Map.ARM_TALON_PORT_RIGHT);
-		_arm_right.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 200); //200 here is the ms timeout when trying to connect
-		_arm_right.config_kP(0, 0.03, 200); //200 is the timeout ms
-		_arm_right.config_kI(0, 0.00015, 200);
-		_arm_left.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 200); //200 here is the ms timeout when trying to connect
-		_arm_left.config_kP(0, 0.03, 200); //200 is the timeout ms
-		_arm_left.config_kI(0, 0.00015, 200);
+		_arm = new WPI_TalonSRX(Map.ARM_TALON_PORT_LEFT);
+		_arm = new WPI_TalonSRX(Map.ARM_TALON_PORT_RIGHT);
+		_arm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 200); //200 here is the ms timeout when trying to connect
+		_arm.config_kP(0, 0.03, 200); //200 is the timeout ms
+		_arm.config_kI(0, 0.00015, 200);
+
+
 		//_arm_left.set(ControlMode.Velocity, 0);
 		_grab_piston = new DoubleSolenoid(0, 1); //0 is on/forward, 1 for off/reverse
 		_grab_piston.set(DoubleSolenoid.Value.kOff); //not sure about this
@@ -51,8 +49,7 @@ public class Pickup implements Updatable {
 	
 	public void set_arm_speed(double speed) //sets both the right and left arm speeds
 	{
-		_arm_left.set(ControlMode.Velocity, speed);
-		_arm_right.set(ControlMode.Velocity, speed);
+		_arm.set(ControlMode.Velocity, speed);
 	}
 	
 	public void set_flipper_speed(double speed) //sets both the right and left flipper speeds
@@ -66,14 +63,19 @@ public class Pickup implements Updatable {
 		set_flipper_speed(Map.ROLLER_SPEED);
 	}
 	
-	public void flipper_excrete() // sets rotors to spit cube out
+	public void flipper_excrete() // sets rollers to spit cube out
 	{
 		set_flipper_speed(-Map.ROLLER_SPEED);
 	}
 	
+	public void flipper_stop() 
+	{
+		set_flipper_speed(0);
+	}
+	
 	public void arm_top() //moves arm to top
 	{
-		if(_arm_left.getSelectedSensorPosition(0) > Map.ARM_UP_ANGLE && _lift.pickup_safe()){ 
+		if(_arm.getSelectedSensorPosition(0) < Map.ARM_UP_ANGLE && _lift.pickup_safe()){ 
 			set_arm_speed(Map.ARM_SPEED);
 		} else{
 			set_arm_speed(0);
@@ -83,11 +85,16 @@ public class Pickup implements Updatable {
 	
 	public void arm_middle() //moves arm to middle
 	{
-		if(_arm_left.getSelectedSensorPosition(0) > Map.ARM_MID_ANGLE && _lift.pickup_safe()){
-
+		if(_arm.getSelectedSensorPosition(0) > Map.ARM_MID_ANGLE)
+		{
+			set_arm_speed(-Map.ARM_SPEED);
+		}
+		else if (_arm.getSelectedSensorPosition(0) < Map.ARM_MID_ANGLE)
+		{
 			set_arm_speed(Map.ARM_SPEED);
-
-		} else{
+		}
+		else
+		{
 			set_arm_speed(0);
 			System.out.println("Pickup started intaking.");
 		}
@@ -95,9 +102,12 @@ public class Pickup implements Updatable {
 	
 	public void arm_bottom() //moves arm to bottom
 	{
-		if(_arm_left.getSelectedSensorPosition(0) < Map.ARM_DOWN_ANGLE){
+		if(_arm.getSelectedSensorPosition(0) > Map.ARM_DOWN_ANGLE)
+		{
 			set_arm_speed(-Map.ARM_SPEED);
-		} else{
+		}
+		else
+		{
 			set_arm_speed(0);
 			System.out.println("Pickup stopped intaking.");
 		}
