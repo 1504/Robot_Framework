@@ -156,8 +156,8 @@ public class Robot extends RobotBase {
     public void test() {
     	System.out.println("Test Mode!");
     	DoubleSolenoid _piston1 = new DoubleSolenoid(0, 1);
-    	WPI_TalonSRX _motorL = new WPI_TalonSRX(Map.PICKUP_TALON_PORT_LEFT);
-		WPI_TalonSRX _motorR = new WPI_TalonSRX(Map.PICKUP_TALON_PORT_RIGHT);
+    	WPI_TalonSRX _motorL = new WPI_TalonSRX(Map.ARM_TALON_PORT_LEFT);
+		WPI_TalonSRX _motorR = new WPI_TalonSRX(Map.ARM_TALON_PORT_RIGHT);
 		Latch_Joystick control = new Latch_Joystick(0);
 		double magic = 1.0;
 //    	CameraInterface ci = CameraInterface.getInstance();
