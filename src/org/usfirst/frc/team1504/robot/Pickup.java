@@ -14,17 +14,17 @@ public class Pickup implements Updatable {
 	private Lift _lift = Lift.getInstance();
 	
 	
-	public enum arm {UP, DOWN, MIDDLE};
-	public arm arm_state = arm.DOWN;
+	public enum arm {UP, DOWN, MIDDLE}; // declares states of arms
+	public arm arm_state = arm.DOWN; // sets arms to be down at beginning of match
 	
 	private static final Pickup instance = new Pickup();
 	
-	public static Pickup getInstance()
+	public static Pickup getInstance() // sets instance
 	{
 		return instance;
 	}
 	
-	private Pickup()
+	private Pickup() // pickup constructor
 	{	
 		_grab_left = new WPI_TalonSRX(Map.PICKUP_TALON_PORT_LEFT);
 		_grab_right = new WPI_TalonSRX(Map.PICKUP_TALON_PORT_RIGHT);
@@ -44,7 +44,7 @@ public class Pickup implements Updatable {
 		System.out.println("Pickup Initialized.\nPickup Disabled");
 	}
 	
-	public static void initialize()
+	public static void initialize() //initialize
 	{
 		getInstance();
 	}
@@ -61,19 +61,19 @@ public class Pickup implements Updatable {
 		_grab_right.set(-speed);
 	}
 	
-	public void flipper_intake()
+	public void flipper_intake() // sets rotors to spin cube in
 	{
 		set_flipper_speed(Map.FLIPPER_SPEED);
 	}
 	
-	public void flipper_excrete() 
+	public void flipper_excrete() // sets rotors to spit cube out
 	{
 		set_flipper_speed(-Map.FLIPPER_SPEED);
 	}
 	
 	public void arm_top() //moves arm to top
 	{
-		if(_arm_left.getSelectedSensorPosition(0) > Map.MAX_UP_ANGLE && _lift.pickup_safe()){ //1000 is a constant going up is higher
+		if(_arm_left.getSelectedSensorPosition(0) > Map.MAX_UP_ANGLE && _lift.pickup_safe()){ 
 			set_arm_speed(Map.ARM_SPEED);
 		} else{
 			set_arm_speed(0);
@@ -83,7 +83,7 @@ public class Pickup implements Updatable {
 	
 	public void arm_middle() //moves arm to middle
 	{
-		if(_arm_left.getSelectedSensorPosition(0) > Map.MAX_MID_ANGLE && _lift.pickup_safe()){ //1000 is a constant going up is higher
+		if(_arm_left.getSelectedSensorPosition(0) > Map.MAX_MID_ANGLE && _lift.pickup_safe()){
 
 			set_arm_speed(Map.ARM_SPEED);
 
@@ -95,7 +95,7 @@ public class Pickup implements Updatable {
 	
 	public void arm_bottom() //moves arm to bottom
 	{
-		if(_arm_left.getSelectedSensorPosition(0) < Map.MAX_DOWN_ANGLE){ //1000 is a constant
+		if(_arm_left.getSelectedSensorPosition(0) < Map.MAX_DOWN_ANGLE){
 			set_arm_speed(-Map.ARM_SPEED);
 		} else{
 			set_arm_speed(0);
@@ -103,12 +103,12 @@ public class Pickup implements Updatable {
 		}
 	}
 	
-	public void open_arm()
+	public void open_arm() //extends piston between arms to grab cube
 	{
 		_grab_piston.set(DoubleSolenoid.Value.kForward);
 	}
 	
-	public void close_arm()
+	public void close_arm() // closes space between arms with piston
 	{
 		_grab_piston.set(DoubleSolenoid.Value.kReverse);
 	}
@@ -118,7 +118,7 @@ public class Pickup implements Updatable {
 		double pos = 0.0; //pseudocode
 		return (pos > 0);
 	}
-	private void update_mode()
+	private void update_mode() //checks if pickup is in progress
 	{
 		
 		if (IO.get_pickup_on())
@@ -140,7 +140,7 @@ public class Pickup implements Updatable {
 
 		}
 	
-	public void set_state(arm state) 
+	public void set_state(arm state) //sets position of arm
 	{
 		if (state == arm.UP)
 		{
@@ -156,14 +156,14 @@ public class Pickup implements Updatable {
 		}
 	}
 
-	private void override_pickup()
+	private void override_pickup() //allows driver to abort a pickup
 	{
 		if (IO.get_override_pickup())
 		{
 			set_flipper_speed(IO.intake_input()*Map.PICKUP_LEFT_MAGIC);
 		}
 	}
-	public void semaphore_update()
+	public void semaphore_update() //updates robot information
 	{
 		update_mode();
 		override_pickup();
