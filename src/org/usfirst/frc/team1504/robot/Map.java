@@ -21,21 +21,43 @@ public class Map {
 /**
  * Pickup stuff
  */
-		public static final int DROP_PICKUP_RIGHT = 38;
-		public static final int DROP_PICKUP_LEFT = 39;
-		public static final int PICKUP_TALON_PORT_LEFT = 40;
-		public static final int PICKUP_TALON_PORT_RIGHT = 41;
-		public static final int LIFT_TALON_PORT = 42;
-		public static final int ELEVATOR_MAX_HEIGHT = 10; //maybe make this a double with the correct height
-		public static final int ELEVATOR_MIN_HEIGHT = 0; //maybe make this a double
-		public static final int ELEVATOR_UP = 1;
-		public static final int ELEVATOR_DOWN = -1;
-		public static final int MAX_UP_ANGLE = 1000;
-		public static final int MAX_DOWN_ANGLE = 1000;
-		public static final int MAX_MID_ANGLE = 1000;
+	
+		public static final int ARM_TALON_PORT_RIGHT = 38;
+		public static final int ARM_TALON_PORT_LEFT = 39;
+		
+		public static final int ROLLER_TALON_PORT_LEFT = 40;
+		public static final int ROLLER_TALON_PORT_RIGHT = 41;
+		
+		public static final double ROLLER_SPEED = 0.7;
+		
+		public static final int ARM_UP_ANGLE = 1000;
+		public static final int ARM_DOWN_ANGLE = 1000;
+		public static final int ARM_MID_ANGLE = 1000;
+		
 		public static final double ARM_SPEED = 0.3;
+		
+		public static final double FLIPPER_MAGIC = 1.0;
+		
+		
+/**
+ * Elevator / Lift Stuff
+ */
+		
+		public static final int LIFT_TALON_PORT = 42;
+		
+		public static final int LIFT_UP = 1;
+		public static final int LIFT_DOWN = -1;
+		
 		public static final double LIFT_MOTOR_SPEED = 0.5;
-		public static final double FLIPPER_SPEED = 0.7;
+		
+		public static final double LIFT_MAX_HEIGHT = 10; 
+		public static final double LIFT_MIN_HEIGHT = 0; 
+		
+/*
+ * Winch Stuff
+ */
+		
+		public static final int INTAKE_POWER_AXIS = 1;
 		
 /**
  * Drive class things
@@ -87,28 +109,6 @@ public class Map {
 	public static final double[] DRIVE_OUTPUT_MAGIC_NUMBERS = { 1.0, 1.0, -1.0, -1.0 };
 	
 	public static final int DRIVE_MAX_UNLOGGED_LOOPS = 15;
-	
-/**
- * Winch stuff
- */	
-	/*public static final int NANCY_TALON_PORT = 20;
-	public static final int MEAD_TALON_PORT = 21;
-	
-	public static final int WINCH_CURRENT_LIMIT = 70;
-	
-	public static final int WINCH_POWER_AXIS = 1;
-	
-	public static final double WINCH_DIRECTION = 1.0;
-	public static final int WINCH_SERVO1 = 1;
-	public static final int WINCH_SERVO2 = 0;
-	public static final double WINCH_SERVO_DEPLOYED = 180.0;
-	public static final double WINCH_SERVO_STORED = 0.0;
-	public static final double WINCH_BRAKE_TIMEOUT = 15.0;*/
-
-	public static final int WINCH_POWER_AXIS = 1;
-	public static final double WINCH_DIRECTION = 1.0;
-	public static final double PICKUP_RIGHT_MAGIC = 1.0;
-	public static final double PICKUP_LEFT_MAGIC = 1.0;
 	
 /**
  * Robot config stuff

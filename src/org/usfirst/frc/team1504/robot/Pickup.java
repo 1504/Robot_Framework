@@ -26,10 +26,10 @@ public class Pickup implements Updatable {
 	
 	private Pickup() // pickup constructor
 	{	
-		_grab_left = new WPI_TalonSRX(Map.PICKUP_TALON_PORT_LEFT);
-		_grab_right = new WPI_TalonSRX(Map.PICKUP_TALON_PORT_RIGHT);
-		_arm_left = new WPI_TalonSRX(Map.DROP_PICKUP_LEFT);
-		_arm_right = new WPI_TalonSRX(Map.DROP_PICKUP_RIGHT);
+		_grab_left = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_LEFT);
+		_grab_right = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_RIGHT);
+		_arm_left = new WPI_TalonSRX(Map.ARM_TALON_PORT_LEFT);
+		_arm_right = new WPI_TalonSRX(Map.ARM_TALON_PORT_RIGHT);
 		_arm_right.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 200); //200 here is the ms timeout when trying to connect
 		_arm_right.config_kP(0, 0.03, 200); //200 is the timeout ms
 		_arm_right.config_kI(0, 0.00015, 200);
@@ -63,17 +63,17 @@ public class Pickup implements Updatable {
 	
 	public void flipper_intake() // sets rotors to spin cube in
 	{
-		set_flipper_speed(Map.FLIPPER_SPEED);
+		set_flipper_speed(Map.ROLLER_SPEED);
 	}
 	
 	public void flipper_excrete() // sets rotors to spit cube out
 	{
-		set_flipper_speed(-Map.FLIPPER_SPEED);
+		set_flipper_speed(-Map.ROLLER_SPEED);
 	}
 	
 	public void arm_top() //moves arm to top
 	{
-		if(_arm_left.getSelectedSensorPosition(0) > Map.MAX_UP_ANGLE && _lift.pickup_safe()){ 
+		if(_arm_left.getSelectedSensorPosition(0) > Map.ARM_UP_ANGLE && _lift.pickup_safe()){ 
 			set_arm_speed(Map.ARM_SPEED);
 		} else{
 			set_arm_speed(0);
@@ -83,7 +83,7 @@ public class Pickup implements Updatable {
 	
 	public void arm_middle() //moves arm to middle
 	{
-		if(_arm_left.getSelectedSensorPosition(0) > Map.MAX_MID_ANGLE && _lift.pickup_safe()){
+		if(_arm_left.getSelectedSensorPosition(0) > Map.ARM_MID_ANGLE && _lift.pickup_safe()){
 
 			set_arm_speed(Map.ARM_SPEED);
 
@@ -95,7 +95,7 @@ public class Pickup implements Updatable {
 	
 	public void arm_bottom() //moves arm to bottom
 	{
-		if(_arm_left.getSelectedSensorPosition(0) < Map.MAX_DOWN_ANGLE){
+		if(_arm_left.getSelectedSensorPosition(0) < Map.ARM_DOWN_ANGLE){
 			set_arm_speed(-Map.ARM_SPEED);
 		} else{
 			set_arm_speed(0);
@@ -160,7 +160,7 @@ public class Pickup implements Updatable {
 	{
 		if (IO.get_override_pickup())
 		{
-			set_flipper_speed(IO.intake_input()*Map.PICKUP_LEFT_MAGIC);
+			set_flipper_speed(IO.intake_input()*Map.FLIPPER_MAGIC);
 		}
 	}
 	public void semaphore_update() //updates robot information

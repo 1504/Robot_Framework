@@ -34,11 +34,11 @@ public class Lift implements Updatable
 			System.out.println("Not lifting things");
 		}
 		
-		if (get_elevator_height() == Map.ELEVATOR_MAX_HEIGHT) 
+		if (get_elevator_height() == Map.LIFT_MAX_HEIGHT) 
 		{
 			get_top_lift_sensor = true;
 		}
-		else if (get_elevator_height() == Map.ELEVATOR_MIN_HEIGHT) 
+		else if (get_elevator_height() == Map.LIFT_MIN_HEIGHT) 
 		{
 			get_bottom_lift_sensor = true;
 		}
@@ -66,7 +66,7 @@ public class Lift implements Updatable
 			}
 			if(IO.get_lift_down() && _pickup.lift_safe()) 
 			{
-				_motor.set(Map.ELEVATOR_DOWN);
+				_motor.set(Map.LIFT_DOWN);
 			}
 		}
 		else 
@@ -83,7 +83,7 @@ public class Lift implements Updatable
 			}
 			if(IO.get_lift_up() && _pickup.lift_safe()) 
 			{
-				_motor.set(Map.ELEVATOR_UP);
+				_motor.set(Map.LIFT_UP);
 			}
 		}
 		else 
@@ -128,7 +128,7 @@ public class Lift implements Updatable
 			}
 			if(IO.get_lift_down() && _pickup.lift_safe()) 
 			{
-				_motor.set(Map.ELEVATOR_DOWN);
+				_motor.set(Map.LIFT_DOWN);
 			}
 		}
 		else 
@@ -140,7 +140,7 @@ public class Lift implements Updatable
 	
 	public void lift_middle()//toggle based (no manual input, moves to middle)
 	{
-		if (get_elevator_height() == Map.ELEVATOR_MAX_HEIGHT / 2)
+		if (get_elevator_height() == Map.LIFT_MAX_HEIGHT / 2)
 			{
 			_motor.set(0);
 			System.out.println("At middle, stopping");
@@ -176,11 +176,11 @@ public class Lift implements Updatable
 	{
 		if(speed == 1)//v = x^2
 		{	
-			return (((Map.ELEVATOR_MAX_HEIGHT-get_elevator_height())*(Map.ELEVATOR_MAX_HEIGHT-get_elevator_height()))/(Map.ELEVATOR_MAX_HEIGHT*Map.ELEVATOR_MAX_HEIGHT));
+			return (((Map.LIFT_MAX_HEIGHT-get_elevator_height())*(Map.LIFT_MAX_HEIGHT-get_elevator_height()))/(Map.LIFT_MAX_HEIGHT*Map.LIFT_MAX_HEIGHT));
 		}
 		else//v = x
 		{
-			return ((Map.ELEVATOR_MAX_HEIGHT-get_elevator_height())/Map.ELEVATOR_MAX_HEIGHT);
+			return ((Map.LIFT_MAX_HEIGHT-get_elevator_height())/Map.LIFT_MAX_HEIGHT);
 		}
 	}
 }

@@ -28,7 +28,7 @@ public class IO
 	
 	public static double intake_input()
 	{
-		return Utils.deadzone(Math.abs(_secondary.getRawAxis(Map.WINCH_POWER_AXIS))) * Map.WINCH_DIRECTION;
+		return Utils.deadzone(Math.abs(_secondary.getRawAxis(Map.INTAKE_POWER_AXIS)));
 	}
 	public static boolean get_override_pickup()
 	{
