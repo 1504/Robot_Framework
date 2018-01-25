@@ -196,20 +196,24 @@ public class Map {
 /**
  * Auton stuff	
  */
-	public static final double[][][] AUTON_RIGHT_SEQUENCES = {{{0.5, 0.0, 0.0, 0, 3000}},{{0.25, 0.0, 0.0, 0, 1000},{0.0, 0.0, 0.25, 0, 1000},{0.25, 0.0, 0.0, 0, 3000},{0.0, 25.0, 0.0, 0, 1000},{0.5, 0.0, 0.0, 0, 2000}, {-0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 0, 1000}}};
-	 /*If at right side and right end is the goal -- ram into switch -- assuming robot is positioned correctly
-     * If at right side and left end is goal (forward, turn left, forward, turn right, ram )
+	public static final double[][][] AUTON_RIGHT_DROP_SEQUENCES = {{{0.5, 0.0, 0.0, 0, 3000}},{{0.25, 0.0, 0.0, 0, 1000},{0.0, 0.0, 0.25, 0, 1000},{0.25, 0.0, 0.0, 0, 3000},{0.0, 25.0, 0.0, 0, 1000},{0.5, 0.0, 0.0, 0, 2000}, {-0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 0, 1000}}};
+	 /*If at right side and right end is the goal(ram)
+	  *If at right side and left end is goal (forward, turn left, forward, turn right, ram)
      */
-	
-	public static final double[][][] AUTON_LEFT_SEQUENCES = {{{0.5, 0.0, 0.0, 0, 3000}},{{0.25, 0.0, 0.0, 0, 1500}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 3500}, {0.0, 0.0, 0.25, 0, 1000}, {0.5, 0.0, 0.0, 0.0, 3000}}};
-    /*If at left side and left side is the goal -- ram into switch -- assuming robot is positioned correctly
-    /*If at left side and right end is the goal -- ram into switch -- assuming robot is positioned correctly
-     */ 
-    public static final double[][][] AUTON_MID_SEQUENCES = {{{0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1750}, {0.0, 0.0, 0.25, 0, 1000}, {0.5, 0.0, 0.0, 0, 2500}}, {{0.25, 0.0, 0.0, 0, 1000},{0.0, 0.25, 0.0, 0, 1000},{0.25, 0.0, 0.0, 0, 2000},{0.0, 0.0, 25.0, 0, 1000},{0.5, 0.0, 0.0, 0, 2000}}};
-    /*If at middle and left end is the goal -- ram into switch -- assuming robot is positioned correctly
-	* If at middle and right end is goal (forward, right, forward, left, ram)
+	public static final double[][][] AUTON_LEFT_DROP_SEQUENCES = {{{0.5, 0.0, 0.0, 0, 3000}},{{0.25, 0.0, 0.0, 0, 1500}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 3500}, {0.0, 0.0, 0.25, 0, 1000}, {0.5, 0.0, 0.0, 0.0, 3000}}};
+    /*If at left side and left side is the goal (ram)
+     *If at left side and right end is the goal (forward, right, forward, left, ram)
+     */
+    public static final double[][][] AUTON_MID_DROP_SEQUENCES = {{{0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1750}, {0.0, 0.0, 0.25, 0, 1000}, {0.5, 0.0, 0.0, 0, 2500}}, {{0.25, 0.0, 0.0, 0, 1000},{0.0, 0.25, 0.0, 0, 1000},{0.25, 0.0, 0.0, 0, 2000},{0.0, 0.0, 25.0, 0, 1000},{0.5, 0.0, 0.0, 0, 2000}}};
+    /*If at middle and left end is the goal (ram, forward)
+	* If at middle and right end is goal (ram, forward, right, forward, left, ram)
 	*/
- 
+	public static final double[][][] AUTON_RIGHT_SCALE_SEQUENCES = {{{}}};
+	public static final double[][][] AUTON_LEFT_SCALE_SEQUENCES = {{{}}};
+	public static final double[][][] AUTON_MID_SCALE_SEQUENCES = {{{}}};
+	
+	public static final double[][] AUTON_EXCHANGE_FROM_MID_SEQUENCES = {{0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 25.0, 0, 1000}};
+	public static final dobule[][] AUTON_PICKUP_FROM_MID_SEQUENCES =  {{0.1, 0.0, 0.0, 0, 1000},{0.0, 0.0, 0.0, 0, 1000}};
 	
 /**
  * Logger stuff
