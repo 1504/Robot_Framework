@@ -212,8 +212,13 @@ public class Map {
 	public static final double[][][] AUTON_LEFT_SCALE_SEQUENCES = {{{}}};
 	public static final double[][][] AUTON_MID_SCALE_SEQUENCES = {{{}}};
 	
+<<<<<<< HEAD
 	public static final double[][] AUTON_PORTAL_FROM_MID_SEQUENCES = {{0.0, 0.25, 0.0, 0, 1000}, {0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 25.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 1, 1000}, {0.0, 0.0, 0.0, 3, 1000}};
 	public static final double[][] AUTON_PICKUP_FROM_MID_SEQUENCES =  {{0.1, 0.0, 0.0, 0, 1000},{0.0, 0.0, 0.0, 0, 1000}};
+=======
+	public static final double[][] AUTON_EXCHANGE_FROM_MID_SEQUENCES = {{0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 25.0, 0, 1000}};
+	public static final double[][] AUTON_PICKUP_FROM_MID_SEQUENCES =  {{0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 1, 500}, {0.0, 0.0, 0.0, 2, 500}, {0.0, 0.0, 0.0, 6, 3000}, {0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 0, 1500}, {0.0, 0.0, 0.0, 5, 500}};
+>>>>>>> 5528f48ac4f50ba2cbbda586a2f2453c962e306d
 	
 	/*Going to the exchange from mid
 	 *Picking up a cube from mid
