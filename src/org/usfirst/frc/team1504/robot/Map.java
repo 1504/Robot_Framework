@@ -213,7 +213,7 @@ public class Map {
 	public static final double[][][] AUTON_MID_SCALE_SEQUENCES = {{{}}};
 	
 	public static final double[][] AUTON_EXCHANGE_FROM_MID_SEQUENCES = {{0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 25.0, 0, 1000}};
-	public static final double[][] AUTON_PICKUP_FROM_MID_SEQUENCES =  {{0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 1, 500}, {0.0, 0.0, 0.0, 2, 500}, {0.0, 0.0, 0.0, 6, 3000}, {0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 0, 1500}, {0.0, 0.0, 0.0, 5, 500}};
+	public static final double[][] AUTON_PICKUP_FROM_MID_SEQUENCES =  {{0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 1, 500}, {0.0, 0.0, 0.0, 2, 500}, {0.0, 0.0, 0.0, 6, 50}, {0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 0, 1500}, {0.0, 0.0, 0.0, 5, 500}};
 	
 /**
  * Logger stuff
