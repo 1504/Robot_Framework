@@ -22,8 +22,7 @@ public class Map {
  * Pickup stuff
  */
 	
-		public static final int ARM_TALON_PORT_RIGHT = 38;
-		public static final int ARM_TALON_PORT_LEFT = 39;
+		public static final int ARM_TALON_PORT = 38;
 		
 		public static final int ROLLER_TALON_PORT_LEFT = 40;
 		public static final int ROLLER_TALON_PORT_RIGHT = 41;
