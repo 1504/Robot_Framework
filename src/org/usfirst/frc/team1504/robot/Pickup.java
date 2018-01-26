@@ -27,12 +27,10 @@ public class Pickup implements Updatable {
 	{	
 		_grab_left = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_LEFT);
 		_grab_right = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_RIGHT);
-		_arm = new WPI_TalonSRX(Map.ARM_TALON_PORT_LEFT);
-		_arm = new WPI_TalonSRX(Map.ARM_TALON_PORT_RIGHT);
+		_arm = new WPI_TalonSRX(Map.ARM_TALON_PORT);
 		_arm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 200); //200 here is the ms timeout when trying to connect
 		_arm.config_kP(0, 0.03, 200); //200 is the timeout ms
 		_arm.config_kI(0, 0.00015, 200);
-
 
 		//_arm_left.set(ControlMode.Velocity, 0);
 		_grab_piston = new DoubleSolenoid(0, 1); //0 is on/forward, 1 for off/reverse
