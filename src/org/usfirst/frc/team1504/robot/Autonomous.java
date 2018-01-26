@@ -2,6 +2,7 @@ package org.usfirst.frc.team1504.robot;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.stream.Stream;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class Autonomous 
@@ -66,7 +67,10 @@ public class Autonomous
 	{
 		_path = path;
 	}
-	
+	public double[][] build_auton(double[][][] autons) //should let us combine multiple double arrays
+	{
+		return Stream.of(autons).flatMap(Stream::of).toArray(double[][]::new);
+	}
 	public void start()
 	{
 		if(_path == null)
