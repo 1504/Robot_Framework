@@ -207,13 +207,11 @@ public class Map {
     /*If at middle and left end is the goal (ram, forward)
 	* If at middle and right end is goal (ram, forward, right, forward, left, ram)
 	*/
-	public static final double[][][] AUTON_RIGHT_SCALE_SEQUENCES = {{{}}};
-	public static final double[][][] AUTON_LEFT_SCALE_SEQUENCES = {{{}}};
-	public static final double[][][] AUTON_MID_SCALE_SEQUENCES = {{{}}};
+	public static final double[][][] AUTON_SCALE_FROM_MID_SEQUENCES = {{{}}};
 	
 
 	public static final double[][] AUTON_PICKUP_FROM_MID_SEQUENCES =  {{0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 1, 500}, {0.0, 0.0, 0.0, 2, 500}, {0.0, 0.0, 0.0, 6, 50}, {0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 0, 1500}, {0.0, 0.0, 0.0, 5, 500}};
-	public static final double[][] AUTON_PORTAL_FROM_MID_SEQUENCES = {{0.0, 0.25, 0.0, 0, 1000}, {0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 25.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 1, 1000}, {0.0, 0.0, 0.0, 3, 1000}, {0.0, 0.0, 0.0, 9, 1000}};
+	public static final double[][] AUTON_PORTAL_FROM_MID_SEQUENCES = {{0.0, 0.25, 0.0, 0, 1000}, {0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 25.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 1, 1000}, {0.0, 0.0, 0.0, 3, 1000}, {0.0, 0.0, 0.0, 9, 50}};
 	
 	/*Going to the exchange from mid
 	 *Picking up a cube from mid
