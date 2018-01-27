@@ -107,7 +107,7 @@ public class Lift implements Updatable
 		return 0.0; //_blahblahblah.magneticEncoder;
 	}
 	
-	public static void plate_angle() // Sets angle of lift plate
+	public void plate_angle(double angle) // Sets angle of lift plate
 	{
 		// return true;
 	}

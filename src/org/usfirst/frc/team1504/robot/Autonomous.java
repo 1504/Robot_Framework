@@ -175,6 +175,10 @@ public class Autonomous
 			{
 				_pickup.flipper_stop();
 			}
+			else if(_path[step][3] == 10) //stop flippers
+			{
+				_lift.plate_angle(45.0);
+			}
 			/*else if(_path[step][3] == 2)
 			{
 				// Calculate P(ID) output for the drive thread 
