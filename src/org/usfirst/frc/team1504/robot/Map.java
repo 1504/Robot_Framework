@@ -62,6 +62,12 @@ public class Map {
  * Drive class things
  */
 	
+	// Drive angle stuff
+		public static final double DRIVE_ANGLE = 60.0; // We need to get this value from IO and vision code
+		public static final double DRIVE_SPEED = 1.0; // This can be changed but it is 1 so we ram into things;
+		
+		
+		
 	// Drive Motor enumeration
 	public static enum DRIVE_MOTOR { FRONT_LEFT, BACK_LEFT, BACK_RIGHT, FRONT_RIGHT }
 	
