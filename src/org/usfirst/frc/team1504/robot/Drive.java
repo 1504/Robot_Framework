@@ -4,6 +4,8 @@ import java.nio.ByteBuffer;
 import java.util.TimerTask;
 import java.util.Timer;
 
+import java.lang.Math;
+
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 //import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -454,6 +456,19 @@ public class Drive implements Updatable
 		SmartDashboard.putNumber("Drive BL current", currents[1]);
 		SmartDashboard.putNumber("Drive BR current", currents[2]);
 		SmartDashboard.putNumber("Drive FR current", currents[3]);
+	}
+	
+	public void follow_angle(double angle, double speed)
+	{
+		
+        double angle_a = Math.toRadians(angle);
+        double speed_a = Math.toRadians(speed);
+        
+        double forward_speed = Math.cos(angle_a);
+        double tracking_direction = Math.sin(speed_a);
+        
+        //System.out.println("Forward speed: " + forward_speed);
+        //System.out.println("Tracking speed: " + tracking_direction);
 	}
 	
 }
