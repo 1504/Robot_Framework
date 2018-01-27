@@ -175,7 +175,7 @@ public class Autonomous
 			{
 				_pickup.flipper_stop();
 			}
-			else if(_path[step][3] == 10) //stop flippers
+			else if(_path[step][3] == 10) //Auton Scale drop
 			{
 				_lift.plate_angle(45.0);
 			}

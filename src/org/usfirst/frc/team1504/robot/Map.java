@@ -218,10 +218,17 @@ public class Map {
 	 */
 	public static final double[][] AUTON_PICKUP_FROM_MID_SEQUENCES =  {{0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 1, 500}, {0.0, 0.0, 0.0, 2, 500}, {0.0, 0.0, 0.0, 6, 50}, {0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 0, 1500}, {0.0, 0.0, 0.0, 5, 500}};
 	public static final double[][] AUTON_PORTAL_FROM_MID_SEQUENCES = {{0.0, 0.25, 0.0, 0, 1000}, {0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 25.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 1, 1000}, {0.0, 0.0, 0.0, 3, 1000}, {0.0, 0.0, 0.0, 9, 50}};
-	
 	/*Going to the exchange from mid
 	 *Picking up a cube from mid
 	 * */
+	public static final double[][] AUTON_LEFT_SCALE_SEQUENCES = {{0.75, 0.0, 0.0, 0, 3000}, {0.0, 0.0, 0.25, 0, 1000}, {0.0, 0.0, 0.0, 7, 1000}, {0.0, 0.0, 0.0, 10, 1000}};
+	/* Drive forward to the scale, turn right, raise the lift, drop the plate
+	 */
+	public static final double[][] AUTON_RIGHT_SCALE_SEQUENCES = {{0.75, 0.0, 0.0, 0, 3000}, {0.0, 0.0, -0.25, 0, 1000}, {0.0, 0.0, 0.0, 7, 1000}, {0.0, 0.0, 0.0, 10, 1000}};
+	/*Drive forward to the scale, turn left, raise the lift, drop the plate
+	 */
+	
+	
 /**
  * Logger stuff
  */
