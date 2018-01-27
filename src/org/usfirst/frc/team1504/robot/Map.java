@@ -92,7 +92,7 @@ public class Map {
 
 	
 	// Drive Input magic numbers
-	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { -1.0, 1.0, -0.6 };
+	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { -1.0, 1.0, 0.6 };
 	public static final double DRIVE_INPUT_TURN_FACTOR = 0.2;
 	
 	public static final double DRIVE_INPUT_VISION_SPEED = 0.75;
@@ -105,7 +105,7 @@ public class Map {
 	public static final double[][] DRIVE_GLIDE_GAIN = {{0.0015, 0.003}, {0.008, 0.008}};
 	
 	// Drive Output magic numbers - for getting everything spinning the correct direction
-	public static final double[] DRIVE_OUTPUT_MAGIC_NUMBERS = { -1.0, 1.0, 1.0, -1.0 };
+	public static final double[] DRIVE_OUTPUT_MAGIC_NUMBERS = { 1.0, 1.0, -1.0, -1.0 };
 	
 	public static final int DRIVE_MAX_UNLOGGED_LOOPS = 15;
 	
