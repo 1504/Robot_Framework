@@ -1,10 +1,12 @@
 package org.usfirst.frc.team1504.robot;
+import com.analog.adis16448.frc.ADIS16448_IMU;
 
 import java.nio.ByteBuffer;
 import java.util.TimerTask;
 import java.util.Timer;
 
 import java.lang.Math;
+
 
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 //import com.kauailabs.navx.frc.AHRS;
@@ -32,7 +34,8 @@ public class Drive implements Updatable
 	}
 	
 	private static final Drive instance = new Drive();
-	
+	 public static final ADIS16448_IMU imu = new ADIS16448_IMU();
+	 
 	private Thread _main_thread;
 	
 	private Thread _dumptruck;//BEEP BEEP BEEP BEEP BEEP BEEP BEEP
@@ -371,7 +374,7 @@ public class Drive implements Updatable
 	{
 		if (Math.abs(input[2]) < 0.001){
 			//correct for amount off
-			double off = 1.0; //get reading
+			double off = imu.getAngleX(); //get reading
 			double threshold = 5.0;//margin of error so it stops jittering.
 			if (Math.abs(off) > threshold){ //needs to be replaced with checking if the gyro is 0 yet.
 				 //get reading
@@ -380,7 +383,7 @@ public class Drive implements Updatable
 			}
 		} else
 		{
-			//reset imu
+			imu.reset();
 		}
 		return input;
 	}
