@@ -98,7 +98,7 @@ public class Autonomous
 		System.out.println("Autonomous loop started");
 	}
 	
-	public double follow_angle(int x, int y)
+	public double find_angle_theta(int x, int y)
 	{
 		
         double angle_theta = Math.toRadians(0.0);
