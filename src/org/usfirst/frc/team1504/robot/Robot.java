@@ -52,7 +52,6 @@ public class Robot extends RobotBase {
     /**
      * Create a new Robot
      */
-	public static String[] GAME_MESSAGE;
     public Robot() {
     	super();
     	Drive.initialize();
@@ -65,12 +64,12 @@ public class Robot extends RobotBase {
     	//RRL - Right side switch (closer), Right side scale, Left side switch (farther)
     	//System.out.println(new String(Base64.getDecoder().decode(Map.TEAM_BANNER)));
     	String message = _ds.getGameSpecificMessage();
-    	GAME_MESSAGE[0] = message.substring(0, 1);
-    	GAME_MESSAGE[1] = message.substring(1, 2);
-    	GAME_MESSAGE[2] = message.substring(2, 3);
+    	/*String[] game_message;
+    	game_message[0] = message.substring(0, 1);
+    	game_message[1] = message.substring(1, 2);
+    	game_message[2] = message.substring(2, 3);*/
     	
     }
-    
 
     /**
      * Robot-wide initialization code should go here.

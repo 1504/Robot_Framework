@@ -383,7 +383,7 @@ public class Drive implements Updatable
 			}
 		} else
 		{
-			//reset imu
+			imu.reset();
 		}
 		return input;
 	}
