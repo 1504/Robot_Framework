@@ -237,11 +237,11 @@ public class Robot extends RobotBase {
                 
                 if (new_message[1] == left && starting_position == left)
                 { 		
-                	// Set auton to run the LEFT_SCALE_SEQUENCE	
+                	_autonomous.setup_path(Map.AUTON_LEFT_SCALE_SEQUENCES);
                 }
                 else if (new_message[1] == right && starting_position == right)
                 {
-                	// Set auton to run the RIGHT_SCALE_SEQUENCE
+                	_autonomous.setup_path(Map.AUTON_RIGHT_SCALE_SEQUENCES);
                 }
                 else if (new_message[0] == 0)
                 {

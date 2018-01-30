@@ -216,16 +216,16 @@ public class Map {
     /*If at middle and left end is the goal + return to mid (ram, forward)
 	* If at middle and right end is goal + return to mid (ram, forward, right, forward, left, ram, back up, turn left, forward, turn right)
 	*/
-	public static final double[][] AUTON_SCALE_TO_RIGHT_FROM_MID_SEQUENCES = {{0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 2000}, {0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 2000}, {0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 500}, {0.0, 0.25, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 7, 1000}, {0.5, 0.0, 0.0, 0, 2000}, {-0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 8, 1000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 2000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.25, 0.0, 0, 1000}};
-	public static final double[][] AUTON_SCALE_TO_LEFT_FROM_MID_SEQUENCES = {{0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 2000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 2000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 500}, {0.0, 0.0, 0.25, 0, 1000}, {0.0, 0.0, 0.0, 7, 1000}, {0.5, 0.0, 0.0, 0, 2000}, {-0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 8, 1000}, {0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 2000}, {0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.25, 0, 1000}};
-	/*From middle and right end of scale is the goal + return to mid (turn right, forward, turn left, forward, turn left, forward, turn right, extend lift, ram, back up, return lift, turn right, forward, turn right, forward, turn right, forward, turn right)
-	  From middle and left end of scale is the goal + return to mid (turn left, forward, turn right, forward, turn right, forward, turn left, extend lift, ram, back up, return lift, turn left, forward, turn left, forward, turn left, forward, turn left) 
-	 */
 	public static final double[][] AUTON_PICKUP_FROM_MID_SEQUENCES =  {{0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 1, 500}, {0.0, 0.0, 0.0, 2, 500}, {0.0, 0.0, 0.0, 6, 50}, {0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 0, 1500}, {0.0, 0.0, 0.0, 5, 500}};
 	public static final double[][] AUTON_PORTAL_FROM_MID_SEQUENCES = {{0.0, 0.25, 0.0, 0, 1000}, {0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 25.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 1, 1000}, {0.0, 0.0, 0.0, 3, 1000}, {0.0, 0.0, 0.0, 9, 50}};
 	/*Going to the exchange from mid
 	 *Picking up a cube from mid
 	 * */
+	public static final double[][] AUTON_SCALE_TO_RIGHT_FROM_MID_SEQUENCES = {{0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 2000}, {0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 2000}, {0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 500}, {0.0, 0.25, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 7, 1000}, {0.5, 0.0, 0.0, 0, 2000}, {-0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 8, 1000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 2000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.25, 0.0, 0, 1000}};
+	public static final double[][] AUTON_SCALE_TO_LEFT_FROM_MID_SEQUENCES = {{0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 2000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 2000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 500}, {0.0, 0.0, 0.25, 0, 1000}, {0.0, 0.0, 0.0, 7, 1000}, {0.5, 0.0, 0.0, 0, 2000}, {-0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 8, 1000}, {0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 2000}, {0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.25, 0, 1000}};
+	/*From middle and right end of scale is the goal + return to mid (turn right, forward, turn left, forward, turn left, forward, turn right, extend lift, ram, back up, return lift, turn right, forward, turn right, forward, turn right, forward, turn right)
+	  From middle and left end of scale is the goal + return to mid (turn left, forward, turn right, forward, turn right, forward, turn left, extend lift, ram, back up, return lift, turn left, forward, turn left, forward, turn left, forward, turn left) 
+	 */
 	public static final double[][] AUTON_LEFT_SCALE_SEQUENCES = {{0.75, 0.0, 0.0, 0, 3000}, {0.0, 0.0, 0.25, 0, 1000}, {0.0, 0.0, 0.0, 7, 1000}, {0.0, 0.0, 0.0, 10, 1000}};
 	/* Drive forward to the scale, turn right, raise the lift, drop the plate
 	 */
