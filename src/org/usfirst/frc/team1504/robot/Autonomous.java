@@ -219,4 +219,10 @@ public class Autonomous
 			}
 		}
 	}
+	public void auton_slam() {
+		//Dummy values for camera inputs
+		int camera_input_X = 10;
+		int camera_input_Y = 10;
+		double[][] AUTON_SLAM_SEQUENCE = {{0.0, 0.25, 0.0, 0, (find_angle_theta(camera_input_X,camera_input_Y)/(Math.PI/2))*1000}, {0.5, 0.0, 0.0, 0}};
+	}
 }
