@@ -98,6 +98,16 @@ public class Autonomous
 		System.out.println("Autonomous loop started");
 	}
 	
+	public double follow_angle(int x, int y)
+	{
+		
+        double angle_theta = Math.toRadians(0.0);
+        angle_theta = Math.atan((x-128) / (128 - y));
+        return angle_theta;
+	
+	}
+	
+	
 	public void stop()
 	{
 		_drive.drive_inputs(0.0, 0.0, 0.0);
