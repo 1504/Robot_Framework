@@ -101,8 +101,10 @@ public class Autonomous
 	public double find_angle_theta(int x, int y)
 	{
 		
+		long camera_height = 128;
+		long camera_width = 256;
         double angle_theta = Math.toRadians(0.0);
-        angle_theta = Math.atan((x-128) / (128 - y));
+        angle_theta = Math.atan((x - (camera_width / 2)) / (y - camera_height));
         return angle_theta;
 	
 	}
@@ -216,5 +218,11 @@ public class Autonomous
 				e.printStackTrace();
 			}
 		}
+	}
+	public void auton_slam() {
+		//Dummy values for camera inputs
+		int camera_input_X = 10;
+		int camera_input_Y = 10;
+		double[][] AUTON_SLAM_SEQUENCE = {{0.0, 0.25, 0.0, 0, (find_angle_theta(camera_input_X,camera_input_Y)/(Math.PI/2))*1000}, {0.5, 0.0, 0.0, 0}};
 	}
 }
