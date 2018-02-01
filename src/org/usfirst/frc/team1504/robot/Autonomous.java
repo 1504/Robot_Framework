@@ -57,7 +57,18 @@ public class Autonomous
 		System.out.println("Auto Nom Ous");
 		
 	}
-	
+	/*
+	public static void check_to_scale() 
+	{
+		if(robot_position == Robot.GAME_MESSAGE[1]) 
+		{
+			//run
+		} else () 
+		{
+			//don't run
+		}
+	}
+	*/
 	public static Autonomous getInstance()
 	{
 		return instance;

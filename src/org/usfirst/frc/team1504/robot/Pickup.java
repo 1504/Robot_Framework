@@ -73,70 +73,42 @@ public class Pickup implements Updatable {
 	
 	public void arm_top() //moves arm to top
 	{
-		Thread thread = new Thread(new Runnable()
-		{
-		   public void run()
-		   {
-			   while(true) { //put sensor condition here
-					if(_arm.getSelectedSensorPosition(0) < Map.ARM_UP_ANGLE && _lift.pickup_safe()){ 
-						set_arm_speed(Map.ARM_SPEED);
-					} else{
-						set_arm_speed(0);
-						System.out.println("Pickup started intaking.");
-					}
-				}
-		   }
-		});
-		thread.run();
+		if(_arm.getSelectedSensorPosition(0) < Map.ARM_UP_ANGLE && _lift.pickup_safe()){ 
+			set_arm_speed(Map.ARM_SPEED);
+		} else{
+			set_arm_speed(0);
+			System.out.println("Pickup started intaking.");
+		}
 	}
 	
 	public void arm_middle() //moves arm to middle
 	{
-		Thread thread = new Thread(new Runnable()
+		if(_arm.getSelectedSensorPosition(0) > Map.ARM_MID_ANGLE)
 		{
-		   public void run()
-		   {
-			   while(true) { //put sensor condition here
-					if(_arm.getSelectedSensorPosition(0) > Map.ARM_MID_ANGLE)
-					{
-						set_arm_speed(-Map.ARM_SPEED);
-					}
-					else if (_arm.getSelectedSensorPosition(0) < Map.ARM_MID_ANGLE)
-					{
-						set_arm_speed(Map.ARM_SPEED);
-					}
-					else
-					{
-						set_arm_speed(0);
-						System.out.println("Pickup started intaking.");
-					}
-					}
-		   }
-		});
-		thread.run();
+			set_arm_speed(-Map.ARM_SPEED);
+		}
+		else if (_arm.getSelectedSensorPosition(0) < Map.ARM_MID_ANGLE)
+		{
+			set_arm_speed(Map.ARM_SPEED);
+		}
+		else
+		{
+			set_arm_speed(0);
+			System.out.println("Pickup started intaking.");
+		}
 	}
 	
 	public void arm_bottom() //moves arm to bottom
 	{
-		Thread thread = new Thread(new Runnable()
+		if(_arm.getSelectedSensorPosition(0) > Map.ARM_DOWN_ANGLE)
 		{
-		   public void run()
-		   {
-			   while(true) { //put sensor condition here
-					if(_arm.getSelectedSensorPosition(0) > Map.ARM_DOWN_ANGLE)
-					{
-						set_arm_speed(-Map.ARM_SPEED);
-					}
-					
-					else
-					{
-						set_arm_speed(0);
-						System.out.println("Pickup stopped intaking.");
-					}
-					}
-		   }
-		});
-		thread.run();
+			set_arm_speed(-Map.ARM_SPEED);
+		}
+		else
+		{
+			set_arm_speed(0);
+			System.out.println("Pickup stopped intaking.");
+		}
 	}
 	
 	public void open_arm() //extends piston between arms to grab cube
