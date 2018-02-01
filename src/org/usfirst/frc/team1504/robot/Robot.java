@@ -8,6 +8,8 @@ import org.usfirst.frc.team1504.robot.Arduino.INTAKE_LIGHT_MODE;
 import org.usfirst.frc.team1504.robot.Arduino.PARTY_MODE;
 import org.usfirst.frc.team1504.robot.Arduino.SHOOTER_STATUS;
 
+import com.analog.adis16448.frc.ADIS16448_IMU;
+
 //import java.io.BufferedReader;
 //import java.io.IOException;
 //import java.io.InputStreamReader;
@@ -161,17 +163,33 @@ public class Robot extends RobotBase {
     
     public void test() {
     	System.out.println("Test Mode!");
-    	DoubleSolenoid _piston1 = new DoubleSolenoid(0, 1);
+    	ADIS16448_IMU imu = new ADIS16448_IMU();
+    	/*DoubleSolenoid _piston1 = new DoubleSolenoid(0, 1);
     	WPI_TalonSRX _motor = new WPI_TalonSRX(Map.ARM_TALON_PORT);
 		Latch_Joystick control = new Latch_Joystick(0);
-		double magic = 1.0;
+		double magic = 1.0;*/
 //    	CameraInterface ci = CameraInterface.getInstance();
     	//ci.set_mode(CameraInterface.CAMERA_MODE.MULTI);
     	//ci.set_mode(CameraInterface.CAMERA_MODE.SINGLE); 4 or 5
     	while (isTest() && isEnabled())
     	{
-    		
-    		if(control.getRawButton(1)) {
+    		System.out.println("Gyro-X"+imu.getAngleX());
+    	    System.out.println("Gyro-Y"+imu.getAngleY());
+    	    System.out.println("Gyro-Z"+imu.getAngleZ());
+    	    
+    	    System.out.println("Accel-X"+imu.getAccelX());
+    	    System.out.println("Accel-Y"+imu.getAccelY());
+    	    System.out.println("Accel-Z"+imu.getAccelZ());
+    	    
+    	    System.out.println("Pitch"+imu.getPitch());
+    	    System.out.println("Roll"+imu.getRoll());
+    	    System.out.println("Yaw"+imu.getYaw());
+    	    
+    	    System.out.println("Pressure: "+imu.getBarometricPressure());
+    	    System.out.println("Temperature: "+imu.getTemperature()); 
+    	    //Timer.delay(1000);
+    		//System.out.println("Test Mode!");
+    		/*if(control.getRawButton(1)) {
     			_piston1.set(DoubleSolenoid.Value.kForward);
     		} else if (control.getRawButton(2)) {
     			_piston1.set(DoubleSolenoid.Value.kReverse);
@@ -190,7 +208,7 @@ public class Robot extends RobotBase {
     		}
     		else{
         		_motor.set(control.getRawAxis(1)/magic);
-    		}
+    		}*/
     		
     		// Switch camera views every 5 seconds like a pro
 //    		ci.set_active_camera(ci.get_active_camera() == CameraInterface.CAMERAS.GEARSIDE ? CameraInterface.CAMERAS.INTAKESIDE : CameraInterface.CAMERAS.GEARSIDE);
