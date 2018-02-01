@@ -52,20 +52,20 @@ public class Lift implements Updatable
 	{
 		if (IO.get_override_lift())
 		{
-			_motor.set(IO.intake_input());
+			set_lift_speed(IO.intake_input());
 		}
 
 		if (get_top_lift_sensor) 
 		{
-			_motor.set(0);
+			set_lift_speed(0);
 			System.out.println("At top, stopping");
 			if (IO.get_lift_up()) 
 			{
-				_motor.set(0);
+				set_lift_speed(0);
 			}
 			if(IO.get_lift_down() && _pickup.lift_safe()) 
 			{
-				_motor.set(Map.LIFT_DOWN);
+				set_lift_speed(Map.LIFT_DOWN);
 			}
 		}
 		else 
@@ -74,15 +74,15 @@ public class Lift implements Updatable
 		}
 		
 		if (get_bottom_lift_sensor) {
-			_motor.set(0);
+			set_lift_speed(0);
 			System.out.println("At bottom, stopping");
 			if (IO.get_lift_down()) 
 			{
-				_motor.set(0);
+				set_lift_speed(0);
 			}
 			if(IO.get_lift_up() && _pickup.lift_safe()) 
 			{
-				_motor.set(Map.LIFT_UP);
+				set_lift_speed(Map.LIFT_UP);
 			}
 		}
 		else 
@@ -122,21 +122,21 @@ public class Lift implements Updatable
 	{
 		if (get_top_lift_sensor) 
 		{
-			_motor.set(0);
+			set_lift_speed(0);
 			System.out.println("At top, stopping");
 			if (IO.get_lift_up()) 
 			{
-				_motor.set(0);
+				set_lift_speed(0);
 			}
 			if(IO.get_lift_down() && _pickup.lift_safe()) 
 			{
-				_motor.set(Map.LIFT_DOWN);
+				set_lift_speed(Map.LIFT_DOWN);
 			}
 		}
 		else 
 		{
 			System.out.println("Not at top...");
-			_motor.set(Map.LIFT_MOTOR_SPEED);
+			set_lift_speed(Map.LIFT_MOTOR_SPEED);
 		}
 	}
 	
@@ -144,9 +144,9 @@ public class Lift implements Updatable
 	{
 		if (get_elevator_height() == Map.LIFT_MAX_HEIGHT / 2)
 			{
-			_motor.set(0);
+			set_lift_speed(0);
 			System.out.println("At middle, stopping");
-			_motor.set(Map.LIFT_MOTOR_SPEED);
+			set_lift_speed(Map.LIFT_MOTOR_SPEED);
 		}
 	}
 	
@@ -154,17 +154,17 @@ public class Lift implements Updatable
 	{
 		if (get_bottom_lift_sensor)
 			{
-			_motor.set(0);
+			set_lift_speed(0);
 			System.out.println("At bottom, stopping");
 			if (IO.get_lift_down())
 			{
-				_motor.set(0);
+				set_lift_speed(0);
 			}
 			}
 		else
 			{
 			System.out.println("Not at bottom...");
-			_motor.set(Map.LIFT_MOTOR_SPEED);
+			set_lift_speed(Map.LIFT_MOTOR_SPEED);
 		}
 	}
 	
@@ -184,5 +184,9 @@ public class Lift implements Updatable
 		{
 			return ((Map.LIFT_MAX_HEIGHT-get_elevator_height())/Map.LIFT_MAX_HEIGHT);
 		}
+	}
+	
+	private void set_lift_speed(double speed) {
+		_motor.set(speed);
 	}
 }
