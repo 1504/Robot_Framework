@@ -166,7 +166,7 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 1) //bring arm down
 			{
-				_pickup.set_state(Pickup.arm.DOWN);
+				_pickup.set_state(Pickup.arm_position.DOWN);
 			}
 			else if(_path[step][3] == 2) //open arm
 			{
@@ -178,7 +178,7 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 4) //bring arm up
 			{
-				_pickup.set_state(Pickup.arm.UP);
+				_pickup.set_state(Pickup.arm_position.UP);
 			}
 			else if(_path[step][3] == 5) //close arm
 			{

@@ -13,8 +13,8 @@ public class Pickup implements Updatable {
 	private Lift _lift = Lift.getInstance();
 	
 	
-	public enum arm {UP, DOWN, MIDDLE}; // declares states of arms
-	public static arm arm_state = arm.DOWN; // sets arms to be down at beginning of match
+	public enum arm_position {UP, DOWN, MIDDLE}; // declares states of arms
+	public static arm_position arm_state = arm_position.DOWN; // sets arms to be down at beginning of match
 	
 	private static final Pickup instance = new Pickup();
 	
@@ -128,15 +128,15 @@ public class Pickup implements Updatable {
 	}
 	private void update_mode() //checks if pickup is in progress
 	{
-		if (arm_state == arm.UP)
+		if (arm_state == arm_position.UP)
 		{
 			arm_bottom();
 		}
-		else if (arm_state == arm.DOWN)
+		else if (arm_state == arm_position.DOWN)
 		{
 			arm_top();
 		}
-		else if (arm_state == arm.MIDDLE);
+		else if (arm_state == arm_position.MIDDLE);
 		{
 			arm_middle();
 		}
@@ -159,7 +159,7 @@ public class Pickup implements Updatable {
 
 		}
 	
-	public void set_state(arm state) //sets position of arm
+	public void set_state(arm_position state) //sets position of arm
 	{
 		arm_state = state;
 	}
