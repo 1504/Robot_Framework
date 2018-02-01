@@ -3,6 +3,8 @@ package org.usfirst.frc.team1504.robot;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.stream.Stream;
+
+import org.usfirst.frc.team1504.robot.Pickup;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class Autonomous 
@@ -164,7 +166,7 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 1) //bring arm down
 			{
-				_pickup.arm_bottom();
+				_pickup.set_state(Pickup.arm.DOWN);
 			}
 			else if(_path[step][3] == 2) //open arm
 			{
@@ -176,7 +178,7 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 4) //bring arm up
 			{
-				_pickup.arm_top();
+				_pickup.set_state(Pickup.arm.UP);
 			}
 			else if(_path[step][3] == 5) //close arm
 			{

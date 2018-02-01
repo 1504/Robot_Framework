@@ -14,7 +14,7 @@ public class Pickup implements Updatable {
 	
 	
 	public enum arm {UP, DOWN, MIDDLE}; // declares states of arms
-	public arm arm_state = arm.DOWN; // sets arms to be down at beginning of match
+	public static arm arm_state = arm.DOWN; // sets arms to be down at beginning of match
 	
 	private static final Pickup instance = new Pickup();
 	
@@ -128,7 +128,18 @@ public class Pickup implements Updatable {
 	}
 	private void update_mode() //checks if pickup is in progress
 	{
-		
+		if (arm_state == arm.UP)
+		{
+			arm_bottom();
+		}
+		else if (arm_state == arm.DOWN)
+		{
+			arm_top();
+		}
+		else if (arm_state == arm.MIDDLE);
+		{
+			arm_middle();
+		}
 		if (IO.get_pickup_on())
 		{
 			open_arm();
@@ -150,18 +161,7 @@ public class Pickup implements Updatable {
 	
 	public void set_state(arm state) //sets position of arm
 	{
-		if (state == arm.UP)
-		{
-			arm_bottom();
-		}
-		else if (state == arm.DOWN)
-		{
-			arm_top();
-		}
-		else if (state == arm.MIDDLE);
-		{
-			arm_middle();
-		}
+		arm_state = state;
 	}
 
 	private void override_pickup() //allows driver to abort a pickup
