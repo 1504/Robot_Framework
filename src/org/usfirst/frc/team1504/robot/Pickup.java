@@ -50,7 +50,7 @@ public class Pickup implements Updatable {
 		_arm.set(ControlMode.Velocity, speed);
 	}
 	
-	public void set_flipper_speed(double speed) //sets both the right and left flipper speeds
+	public void set_intake_speed(double speed) //sets both the right and left flipper speeds
 	{
 		_grab_left.set(speed);
 		_grab_right.set(-speed);
@@ -58,17 +58,17 @@ public class Pickup implements Updatable {
 	
 	public void flipper_intake() // sets rotors to spin cube in
 	{
-		set_flipper_speed(Map.ROLLER_SPEED);
+		set_intake_speed(Map.ROLLER_SPEED);
 	}
 	
 	public void flipper_excrete() // sets rollers to spit cube out
 	{
-		set_flipper_speed(-Map.ROLLER_SPEED);
+		set_intake_speed(-Map.ROLLER_SPEED);
 	}
 	
 	public void flipper_stop() 
 	{
-		set_flipper_speed(0);
+		set_intake_speed(0);
 	}
 	
 	public void arm_top() //moves arm to top
@@ -168,7 +168,7 @@ public class Pickup implements Updatable {
 	{
 		if (IO.get_override_pickup())
 		{
-			set_flipper_speed(IO.intake_input()*Map.FLIPPER_MAGIC);
+			set_intake_speed(IO.intake_input()*Map.FLIPPER_MAGIC);
 		}
 	}
 	public void semaphore_update() //updates robot information
