@@ -190,11 +190,11 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 7) //extend lift all the way up
 			{
-				_lift.set_lift_state(Lift.lift_position.TOP);
+				_lift.set_state(Lift.lift_position.TOP);
 			}
 			else if(_path[step][3] == 8) //extend lift all the way down
 			{
-				_lift.set_lift_state(Lift.lift_position.BOTTOM);
+				_lift.set_state(Lift.lift_position.BOTTOM);
 			}
 			else if(_path[step][3] == 9) //stop flippers
 			{
