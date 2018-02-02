@@ -4,6 +4,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Lift implements Updatable
 {
+	public enum lift_position {TOP, MIDDLE, BOTTOM};
+	public static lift_position lift_state = lift_position.BOTTOM;
 	
 	private WPI_TalonSRX _motor; // declared for future use
 	private Pickup _pickup = Pickup.getInstance();// declared for future use 
@@ -46,6 +48,22 @@ public class Lift implements Updatable
 			get_top_lift_sensor = false;
 			get_bottom_lift_sensor = false;
 		}
+		if(lift_state == lift.TOP) {
+			System.out.println("Lifting things en la Estados Unidos");
+			lift_top();
+		}
+		if(lift_state == lift.MIDDLE) {
+			System.out.println("Take mid!");
+			lift_middle();
+		}
+		if(lift_state == lift.BOTTOM) {
+			System.out.println("Low low low low low low low");
+			lift_bottom();
+		}
+	}
+	
+	public void set_lift_state(lift_position state) {
+		lift_state = state;
 	}
 	
 	private void set_motor() //sets the position of the lift
