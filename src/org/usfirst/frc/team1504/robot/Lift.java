@@ -48,21 +48,21 @@ public class Lift implements Updatable
 			get_top_lift_sensor = false;
 			get_bottom_lift_sensor = false;
 		}
-		if(lift_state == lift.TOP) {
+		if(lift_state == lift_position.TOP) {
 			System.out.println("Lifting things en la Estados Unidos");
 			lift_top();
 		}
-		if(lift_state == lift.MIDDLE) {
+		if(lift_state == lift_position.MIDDLE) {
 			System.out.println("Take mid!");
 			lift_middle();
 		}
-		if(lift_state == lift.BOTTOM) {
+		if(lift_state == lift_position.BOTTOM) {
 			System.out.println("Low low low low low low low");
 			lift_bottom();
 		}
 	}
 	
-	public void set_lift_state(lift_position state) {
+	public void set_state(lift_position state) {
 		lift_state = state;
 	}
 	

@@ -174,7 +174,7 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 3) //eject cube
 			{
-				_pickup.set_flipper_speed(-0.8);
+				_pickup.set_intake_speed(-0.8);
 			}
 			else if(_path[step][3] == 4) //bring arm up
 			{
@@ -186,15 +186,15 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 6) //intake a cube
 			{
-				_pickup.set_flipper_speed(0.8);
+				_pickup.set_intake_speed(0.8);
 			}
 			else if(_path[step][3] == 7) //extend lift all the way up
 			{
-				_lift.set_lift_state(Lift.lift_position.TOP);
+				_lift.set_state(Lift.lift_position.TOP);
 			}
 			else if(_path[step][3] == 8) //extend lift all the way down
 			{
-				_lift.set_lift_state(Lift.lift_position.BOTTOM);
+				_lift.set_state(Lift.lift_position.BOTTOM);
 			}
 			else if(_path[step][3] == 9) //stop flippers
 			{
