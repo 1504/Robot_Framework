@@ -176,7 +176,10 @@ public class Pickup implements Updatable {
 	{
 		arm_state = state;
 	}
-
+	public void set_state(flipper state) //sets position of arm
+	{
+		flipper_state = state;
+	}
 	private void override_pickup() //allows driver to abort a pickup
 	{
 		if (IO.get_override_pickup())
