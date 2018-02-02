@@ -21,20 +21,18 @@ public class Lift implements Updatable
 		Update_Semaphore.getInstance().register(this);
 	}
 	
-
 	private void update_mode() //checks where the lift is
 	{
 		if (IO.get_lift_on())
 		{
 			System.out.println("Lifting things");
-			lift_top();
+			lift_state = lift_position.TOP;
 		}
 		else if (IO.get_lift_off())
 		{
 			_motor.set(0);
 			System.out.println("Not lifting things");
 		}
-		
 		if (get_elevator_height() == Map.LIFT_MAX_HEIGHT) 
 		{
 			get_top_lift_sensor = true;
@@ -48,21 +46,60 @@ public class Lift implements Updatable
 			get_top_lift_sensor = false;
 			get_bottom_lift_sensor = false;
 		}
-		if(lift_state == lift_position.TOP) {
+		if(lift_state == lift_position.TOP) 
+		{
 			System.out.println("Lifting things en la Estados Unidos");
-			lift_top();
+			if (get_top_lift_sensor) 
+			{
+				set_lift_speed(0);
+				System.out.println("At top, stopping");
+				if (IO.get_lift_up()) 
+				{
+					set_lift_speed(0);
+				}
+				if(IO.get_lift_down() && _pickup.lift_safe()) 
+				{
+					set_lift_speed(Map.LIFT_DOWN);
+				}
+			}
+			else 
+			{
+				System.out.println("Not at top...");
+				set_lift_speed(Map.LIFT_MOTOR_SPEED);
+			}
 		}
-		if(lift_state == lift_position.MIDDLE) {
+		if(lift_state == lift_position.MIDDLE) 
+		{
 			System.out.println("Take mid!");
-			lift_middle();
+			if (get_elevator_height() == Map.LIFT_MAX_HEIGHT / 2)
+			{
+				set_lift_speed(0);
+				System.out.println("At middle, stopping");
+				set_lift_speed(Map.LIFT_MOTOR_SPEED);
+			}
 		}
-		if(lift_state == lift_position.BOTTOM) {
+		if(lift_state == lift_position.BOTTOM) 
+		{
 			System.out.println("Low low low low low low low");
-			lift_bottom();
+			if (get_bottom_lift_sensor)
+			{
+				set_lift_speed(0);
+				System.out.println("At bottom, stopping");
+				if (IO.get_lift_down())
+				{
+					set_lift_speed(0);
+				}
+			}
+			else
+			{
+				System.out.println("Not at bottom...");
+				set_lift_speed(Map.LIFT_MOTOR_SPEED);
+			}
 		}
 	}
 	
-	public void set_state(lift_position state) {
+	public void set_state(lift_position state)
+	{
 		lift_state = state;
 	}
 	
@@ -72,7 +109,6 @@ public class Lift implements Updatable
 		{
 			set_lift_speed(IO.intake_input());
 		}
-
 		if (get_top_lift_sensor) 
 		{
 			set_lift_speed(0);
@@ -90,8 +126,8 @@ public class Lift implements Updatable
 		{
 			System.out.println("Not at top...");
 		}
-		
-		if (get_bottom_lift_sensor) {
+		if (get_bottom_lift_sensor) 
+		{
 			set_lift_speed(0);
 			System.out.println("At bottom, stopping");
 			if (IO.get_lift_down()) 
@@ -109,89 +145,6 @@ public class Lift implements Updatable
 		}
 	}
 	
-	
-	public static Lift getInstance() //returns instance
-	{
-		return instance;
-	}
-		
-	public static void initialize() // returns instance
-	{
-		getInstance();
-	}
-	
-	public static double get_elevator_height() // i don't think this is finished?
-	{
-		return 0.0; //_blahblahblah.magneticEncoder;
-	}
-	
-	public void plate_angle(double angle) // Sets angle of lift plate
-	{
-		// return true;
-	}
-	
-	public void semaphore_update() //updates data from robot
-	{
-		update_mode();
-		set_motor();
-	}
-	
-	public void lift_top()//toggle based (no manual input, rises to top)
-	{
-		if (get_top_lift_sensor) 
-		{
-			set_lift_speed(0);
-			System.out.println("At top, stopping");
-			if (IO.get_lift_up()) 
-			{
-				set_lift_speed(0);
-			}
-			if(IO.get_lift_down() && _pickup.lift_safe()) 
-			{
-				set_lift_speed(Map.LIFT_DOWN);
-			}
-		}
-		else 
-		{
-			System.out.println("Not at top...");
-			set_lift_speed(Map.LIFT_MOTOR_SPEED);
-		}
-	}
-	
-	public void lift_middle()//toggle based (no manual input, moves to middle)
-	{
-		if (get_elevator_height() == Map.LIFT_MAX_HEIGHT / 2)
-			{
-			set_lift_speed(0);
-			System.out.println("At middle, stopping");
-			set_lift_speed(Map.LIFT_MOTOR_SPEED);
-		}
-	}
-	
-	public void lift_bottom()//toggle based (no manual input, falls to bottom)
-	{
-		if (get_bottom_lift_sensor)
-			{
-			set_lift_speed(0);
-			System.out.println("At bottom, stopping");
-			if (IO.get_lift_down())
-			{
-				set_lift_speed(0);
-			}
-			}
-		else
-			{
-			System.out.println("Not at bottom...");
-			set_lift_speed(Map.LIFT_MOTOR_SPEED);
-		}
-	}
-	
-	public boolean pickup_safe() //checks if it is safe to move lift so it won't crash into things
-	{
-		return (get_elevator_height() < 5);
-	}
-	
-	
 	public double lift_speed(int speed)//Toggle based (position based, y)
 	{
 		if(speed == 1)//v = x^2
@@ -206,5 +159,36 @@ public class Lift implements Updatable
 	
 	private void set_lift_speed(double speed) {
 		_motor.set(speed);
+	}
+	
+	public static double get_elevator_height() // i don't think this is finished?
+	{
+		return 0.0; //_blahblahblah.magneticEncoder;
+	}
+	
+	public boolean pickup_safe() //checks if it is safe to move lift so it won't crash into things
+	{
+		return (get_elevator_height() < 5);
+	}
+	
+	public void plate_angle(double angle) // Sets angle of lift plate
+	{
+		// return true;
+	}
+	
+	public static Lift getInstance() //returns instance
+	{
+		return instance;
+	}
+		
+	public static void initialize() // returns instance
+	{
+		getInstance();
+	}
+	
+	public void semaphore_update() //updates data from robot
+	{
+		update_mode();
+		set_motor();
 	}
 }
