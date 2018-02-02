@@ -16,6 +16,9 @@ public class Pickup implements Updatable {
 	public enum arm_position {UP, DOWN, MIDDLE}; // declares states of arms
 	public static arm_position arm_state = arm_position.DOWN; // sets arms to be down at beginning of match
 	
+	public enum flipper {OPEN, CLOSE}; // declares states of flippers
+	public static flipper flipper_state = flipper.CLOSE; // sets flippers to be closed at beginning of match
+	
 	private static final Pickup instance = new Pickup();
 	
 	public static Pickup getInstance() // sets instance
@@ -111,12 +114,12 @@ public class Pickup implements Updatable {
 		}
 	}
 	
-	public void open_arm() //extends piston between arms to grab cube
+	public void open_flipper() //extends piston between arms to grab cube
 	{
 		_grab_piston.set(DoubleSolenoid.Value.kForward);
 	}
 	
-	public void close_arm() // closes space between arms with piston
+	public void close_flipper() // closes space between arms with piston
 	{
 		_grab_piston.set(DoubleSolenoid.Value.kReverse);
 	}
@@ -140,9 +143,19 @@ public class Pickup implements Updatable {
 		{
 			arm_middle();
 		}
+		
+		if (flipper_state == flipper.CLOSE)
+		{
+			close_flipper();
+		}
+		else if (flipper_state == flipper.OPEN);
+		{
+			open_flipper();
+		}
+		
 		if (IO.get_pickup_on())
 		{
-			open_arm();
+			open_flipper();
 			//drop both cantalons based on sensor. Fake code for now
 			arm_top();
 			System.out.println("Pickup is intaking some cubes.");
@@ -150,7 +163,7 @@ public class Pickup implements Updatable {
 		}
 		else if (IO.get_pickup_off())
 		{
-			close_arm();
+			close_flipper();
 			
 			//pick up both cantalons based on sensor. Fake code for now
 			arm_bottom();
