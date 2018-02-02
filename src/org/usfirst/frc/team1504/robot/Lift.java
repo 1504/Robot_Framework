@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Lift implements Updatable
 {
-	public enum lift_position {TOP, MIDDLE, BOTTOM};
+	public enum lift_position {TOP, MIDDLE, BOTTOM, OFF};
 	public static lift_position lift_state = lift_position.BOTTOM;
 	
 	private WPI_TalonSRX _motor; // declared for future use
@@ -30,8 +30,9 @@ public class Lift implements Updatable
 		}
 		else if (IO.get_lift_off())
 		{
-			_motor.set(0);
 			System.out.println("Not lifting things");
+			lift_state = lift_position.OFF;
+			set_lift_speed(0);
 		}
 		if (get_elevator_height() == Map.LIFT_MAX_HEIGHT) 
 		{
@@ -48,7 +49,7 @@ public class Lift implements Updatable
 		}
 		if(lift_state == lift_position.TOP) 
 		{
-			System.out.println("Lifting things en la Estados Unidos");
+			System.out.println("Lifting things in the states");
 			if (get_top_lift_sensor) 
 			{
 				set_lift_speed(0);
