@@ -5,6 +5,8 @@ import java.util.TimerTask;
 import java.util.stream.Stream;
 
 import org.usfirst.frc.team1504.robot.Pickup;
+import org.usfirst.frc.team1504.robot.Pickup.flipper;
+
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class Autonomous 
@@ -170,7 +172,7 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 2) //open arm
 			{
-				_pickup.open_arm();
+				_pickup.set_state(Pickup.flipper.OPEN);
 			}
 			else if(_path[step][3] == 3) //eject cube
 			{
@@ -182,7 +184,7 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 5) //close arm
 			{
-				_pickup.close_arm();
+				_pickup.set_state(Pickup.flipper.CLOSE);
 			}
 			else if(_path[step][3] == 6) //intake a cube
 			{
