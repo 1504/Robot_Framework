@@ -142,34 +142,15 @@ public class Pickup implements Updatable {
 		
 		if (IO.get_pickup_on())
 		{
-			open_flipper();
-			//drop both cantalons based on sensor. Fake code for now
-			if(_arm.getSelectedSensorPosition(0) < Map.ARM_UP_ANGLE && _lift.pickup_safe()){ 
-				set_arm_speed(Map.ARM_SPEED);
-			} else{
-				set_arm_speed(0);
-				System.out.println("Pickup started intaking.");
-			}
-			System.out.println("Pickup is intaking some cubes.");
-
+			set_state(flipper.OPEN);
+			set_state(arm_position.DOWN);
 		}
 		else if (IO.get_pickup_off())
 		{
+			set_state(flipper.CLOSE);
+			set_state(arm_position.UP);
 			close_flipper();
-			
-			//pick up both cantalons based on sensor. Fake code for now
-			if(_arm.getSelectedSensorPosition(0) > Map.ARM_DOWN_ANGLE)
-			{
-				set_arm_speed(-Map.ARM_SPEED);
 			}
-			else
-			{
-				set_arm_speed(0);
-				System.out.println("Pickup stopped intaking.");
-			}
-			System.out.println("Pickup is ejecting some cubes.");
-			}
-
 		}
 	
 	public void set_state(arm_position state) //sets position of arm
