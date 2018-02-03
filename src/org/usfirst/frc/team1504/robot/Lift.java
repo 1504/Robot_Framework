@@ -124,9 +124,9 @@ public class Lift implements Updatable
 		_motor.set(speed);
 	}
 	
-	public static double get_lift_height() // i don't think this is finished?
+	public double get_lift_height() 
 	{
-		return 0.0; //_blahblahblah.magneticEncoder;
+		return _motor.getSelectedSensorPosition(0);
 	}
 	
 	public boolean pickup_safe() //checks if it is safe to move lift so it won't crash into things
