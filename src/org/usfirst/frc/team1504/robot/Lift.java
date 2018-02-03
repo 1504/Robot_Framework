@@ -4,7 +4,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Lift implements Updatable
 {
-	public enum lift_position {TOP, MIDDLE, BOTTOM, OFF};
+	public enum lift_position {BOTTOM, MIDDLE, TOP};
+	public double[] lift_height = {Map.LIFT_MIN_HEIGHT, Map.LIFT_MAX_HEIGHT/2, Map.LIFT_MAX_HEIGHT};
 	public static lift_position lift_state = lift_position.BOTTOM;
 	
 	private WPI_TalonSRX _motor; // declared for future use
@@ -23,17 +24,19 @@ public class Lift implements Updatable
 	
 	private void update_mode() //checks where the lift is
 	{
+		/*
 		if (IO.get_lift_on())
 		{
-			System.out.println("Lifting things");
+			System.out.println("Lifting");
 			lift_state = lift_position.TOP;
 		}
 		else if (IO.get_lift_off())
 		{
-			System.out.println("Not lifting things");
+			System.out.println("Not lifting");
 			lift_state = lift_position.OFF;
-			set_lift_speed(0);
+			set_lift_velocity(0);
 		}
+		*/
 		if (get_elevator_height() == Map.LIFT_MAX_HEIGHT) 
 		{
 			get_top_lift_sensor = true;
@@ -47,56 +50,67 @@ public class Lift implements Updatable
 			get_top_lift_sensor = false;
 			get_bottom_lift_sensor = false;
 		}
+		
+		if(_pickup.lift_safe()) 
+		{
+			set_lift_velocity((lift_height[lift_state.ordinal()]-get_elevator_height())/Map.LIFT_MAX_HEIGHT);
+			//sets lift velocity based on how far away the target is and where it is.
+			//finds target height by finding element of lift_state then finds its height element in the lift_height array
+			//	lift_state[2] = top, lift_height[2] = LIFT_MAX_HEIGHT
+		}
+		
+		/*
 		if(lift_state == lift_position.TOP) 
 		{
-			System.out.println("Lifting things in the states");
+			System.out.println("Lifting");
 			if (get_top_lift_sensor) 
 			{
-				set_lift_speed(0);
+				set_lift_velocity(0);
 				System.out.println("At top, stopping");
 				if (IO.get_lift_up()) 
 				{
-					set_lift_speed(0);
+					set_lift_velocity(0);
 				}
 				if(IO.get_lift_down() && _pickup.lift_safe()) 
 				{
-					set_lift_speed(Map.LIFT_DOWN);
+					set_lift_velocity(Map.LIFT_DOWN);
 				}
 			}
 			else 
 			{
 				System.out.println("Not at top...");
-				set_lift_speed(Map.LIFT_MOTOR_SPEED);
+				set_lift_velocity(Map.LIFT_MOTOR_SPEED);
 			}
 		}
 		if(lift_state == lift_position.MIDDLE) 
 		{
-			System.out.println("Take mid!");
+			System.out.println("Going to middle");
 			if (get_elevator_height() == Map.LIFT_MAX_HEIGHT / 2)
 			{
-				set_lift_speed(0);
+				set_lift_velocity(0);
 				System.out.println("At middle, stopping");
-				set_lift_speed(Map.LIFT_MOTOR_SPEED);
+				set_lift_velocity(Map.LIFT_MOTOR_SPEED);
 			}
 		}
 		if(lift_state == lift_position.BOTTOM) 
 		{
-			System.out.println("Low low low low low low low");
+			System.out.println("Going to the bottom");
 			if (get_bottom_lift_sensor)
 			{
-				set_lift_speed(0);
+				set_lift_velocity(0);
 				System.out.println("At bottom, stopping");
 				if (IO.get_lift_down())
 				{
-					set_lift_speed(0);
+					set_lift_velocity(0);
 				}
 			}
 			else
 			{
 				System.out.println("Not at bottom...");
-				set_lift_speed(Map.LIFT_MOTOR_SPEED);
+				set_lift_velocity(Map.LIFT_MOTOR_SPEED);
 			}
 		}
+		*/
 	}
 	
 	public void set_state(lift_position state)
@@ -108,19 +122,19 @@ public class Lift implements Updatable
 	{
 		if (IO.get_override_lift())
 		{
-			set_lift_speed(IO.intake_input());
+			set_lift_velocity(IO.intake_input());
 		}
 		if (get_top_lift_sensor) 
 		{
-			set_lift_speed(0);
+			set_lift_velocity(0);
 			System.out.println("At top, stopping");
 			if (IO.get_lift_up()) 
 			{
-				set_lift_speed(0);
+				set_lift_velocity(0);
 			}
 			if(IO.get_lift_down() && _pickup.lift_safe()) 
 			{
-				set_lift_speed(Map.LIFT_DOWN);
+				set_lift_velocity(Map.LIFT_DOWN);
 			}
 		}
 		else 
@@ -129,15 +143,15 @@ public class Lift implements Updatable
 		}
 		if (get_bottom_lift_sensor) 
 		{
-			set_lift_speed(0);
+			set_lift_velocity(0);
 			System.out.println("At bottom, stopping");
 			if (IO.get_lift_down()) 
 			{
-				set_lift_speed(0);
+				set_lift_velocity(0);
 			}
 			if(IO.get_lift_up() && _pickup.lift_safe()) 
 			{
-				set_lift_speed(Map.LIFT_UP);
+				set_lift_velocity(Map.LIFT_UP);
 			}
 		}
 		else 
@@ -158,7 +172,7 @@ public class Lift implements Updatable
 		}
 	}
 	
-	private void set_lift_speed(double speed) {
+	private void set_lift_velocity(double speed) {
 		_motor.set(speed);
 	}
 	
