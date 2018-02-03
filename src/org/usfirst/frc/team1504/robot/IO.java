@@ -108,6 +108,18 @@ public class IO
 	{
 		return _secondary.getRawButton(Map.PICKUP_OFF);
 	}
+	public static boolean get_pickup_up()
+	{
+		return _secondary.getRawButton(Map.PICKUP_UP);
+	}
+	public static boolean get_pickup_down()
+	{
+		if( _secondary.getRawButton(Map.MASTER_OVERRIDE)) {
+			return false;
+		} else {
+			return _secondary.getRawButton(Map.PICKUP_DOWN);
+		}
+	}
 	public static boolean get_lift_on()
 	{
 		return _secondary.getRawButton(Map.LIFT_ON);
