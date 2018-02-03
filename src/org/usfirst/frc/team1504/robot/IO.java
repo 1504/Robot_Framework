@@ -32,11 +32,11 @@ public class IO
 	}
 	public static boolean get_override_pickup()
 	{
-		return _secondary.getRawButton(Map.MASTER_OVERRIDE) && _secondary.getRawButton(Map.PICKUP_OVERRIDE);
+		return _secondary.getRawButton(Map.MASTER_OVERRIDE) && _secondary.getRawButton(Map.PICKUP_DOWN);
 	}
 	public static boolean get_override_lift()
 	{
-		return _secondary.getRawButton(Map.MASTER_OVERRIDE) && _secondary.getRawButton(Map.LIFT_OVERRIDE);
+		return _secondary.getRawButton(Map.MASTER_OVERRIDE) && _secondary.getRawButton(Map.LIFT_DOWN);
 	}
 	public static boolean spin_rotors_in()
 	{
