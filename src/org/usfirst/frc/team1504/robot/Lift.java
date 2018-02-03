@@ -2,9 +2,6 @@ package org.usfirst.frc.team1504.robot;
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-/*Still needs
- * finish get_lift_height
- * */
 
 public class Lift implements Updatable
 {

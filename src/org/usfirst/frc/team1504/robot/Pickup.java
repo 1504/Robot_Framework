@@ -88,8 +88,7 @@ public class Pickup implements Updatable {
 	
 	public boolean lift_safe() //says whether or not the pickup arms are backed where the lift can be
 	{
-		double pos = 0.0; //pseudocode
-		return (pos > 0);
+		return _lift.get_lift_height() > 10;
 	}
 	private void update_mode() //checks if pickup is in progress
 	{
