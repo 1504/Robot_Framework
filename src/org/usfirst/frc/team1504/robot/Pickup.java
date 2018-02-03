@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1504.robot;
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -18,7 +19,7 @@ public class Pickup implements Updatable {
 	public static flipper flipper_state = flipper.CLOSE; // sets flippers to be closed at beginning of match
 	
 	private static final Pickup instance = new Pickup();
-	
+	private DriverStation _ds = DriverStation.getInstance();
 	public static Pickup getInstance() // sets instance
 	{
 		return instance;
@@ -162,7 +163,8 @@ public class Pickup implements Updatable {
 
 	public void semaphore_update() //updates robot information
 	{
-		set_state(flipper.values()[0]); // 0 --> IO.get_controller_trigger thing
+		if(_ds.isOperatorControl() && !_ds.isDisabled())
+			set_state(flipper.values()[0]); // 0 --> IO.get_controller_trigger thing
 		update_mode();
 	}
 }
