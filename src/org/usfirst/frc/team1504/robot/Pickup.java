@@ -162,6 +162,7 @@ public class Pickup implements Updatable {
 
 	public void semaphore_update() //updates robot information
 	{
+		set_state(flipper.values()[0]); // 0 --> IO.get_controller_trigger thing
 		update_mode();
 	}
 }
