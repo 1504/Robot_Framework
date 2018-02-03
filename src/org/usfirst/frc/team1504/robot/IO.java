@@ -44,11 +44,11 @@ public class IO
 	}
 	public static boolean spin_rotors_out()
 	{
-		return _secondary.getRawButton(Map.SPIN_ROTORS_OUT);
+		return ((int) (2*_secondary.getRawAxis(Map.SPIN_ROTORS_OUT))) != 0; //some math
 	}
 	public static boolean open_flippers()
 	{
-		return _secondary.getRawButton(Map.OPEN_FLIPPERS);
+		return ((int) (2*_secondary.getRawAxis(Map.OPEN_FLIPPERS))) != 0; //some math
 	}
 	
 	
