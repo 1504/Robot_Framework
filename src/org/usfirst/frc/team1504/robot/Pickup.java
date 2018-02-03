@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1504.robot;
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -12,13 +13,14 @@ public class Pickup implements Updatable {
 	DoubleSolenoid _grab_piston; 
 	private Lift _lift = Lift.getInstance();
 	public enum arm_position {UP, DOWN, MIDDLE}; // declares states of arms
+	public double[] arm_angle = {Map.ARM_UP_ANGLE, Map.ARM_DOWN_ANGLE, Map.ARM_UP_ANGLE/2}; // Map.ARM_UP_ANGLE/2 or Map.ARM_MID_ANGLE
 	public static arm_position arm_state = arm_position.DOWN; // sets arms to be down at beginning of match
 	
 	public enum flipper {OPEN, CLOSE}; // declares states of flippers
 	public static flipper flipper_state = flipper.CLOSE; // sets flippers to be closed at beginning of match
 	
 	private static final Pickup instance = new Pickup();
-	
+	private DriverStation _ds = DriverStation.getInstance();
 	public static Pickup getInstance() // sets instance
 	{
 		return instance;
@@ -92,6 +94,13 @@ public class Pickup implements Updatable {
 		{
 			set_intake_speed(IO.intake_input()*Map.FLIPPER_MAGIC);
 		} 
+		if (_lift.pickup_safe())
+		{
+			set_arm_speed((arm_angle[arm_state.ordinal()]-_arm.getSelectedSensorPosition(0))/Map.ARM_DOWN_ANGLE);
+			// Sets arm velocity based on how far away the target is and where it is.
+			// Finds target angle by finding element of arm_state then finds its angle element in the arm_angle array
+		}
+		/*
 		else if (arm_state == arm_position.UP)
 		{
 			if(_arm.getSelectedSensorPosition(0) < Map.ARM_UP_ANGLE && _lift.pickup_safe()){ 
@@ -128,6 +137,7 @@ public class Pickup implements Updatable {
 				System.out.println("Pickup started intaking.");
 			}
 		}
+		*/
 		
 		if (flipper_state == flipper.CLOSE)
 		{
@@ -162,7 +172,8 @@ public class Pickup implements Updatable {
 
 	public void semaphore_update() //updates robot information
 	{
-		set_state(flipper.values()[0]); // 0 --> IO.get_controller_trigger thing
+		if(_ds.isOperatorControl() && !_ds.isDisabled())
+			set_state(flipper.values()[0]); // 0 --> IO.get_controller_trigger thing
 		update_mode();
 	}
 }
