@@ -19,6 +19,9 @@ public class Pickup implements Updatable {
 	public enum flipper {OPEN, CLOSE}; // declares states of flippers
 	public static flipper flipper_state = flipper.CLOSE; // sets flippers to be closed at beginning of match
 	
+	public enum intake {IN, OUT, OFF};
+	public static intake intake_state = intake.OFF;
+	
 	private static final Pickup instance = new Pickup();
 	private DriverStation _ds = DriverStation.getInstance();
 	public static Pickup getInstance() // sets instance
@@ -93,7 +96,7 @@ public class Pickup implements Updatable {
 		if (IO.get_override_pickup())
 		{
 			set_intake_speed(IO.intake_input()*Map.FLIPPER_MAGIC);
-		} 
+		}
 		if (_lift.pickup_safe())
 		{
 			set_arm_speed((arm_angle[arm_state.ordinal()]-_arm.getSelectedSensorPosition(0))/Map.ARM_DOWN_ANGLE);
@@ -111,14 +114,25 @@ public class Pickup implements Updatable {
 		
 		if (IO.get_pickup_up())
 		{
-			set_state(flipper.OPEN);
 			set_state(arm_position.DOWN);
 			flipper_intake();
 		}
 		else if (IO.get_pickup_down())
 		{
-			set_state(flipper.CLOSE);
 			set_state(arm_position.UP);
+		}
+		
+		if (IO.spin_rotors_in())
+		{
+			set_state(intake.IN);
+		}
+		else if (IO.spin_rotors_out())
+		{
+			set_state(intake.OUT);
+		}
+		else
+		{
+			set_state(intake.OFF);
 		}
 	}
 	
@@ -129,6 +143,10 @@ public class Pickup implements Updatable {
 	public void set_state(flipper state) //sets position of arm
 	{
 		flipper_state = state;
+	}
+	public void set_state(intake state)
+	{
+		intake_state = state;
 	}
 
 	public void semaphore_update() //updates robot information
