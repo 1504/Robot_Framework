@@ -96,7 +96,9 @@ public class Pickup implements Updatable {
 		{
 			if(_arm.getSelectedSensorPosition(0) < Map.ARM_UP_ANGLE && _lift.pickup_safe()){ 
 				set_arm_speed(Map.ARM_SPEED);
-			} else{
+			}
+			else
+			{
 				set_arm_speed(0);
 				System.out.println("Pickup started intaking.");
 			}
@@ -115,7 +117,7 @@ public class Pickup implements Updatable {
 		}
 		else if (arm_state == arm_position.MIDDLE);
 		{
-			int sign = (int) Math.signum(_arm.getSelectedSensorPosition(0) - Map.ARM_MID_ANGLE);
+			int sign = (int) -Math.signum(_arm.getSelectedSensorPosition(0) - Map.ARM_MID_ANGLE);
 			if(Math.abs(_arm.getSelectedSensorPosition(0) - Map.ARM_MID_ANGLE) < 10)
 			{
 				set_arm_speed(sign*Map.ARM_SPEED);
