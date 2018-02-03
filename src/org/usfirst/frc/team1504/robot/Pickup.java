@@ -11,8 +11,6 @@ public class Pickup implements Updatable {
 	private WPI_TalonSRX _arm;
 	DoubleSolenoid _grab_piston; 
 	private Lift _lift = Lift.getInstance();
-	
-	
 	public enum arm_position {UP, DOWN, MIDDLE}; // declares states of arms
 	public static arm_position arm_state = arm_position.DOWN; // sets arms to be down at beginning of match
 	
@@ -34,12 +32,9 @@ public class Pickup implements Updatable {
 		_arm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 200); //200 here is the ms timeout when trying to connect
 		_arm.config_kP(0, 0.03, 200); //200 is the timeout ms
 		_arm.config_kI(0, 0.00015, 200);
-
-		//_arm_left.set(ControlMode.Velocity, 0);
 		_grab_piston = new DoubleSolenoid(0, 1); //0 is on/forward, 1 for off/reverse
 		_grab_piston.set(DoubleSolenoid.Value.kOff); //not sure about this
 		Update_Semaphore.getInstance().register(this);
-		
 		System.out.println("Pickup Initialized.\nPickup Disabled");
 	}
 	
@@ -148,14 +143,14 @@ public class Pickup implements Updatable {
 		{
 			set_state(flipper.OPEN);
 			set_state(arm_position.DOWN);
+			flipper_intake();
 		}
 		else if (IO.get_pickup_off())
 		{
 			set_state(flipper.CLOSE);
 			set_state(arm_position.UP);
-			close_flipper();
-			}
 		}
+	}
 	
 	public void set_state(arm_position state) //sets position of arm
 	{
