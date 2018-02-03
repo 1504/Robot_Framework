@@ -2,6 +2,10 @@ package org.usfirst.frc.team1504.robot;
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+/*Still needs
+ * finish get_lift_height
+ * */
+
 public class Lift implements Updatable
 {
 	public enum lift_position {BOTTOM, MIDDLE, TOP};
@@ -25,11 +29,11 @@ public class Lift implements Updatable
 	
 	private void update_mode() //checks where the lift is
 	{
-		if (get_elevator_height() == Map.LIFT_MAX_HEIGHT) 
+		if (get_lift_height() == Map.LIFT_MAX_HEIGHT) 
 		{
 			get_top_lift_sensor = true;
 		}
-		else if (get_elevator_height() == Map.LIFT_MIN_HEIGHT) 
+		else if (get_lift_height() == Map.LIFT_MIN_HEIGHT) 
 		{
 			get_bottom_lift_sensor = true;
 		}
@@ -39,9 +43,12 @@ public class Lift implements Updatable
 			get_bottom_lift_sensor = false;
 		}
 		
-		if(_pickup.lift_safe()) 
+		if(IO.get_override_lift()){
+			set_lift_velocity(IO.lift_input());
+		}
+		else if(_pickup.lift_safe()) 
 		{
-			set_lift_velocity((lift_height[lift_state.ordinal()]-get_elevator_height())/Map.LIFT_MAX_HEIGHT);
+			set_lift_velocity((lift_height[lift_state.ordinal()]-get_lift_height())/Map.LIFT_MAX_HEIGHT);
 			//sets lift velocity based on how far away the target is and where the lift currently is.
 			//finds target height by finding element of lift_state then finds its corresponding height in the lift_height array
 			//	ex: lift_state[2] = top, lift_height[2] = LIFT_MAX_HEIGHT
@@ -50,9 +57,9 @@ public class Lift implements Updatable
 			//	ex: (200-0)/200 = 1.0 (max possible distance, full speed), (200-100)/200 = 0.5 (half of max, half speed)
 			System.out.println(lifting_messages[lift_state.ordinal()]);
 		}
-		else 
+		else
 		{
-			set_lift_velocity((lift_height[1]-get_elevator_height())/Map.LIFT_MAX_HEIGHT);
+			set_lift_velocity((lift_height[1]-get_lift_height())/Map.LIFT_MAX_HEIGHT);
 		}	//makes the lift go to the middle
 	}
 	
@@ -107,11 +114,11 @@ public class Lift implements Updatable
 	{
 		if(speed == 1)//v = x^2
 		{	
-			return (((Map.LIFT_MAX_HEIGHT-get_elevator_height())*(Map.LIFT_MAX_HEIGHT-get_elevator_height()))/(Map.LIFT_MAX_HEIGHT*Map.LIFT_MAX_HEIGHT));
+			return (((Map.LIFT_MAX_HEIGHT-get_lift_height())*(Map.LIFT_MAX_HEIGHT-get_lift_height()))/(Map.LIFT_MAX_HEIGHT*Map.LIFT_MAX_HEIGHT));
 		}
 		else//v = x
 		{
-			return ((Map.LIFT_MAX_HEIGHT-get_elevator_height())/Map.LIFT_MAX_HEIGHT);
+			return ((Map.LIFT_MAX_HEIGHT-get_lift_height())/Map.LIFT_MAX_HEIGHT);
 		}
 	}
 	
@@ -119,14 +126,14 @@ public class Lift implements Updatable
 		_motor.set(speed);
 	}
 	
-	public static double get_elevator_height() // i don't think this is finished?
+	public static double get_lift_height() // i don't think this is finished?
 	{
 		return 0.0; //_blahblahblah.magneticEncoder;
 	}
 	
 	public boolean pickup_safe() //checks if it is safe to move lift so it won't crash into things
 	{
-		return (get_elevator_height() < 5);
+		return (get_lift_height() < 5);
 	}
 	
 	public void plate_angle(double angle) // Sets angle of lift plate

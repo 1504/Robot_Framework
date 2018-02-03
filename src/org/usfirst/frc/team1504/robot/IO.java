@@ -120,6 +120,10 @@ public class IO
 			return _secondary.getRawButton(Map.PICKUP_DOWN);
 		}
 	}
+	public static double lift_input()
+	{
+		return Utils.deadzone(Math.abs(_secondary.getRawAxis(Map.INTAKE_POWER_AXIS)));
+	}
 	public static boolean get_lift_on()
 	{
 		return _secondary.getRawButton(Map.LIFT_ON);
