@@ -44,11 +44,11 @@ public class IO
 	}
 	public static boolean spin_rotors_out()
 	{
-		return _secondary.getRawButton(Map.SPIN_ROTORS_OUT);
+		return ((int) (2*_secondary.getRawAxis(Map.SPIN_ROTORS_OUT))) != 0; //some math
 	}
 	public static boolean open_flippers()
 	{
-		return _secondary.getRawButton(Map.OPEN_FLIPPERS);
+		return ((int) (2*_secondary.getRawAxis(Map.OPEN_FLIPPERS))) != 0; //some math
 	}
 	
 	
@@ -100,14 +100,6 @@ public class IO
 		return (_drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[0]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[1]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[2]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[3]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[0]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[1]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[2]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[3]));
 	}
 	
-	public static boolean get_pickup_on()
-	{
-		return _secondary.getRawButton(Map.PICKUP_ON);
-	}
-	public static boolean get_pickup_off()
-	{
-		return _secondary.getRawButton(Map.PICKUP_OFF);
-	}
 	public static boolean get_pickup_up()
 	{
 		return _secondary.getRawButton(Map.PICKUP_UP);
@@ -116,14 +108,11 @@ public class IO
 	{
 		return ! _secondary.getRawButton(Map.MASTER_OVERRIDE) && _secondary.getRawButton(Map.PICKUP_DOWN);
 	}
-	public static boolean get_lift_on()
+	public static double lift_input()
 	{
-		return _secondary.getRawButton(Map.LIFT_ON);
+		return Utils.deadzone(Math.abs(_secondary.getRawAxis(Map.INTAKE_POWER_AXIS)));
 	}
-	public static boolean get_lift_off()
-	{
-		return _secondary.getRawButton(Map.LIFT_OFF);
-	}
+
 	public static boolean get_lift_up()
 	{
 		return _secondary.getRawButton(Map.LIFT_UP);
