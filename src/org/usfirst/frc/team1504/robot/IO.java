@@ -38,6 +38,20 @@ public class IO
 	{
 		return _secondary.getRawButton(Map.MASTER_OVERRIDE) && _secondary.getRawButton(Map.LIFT_OVERRIDE);
 	}
+	public static boolean spin_rotors_in()
+	{
+		return _secondary.getRawButton(Map.SPIN_ROTORS_IN);
+	}
+	public static boolean spin_rotors_out()
+	{
+		return _secondary.getRawButton(Map.SPIN_ROTORS_OUT);
+	}
+	public static boolean open_flippers()
+	{
+		return _secondary.getRawButton(Map.OPEN_FLIPPERS);
+	}
+	
+	
 	
 	/**
 	 * Gear stuff
@@ -93,6 +107,18 @@ public class IO
 	public static boolean get_pickup_off()
 	{
 		return _secondary.getRawButton(Map.PICKUP_OFF);
+	}
+	public static boolean get_pickup_up()
+	{
+		return _secondary.getRawButton(Map.PICKUP_UP);
+	}
+	public static boolean get_pickup_down()
+	{
+		if( _secondary.getRawButton(Map.MASTER_OVERRIDE)) {
+			return false;
+		} else {
+			return _secondary.getRawButton(Map.PICKUP_DOWN);
+		}
 	}
 	public static boolean get_lift_on()
 	{

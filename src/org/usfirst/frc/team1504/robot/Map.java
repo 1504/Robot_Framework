@@ -17,10 +17,15 @@ public class Map {
 	// Joystick inputs
 	public static final int PICKUP_ON = 8;
 	public static final int PICKUP_OFF = 9;
+	public static final int PICKUP_UP = 8;
+	public static final int PICKUP_DOWN = 9;
 	public static final int LIFT_ON = 6;
 	public static final int LIFT_OFF = 7;
 	public static final int LIFT_UP = 10;
 	public static final int LIFT_DOWN = 11;
+	public static final int SPIN_ROTORS_IN = 12;
+	public static final int SPIN_ROTORS_OUT = 13;
+	public static final int OPEN_FLIPPERS = 14;
 
 	
 /**
