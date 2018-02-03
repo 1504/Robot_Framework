@@ -48,13 +48,11 @@ public class Lift implements Updatable
 		}
 		else if(_pickup.lift_safe()) 
 		{
-			set_lift_velocity((lift_height[lift_state.ordinal()]-get_lift_height())/Map.LIFT_MAX_HEIGHT);
-			//sets lift velocity based on how far away the target is and where the lift currently is.
+			set_lift_velocity((lift_height[lift_state.ordinal()]-get_lift_height())*Map.LIFT_GAIN);
+			//sets lift velocity based on relative position to target
 			//finds target height by finding element of lift_state then finds its corresponding height in the lift_height array
 			//	ex: lift_state[2] = top, lift_height[2] = LIFT_MAX_HEIGHT
-			//takes target height (say top:200) - current height (say 100) and then divides by the max height to get its
-			//ratio within 1.0 to -1.0. and sets lift velocity to that ratio.
-			//	ex: (200-0)/200 = 1.0 (max possible distance, full speed), (200-100)/200 = 0.5 (half of max, half speed)
+			//takes target height (say top:200) - current height (say 100) and then multiplies by gain multiplier for speed
 			System.out.println(lifting_messages[lift_state.ordinal()]);
 		}
 		else
