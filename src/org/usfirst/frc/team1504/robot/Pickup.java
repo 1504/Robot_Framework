@@ -93,7 +93,11 @@ public class Pickup implements Updatable {
 	}
 	private void update_mode() //checks if pickup is in progress
 	{
-		if (arm_state == arm_position.UP)
+		if (IO.get_override_pickup())
+		{
+			set_intake_speed(IO.intake_input()*Map.FLIPPER_MAGIC);
+		} 
+		else if (arm_state == arm_position.UP)
 		{
 			if(_arm.getSelectedSensorPosition(0) < Map.ARM_UP_ANGLE && _lift.pickup_safe()){ 
 				set_arm_speed(Map.ARM_SPEED);
@@ -161,16 +165,9 @@ public class Pickup implements Updatable {
 	{
 		flipper_state = state;
 	}
-	private void override_pickup() //allows driver to abort a pickup
-	{
-		if (IO.get_override_pickup())
-		{
-			set_intake_speed(IO.intake_input()*Map.FLIPPER_MAGIC);
-		}
-	}
+
 	public void semaphore_update() //updates robot information
 	{
 		update_mode();
-		override_pickup();
 	}
 }
