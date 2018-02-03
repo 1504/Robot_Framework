@@ -148,13 +148,13 @@ public class Pickup implements Updatable {
 			open_flipper();
 		}
 		
-		if (IO.get_pickup_on())
+		if (IO.get_pickup_up())
 		{
 			set_state(flipper.OPEN);
 			set_state(arm_position.DOWN);
 			flipper_intake();
 		}
-		else if (IO.get_pickup_off())
+		else if (IO.get_pickup_down())
 		{
 			set_state(flipper.CLOSE);
 			set_state(arm_position.UP);

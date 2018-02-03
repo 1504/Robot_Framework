@@ -15,15 +15,15 @@ public class Map {
 	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
 	
 	// Joystick inputs
-	public static final int PICKUP_ON = 8;
-	public static final int PICKUP_OFF = 9;
-	public static final int PICKUP_UP = 8;
-	public static final int PICKUP_DOWN = 9;
-	public static final int LIFT_ON = 6;
-	public static final int LIFT_OFF = 7;
-	public static final int LIFT_UP = 10;
-	public static final int LIFT_DOWN = 11;
-	public static final int SPIN_ROTORS_IN = 12;
+	//public static final int PICKUP_ON = 8; 
+	//public static final int PICKUP_OFF = 9;
+	public static final int PICKUP_UP = 3; //X
+	public static final int PICKUP_DOWN = 1; //A
+	//public static final int LIFT_ON = 6;
+	//public static final int LIFT_OFF = 7;
+	public static final int LIFT_UP = 4; //Y
+	public static final int LIFT_DOWN = 2; //B
+	public static final int SPIN_ROTORS_IN = 5; //LT1 -- LB
 	public static final int SPIN_ROTORS_OUT = 13;
 	public static final int OPEN_FLIPPERS = 14;
 
@@ -132,9 +132,7 @@ public class Map {
  * Buttons
  */
 	public static final int VISION_INTERFACE_CAMERA_PORT_BUTTON = 5;
-	public static final int PICKUP_OVERRIDE = 6;
-	public static final int LIFT_OVERRIDE = 7;
-	public static final int MASTER_OVERRIDE = 8;
+	public static final int MASTER_OVERRIDE = 6; //RT1 -- RB
 	
 /**
  * Arduino addresses
