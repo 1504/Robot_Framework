@@ -12,6 +12,7 @@ public class Pickup implements Updatable {
 	DoubleSolenoid _grab_piston; 
 	private Lift _lift = Lift.getInstance();
 	public enum arm_position {UP, DOWN, MIDDLE}; // declares states of arms
+	public double[] arm_angle = {Map.ARM_UP_ANGLE, Map.ARM_DOWN_ANGLE, Map.ARM_UP_ANGLE/2}; // Map.ARM_UP_ANGLE/2 or Map.ARM_MID_ANGLE
 	public static arm_position arm_state = arm_position.DOWN; // sets arms to be down at beginning of match
 	
 	public enum flipper {OPEN, CLOSE}; // declares states of flippers
@@ -92,6 +93,13 @@ public class Pickup implements Updatable {
 		{
 			set_intake_speed(IO.intake_input()*Map.FLIPPER_MAGIC);
 		} 
+		if (_lift.pickup_safe())
+		{
+			set_arm_speed((arm_angle[arm_state.ordinal()]-_arm.getSelectedSensorPosition(0))/Map.ARM_DOWN_ANGLE);
+			// Sets arm velocity based on how far away the target is and where it is.
+			// Finds target angle by finding element of arm_state then finds its angle element in the arm_angle array
+		}
+		/*
 		else if (arm_state == arm_position.UP)
 		{
 			if(_arm.getSelectedSensorPosition(0) < Map.ARM_UP_ANGLE && _lift.pickup_safe()){ 
@@ -128,6 +136,7 @@ public class Pickup implements Updatable {
 				System.out.println("Pickup started intaking.");
 			}
 		}
+		*/
 		
 		if (flipper_state == flipper.CLOSE)
 		{
