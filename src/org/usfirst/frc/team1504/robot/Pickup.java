@@ -115,13 +115,10 @@ public class Pickup implements Updatable {
 		}
 		else if (arm_state == arm_position.MIDDLE);
 		{
-			if(_arm.getSelectedSensorPosition(0) > Map.ARM_MID_ANGLE)
+			int sign = (int) Math.signum(_arm.getSelectedSensorPosition(0) - Map.ARM_MID_ANGLE);
+			if(Math.abs(_arm.getSelectedSensorPosition(0) - Map.ARM_MID_ANGLE) < 10)
 			{
-				set_arm_speed(-Map.ARM_SPEED);
-			}
-			else if (_arm.getSelectedSensorPosition(0) < Map.ARM_MID_ANGLE)
-			{
-				set_arm_speed(Map.ARM_SPEED);
+				set_arm_speed(sign*Map.ARM_SPEED);
 			}
 			else
 			{
