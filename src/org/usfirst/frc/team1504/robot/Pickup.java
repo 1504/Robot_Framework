@@ -11,8 +11,6 @@ public class Pickup implements Updatable {
 	private WPI_TalonSRX _arm;
 	DoubleSolenoid _grab_piston; 
 	private Lift _lift = Lift.getInstance();
-	
-	
 	public enum arm_position {UP, DOWN, MIDDLE}; // declares states of arms
 	public static arm_position arm_state = arm_position.DOWN; // sets arms to be down at beginning of match
 	
@@ -34,12 +32,9 @@ public class Pickup implements Updatable {
 		_arm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 200); //200 here is the ms timeout when trying to connect
 		_arm.config_kP(0, 0.03, 200); //200 is the timeout ms
 		_arm.config_kI(0, 0.00015, 200);
-
-		//_arm_left.set(ControlMode.Velocity, 0);
 		_grab_piston = new DoubleSolenoid(0, 1); //0 is on/forward, 1 for off/reverse
 		_grab_piston.set(DoubleSolenoid.Value.kOff); //not sure about this
 		Update_Semaphore.getInstance().register(this);
-		
 		System.out.println("Pickup Initialized.\nPickup Disabled");
 	}
 	
@@ -101,7 +96,9 @@ public class Pickup implements Updatable {
 		{
 			if(_arm.getSelectedSensorPosition(0) < Map.ARM_UP_ANGLE && _lift.pickup_safe()){ 
 				set_arm_speed(Map.ARM_SPEED);
-			} else{
+			}
+			else
+			{
 				set_arm_speed(0);
 				System.out.println("Pickup started intaking.");
 			}
@@ -120,13 +117,10 @@ public class Pickup implements Updatable {
 		}
 		else if (arm_state == arm_position.MIDDLE);
 		{
-			if(_arm.getSelectedSensorPosition(0) > Map.ARM_MID_ANGLE)
+			int sign = (int) -Math.signum(_arm.getSelectedSensorPosition(0) - Map.ARM_MID_ANGLE);
+			if(Math.abs(_arm.getSelectedSensorPosition(0) - Map.ARM_MID_ANGLE) < 10)
 			{
-				set_arm_speed(-Map.ARM_SPEED);
-			}
-			else if (_arm.getSelectedSensorPosition(0) < Map.ARM_MID_ANGLE)
-			{
-				set_arm_speed(Map.ARM_SPEED);
+				set_arm_speed(sign*Map.ARM_SPEED);
 			}
 			else
 			{
@@ -148,14 +142,14 @@ public class Pickup implements Updatable {
 		{
 			set_state(flipper.OPEN);
 			set_state(arm_position.DOWN);
+			flipper_intake();
 		}
 		else if (IO.get_pickup_off())
 		{
 			set_state(flipper.CLOSE);
 			set_state(arm_position.UP);
-			close_flipper();
-			}
 		}
+	}
 	
 	public void set_state(arm_position state) //sets position of arm
 	{
