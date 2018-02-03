@@ -114,11 +114,7 @@ public class IO
 	}
 	public static boolean get_pickup_down()
 	{
-		if( _secondary.getRawButton(Map.MASTER_OVERRIDE)) {
-			return false;
-		} else {
-			return _secondary.getRawButton(Map.PICKUP_DOWN);
-		}
+		return ! _secondary.getRawButton(Map.MASTER_OVERRIDE) && _secondary.getRawButton(Map.PICKUP_DOWN);
 	}
 	public static boolean get_lift_on()
 	{
@@ -134,13 +130,7 @@ public class IO
 	}
 	public static boolean get_lift_down()
 	{
-		if (_secondary.getRawButton(Map.MASTER_OVERRIDE))
-		{
-			return false;
-		}
-		else {
-			return _secondary.getRawButton(Map.LIFT_DOWN);
-		}
+		return !_secondary.getRawButton(Map.MASTER_OVERRIDE) &&  _secondary.getRawButton(Map.LIFT_DOWN);
 	}
 
 }
