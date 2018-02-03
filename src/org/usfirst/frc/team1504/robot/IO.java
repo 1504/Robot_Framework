@@ -88,27 +88,27 @@ public class IO
 	
 	public static boolean get_pickup_on()
 	{
-		return _secondary.getRawButton(8);
+		return _secondary.getRawButton(Map.PICKUP_ON);
 	}
 	public static boolean get_pickup_off()
 	{
-		return _secondary.getRawButton(9);
+		return _secondary.getRawButton(Map.PICKUP_OFF);
 	}
 	public static boolean get_lift_on()
 	{
-		return _secondary.getRawButton(6);
+		return _secondary.getRawButton(Map.LIFT_ON);
 	}
 	public static boolean get_lift_off()
 	{
-		return _secondary.getRawButton(7);
+		return _secondary.getRawButton(Map.LIFT_OFF);
 	}
 	public static boolean get_lift_up()
 	{
-		return _secondary.getRawButton(10);
+		return _secondary.getRawButton(Map.LIFT_UP);
 	}
 	public static boolean get_lift_down()
 	{
-		return _secondary.getRawButton(11);
+		return _secondary.getRawButton(Map.LIFT_DOWN);
 	}
 
 }

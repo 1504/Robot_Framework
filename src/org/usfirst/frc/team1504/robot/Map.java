@@ -15,7 +15,12 @@ public class Map {
 	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
 	
 	// Joystick inputs
-
+	public static final int PICKUP_ON = 8;
+	public static final int PICKUP_OFF = 9;
+	public static final int LIFT_ON = 6;
+	public static final int LIFT_OFF = 7;
+	public static final int LIFT_UP = 10;
+	public static final int LIFT_DOWN = 11;
 
 	
 /**
@@ -43,9 +48,6 @@ public class Map {
  */
 		
 		public static final int LIFT_TALON_PORT = 42;
-		
-		public static final int LIFT_UP = 1;
-		public static final int LIFT_DOWN = -1;
 		
 		public static final double LIFT_MOTOR_SPEED = 0.5;
 		
