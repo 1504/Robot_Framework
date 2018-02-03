@@ -59,6 +59,7 @@ public class Map {
 		public static final double LIFT_MAX_HEIGHT = 10; 
 		public static final double LIFT_MIN_HEIGHT = 0; 
 		
+		public static final double LIFT_GAIN = 0.3;
 /*
  * Winch Stuff
  */
