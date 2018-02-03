@@ -21,6 +21,9 @@ public class Map {
 	public static final int LIFT_OFF = 7;
 	public static final int LIFT_UP = 10;
 	public static final int LIFT_DOWN = 11;
+	public static final int SPIN_ROTORS_IN = 12;
+	public static final int SPIN_ROTORS_OUT = 13;
+	public static final int OPEN_FLIPPERS = 14;
 
 	
 /**

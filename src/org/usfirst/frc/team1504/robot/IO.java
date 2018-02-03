@@ -38,6 +38,20 @@ public class IO
 	{
 		return _secondary.getRawButton(Map.MASTER_OVERRIDE) && _secondary.getRawButton(Map.LIFT_OVERRIDE);
 	}
+	public static boolean spin_rotors_in()
+	{
+		return _secondary.getRawButton(Map.SPIN_ROTORS_IN);
+	}
+	public static boolean spin_rotors_out()
+	{
+		return _secondary.getRawButton(Map.SPIN_ROTORS_OUT);
+	}
+	public static boolean open_flippers()
+	{
+		return _secondary.getRawButton(Map.OPEN_FLIPPERS);
+	}
+	
+	
 	
 	/**
 	 * Gear stuff
