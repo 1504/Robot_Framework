@@ -74,45 +74,7 @@ public class Pickup implements Updatable {
 		set_intake_speed(0);
 	}
 	
-	public void arm_top() //moves arm to top
-	{
-		if(_arm.getSelectedSensorPosition(0) < Map.ARM_UP_ANGLE && _lift.pickup_safe()){ 
-			set_arm_speed(Map.ARM_SPEED);
-		} else{
-			set_arm_speed(0);
-			System.out.println("Pickup started intaking.");
-		}
-	}
 	
-	public void arm_middle() //moves arm to middle
-	{
-		if(_arm.getSelectedSensorPosition(0) > Map.ARM_MID_ANGLE)
-		{
-			set_arm_speed(-Map.ARM_SPEED);
-		}
-		else if (_arm.getSelectedSensorPosition(0) < Map.ARM_MID_ANGLE)
-		{
-			set_arm_speed(Map.ARM_SPEED);
-		}
-		else
-		{
-			set_arm_speed(0);
-			System.out.println("Pickup started intaking.");
-		}
-	}
-	
-	public void arm_bottom() //moves arm to bottom
-	{
-		if(_arm.getSelectedSensorPosition(0) > Map.ARM_DOWN_ANGLE)
-		{
-			set_arm_speed(-Map.ARM_SPEED);
-		}
-		else
-		{
-			set_arm_speed(0);
-			System.out.println("Pickup stopped intaking.");
-		}
-	}
 	
 	public void open_flipper() //extends piston between arms to grab cube
 	{
@@ -133,15 +95,40 @@ public class Pickup implements Updatable {
 	{
 		if (arm_state == arm_position.UP)
 		{
-			arm_bottom();
+			if(_arm.getSelectedSensorPosition(0) < Map.ARM_UP_ANGLE && _lift.pickup_safe()){ 
+				set_arm_speed(Map.ARM_SPEED);
+			} else{
+				set_arm_speed(0);
+				System.out.println("Pickup started intaking.");
+			}
 		}
 		else if (arm_state == arm_position.DOWN)
 		{
-			arm_top();
+			if(_arm.getSelectedSensorPosition(0) > Map.ARM_DOWN_ANGLE)
+			{
+				set_arm_speed(-Map.ARM_SPEED);
+			}
+			else
+			{
+				set_arm_speed(0);
+				System.out.println("Pickup stopped intaking.");
+			}
 		}
 		else if (arm_state == arm_position.MIDDLE);
 		{
-			arm_middle();
+			if(_arm.getSelectedSensorPosition(0) > Map.ARM_MID_ANGLE)
+			{
+				set_arm_speed(-Map.ARM_SPEED);
+			}
+			else if (_arm.getSelectedSensorPosition(0) < Map.ARM_MID_ANGLE)
+			{
+				set_arm_speed(Map.ARM_SPEED);
+			}
+			else
+			{
+				set_arm_speed(0);
+				System.out.println("Pickup started intaking.");
+			}
 		}
 		
 		if (flipper_state == flipper.CLOSE)
@@ -157,7 +144,12 @@ public class Pickup implements Updatable {
 		{
 			open_flipper();
 			//drop both cantalons based on sensor. Fake code for now
-			arm_top();
+			if(_arm.getSelectedSensorPosition(0) < Map.ARM_UP_ANGLE && _lift.pickup_safe()){ 
+				set_arm_speed(Map.ARM_SPEED);
+			} else{
+				set_arm_speed(0);
+				System.out.println("Pickup started intaking.");
+			}
 			System.out.println("Pickup is intaking some cubes.");
 
 		}
@@ -166,7 +158,15 @@ public class Pickup implements Updatable {
 			close_flipper();
 			
 			//pick up both cantalons based on sensor. Fake code for now
-			arm_bottom();
+			if(_arm.getSelectedSensorPosition(0) > Map.ARM_DOWN_ANGLE)
+			{
+				set_arm_speed(-Map.ARM_SPEED);
+			}
+			else
+			{
+				set_arm_speed(0);
+				System.out.println("Pickup stopped intaking.");
+			}
 			System.out.println("Pickup is ejecting some cubes.");
 			}
 
