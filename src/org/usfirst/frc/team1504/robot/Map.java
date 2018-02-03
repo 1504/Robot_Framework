@@ -17,6 +17,8 @@ public class Map {
 	// Joystick inputs
 	public static final int PICKUP_ON = 8;
 	public static final int PICKUP_OFF = 9;
+	public static final int PICKUP_UP = 8;
+	public static final int PICKUP_DOWN = 9;
 	public static final int LIFT_ON = 6;
 	public static final int LIFT_OFF = 7;
 	public static final int LIFT_UP = 10;
