@@ -46,9 +46,9 @@ public class IO
 	{
 		return ((int) (2*_secondary.getRawAxis(Map.SPIN_ROTORS_OUT))) != 0; //some math
 	}
-	public static boolean open_flippers()
+	public static int open_flippers()
 	{
-		return ((int) (2*_secondary.getRawAxis(Map.OPEN_FLIPPERS))) != 0; //some math
+		return (int) (2*_secondary.getRawAxis(Map.OPEN_FLIPPERS)); //some math
 	}
 	
 	
@@ -112,7 +112,6 @@ public class IO
 	{
 		return Utils.deadzone(Math.abs(_secondary.getRawAxis(Map.INTAKE_POWER_AXIS)));
 	}
-
 	public static boolean get_lift_up()
 	{
 		return _secondary.getRawButton(Map.LIFT_UP);

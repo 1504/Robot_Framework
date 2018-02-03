@@ -100,45 +100,6 @@ public class Pickup implements Updatable {
 			// Sets arm velocity based on how far away the target is and where it is.
 			// Finds target angle by finding element of arm_state then finds its angle element in the arm_angle array
 		}
-		/*
-		else if (arm_state == arm_position.UP)
-		{
-			if(_arm.getSelectedSensorPosition(0) < Map.ARM_UP_ANGLE && _lift.pickup_safe()){ 
-				set_arm_speed(Map.ARM_SPEED);
-			}
-			else
-			{
-				set_arm_speed(0);
-				System.out.println("Pickup started intaking.");
-			}
-		}
-		else if (arm_state == arm_position.DOWN)
-		{
-			if(_arm.getSelectedSensorPosition(0) > Map.ARM_DOWN_ANGLE)
-			{
-				set_arm_speed(-Map.ARM_SPEED);
-			}
-			else
-			{
-				set_arm_speed(0);
-				System.out.println("Pickup stopped intaking.");
-			}
-		}
-		else if (arm_state == arm_position.MIDDLE);
-		{
-			int sign = (int) -Math.signum(_arm.getSelectedSensorPosition(0) - Map.ARM_MID_ANGLE);
-			if(Math.abs(_arm.getSelectedSensorPosition(0) - Map.ARM_MID_ANGLE) < 10)
-			{
-				set_arm_speed(sign*Map.ARM_SPEED);
-			}
-			else
-			{
-				set_arm_speed(0);
-				System.out.println("Pickup started intaking.");
-			}
-		}
-		*/
-		
 		if (flipper_state == flipper.CLOSE)
 		{
 			close_flipper();
@@ -173,7 +134,7 @@ public class Pickup implements Updatable {
 	public void semaphore_update() //updates robot information
 	{
 		if(_ds.isOperatorControl() && !_ds.isDisabled())
-			set_state(flipper.values()[0]); // 0 --> IO.get_controller_trigger thing
+			set_state(flipper.values()[IO.open_flippers()]); // 0 --> IO.get_controller_trigger thing
 		update_mode();
 	}
 }
