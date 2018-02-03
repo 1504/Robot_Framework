@@ -5,7 +5,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class Lift implements Updatable
 {
 	public enum lift_position {BOTTOM, MIDDLE, TOP};
-	public double[] lift_height = {Map.LIFT_MIN_HEIGHT, Map.LIFT_MAX_HEIGHT/2, Map.LIFT_MAX_HEIGHT};
+	private double[] lift_height = {Map.LIFT_MIN_HEIGHT, Map.LIFT_MAX_HEIGHT/2, Map.LIFT_MAX_HEIGHT};
+	private String[] lifting_messages = {"lift is going to bottom","lift is going to mid","lift is going to top"};
 	public static lift_position lift_state = lift_position.BOTTOM;
 	
 	private WPI_TalonSRX _motor; // declared for future use
@@ -24,19 +25,6 @@ public class Lift implements Updatable
 	
 	private void update_mode() //checks where the lift is
 	{
-		/*
-		if (IO.get_lift_on())
-		{
-			System.out.println("Lifting");
-			lift_state = lift_position.TOP;
-		}
-		else if (IO.get_lift_off())
-		{
-			System.out.println("Not lifting");
-			lift_state = lift_position.OFF;
-			set_lift_velocity(0);
-		}
-		*/
 		if (get_elevator_height() == Map.LIFT_MAX_HEIGHT) 
 		{
 			get_top_lift_sensor = true;
@@ -54,63 +42,18 @@ public class Lift implements Updatable
 		if(_pickup.lift_safe()) 
 		{
 			set_lift_velocity((lift_height[lift_state.ordinal()]-get_elevator_height())/Map.LIFT_MAX_HEIGHT);
-			//sets lift velocity based on how far away the target is and where it is.
-			//finds target height by finding element of lift_state then finds its height element in the lift_height array
-			//	lift_state[2] = top, lift_height[2] = LIFT_MAX_HEIGHT
+			//sets lift velocity based on how far away the target is and where the lift currently is.
+			//finds target height by finding element of lift_state then finds its corresponding height in the lift_height array
+			//	ex: lift_state[2] = top, lift_height[2] = LIFT_MAX_HEIGHT
+			//takes target height (say top:200) - current height (say 100) and then divides by the max height to get its
+			//ratio within 1.0 to -1.0. and sets lift velocity to that ratio.
+			//	ex: (200-0)/200 = 1.0 (max possible distance, full speed), (200-100)/200 = 0.5 (half of max, half speed)
+			System.out.println(lifting_messages[lift_state.ordinal()]);
 		}
-		
-		/*
-		if(lift_state == lift_position.TOP) 
+		else 
 		{
-			System.out.println("Lifting");
-			if (get_top_lift_sensor) 
-			{
-				set_lift_velocity(0);
-				System.out.println("At top, stopping");
-				if (IO.get_lift_up()) 
-				{
-					set_lift_velocity(0);
-				}
-				if(IO.get_lift_down() && _pickup.lift_safe()) 
-				{
-					set_lift_velocity(Map.LIFT_DOWN);
-				}
-			}
-			else 
-			{
-				System.out.println("Not at top...");
-				set_lift_velocity(Map.LIFT_MOTOR_SPEED);
-			}
-		}
-		if(lift_state == lift_position.MIDDLE) 
-		{
-			System.out.println("Going to middle");
-			if (get_elevator_height() == Map.LIFT_MAX_HEIGHT / 2)
-			{
-				set_lift_velocity(0);
-				System.out.println("At middle, stopping");
-				set_lift_velocity(Map.LIFT_MOTOR_SPEED);
-			}
-		}
-		if(lift_state == lift_position.BOTTOM) 
-		{
-			System.out.println("Going to the bottom");
-			if (get_bottom_lift_sensor)
-			{
-				set_lift_velocity(0);
-				System.out.println("At bottom, stopping");
-				if (IO.get_lift_down())
-				{
-					set_lift_velocity(0);
-				}
-			}
-			else
-			{
-				System.out.println("Not at bottom...");
-				set_lift_velocity(Map.LIFT_MOTOR_SPEED);
-			}
-		}
-		*/
+			set_lift_velocity((lift_height[1]-get_elevator_height())/Map.LIFT_MAX_HEIGHT);
+		}	//makes the lift go to the middle
 	}
 	
 	public void set_state(lift_position state)
