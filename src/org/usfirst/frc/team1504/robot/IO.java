@@ -134,7 +134,13 @@ public class IO
 	}
 	public static boolean get_lift_down()
 	{
-		return _secondary.getRawButton(Map.LIFT_DOWN);
+		if (_secondary.getRawButton(Map.MASTER_OVERRIDE))
+		{
+			return false;
+		}
+		else {
+			return _secondary.getRawButton(Map.LIFT_DOWN);
+		}
 	}
 
 }
