@@ -253,7 +253,7 @@ public class Robot extends RobotBase {
                 
                 char[] new_message = message.toCharArray();
                 
-                if (new_message[1] == left && starting_position == left)
+                /*if (new_message[1] == left && starting_position == left)
                 { 		
                 	_autonomous.setup_path(Map.AUTON_LEFT_SCALE_SEQUENCES);
                 }
@@ -269,25 +269,8 @@ public class Robot extends RobotBase {
                 {
                 	// We must be in the middle so don't do anything unless we are net setting what to run in auton somewhere else
                 }
-                
-                if(_db.pos%3 == 0)
-                {	
-                	//Move forward, turn left,
-                	_autonomous.setup_path(new double[][] {{0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.25, 0, 2000}, /* Method implementation goes here */{0, 0.0, -0.25, 0, 2000}, {0.25, 0.0, 0, 0, 2000}, /* Method implementation goes here */{0.25, 0.0, 0, 0, 2000}});
-                	starting_position = 'L';
-                }
-                else if (_db.pos%3 == 1)
-                {
-                	//Move forward, turn left, move forward
-	                _autonomous.setup_path(new double[][] {{0.25, 0.0, 0.0, 0, 3000}, {0.0, 0.0, 0.25, 0, 4200}, { 0.25, 0.0, 0.0, 0, 6200}});
-	                starting_position = 'M';
-                }
-                else if (_db.pos%3 == 2)
-                {
-                	//Move forward
-	                _autonomous.setup_path(new double[][] {{0.25, 0.0, 0.0, 0, 4000}});
-                	starting_position = 'R';
-                }
+                */
+                _autonomous.setup_path(new double[][] {{45, 0.1, 0.0, 11, 1000}});
 	            
                 _autonomous.start();
                 while (isAutonomous() && !isDisabled()) {

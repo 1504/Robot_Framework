@@ -65,7 +65,7 @@ public class Pickup implements Updatable {
 	}
 	
 	public void flipper_excrete() // sets rollers to spit cube out
-	{
+	{				
 		set_intake_speed(-Map.ROLLER_SPEED);
 	}
 	

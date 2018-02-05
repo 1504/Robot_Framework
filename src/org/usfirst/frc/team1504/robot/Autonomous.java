@@ -206,6 +206,16 @@ public class Autonomous
 			{
 				_lift.plate_angle(45.0);
 			}
+			else if(_path[step][3] == 11) //go at an angle, speed
+			{
+				double angle = _path[step][0];
+				double speed = _path[step][1];
+				double[] arr = _drive.follow_angle(angle, speed);
+				System.out.println(angle);
+				System.out.println(speed);
+				output[0] = arr[0];
+				output[1] = arr[1];
+			}
 			/*else if(_path[step][3] == 2)
 			{
 				// Calculate P(ID) output for the drive thread 
@@ -214,7 +224,7 @@ public class Autonomous
 				_pipe.set_drive_input();
 			}*/
 //			double[] testoutput = {1.0, 1.0, 1.0, 1.0};
-			_drive.drive_inputs(output);
+			//_drive.drive_inputs(output);
 			
 			try {
 				Thread.sleep(15);
