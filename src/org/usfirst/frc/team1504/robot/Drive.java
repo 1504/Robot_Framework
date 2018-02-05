@@ -461,7 +461,7 @@ public class Drive implements Updatable
 		SmartDashboard.putNumber("Drive FR current", currents[3]);
 	}
 	
-	public void follow_angle(double angle, double speed)
+	public double[] follow_angle(double angle, double speed)
 	{
 		
         double angle_a = Math.toRadians(angle);
@@ -470,6 +470,8 @@ public class Drive implements Updatable
         double forward_speed = Math.cos(angle_a);
         double tracking_direction = Math.sin(speed_a);
         
+        double[] speeds = new double[] {forward_speed, tracking_direction};
+        return speeds;
         //System.out.println("Forward speed: " + forward_speed);
         //System.out.println("Tracking speed: " + tracking_direction);
 	}
