@@ -14,10 +14,12 @@ import edu.wpi.first.wpilibj.DriverStation;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 //import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 
 public class Drive implements Updatable
 {
+	private BuiltInAccelerometer accel = new BuiltInAccelerometer();
+	private boolean above_crash_threshold = false;
 	private static class DTask implements Runnable
 	{
 		private Drive _d;
@@ -386,6 +388,22 @@ public class Drive implements Updatable
 			imu.reset();
 		}
 		return input;
+	}
+	public double[] roborio_crash_bandicoot_check(double[] input) {//uses roborio built in accelerometer
+		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
+		if(accel.getX() > 0.1) 
+		{
+			above_crash_threshold = true;
+		}
+		if(accel.getX() < 0.1 && above_crash_threshold)
+		{
+			above_crash_threshold = false;
+			return null_response;
+		}
+		else
+		{
+			return input;
+		}
 	}
 	/**
 	 * Normalization function for arrays to normalize full scale to +- 1 <br>
