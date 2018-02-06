@@ -20,6 +20,7 @@ import com.ctre.CANTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -171,9 +172,11 @@ public class Robot extends RobotBase {
 //    	CameraInterface ci = CameraInterface.getInstance();
     	//ci.set_mode(CameraInterface.CAMERA_MODE.MULTI);
     	//ci.set_mode(CameraInterface.CAMERA_MODE.SINGLE); 4 or 5
+    	BuiltInAccelerometer accel = new BuiltInAccelerometer();
     	while (isTest() && isEnabled())
     	{
-    		System.out.println("Gyro-X"+imu.getAngleX());
+    		System.out.println("Gyro-X"+accel.getX());
+    		/*System.out.println("Gyro-X"+imu.getAngleX());
     	    System.out.println("Gyro-Y"+imu.getAngleY());
     	    System.out.println("Gyro-Z"+imu.getAngleZ());
     	    
@@ -186,7 +189,7 @@ public class Robot extends RobotBase {
     	    System.out.println("Yaw"+imu.getYaw());
     	    
     	    System.out.println("Pressure: "+imu.getBarometricPressure());
-    	    System.out.println("Temperature: "+imu.getTemperature()); 
+    	    System.out.println("Temperature: "+imu.getTemperature()); */
     	    //Timer.delay(1000);
     		//System.out.println("Test Mode!");
     		/*if(control.getRawButton(1)) {
@@ -270,11 +273,12 @@ public class Robot extends RobotBase {
                 	// We must be in the middle so don't do anything unless we are net setting what to run in auton somewhere else
                 }
                 */
-                _autonomous.setup_path(new double[][] {{-45, 0.1, 0.0, 11, 2000}});
+                _autonomous.setup_path(new double[][] {{0.2, 0.0, 0.0, 12, 3000}});
 	            
                 _autonomous.start();
                 while (isAutonomous() && !isDisabled()) {
                 	m_ds.waitForData(150);
+             
                 	_semaphore.newData();
                 }
                 
