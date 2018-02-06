@@ -273,7 +273,7 @@ public class Robot extends RobotBase {
                 	// We must be in the middle so don't do anything unless we are net setting what to run in auton somewhere else
                 }
                 */
-                _autonomous.setup_path(new double[][] {{0.2, 0.0, 0.0, 12, 3000}});
+                _autonomous.setup_path(new double[][] {{0.3, 0.0, 0.0, 12, 1000}});
 	            
                 _autonomous.start();
                 while (isAutonomous() && !isDisabled()) {
