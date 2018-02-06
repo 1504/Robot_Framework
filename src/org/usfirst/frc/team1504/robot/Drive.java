@@ -391,7 +391,7 @@ public class Drive implements Updatable
 	}
 	public double[] roborio_crash_bandicoot_check(double[] input) {//uses roborio built in accelerometer
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
-		if(Math.abs(accel.getX()) < 0.05 && Math.abs(accel.getX) > 0.03) 
+		if(Math.abs(accel.getX()) < 0.05 && Math.abs(accel.getX()) > 0.03) 
 		{//If we change the orientation of the roborio this has to be getY. On the bottom right of the roborio is a picture of it's x,y, & z axis.
 			above_crash_threshold = true;
 		}
