@@ -465,10 +465,10 @@ public class Drive implements Updatable
 	{
 		
         double angle_a = Math.toRadians(angle);
-        double speed_a = Math.toRadians(speed);
+        double speed_a = speed;
         
-        double forward_speed = Math.cos(angle_a);
-        double tracking_direction = Math.sin(speed_a);
+        double forward_speed = speed_a * Math.cos(angle_a);
+        double tracking_direction = speed_a * Math.sin(angle_a);
         
         double[] speeds = new double[] {forward_speed, tracking_direction};
         return speeds;
