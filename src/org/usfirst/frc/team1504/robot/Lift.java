@@ -45,7 +45,7 @@ public class Lift implements Updatable
 		if(IO.get_override_lift()){
 			set_lift_velocity(IO.lift_input());
 		}
-		else if(_pickup.lift_safe()) 
+		else if(get_lift_height() > 10) 
 		{
 			set_lift_velocity((lift_height[lift_state.ordinal()]-get_lift_height())*Map.LIFT_GAIN);
 			//sets lift velocity based on relative position to target

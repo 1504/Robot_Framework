@@ -213,6 +213,14 @@ public class Autonomous
 				double[] arr = _drive.follow_angle(angle, speed);
 				output[0] = arr[0];
 				output[1] = arr[1];
+			} else if(_path[step][3] == 12) //drive until crash
+			{
+				_path[step] = _drive.roborio_crash_bandicoot_check(_path[step]);
+				for(int value = 0; value < 3; value++) // P loop
+					output[value] = _path[step][value];
+				if(_path[step][0] + _path[step][1] + _path[step][2] == 0){
+					step++;
+				}
 			}
 			/*else if(_path[step][3] == 2)
 			{
