@@ -223,7 +223,7 @@ public class Map {
 	* If at middle and right end is goal + return to mid (ram, forward, right, forward, left, ram, back up, turn left, forward, turn right)
 	*/
 	public static final double[][] AUTON_PICKUP_FROM_MID_SEQUENCES =  {{0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 1, 500}, {0.0, 0.0, 0.0, 2, 500}, {0.0, 0.0, 0.0, 6, 50}, {0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 0, 1500}, {0.0, 0.0, 0.0, 5, 500}};
-	public static final double[][] AUTON_PORTAL_FROM_MID_SEQUENCES = {{0.0, 0.25, 0.0, 0, 1000}, {0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 25.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 1, 1000}, {0.0, 0.0, 0.0, 3, 1000}, {0.0, 0.0, 0.0, 9, 50}};
+	
 	/*Going to the exchange from mid
 	 *Picking up a cube from mid
 	 * */
@@ -239,7 +239,8 @@ public class Map {
 	/*Drive forward to the scale, turn left, raise the lift, drop the plate
 	 */
 	public static final double[][] UNIVERSAL_AUTON_SWITCH_SEQUENCES = {{0.0, -0.5, 0.0, 13, 5000}};
-	
+	public static final double[][] AUTON_PORTAL_FROM_MID_SEQUENCES = {{-90, 0.1, 0.0, 0, 1000}, {0.0, 0.2, 0.0, 13, 1000}, {0.0, 0.0, 0.0, 3, 1000}, {0.0, -0.2, 0.0, 0, 1000}, {90, 0.1, 0.0, 0, 1000}};
+	//{angle,strength/speed,turning,mode,time}
 /**
  * Logger stuff
  */
