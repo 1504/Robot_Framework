@@ -114,10 +114,8 @@ public class Autonomous
 	public double find_angle_theta(int x, int y)
 	{
 		
-		long camera_height = 128;
-		long camera_width = 256;
         double angle_theta = Math.toRadians(0.0);
-        angle_theta = Math.atan((x - (camera_width / 2)) / (y - camera_height));
+        angle_theta = Math.atan((x - (Map.CAMERA_X / 2)) / (y - Map.CAMERA_Y));
         return angle_theta;
 	
 	}
