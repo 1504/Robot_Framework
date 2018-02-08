@@ -7,7 +7,7 @@ import org.usfirst.frc.team1504.robot.Arduino.GEAR_MODE;
 import org.usfirst.frc.team1504.robot.Arduino.INTAKE_LIGHT_MODE;
 import org.usfirst.frc.team1504.robot.Arduino.PARTY_MODE;
 import org.usfirst.frc.team1504.robot.Arduino.SHOOTER_STATUS;
-import edu.wpi.first.wpilibj.networktables.*;
+import edu.wpi.first.networktables.*;
 import com.analog.adis16448.frc.ADIS16448_IMU;
 
 //import java.io.BufferedReader;
@@ -20,7 +20,6 @@ import com.ctre.CANTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -238,7 +237,7 @@ public class Robot extends RobotBase {
         LiveWindow.setEnabled(false);
         robotInit();
         NetworkTable table;
-        table = NetworkTable.getTable("GRIP/paper");
+        table = NetworkTableInstance.getDefault().getTable("GRIP/paper");
         HAL.observeUserProgramStarting();
         while (true) {
             if (isDisabled()) {
