@@ -135,6 +135,14 @@ public class Map {
 	public static final int VISION_INTERFACE_CAMERA_PORT_BUTTON = 5;
 	public static final int MASTER_OVERRIDE = 6; //RT1 -- RB
 	
+	
+/**
+ * Camera
+ */
+	public static final long CAMERA_X = 180;
+	public static final long CAMERA_Y = 160;
+	
+	
 /**
  * Arduino addresses
  */

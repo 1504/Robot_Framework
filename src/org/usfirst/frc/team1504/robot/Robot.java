@@ -1,5 +1,5 @@
 package org.usfirst.frc.team1504.robot;
-
+//
 import java.util.Arrays;
 
 import org.usfirst.frc.team1504.robot.Arduino.FRONTSIDE_MODE;
@@ -7,7 +7,7 @@ import org.usfirst.frc.team1504.robot.Arduino.GEAR_MODE;
 import org.usfirst.frc.team1504.robot.Arduino.INTAKE_LIGHT_MODE;
 import org.usfirst.frc.team1504.robot.Arduino.PARTY_MODE;
 import org.usfirst.frc.team1504.robot.Arduino.SHOOTER_STATUS;
-
+import edu.wpi.first.networktables.*;
 import com.analog.adis16448.frc.ADIS16448_IMU;
 
 //import java.io.BufferedReader;
@@ -57,6 +57,8 @@ public class Robot extends RobotBase {
      */
     public Robot() {
     	super();
+    	CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance();
     	Drive.initialize();
     	DigitBoard.initialize();
     	Digit_Board.initialize();
@@ -234,7 +236,8 @@ public class Robot extends RobotBase {
         // first and one-time initialization
         LiveWindow.setEnabled(false);
         robotInit();
-
+        NetworkTable table;
+        table = NetworkTableInstance.getDefault().getTable("GRIP/paper");
         HAL.observeUserProgramStarting();
         while (true) {
             if (isDisabled()) {
@@ -273,7 +276,7 @@ public class Robot extends RobotBase {
                 	// We must be in the middle so don't do anything unless we are net setting what to run in auton somewhere else
                 }
                 */
-                _autonomous.setup_path(new double[][] {{0.3, 0.0, 0.0, 12, 1000}});
+                _autonomous.setup_path(new double[][] {{-55, 0.2, 0.0, 11, 500}});
 	            
                 _autonomous.start();
                 while (isAutonomous() && !isDisabled()) {

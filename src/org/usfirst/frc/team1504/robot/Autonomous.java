@@ -102,13 +102,20 @@ public class Autonomous
 		System.out.println("Autonomous loop started");
 	}
 	
+	public double[] switch_angles(int x1, int x2, int y1, int y2)
+	{
+		double left_box = find_angle_theta(x1, y1);
+		double right_box = find_angle_theta(x2, y2);
+		
+		double[] angles = new double[] {left_box, right_box};
+		return angles;
+	}
+	
 	public double find_angle_theta(int x, int y)
 	{
 		
-		long camera_height = 128;
-		long camera_width = 256;
         double angle_theta = Math.toRadians(0.0);
-        angle_theta = Math.atan((x - (camera_width / 2)) / (y - camera_height));
+        angle_theta = Math.atan((x - (Map.CAMERA_X / 2)) / (y - Map.CAMERA_Y));
         return angle_theta;
 	
 	}
