@@ -102,6 +102,15 @@ public class Autonomous
 		System.out.println("Autonomous loop started");
 	}
 	
+	public double[] switch_angles(int x1, int x2, int y)
+	{
+		double left_box = find_angle_theta(x1, y);
+		double right_box = find_angle_theta(x2, y);
+		
+		double[] angles = new double[] {left_box, right_box};
+		return angles;
+	}
+	
 	public double find_angle_theta(int x, int y)
 	{
 		
