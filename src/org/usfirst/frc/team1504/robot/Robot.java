@@ -250,11 +250,14 @@ public class Robot extends RobotBase {
                 while (isDisabled())
                     Timer.delay(0.01);
                 m_ds.InDisabled(false);
+                System.out.println(angles);
             } else if (isAutonomous()) {
             	
                 m_ds.InAutonomous(true);
                 _logger.start("Auto");
                 autonomous();
+                System.out.println(angles);
+                
                 String message = _ds.getGameSpecificMessage();
                 char left = 'L';
                 char right = 'R';
