@@ -102,20 +102,17 @@ public class Autonomous
 		System.out.println("Autonomous loop started");
 	}
 	
-	public double[] switch_angles(int x1, int x2, int y1, int y2)
+	public double[] switch_angles(double x1, double x2, double y1, double y2)
 	{
 		double left_box = find_angle_theta(x1, y1);
 		double right_box = find_angle_theta(x2, y2);
-		
 		double[] angles = new double[] {left_box, right_box};
 		return angles;
 	}
 	
-	public double find_angle_theta(int x, int y)
+	public double find_angle_theta(double x, double y)
 	{
-		
-        double angle_theta = Math.toRadians(0.0);
-        angle_theta = Math.atan((x - (Map.CAMERA_X / 2)) / (y - Map.CAMERA_Y));
+        double angle_theta = Math.toDegrees(Math.atan((x - (Map.CAMERA_X / 2)) / (y - Map.CAMERA_Y)));
         return angle_theta;
 	
 	}
@@ -235,10 +232,10 @@ public class Autonomous
 				output[0] = arr[0];
 				output[1] = arr[1];
 				
-				_path[step] = _drive.roborio_crash_bandicoot_check(_path[step]);
+				double[] temp = _drive.roborio_crash_bandicoot_check(output);
 				for(int value = 0; value < 3; value++) // P loop
-					output[value] = _path[step][value];
-				if(_path[step][0] + _path[step][1] + _path[step][2] == 0)
+					output[value] = temp[value];
+				if(output[0] + output[1] + output[2] == 0)
 					step++;
 			}
 			/*else if(_path[step][3] == 2)
