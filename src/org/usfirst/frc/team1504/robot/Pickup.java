@@ -12,7 +12,7 @@ public class Pickup implements Updatable {
 	private WPI_TalonSRX _arm;
 	DoubleSolenoid _grab_piston; 
 	private Lift _lift = Lift.getInstance();
-	public enum arm_position {UP, DOWN, MIDDLE}; // declares states of arms
+	public enum arm_position {UP, DOWN, MIDDLE, OFF}; // declares states of arms
 	public double[] arm_angle = {Map.ARM_UP_ANGLE, Map.ARM_DOWN_ANGLE, Map.ARM_UP_ANGLE/2}; // Map.ARM_UP_ANGLE/2 or Map.ARM_MID_ANGLE
 	public static arm_position arm_state = arm_position.DOWN; // sets arms to be down at beginning of match
 	
@@ -92,6 +92,10 @@ public class Pickup implements Updatable {
 	}
 	private void update_mode() //checks if pickup is in progress
 	{
+		if()
+		{
+			
+		}
 		if (IO.get_override_pickup())
 		{
 			set_intake_speed(IO.intake_input()*Map.FLIPPER_MAGIC);
