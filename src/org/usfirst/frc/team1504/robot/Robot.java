@@ -237,7 +237,11 @@ public class Robot extends RobotBase {
         LiveWindow.setEnabled(false);
         robotInit();
         NetworkTable table;
-        table = NetworkTableInstance.getDefault().getTable("GRIP/paper");
+        table = NetworkTableInstance.getDefault().getTable("GRIP/switch");
+        double[] xRects = table.getEntry("centerX").getDoubleArray(new double[] {2, 3});
+        double[] yRects = table.getEntry("centerY").getDoubleArray(new double[] {2, 3});
+        double[] angles = _autonomous.switch_angles((int) xRects[0], (int)xRects[1], 
+        											(int)yRects[0], (int)yRects[1]);
         HAL.observeUserProgramStarting();
         while (true) {
             if (isDisabled()) {
@@ -246,11 +250,13 @@ public class Robot extends RobotBase {
                 while (isDisabled())
                     Timer.delay(0.01);
                 m_ds.InDisabled(false);
+                System.out.println(angles);
             } else if (isAutonomous()) {
+            	
                 m_ds.InAutonomous(true);
                 _logger.start("Auto");
-                
                 autonomous();
+                System.out.println(angles);
                 
                 String message = _ds.getGameSpecificMessage();
                 char left = 'L';
@@ -276,7 +282,7 @@ public class Robot extends RobotBase {
                 	// We must be in the middle so don't do anything unless we are net setting what to run in auton somewhere else
                 }
                 */
-                _autonomous.setup_path(new double[][] {{-55, 0.2, 0.0, 11, 500}});
+                _autonomous.setup_path(new double[][] {{angles[0], 0.2, 0.0, 11, 2000}});
 	            
                 _autonomous.start();
                 while (isAutonomous() && !isDisabled()) {
