@@ -39,6 +39,41 @@ public class Arduino
 		_bus.transaction(buffer, buffer.length, sensor_data, sensor_data.length);
 		return sensor_data;
 	}
+	
+	public double[] return_colors() 
+	{
+		double[] RGB = {0,128,0};
+		if(Lift.lift_state == Lift.lift_position.BOTTOM)
+		{
+			RGB[0] = 0;
+			RGB[1] = 255;
+			RGB[2] = 0;
+		}
+		else if(Lift.lift_state == Lift.lift_position.MIDDLE) {
+			RGB[0] = 255;
+			RGB[1] = 255;
+			RGB[2] = 0;
+		}
+		else if(Lift.lift_state == Lift.lift_position.TOP) {
+			RGB[0] = 255;
+			RGB[1] = 0;
+			RGB[2] = 0;
+		}
+		
+		if(Pickup.intake_state == Pickup.intake.IN)
+		{
+			RGB[0] = 255;
+			RGB[1] = 255;
+			RGB[2] = 0;
+		}
+		else if(Pickup.intake_state == Pickup.intake.OUT)
+		{
+			RGB[0] = 0;
+			RGB[1] = 0;
+			RGB[2] = 255;
+		}
+		return RGB;
+	}
 
 /**
  *Requests the images from the left and right sensors
