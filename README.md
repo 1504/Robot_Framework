@@ -12,3 +12,5 @@
 8. Download and install [CTRE](http://www.ctr-electronics.com/hro.html#product_tabs_technical_resources). Click on the "CTRE Phoenix Framework Installer" link.
 9. Open Eclipse, and check that everything works without errors. Hit the green arrow button in the top toolbar, and deploy code.
 10. Don't worry about connection errors. If you get any Java errors, ask someone for help.
+
+More instructions are located in the [wiki](https://github.com/1504/Robot_Framework/wiki)

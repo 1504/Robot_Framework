@@ -181,7 +181,7 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 3) //eject cube
 			{
-				_pickup.set_state(intake.OFF);
+				_pickup.set_state(Pickup.intake.OFF);
 			}
 			else if(_path[step][3] == 4) //bring arm up
 			{
@@ -193,7 +193,7 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 6) //intake a cube
 			{
-				_pickup.set_state(intake.IN);
+				_pickup.set_state(Pickup.intake.IN);
 			}
 			else if(_path[step][3] == 7) //extend lift all the way up
 			{
@@ -205,7 +205,7 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 9) //stop flippers
 			{
-				_pickup.intake_stop();
+				_pickup.set_state(Pickup.intake.OFF);
 			}
 			else if(_path[step][3] == 10) //Auton Scale drop
 			{
