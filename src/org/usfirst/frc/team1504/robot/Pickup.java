@@ -59,7 +59,7 @@ public class Pickup implements Updatable {
 		_grab_right.set(-speed);
 	}
 	
-	public void flipper_intake() // sets rotors to spin cube in
+	public void intake_in() // sets rotors to spin cube in
 	{
 		set_intake_speed(Map.ROLLER_SPEED);
 	}
@@ -104,9 +104,18 @@ public class Pickup implements Updatable {
 		{
 			close_flipper();
 		}
-		else if (flipper_state == flipper.OPEN);
+		else if (flipper_state == flipper.OPEN)
 		{
 			open_flipper();
+		}
+		
+		if (intake_state == intake.IN)
+		{
+			intake_in();
+		}
+		else if (intake_state == intake.OFF)
+		{
+			intake_excrete();
 		}
 		
 		if (IO.get_arm_up())

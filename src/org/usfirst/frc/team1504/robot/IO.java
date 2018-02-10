@@ -44,7 +44,7 @@ public class IO
 	}
 	public static boolean spin_rotors_out()
 	{
-		return ((int) (2*_secondary.getRawAxis(Map.SPIN_ROTORS_OUT))) != 0; //some math
+		return ((int) (2*_secondary.getRawAxis(Map.SPIN_ROTORS_OUT))) != 0; //some math because the button is a joystick
 	}
 	public static int open_flippers()
 	{
