@@ -230,7 +230,7 @@ public class Map {
     /*If at middle and left end is the goal + return to mid (ram, forward)
 	* If at middle and right end is goal + return to mid (ram, forward, right, forward, left, ram, back up, turn left, forward, turn right)
 	*/
-	public static final double[][] AUTON_PICKUP_FROM_MID_SEQUENCES =  {{0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 1, 500}, {0.0, 0.0, 0.0, 2, 500}, {0.0, 0.0, 0.0, 6, 50}, {0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 0, 1500}, {0.0, 0.0, 0.0, 5, 500}};
+	public static final double[][] AUTON_PICKUP_FROM_MID_SEQUENCES =  {{0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 1, 500}, {0.0, 0.0, 0.0, 2, 500}, {0.0, 0.0, 0.0, 6, 50}, {0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 0, 500}, {0.0, 0.0, 0.0, 5, 500}, {0.0, 0.0, 0.0, 9, 500}};
 	
 	/*Going to the exchange from mid
 	 *Picking up a cube from mid
