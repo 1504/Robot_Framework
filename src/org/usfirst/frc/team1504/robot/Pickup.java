@@ -2,7 +2,6 @@ package org.usfirst.frc.team1504.robot;
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -59,16 +58,6 @@ public class Pickup implements Updatable {
 		_grab_right.set(-speed);
 	}
 	
-	public void open_flipper() //extends piston between arms to grab cube
-	{
-		_grab_piston.set(DoubleSolenoid.Value.kForward);
-	}
-	
-	public void close_flipper() // closes space between arms with piston
-	{
-		_grab_piston.set(DoubleSolenoid.Value.kReverse);
-	}
-	
 	public boolean lift_safe() //says whether or not the pickup arms are backed where the lift can be
 	{
 		return _lift.get_lift_height() > 10;
@@ -88,15 +77,8 @@ public class Pickup implements Updatable {
 			// Sets arm velocity based on how far away the target is and where it is.
 			// Finds target angle by finding element of arm_state then finds its angle element in the arm_angle array
 		}
-		if (flipper_state == flipper.CLOSE)
-		{
-			close_flipper();
-		}
-		else if (flipper_state == flipper.OPEN)
-		{
-			open_flipper();
-		}
-		
+		_grab_piston.set(DoubleSolenoid.Value.values()[flipper_state.ordinal()+1]);
+		//this bit of code should set the piston based on the state
 		if (IO.get_arm_up())
 		{
 			set_state(arm_position.UP);
