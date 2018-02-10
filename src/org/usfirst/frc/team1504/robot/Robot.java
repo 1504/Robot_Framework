@@ -269,24 +269,21 @@ public class Robot extends RobotBase {
                 
                 char[] new_message = message.toCharArray();
                 
-                /*if (new_message[1] == left && starting_position == left)
-                { 		
-                	_autonomous.setup_path(Map.AUTON_LEFT_SCALE_SEQUENCES);
-                }
-                else if (new_message[1] == right && starting_position == right)
+                if (new_message[0] == left)
                 {
-                	_autonomous.setup_path(Map.AUTON_RIGHT_SCALE_SEQUENCES);
+                	double[] go_to_left = new double[] {xRects[0], yRects[0]}; // this should be the x values unless they are backwards in network tables
                 }
-                else if (new_message[0] == 0)
+                else if (new_message[0] == right)
                 {
-                	
+                	double[] go_to_right = new double[] {xRects[1], yRects[1]}; // this should be the x values unless they are backwards in network tables
                 }
                 else
                 {
                 	// We must be in the middle so don't do anything unless we are net setting what to run in auton somewhere else
                 }
-                */
-                _autonomous.setup_path(new double[][] {{arr[0], arr[1], 0.0, 12, 7000}});
+                
+                
+                _autonomous.setup_path(new double[][] {{0.1, 0, 0.0, 0, 5000}});
 	            
                 _autonomous.start();
                 while (isAutonomous() && !isDisabled()) {

@@ -26,6 +26,7 @@ public class Map {
 	public static final int SPIN_ROTORS_IN = 5; //LT1 -- LB
 	public static final int SPIN_ROTORS_OUT = 2; //left trigger axis
 	public static final int OPEN_FLIPPERS = 3; //right trigger axis
+	// WE DON'T HAVE A BUTTON FOR DROPPING THE CUBE FROM THE ELEVATOR
 
 	
 /**
