@@ -64,13 +64,8 @@ public class Pickup implements Updatable {
 	}
 	private void update_mode() //checks if pickup is in progress
 	{
-		if (IO.get_override_pickup())
-		{
-			set_intake_speed(IO.intake_input()*Map.FLIPPER_MAGIC);
-		} else
-		{
-			set_intake_speed(intake_speeds[intake_state.ordinal()]);
-		}
+		set_intake_speed(IO.get_override_pickup() ?
+				IO.intake_input()*Map.FLIPPER_MAGIC : intake_speeds[intake_state.ordinal()]);
 		if (_lift.pickup_safe())
 		{
 			set_arm_speed((arm_angle[arm_state.ordinal()]-_arm.getSelectedSensorPosition(0))*Map.PICKUP_GAIN);
@@ -96,7 +91,10 @@ public class Pickup implements Updatable {
 		{
 			set_state(intake.OUT);
 		}
-		else
+		/*there is a bug here. If we try to set the state of the intake in auton, it will fail
+		this should only be ran in telop, if we run it in auton the else is always true, so the
+		intake never runs*/
+		else 
 		{
 			set_state(intake.OFF);
 		}
