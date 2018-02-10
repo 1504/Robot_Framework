@@ -113,12 +113,12 @@ public class Pickup implements Updatable {
 		
 		if (IO.get_pickup_up())
 		{
-			set_state(arm_position.DOWN);
-			flipper_intake();
+			set_state(arm_position.UP);
+			//flipper_intake();
 		}
 		else if (IO.get_pickup_down())
 		{
-			set_state(arm_position.UP);
+			set_state(arm_position.DOWN);
 		}
 		
 		if (IO.spin_rotors_in())
