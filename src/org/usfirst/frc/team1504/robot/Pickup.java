@@ -21,7 +21,7 @@ public class Pickup implements Updatable {
 	
 	public enum intake {IN, OUT, OFF};
 	public static intake intake_state = intake.OFF;
-	
+	public double[] intake_speeds = {Map.ROLLER_SPEED, -Map.ROLLER_SPEED, 0};
 	private static final Pickup instance = new Pickup();
 	private DriverStation _ds = DriverStation.getInstance();
 	public static Pickup getInstance() // sets instance
@@ -59,21 +59,6 @@ public class Pickup implements Updatable {
 		_grab_right.set(-speed);
 	}
 	
-	public void intake_in() // sets rotors to spin cube in
-	{
-		set_intake_speed(Map.ROLLER_SPEED);
-	}
-	
-	public void intake_excrete() // sets rollers to spit cube out
-	{				
-		set_intake_speed(-Map.ROLLER_SPEED);
-	}
-	
-	public void intake_stop() 
-	{
-		set_intake_speed(0);
-	}
-	
 	public void open_flipper() //extends piston between arms to grab cube
 	{
 		_grab_piston.set(DoubleSolenoid.Value.kForward);
@@ -93,6 +78,9 @@ public class Pickup implements Updatable {
 		if (IO.get_override_pickup())
 		{
 			set_intake_speed(IO.intake_input()*Map.FLIPPER_MAGIC);
+		} else
+		{
+			set_intake_speed(intake_speeds[intake_state.ordinal()]);
 		}
 		if (_lift.pickup_safe())
 		{
@@ -109,19 +97,9 @@ public class Pickup implements Updatable {
 			open_flipper();
 		}
 		
-		if (intake_state == intake.IN)
-		{
-			intake_in();
-		}
-		else if (intake_state == intake.OFF)
-		{
-			intake_excrete();
-		}
-		
 		if (IO.get_arm_up())
 		{
 			set_state(arm_position.UP);
-			//flipper_intake();
 		}
 		else if (IO.get_arm_down())
 		{
@@ -158,7 +136,7 @@ public class Pickup implements Updatable {
 	public void semaphore_update() //updates robot information
 	{
 		if(_ds.isOperatorControl() && !_ds.isDisabled())
-			set_state(flipper.values()[IO.open_flippers()]); // 0 --> IO.get_controller_trigger thing
+			set_state(flipper.values()[IO.open_flippers()]);
 		update_mode();
 	}
 }
