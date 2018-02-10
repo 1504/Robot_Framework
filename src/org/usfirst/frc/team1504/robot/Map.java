@@ -24,7 +24,7 @@ public class Map {
 	public static final int LIFT_UP = 4; //Y
 	public static final int LIFT_DOWN = 2; //B
 	public static final int SPIN_ROTORS_IN = 5; //LT1 -- LB
-	public static final int SPIN_ROTORS_OUT = 2;
+	public static final int SPIN_ROTORS_OUT = 2; //left trigger axis
 	public static final int OPEN_FLIPPERS = 3; //right trigger axis
 
 	
@@ -46,6 +46,8 @@ public class Map {
 		public static final double ARM_SPEED = 0.3;
 		
 		public static final double FLIPPER_MAGIC = 1.0;
+		
+		public static final double PICKUP_GAIN = 0.03;
 		
 		
 /**

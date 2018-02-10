@@ -64,17 +64,15 @@ public class Pickup implements Updatable {
 		set_intake_speed(Map.ROLLER_SPEED);
 	}
 	
-	public void flipper_excrete() // sets rollers to spit cube out
+	public void intake_excrete() // sets rollers to spit cube out
 	{				
 		set_intake_speed(-Map.ROLLER_SPEED);
 	}
 	
-	public void flipper_stop() 
+	public void intake_stop() 
 	{
 		set_intake_speed(0);
 	}
-	
-	
 	
 	public void open_flipper() //extends piston between arms to grab cube
 	{
@@ -98,7 +96,7 @@ public class Pickup implements Updatable {
 		}
 		if (_lift.pickup_safe())
 		{
-			set_arm_speed((arm_angle[arm_state.ordinal()]-_arm.getSelectedSensorPosition(0))/Map.ARM_DOWN_ANGLE);
+			set_arm_speed((arm_angle[arm_state.ordinal()]-_arm.getSelectedSensorPosition(0))*Map.PICKUP_GAIN);
 			// Sets arm velocity based on how far away the target is and where it is.
 			// Finds target angle by finding element of arm_state then finds its angle element in the arm_angle array
 		}
@@ -111,12 +109,12 @@ public class Pickup implements Updatable {
 			open_flipper();
 		}
 		
-		if (IO.get_pickup_up())
+		if (IO.get_arm_up())
 		{
 			set_state(arm_position.UP);
 			//flipper_intake();
 		}
-		else if (IO.get_pickup_down())
+		else if (IO.get_arm_down())
 		{
 			set_state(arm_position.DOWN);
 		}
