@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import org.usfirst.frc.team1504.robot.Pickup;
 import org.usfirst.frc.team1504.robot.Pickup.flipper;
+import org.usfirst.frc.team1504.robot.Pickup.intake;
 
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -180,7 +181,7 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 3) //eject cube
 			{
-				_pickup.set_intake_speed(-0.8);
+				_pickup.set_state(intake.OFF);
 			}
 			else if(_path[step][3] == 4) //bring arm up
 			{
@@ -192,7 +193,7 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 6) //intake a cube
 			{
-				_pickup.set_intake_speed(0.8);
+				_pickup.set_state(intake.IN);
 			}
 			else if(_path[step][3] == 7) //extend lift all the way up
 			{
@@ -204,7 +205,7 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 9) //stop flippers
 			{
-				_pickup.flipper_stop();
+				_pickup.intake_stop();
 			}
 			else if(_path[step][3] == 10) //Auton Scale drop
 			{
