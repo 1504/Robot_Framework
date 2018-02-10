@@ -92,10 +92,6 @@ public class Pickup implements Updatable {
 	}
 	private void update_mode() //checks if pickup is in progress
 	{
-		if()
-		{
-			
-		}
 		if (IO.get_override_pickup())
 		{
 			set_intake_speed(IO.intake_input()*Map.FLIPPER_MAGIC);
