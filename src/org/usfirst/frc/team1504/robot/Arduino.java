@@ -15,6 +15,7 @@ public class Arduino
 	public enum INTAKE_LIGHT_MODE {OFF, ON};
 	
 	public enum PARTY_MODE {OFF, ON};
+	private Lift _lift = Lift.getInstance();
 	
 	private static Arduino instance = new Arduino();
 	
@@ -40,21 +41,54 @@ public class Arduino
 		return sensor_data;
 	}
 	
+	public void flash_colors() 
+	{
+		//flashes current colors
+	}
+	public double[] lift_gradient() 
+	{
+		double[] RGB = {0, 0, 0};
+		int returnval;
+		double margins = Map.LIFT_MAX_HEIGHT/3;
+		if((0 < _lift.get_lift_height()) && (_lift.get_lift_height() < margins))
+		{
+			returnval = (int) ((_lift.get_lift_height() / margins) * 255);
+			RGB[0] = 0;
+			RGB[1] = returnval;
+			RGB[2] = 0;
+		}
+		else if((margins < _lift.get_lift_height()) && (_lift.get_lift_height() < (2 * margins))) 
+		{
+			returnval = (int) ((_lift.get_lift_height() / (2 *margins)) * 255);
+			RGB[0] = returnval;
+			RGB[1] = returnval;
+			RGB[2] = 0;
+		}
+		else if(((2 *margins) < _lift.get_lift_height()) && (_lift.get_lift_height() < (3 * margins))) 
+		{
+			returnval = (int) ((_lift.get_lift_height() / (3 *margins)) * 255);
+			RGB[0] = 0;
+			RGB[1] = 0;
+			RGB[2] = returnval;
+		}
+		
+		return RGB;
+	}
 	public double[] return_colors() 
 	{
 		double[] RGB = {0,128,0};
-		if(Lift.lift_state == Lift.lift_position.BOTTOM)
+		if(_lift.lift_state == Lift.lift_position.BOTTOM)
 		{
 			RGB[0] = 0;
 			RGB[1] = 255;
 			RGB[2] = 0;
 		}
-		else if(Lift.lift_state == Lift.lift_position.MIDDLE) {
+		else if(_lift.lift_state == Lift.lift_position.MIDDLE) {
 			RGB[0] = 255;
 			RGB[1] = 255;
 			RGB[2] = 0;
 		}
-		else if(Lift.lift_state == Lift.lift_position.TOP) {
+		else if(_lift.lift_state == Lift.lift_position.TOP) {
 			RGB[0] = 255;
 			RGB[1] = 0;
 			RGB[2] = 0;
@@ -71,6 +105,11 @@ public class Arduino
 			RGB[0] = 0;
 			RGB[1] = 0;
 			RGB[2] = 255;
+		}
+		
+		if(Pickup.arm_state == Pickup.arm_position.OFF) 
+		{
+			flashcolors();
 		}
 		return RGB;
 	}
