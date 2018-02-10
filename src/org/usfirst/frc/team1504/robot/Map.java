@@ -246,7 +246,7 @@ public class Map {
 	public static final double[][] AUTON_RIGHT_SCALE_SEQUENCES = {{0.75, 0.0, 0.0, 0, 3000}, {0.0, 0.0, -0.25, 0, 1000}, {0.0, 0.0, 0.0, 7, 1000}, {0.0, 0.0, 0.0, 10, 1000}};
 	/*Drive forward to the scale, turn left, raise the lift, drop the plate
 	 */
-	public static final double[][] UNIVERSAL_AUTON_SWITCH_SEQUENCES = {{0.0, -0.5, 0.0, 13, 5000}};
+	public static final double[][] UNIVERSAL_AUTON_SWITCH_SEQUENCES = {{45, -0.5, 0.0, 13, 5000}}; // Add an angle into index 0
 	public static final double[][] AUTON_PORTAL_FROM_MID_SEQUENCES = {{-90, 0.1, 0.0, 0, 1000}, {0.0, 0.2, 0.0, 13, 1000}, {0.0, 0.0, 0.0, 3, 1000}, {0.0, -0.2, 0.0, 0, 1000}, {90, 0.1, 0.0, 0, 1000}};
 	//{angle,strength/speed,turning,mode,time}
 /**
