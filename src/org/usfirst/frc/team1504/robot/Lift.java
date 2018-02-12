@@ -26,12 +26,12 @@ public class Lift implements Updatable
 	
 	private void update_mode() //checks where the lift is
 	{
-		if ((Map.LIFT_THRESHOLD < get_lift_height()) && (get_lift_height() < Map.LIFT_MAX_HEIGHT)) 
+		if (get_lift_height() > Map.LIFT_MAX_HEIGHT) 
 		{
 			get_top_lift_sensor = true;
 			lift_state = lift_position.OFF;
 		}
-		else if ((Map.LIFT_THRESHOLD > get_lift_height()) && (get_lift_height() > Map.LIFT_MIN_HEIGHT)) 
+		else if (get_lift_height() < Map.LIFT_MIN_HEIGHT)
 		{
 			get_bottom_lift_sensor = true;
 			lift_state = lift_position.OFF;
@@ -45,7 +45,7 @@ public class Lift implements Updatable
 		if(IO.get_override_lift()){
 			set_lift_velocity(IO.lift_input());
 		}
-		else if(get_lift_height() > 10) 
+		else if(_pickup.lift_safe()) 
 		{
 			set_lift_velocity((lift_height[lift_state.ordinal()]-get_lift_height())*Map.LIFT_GAIN);
 			//sets lift velocity based on relative position to target
@@ -63,60 +63,6 @@ public class Lift implements Updatable
 	public void set_state(lift_position state)
 	{
 		lift_state = state;
-	}
-	
-	private void set_motor() //sets the position of the lift
-	{
-		if (IO.get_override_lift())
-		{
-			set_lift_velocity(IO.intake_input());
-		}
-		if (get_top_lift_sensor) 
-		{
-			set_lift_velocity(0);
-			System.out.println("At top, stopping");
-			if (IO.get_lift_up()) 
-			{
-				set_lift_velocity(0);
-			}
-			if(IO.get_lift_down() && _pickup.lift_safe()) 
-			{
-				set_lift_velocity(0); // this is broke, really broke
-			}
-		}
-		else 
-		{
-			System.out.println("Not at top...");
-		}
-		if (get_bottom_lift_sensor) 
-		{
-			set_lift_velocity(0);
-			System.out.println("At bottom, stopping");
-			if (IO.get_lift_down()) 
-			{
-				set_lift_velocity(0);
-			}
-			if(IO.get_lift_up() && _pickup.lift_safe()) 
-			{
-				set_lift_velocity(0); // this is broke, really really broke
-			}
-		}
-		else 
-		{
-			System.out.println("Not at bottom...");
-		}
-	}
-	
-	public double lift_speed(int speed)//Toggle based (position based, y)
-	{
-		if(speed == 1)//v = x^2
-		{	
-			return (((Map.LIFT_MAX_HEIGHT-get_lift_height())*(Map.LIFT_MAX_HEIGHT-get_lift_height()))/(Map.LIFT_MAX_HEIGHT*Map.LIFT_MAX_HEIGHT));
-		}
-		else//v = x
-		{
-			return ((Map.LIFT_MAX_HEIGHT-get_lift_height())/Map.LIFT_MAX_HEIGHT);
-		}
 	}
 	
 	private void set_lift_velocity(double speed) {
@@ -151,6 +97,5 @@ public class Lift implements Updatable
 	public void semaphore_update() //updates data from robot
 	{
 		update_mode();
-		set_motor();
 	}
 }
