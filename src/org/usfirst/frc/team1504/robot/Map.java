@@ -69,6 +69,22 @@ public class Map {
  */
 		
 		public static final int INTAKE_POWER_AXIS = 1;
+		/**
+		 * Winch stuff
+		 */	
+			public static final int NANCY_TALON_PORT = 20;
+			public static final int MEAD_TALON_PORT = 21;
+			
+			public static final int WINCH_CURRENT_LIMIT = 70;
+			
+			public static final int WINCH_POWER_AXIS = 1;
+			
+			public static final double WINCH_DIRECTION = 1.0;
+			public static final int WINCH_SERVO1 = 1;
+			public static final int WINCH_SERVO2 = 0;
+			public static final double WINCH_SERVO_DEPLOYED = 180.0;
+			public static final double WINCH_SERVO_STORED = 0.0;
+			public static final double WINCH_BRAKE_TIMEOUT = 15.0;
 		
 /**
  * Drive class things
@@ -250,7 +266,8 @@ public class Map {
 	public static final double[][] AUTON_RIGHT_SCALE_SEQUENCES = {{0.75, 0.0, 0.0, 0, 3000}, {0.0, 0.0, -0.25, 0, 1000}, {0.0, 0.0, 0.0, 7, 1000}, {0.0, 0.0, 0.0, 10, 1000}};
 	/*Drive forward to the scale, turn left, raise the lift, drop the plate
 	 */
-	public static final double[][] RIGHT_SCALE_UNIVERSAL_AUTON_SEQUENCES = {{Autonomous.find_angle_theta(Robot.left_x, Robot.left_y), -0.5, 0.0, 13, 5000}, {0.0, 0.0, 0.0, 10, 1000}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 2, 50}, {-90.0, 0.75, 0.0, 13, 2000}, {0.0, -0.75, 0.0, 0, 2500}, {90.0, -0.75, 0.0, 0, 2000}, {0.0, 0.5, 0.0, 0.0, 1000}, {0.0, 0.0, 0.0, 6, 50}, {0.0, 0.0, 0.0, 5, 500}, {0.0, 0.0, 0.0, 3, 50}, {0.0, 0.0, 0.0, 4, 100}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 5, 1}, {0.0, -0.75, 0.0, 0.0, 2000}, {0.0, 0.0, 0.0, 7, 100}, {0.0, 0.0, 0.0, 10, 200}}; // Add an angle into index 0
+	public static final double[][] RIGHT_SCALE_UNIVERSAL_AUTON_SEQUENCES = {{Autonomous.find_angle_theta(Robot.right_x, Robot.right_y), -0.5, 0.0, 13, 5000}, {0.0, 0.0, 0.0, 10, 1000}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 2, 50}, {-90.0, 0.75, 0.0, 13, 2000}, {0.0, -0.75, 0.0, 0, 2500}, {90.0, -0.75, 0.0, 0, 2000}, {0.0, 0.5, 0.0, 0.0, 1000}, {0.0, 0.0, 0.0, 6, 50}, {0.0, 0.0, 0.0, 5, 500}, {0.0, 0.0, 0.0, 3, 50}, {0.0, 0.0, 0.0, 4, 100}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 5, 100}, {0.0, -0.75, 0.0, 0.0, 2000}, {0.0, 0.0, 0.0, 7, 100}, {0.0, 0.0, 0.0, 10, 200}}; // Add an angle into index 0
+	public static final double[][] LEFT_SCALE_UNIVERSAL_AUTON_SEQUENCES = {{Autonomous.find_angle_theta(Robot.left_x, Robot.left_y), -0.5, 0.0, 13, 5000}, {0.0, 0.0, 0.0, 10, 1000}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 2, 50}, {90.0, 0.75, 0.0, 13, 2000}, {0.0, -0.75, 0.0, 0, 2500}, {-90.0, -0.75, 0.0, 0, 2000}, {0.0, 0.5, 0.0, 0.0, 1000}, {0.0, 0.0, 0.0, 6, 50}, {0.0, 0.0, 0.0, 5, 500}, {0.0, 0.0, 0.0, 3, 50}, {0.0, 0.0, 0.0, 4, 100}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 5, 100},  {0.0, -0.75, 0.0, 0.0, 2000}, {0.0, 0.0, 0.0, 7, 100}, {0.0, 0.0, 0.0,  10, 200}};
 	public static final double[][] AUTON_PORTAL_FROM_MID_SEQUENCES = {{-90, 0.1, 0.0, 0, 1000}, {0.0, 0.2, 0.0, 13, 1000}, {0.0, 0.0, 0.0, 3, 1000}, {0.0, -0.2, 0.0, 0, 1000}, {90, 0.1, 0.0, 0, 1000}};
 	public static final double[][] AUTON_PICKUP_FROM_MID = {{0, 0, 0.25, 0.0, 2, 2000},{0, 0, 0.0, 0.0, 11,}};
 	//{angle,strength/speed,turning,mode,time}
