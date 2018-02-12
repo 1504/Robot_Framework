@@ -52,8 +52,6 @@ public class Map {
 		
 		public static final int ENCODER_PORT_1 = 1;
 		public static final int ENCODER_PORT_2 = 2;
-		public static final double ENCODER_MIN_RATE = 0; 
-		public static final int ENCODER_SAMPLES_TO_AVERAGE = 0; 
 /**
  * Elevator / Lift Stuff
  */

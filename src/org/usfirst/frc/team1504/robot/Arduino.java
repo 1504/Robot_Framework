@@ -109,7 +109,7 @@ public class Arduino
 		
 		if(Pickup.arm_state == Pickup.arm_position.OFF) 
 		{
-			flashcolors();
+			flash_colors();
 		}
 		return RGB;
 	}
