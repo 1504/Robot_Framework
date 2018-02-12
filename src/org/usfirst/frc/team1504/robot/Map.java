@@ -33,10 +33,10 @@ public class Map {
  * Pickup stuff
  */
 	
-		public static final int ARM_TALON_PORT = 38;
+		public static final int ARM_TALON_PORT = 20;
 		
-		public static final int ROLLER_TALON_PORT_LEFT = 40;
-		public static final int ROLLER_TALON_PORT_RIGHT = 41;
+		public static final int ROLLER_TALON_PORT_LEFT = 21;
+		public static final int ROLLER_TALON_PORT_RIGHT = 22;
 		
 		public static final double ROLLER_SPEED = 0.7;
 		
@@ -55,7 +55,7 @@ public class Map {
  * Elevator / Lift Stuff
  */
 		
-		public static final int LIFT_TALON_PORT = 42;
+		public static final int LIFT_TALON_PORT = 30;
 		
 		public static final double LIFT_MOTOR_SPEED = 0.5;
 		
@@ -63,6 +63,7 @@ public class Map {
 		public static final double LIFT_MIN_HEIGHT = 0; 
 		
 		public static final double LIFT_GAIN = 0.3;
+		public static final double LIFT_THRESHOLD = 0;
 /*
  * Winch Stuff
  */
@@ -252,6 +253,7 @@ public class Map {
 	public static final double[][] RIGHT_SCALE_UNIVERSAL_AUTON_SEQUENCES = {{Autonomous.find_angle_theta(Robot.right_x, Robot.right_y), -0.5, 0.0, 13, 5000}, {0.0, 0.0, 0.0, 10, 1000}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 2, 50}, {-90.0, 0.75, 0.0, 13, 2000}, {0.0, -0.75, 0.0, 0, 2500}, {90.0, -0.75, 0.0, 0, 2000}, {0.0, 0.5, 0.0, 0.0, 1000}, {0.0, 0.0, 0.0, 6, 50}, {0.0, 0.0, 0.0, 5, 500}, {0.0, 0.0, 0.0, 3, 50}, {0.0, 0.0, 0.0, 4, 100}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 5, 100}, {0.0, -0.75, 0.0, 0.0, 2000}, {0.0, 0.0, 0.0, 7, 100}, {0.0, 0.0, 0.0, 10, 200}}; // Add an angle into index 0
 	public static final double[][] LEFT_SCALE_UNIVERSAL_AUTON_SEQUENCES = {{Autonomous.find_angle_theta(Robot.left_x, Robot.left_y), -0.5, 0.0, 13, 5000}, {0.0, 0.0, 0.0, 10, 1000}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 2, 50}, {90.0, 0.75, 0.0, 13, 2000}, {0.0, -0.75, 0.0, 0, 2500}, {-90.0, -0.75, 0.0, 0, 2000}, {0.0, 0.5, 0.0, 0.0, 1000}, {0.0, 0.0, 0.0, 6, 50}, {0.0, 0.0, 0.0, 5, 500}, {0.0, 0.0, 0.0, 3, 50}, {0.0, 0.0, 0.0, 4, 100}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 5, 100},  {0.0, -0.75, 0.0, 0.0, 2000}, {0.0, 0.0, 0.0, 7, 100}, {0.0, 0.0, 0.0,  10, 200}};
 	public static final double[][] AUTON_PORTAL_FROM_MID_SEQUENCES = {{-90, 0.1, 0.0, 0, 1000}, {0.0, 0.2, 0.0, 13, 1000}, {0.0, 0.0, 0.0, 3, 1000}, {0.0, -0.2, 0.0, 0, 1000}, {90, 0.1, 0.0, 0, 1000}};
+	public static final double[][] AUTON_PICKUP_FROM_MID = {{0, 0, 0.25, 0.0, 2, 2000},{0, 0, 0.0, 0.0, 11,}};
 	//{angle,strength/speed,turning,mode,time}
 /**
  * Logger stuff
@@ -261,4 +263,7 @@ public class Map {
 	
 public static final String TEAM_BANNER = "ICAgICAgICAgICBfX18gICAgICAgICAgICAgIF9fICBfXw0KICAgICAgICAgICAgfCBfIF8gIF8gICAgL3wgfF8gIC8gIFwgfF9ffA0KICAgICAgICAgICAgfCgtKF98fHx8ICAgIHwgX18pIFxfXy8gICAgfA0KDQogICAgICAgICAgICAgICAgICAgICAgICAgXy4NCiAgICAgICAgICAgICAgICAgICAgICAgLicgb28NCiAgICAgICAgICAgICAgICAgICAgICAgfCAgICA+DQogICAgICAgICAgICAgICAgICAgICAgLyAvIDogYC4NCiAgICAgICAgICAgICAgICAgICAgIHxfLyAvICAgfA0KICAgICAgICAgICAgICAgICAgICAgICB8LyAgd3cNCl9fXyAgICAgICAgX18gICAgICAgICAgICAgICAgICAgICAgX18NCiB8IHxfICBfICB8ICBcIF8gXyBfICBfIF8gXyB8XyBfICB8X18pXyBfICBfICAgIC4gXyAgXw0KIHwgfCApKC0gIHxfXy8oLV8pfF8pKC18IChffHxfKC0gIHwgICgtfCApKF8pfF98fHwgKV8pDQogICAgICAgICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICBfLw==";
 public static final String ROBOT_BANNER = "ICAgICAvXCAgICAgL1wgICAgICAgICAgICAgICoNCiAgICAnLiBcICAgLyAsJyAgICAgICAgICAgICAgXCAgIH4NCiAgICAgIGAuXC0vLCcgICAgICAgICAgICAgXywsIFwge10NCiAgICAgICAoIFggICApICAgICAgICAgICAiLT1cO19cICUNCiAgICAgICwnLyBcYC5cICAgICAgICAgICAgXyBcXDsoIyklDQogICAgLicgLyAgIFwgYCwgICAgICAgICAgIF9cfCBcXyUlDQogICAgIFwvLS0tLS1cLycgICAgICAgICAgIFwgIFwvXCAgXA0KX19fX19fIHxfSF9fX3xfX19fX19fX19fX19fX18gKCApfn5+X19fXw0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCBcDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgIC8gIC8=";
+
+
+
 }

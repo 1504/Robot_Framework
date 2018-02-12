@@ -26,12 +26,12 @@ public class Lift implements Updatable
 	
 	private void update_mode() //checks where the lift is
 	{
-		if (get_lift_height() == Map.LIFT_MAX_HEIGHT) 
+		if ((Map.LIFT_THRESHOLD < get_lift_height()) && (get_lift_height() < Map.LIFT_MAX_HEIGHT)) 
 		{
 			get_top_lift_sensor = true;
 			lift_state = lift_position.OFF;
 		}
-		else if (get_lift_height() == Map.LIFT_MIN_HEIGHT) 
+		else if ((Map.LIFT_THRESHOLD > get_lift_height()) && (get_lift_height() > Map.LIFT_MIN_HEIGHT)) 
 		{
 			get_bottom_lift_sensor = true;
 			lift_state = lift_position.OFF;
