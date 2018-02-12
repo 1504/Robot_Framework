@@ -44,13 +44,32 @@ public class IO
 	}
 	public static boolean spin_rotors_out()
 	{
-		return ((int) (2*_secondary.getRawAxis(Map.SPIN_ROTORS_OUT))) != 0; //some math
+		return ((int) (2*_secondary.getRawAxis(Map.SPIN_ROTORS_OUT))) != 0; //some math because the button is a joystick
 	}
 	public static int open_flippers()
 	{
 		return (int) (2*_secondary.getRawAxis(Map.OPEN_FLIPPERS)); //some math
 	}
-	
+	public static boolean get_arm_up()
+	{
+		return _secondary.getRawButton(Map.PICKUP_UP);
+	}
+	public static boolean get_arm_down()
+	{
+		return ! _secondary.getRawButton(Map.MASTER_OVERRIDE) && _secondary.getRawButton(Map.PICKUP_DOWN);
+	}
+	public static double lift_input()
+	{
+		return Utils.deadzone(Math.abs(_secondary.getRawAxis(Map.INTAKE_POWER_AXIS)));
+	}
+	public static boolean get_lift_up()
+	{
+		return _secondary.getRawButton(Map.LIFT_UP);
+	}
+	public static boolean get_lift_down()
+	{
+		return !_secondary.getRawButton(Map.MASTER_OVERRIDE) &&  _secondary.getRawButton(Map.LIFT_DOWN);
+	}
 	
 	
 	/**
@@ -98,27 +117,6 @@ public class IO
 	public static boolean get_drive_op_toggle()
 	{
 		return (_drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[0]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[1]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[2]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[3]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[0]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[1]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[2]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[3]));
-	}
-	
-	public static boolean get_pickup_up()
-	{
-		return _secondary.getRawButton(Map.PICKUP_UP);
-	}
-	public static boolean get_pickup_down()
-	{
-		return ! _secondary.getRawButton(Map.MASTER_OVERRIDE) && _secondary.getRawButton(Map.PICKUP_DOWN);
-	}
-	public static double lift_input()
-	{
-		return Utils.deadzone(Math.abs(_secondary.getRawAxis(Map.INTAKE_POWER_AXIS)));
-	}
-	public static boolean get_lift_up()
-	{
-		return _secondary.getRawButton(Map.LIFT_UP);
-	}
-	public static boolean get_lift_down()
-	{
-		return !_secondary.getRawButton(Map.MASTER_OVERRIDE) &&  _secondary.getRawButton(Map.LIFT_DOWN);
 	}
 
 }

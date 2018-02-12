@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import org.usfirst.frc.team1504.robot.Pickup;
 import org.usfirst.frc.team1504.robot.Pickup.flipper;
+import org.usfirst.frc.team1504.robot.Pickup.intake;
 
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -102,20 +103,17 @@ public class Autonomous
 		System.out.println("Autonomous loop started");
 	}
 	
-	public double[] switch_angles(int x1, int x2, int y1, int y2)
+	public double[] switch_angles(double x1, double x2, double y1, double y2)
 	{
 		double left_box = find_angle_theta(x1, y1);
 		double right_box = find_angle_theta(x2, y2);
-		
 		double[] angles = new double[] {left_box, right_box};
 		return angles;
 	}
 	
-	public double find_angle_theta(int x, int y)
+	public static double find_angle_theta(double x, double y)
 	{
-		
-        double angle_theta = Math.toRadians(0.0);
-        angle_theta = Math.atan((x - (Map.CAMERA_X / 2)) / (y - Map.CAMERA_Y));
+        double angle_theta = Math.toDegrees(Math.atan((x - (Map.CAMERA_X / 2)) / (y - Map.CAMERA_Y)));
         return angle_theta;
 	
 	}
@@ -183,7 +181,7 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 3) //eject cube
 			{
-				_pickup.set_intake_speed(-0.8);
+				_pickup.set_state(Pickup.intake.OFF);
 			}
 			else if(_path[step][3] == 4) //bring arm up
 			{
@@ -195,7 +193,7 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 6) //intake a cube
 			{
-				_pickup.set_intake_speed(0.8);
+				_pickup.set_state(Pickup.intake.IN);
 			}
 			else if(_path[step][3] == 7) //extend lift all the way up
 			{
@@ -207,7 +205,7 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 9) //stop flippers
 			{
-				_pickup.flipper_stop();
+				_pickup.set_state(Pickup.intake.OFF);
 			}
 			else if(_path[step][3] == 10) //Auton Scale drop
 			{
@@ -223,22 +221,22 @@ public class Autonomous
 			} else if(_path[step][3] == 12) //drive until crash
 			{
 				_path[step] = _drive.roborio_crash_bandicoot_check(_path[step]);
-				for(int value = 0; value < 3; value++) // P loop
-					output[value] = _path[step][value];
-				if(_path[step][0] + _path[step][1] + _path[step][2] == 0){
-					step++;
-					}
-			} else if (_path[step][3] == 13) {
+				for(int value = 0; value < 3; value++)
+					output[value] = _path[step][value]; //set output to crash bandicoot check
+				if(_path[step][0] + _path[step][1] + _path[step][2] == 0) //if we crashed
+					step++; //move on
+				
+			} else if (_path[step][3] == 13) { //combines crash detection with angle movement.
 				double angle = _path[step][0];
 				double speed = _path[step][1];
 				double[] arr = _drive.follow_angle(angle, speed);
 				output[0] = arr[0];
 				output[1] = arr[1];
 				
-				_path[step] = _drive.roborio_crash_bandicoot_check(_path[step]);
+				double[] temp = _drive.roborio_crash_bandicoot_check(output);
 				for(int value = 0; value < 3; value++) // P loop
-					output[value] = _path[step][value];
-				if(_path[step][0] + _path[step][1] + _path[step][2] == 0)
+					output[value] = temp[value];
+				if(output[0] + output[1] + output[2] == 0)
 					step++;
 			}
 			/*else if(_path[step][3] == 2)

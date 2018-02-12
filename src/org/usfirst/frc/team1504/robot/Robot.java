@@ -37,6 +37,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends RobotBase {
 
+	public static double left_x;
+	public static double left_y;
+	
+	public static double right_x;
+	public static double right_y;
+	
 	private Digit_Board _db = Digit_Board.getInstance();
 	private DriverStation _ds = DriverStation.getInstance();
 	private Drive _drive = Drive.getInstance();
@@ -240,8 +246,13 @@ public class Robot extends RobotBase {
         table = NetworkTableInstance.getDefault().getTable("GRIP/switch");
         double[] xRects = table.getEntry("centerX").getDoubleArray(new double[] {2, 3});
         double[] yRects = table.getEntry("centerY").getDoubleArray(new double[] {2, 3});
-        double[] angles = _autonomous.switch_angles((int) xRects[0], (int)xRects[1], 
-        											(int)yRects[0], (int)yRects[1]);
+        if(xRects.length == 1)
+        	xRects = new double[] {2, 3};
+        if(yRects.length == 1)
+        	yRects = new double[] {2, 3};
+        double[] angles = _autonomous.switch_angles(xRects[0], xRects[1], 
+        											yRects[0], yRects[1]);
+        double[] arr = _drive.follow_angle(angles[0], .2);
         HAL.observeUserProgramStarting();
         while (true) {
             if (isDisabled()) {
@@ -250,39 +261,37 @@ public class Robot extends RobotBase {
                 while (isDisabled())
                     Timer.delay(0.01);
                 m_ds.InDisabled(false);
-                System.out.println(angles);
             } else if (isAutonomous()) {
             	
                 m_ds.InAutonomous(true);
                 _logger.start("Auto");
                 autonomous();
-                System.out.println(angles);
+                
                 
                 String message = _ds.getGameSpecificMessage();
                 char left = 'L';
                 char right = 'R';
-                char starting_position = 'E';
+                // char starting_position = 'E';
                 
                 char[] new_message = message.toCharArray();
                 
-                /*if (new_message[1] == left && starting_position == left)
-                { 		
-                	_autonomous.setup_path(Map.AUTON_LEFT_SCALE_SEQUENCES);
-                }
-                else if (new_message[1] == right && starting_position == right)
+                if (new_message[0] == left)
                 {
-                	_autonomous.setup_path(Map.AUTON_RIGHT_SCALE_SEQUENCES);
+                	left_x = xRects[0];
+                	left_y = yRects[0];
                 }
-                else if (new_message[0] == 0)
+                else if (new_message[0] == right)
                 {
-                	
+                	right_x = xRects[1];
+                	right_y = yRects[1];
                 }
                 else
                 {
                 	// We must be in the middle so don't do anything unless we are net setting what to run in auton somewhere else
                 }
-                */
-                _autonomous.setup_path(new double[][] {{angles[0], 0.2, 0.0, 11, 2000}});
+                
+                
+                _autonomous.setup_path(new double[][] {{0.1, 0, 0.0, 0, 5000}});
 	            
                 _autonomous.start();
                 while (isAutonomous() && !isDisabled()) {

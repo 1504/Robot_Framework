@@ -2,7 +2,6 @@ package org.usfirst.frc.team1504.robot;
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -12,7 +11,7 @@ public class Pickup implements Updatable {
 	private WPI_TalonSRX _arm;
 	DoubleSolenoid _grab_piston; 
 	private Lift _lift = Lift.getInstance();
-	public enum arm_position {UP, DOWN, MIDDLE}; // declares states of arms
+	public enum arm_position {UP, DOWN, MIDDLE, OFF}; // declares states of arms
 	public double[] arm_angle = {Map.ARM_UP_ANGLE, Map.ARM_DOWN_ANGLE, Map.ARM_UP_ANGLE/2}; // Map.ARM_UP_ANGLE/2 or Map.ARM_MID_ANGLE
 	public static arm_position arm_state = arm_position.DOWN; // sets arms to be down at beginning of match
 	
@@ -21,7 +20,7 @@ public class Pickup implements Updatable {
 	
 	public enum intake {IN, OUT, OFF};
 	public static intake intake_state = intake.OFF;
-	
+	public double[] intake_speeds = {Map.ROLLER_SPEED, -Map.ROLLER_SPEED, 0};
 	private static final Pickup instance = new Pickup();
 	private DriverStation _ds = DriverStation.getInstance();
 	public static Pickup getInstance() // sets instance
@@ -59,66 +58,29 @@ public class Pickup implements Updatable {
 		_grab_right.set(-speed);
 	}
 	
-	public void flipper_intake() // sets rotors to spin cube in
-	{
-		set_intake_speed(Map.ROLLER_SPEED);
-	}
-	
-	public void flipper_excrete() // sets rollers to spit cube out
-	{				
-		set_intake_speed(-Map.ROLLER_SPEED);
-	}
-	
-	public void flipper_stop() 
-	{
-		set_intake_speed(0);
-	}
-	
-	
-	
-	public void open_flipper() //extends piston between arms to grab cube
-	{
-		_grab_piston.set(DoubleSolenoid.Value.kForward);
-	}
-	
-	public void close_flipper() // closes space between arms with piston
-	{
-		_grab_piston.set(DoubleSolenoid.Value.kReverse);
-	}
-	
 	public boolean lift_safe() //says whether or not the pickup arms are backed where the lift can be
 	{
 		return _lift.get_lift_height() > 10;
 	}
 	private void update_mode() //checks if pickup is in progress
 	{
-		if (IO.get_override_pickup())
-		{
-			set_intake_speed(IO.intake_input()*Map.FLIPPER_MAGIC);
-		}
+		set_intake_speed(IO.get_override_pickup() ?
+				IO.intake_input()*Map.FLIPPER_MAGIC : intake_speeds[intake_state.ordinal()]);
 		if (_lift.pickup_safe())
 		{
-			set_arm_speed((arm_angle[arm_state.ordinal()]-_arm.getSelectedSensorPosition(0))/Map.ARM_DOWN_ANGLE);
+			set_arm_speed((arm_angle[arm_state.ordinal()]-_arm.getSelectedSensorPosition(0))*Map.PICKUP_GAIN);
 			// Sets arm velocity based on how far away the target is and where it is.
 			// Finds target angle by finding element of arm_state then finds its angle element in the arm_angle array
 		}
-		if (flipper_state == flipper.CLOSE)
-		{
-			close_flipper();
-		}
-		else if (flipper_state == flipper.OPEN);
-		{
-			open_flipper();
-		}
-		
-		if (IO.get_pickup_up())
-		{
-			set_state(arm_position.DOWN);
-			flipper_intake();
-		}
-		else if (IO.get_pickup_down())
+		_grab_piston.set(DoubleSolenoid.Value.values()[flipper_state.ordinal()+1]);
+		//this bit of code should set the piston based on the state
+		if (IO.get_arm_up())
 		{
 			set_state(arm_position.UP);
+		}
+		else if (IO.get_arm_down())
+		{
+			set_state(arm_position.DOWN);
 		}
 		
 		if (IO.spin_rotors_in())
@@ -129,7 +91,10 @@ public class Pickup implements Updatable {
 		{
 			set_state(intake.OUT);
 		}
-		else
+		/*there is a bug here. If we try to set the state of the intake in auton, it will fail
+		this should only be ran in telop, if we run it in auton the else is always true, so the
+		intake never runs*/
+		else 
 		{
 			set_state(intake.OFF);
 		}
@@ -151,7 +116,7 @@ public class Pickup implements Updatable {
 	public void semaphore_update() //updates robot information
 	{
 		if(_ds.isOperatorControl() && !_ds.isDisabled())
-			set_state(flipper.values()[IO.open_flippers()]); // 0 --> IO.get_controller_trigger thing
+			set_state(flipper.values()[IO.open_flippers()]);
 		update_mode();
 	}
 }

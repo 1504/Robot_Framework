@@ -81,7 +81,7 @@ public class Lift implements Updatable
 			}
 			if(IO.get_lift_down() && _pickup.lift_safe()) 
 			{
-				set_lift_velocity(Map.LIFT_DOWN);
+				set_lift_velocity(0); // this is broke, really broke
 			}
 		}
 		else 
@@ -98,7 +98,7 @@ public class Lift implements Updatable
 			}
 			if(IO.get_lift_up() && _pickup.lift_safe()) 
 			{
-				set_lift_velocity(Map.LIFT_UP);
+				set_lift_velocity(0); // this is broke, really really broke
 			}
 		}
 		else 
