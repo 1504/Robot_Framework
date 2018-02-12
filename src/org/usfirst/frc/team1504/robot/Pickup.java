@@ -1,7 +1,11 @@
 package org.usfirst.frc.team1504.robot;
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
+
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Encoder;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -11,6 +15,7 @@ public class Pickup implements Updatable {
 	private WPI_TalonSRX _arm;
 	DoubleSolenoid _grab_piston; 
 	private Lift _lift = Lift.getInstance();
+	Encoder encoder;
 	public enum arm_position {UP, DOWN, MIDDLE, OFF}; // declares states of arms
 	public double[] arm_angle = {Map.ARM_UP_ANGLE, Map.ARM_DOWN_ANGLE, Map.ARM_UP_ANGLE/2}; // Map.ARM_UP_ANGLE/2 or Map.ARM_MID_ANGLE
 	public static arm_position arm_state = arm_position.DOWN; // sets arms to be down at beginning of match
@@ -39,6 +44,9 @@ public class Pickup implements Updatable {
 		_grab_piston = new DoubleSolenoid(0, 1); //0 is on/forward, 1 for off/reverse
 		_grab_piston.set(DoubleSolenoid.Value.kOff); //not sure about this
 		Update_Semaphore.getInstance().register(this);
+		
+		encoder = new Encoder(Map.ENCODER_PORT_1, Map.ENCODER_PORT_2, true, EncodingType.k4X); //EncodingType sets the decoding scale factor to 4x; if the arm moves more quickly, this could be lowered to 2x
+		encoder.reset();
 		System.out.println("Pickup Initialized.\nPickup Disabled");
 	}
 	
@@ -65,10 +73,11 @@ public class Pickup implements Updatable {
 	private void update_mode() //checks if pickup is in progress
 	{
 		set_intake_speed(IO.get_override_pickup() ?
-				IO.intake_input()*Map.FLIPPER_MAGIC : intake_speeds[intake_state.ordinal()]);
+					IO.intake_input()*Map.FLIPPER_MAGIC : intake_speeds[intake_state.ordinal()]);
+		
 		if (_lift.pickup_safe())
 		{
-			set_arm_speed((arm_angle[arm_state.ordinal()]-_arm.getSelectedSensorPosition(0))*Map.PICKUP_GAIN);
+			set_arm_speed(arm_angle[arm_state.ordinal()] - encoder.get() * Map.PICKUP_GAIN);
 			// Sets arm velocity based on how far away the target is and where it is.
 			// Finds target angle by finding element of arm_state then finds its angle element in the arm_angle array
 		}
