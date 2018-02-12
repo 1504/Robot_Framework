@@ -37,6 +37,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends RobotBase {
 
+	public static double left_x;
+	public static double left_y;
+	
+	public static double right_x;
+	public static double right_y;
+	
 	private Digit_Board _db = Digit_Board.getInstance();
 	private DriverStation _ds = DriverStation.getInstance();
 	private Drive _drive = Drive.getInstance();
@@ -265,17 +271,19 @@ public class Robot extends RobotBase {
                 String message = _ds.getGameSpecificMessage();
                 char left = 'L';
                 char right = 'R';
-                char starting_position = 'E';
+                // char starting_position = 'E';
                 
                 char[] new_message = message.toCharArray();
                 
                 if (new_message[0] == left)
                 {
-                	double[] go_to_left = new double[] {xRects[0], yRects[0]}; // this should be the x values unless they are backwards in network tables
+                	left_x = xRects[0];
+                	left_y = yRects[0];
                 }
                 else if (new_message[0] == right)
                 {
-                	double[] go_to_right = new double[] {xRects[1], yRects[1]}; // this should be the x values unless they are backwards in network tables
+                	right_x = xRects[1];
+                	right_y = yRects[1];
                 }
                 else
                 {
