@@ -3,8 +3,8 @@ package org.usfirst.frc.team1504.robot;
 import java.util.TimerTask;
 
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
-
-import com.ctre.CANTalon;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Servo;
@@ -19,19 +19,19 @@ public class Winch implements Updatable
 	
 	private DriverStation _ds = DriverStation.getInstance();
 	
-	private CANTalon _nancy;
-	private CANTalon _mead;
+	private WPI_TalonSRX _nancy;
+	private WPI_TalonSRX _mead;
 	private Thread _winch;
 	
 	protected Winch()
 	{
-		_nancy = new CANTalon(Map.NANCY_TALON_PORT);
-		_nancy.EnableCurrentLimit(true);
-		_nancy.setCurrentLimit(Map.WINCH_CURRENT_LIMIT);
+		_nancy = new WPI_TalonSRX(Map.NANCY_TALON_PORT);
+		_nancy.enableCurrentLimit(true);
+		_nancy.configContinuousCurrentLimit(Map.WINCH_CURRENT_LIMIT, 20); //20 is timeout in ms
 		
-		_mead = new CANTalon(Map.MEAD_TALON_PORT);
-		_mead.EnableCurrentLimit(true);
-		_mead.setCurrentLimit(Map.WINCH_CURRENT_LIMIT);
+		_mead = new WPI_TalonSRX(Map.MEAD_TALON_PORT);
+		_mead.enableCurrentLimit(true);
+		_mead.configContinuousCurrentLimit(Map.WINCH_CURRENT_LIMIT, 20); //20 is timeout in ms
 		
 		new Thread( new Runnable() {
 			public void run() {
@@ -41,8 +41,8 @@ public class Winch implements Updatable
 				{
 					if(_ds.isEnabled())
 					{
-						_mead.enableBrakeMode(true);
-						_nancy.enableBrakeMode(true);
+						_mead.setNeutralMode(NeutralMode.Brake);
+						_nancy.setNeutralMode(NeutralMode.Brake);
 					}
 					
 					else if(!_ds.isEnabled())
@@ -55,8 +55,8 @@ public class Winch implements Updatable
 								Timer.delay(timeout);
 								if(_ds.isEnabled())
 									return;
-								_nancy.enableBrakeMode(false); //only on disable
-								_mead.enableBrakeMode(false);
+								_mead.setNeutralMode(NeutralMode.Coast);
+								_nancy.setNeutralMode(NeutralMode.Coast);
 //								System.out.println("Winch brakes OFF");
 							}
 						}).start();
@@ -66,8 +66,8 @@ public class Winch implements Updatable
 			}
 		}).start();
 		
-		_mead.enableBrakeMode(true);
-		_nancy.enableBrakeMode(true);
+		_mead.setNeutralMode(NeutralMode.Brake);
+		_nancy.setNeutralMode(NeutralMode.Brake);
 		
 		_winch = new Thread(new Runnable() {
 			public void run()
@@ -126,28 +126,28 @@ public class Winch implements Updatable
 	{
 		if (_override != override)
 		{
-			_nancy.EnableCurrentLimit(!_override);
-			_mead.EnableCurrentLimit(!_override);
+			_nancy.enableCurrentLimit(!_override);
+			_mead.enableCurrentLimit(!_override);
 		}
 		_override = override;
 	}
 	
 	public void semaphore_update()
 	{
-		set_current_limit(IO.winch_override());
-		
-		if(_ds.getMatchTime() > 30.0 && !IO.winch_override())
-			return;
+		//set_current_limit(IO.winch_override());
+		//uncomment this once we have inputs figured out
+		/*if(_ds.getMatchTime() > 30.0 && !IO.winch_override())
+			return;*/
 		
 		// Deploy winch
-		if(IO.winch_deploy())
+		/*if(IO.winch_deploy())
 		{
 			set_deployed(true);
 			Drive.getInstance().fSideAngleDegrees(90);
-		}
+		}*/
 		
 		// Run that thang!
-		_nancy.set(IO.winch_input());
-		_mead.set(-IO.winch_input());
+		/*_nancy.set(IO.winch_input());
+		_mead.set(-IO.winch_input());*/
 	}
 }
