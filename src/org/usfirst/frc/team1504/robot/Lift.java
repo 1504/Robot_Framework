@@ -2,6 +2,8 @@ package org.usfirst.frc.team1504.robot;
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+
 public class Lift implements Updatable
 {
 	public enum lift_position {BOTTOM, MIDDLE, TOP, OFF};
@@ -12,6 +14,7 @@ public class Lift implements Updatable
 	private WPI_TalonSRX _motor; // declared for future use
 	private Pickup _pickup = Pickup.getInstance();// declared for future use 
 	
+	private DoubleSolenoid plate_solenoid = new DoubleSolenoid(Map.LIFT_PLATE_SOLENOID_FORWARD_PORT, Map.LIFT_PLATE_SOLENOID_REVERSE_PORT);
 	boolean get_top_lift_sensor; // used as a value to check position of lift
 	boolean get_bottom_lift_sensor; // used as a value to check position of lift 
 	
@@ -57,6 +60,7 @@ public class Lift implements Updatable
 		{
 			set_lift_velocity((lift_height[1]-get_lift_height())/Map.LIFT_MAX_HEIGHT);
 		}	//makes the lift go to the middle
+		
 	}
 	
 	public void set_state(lift_position state)
@@ -75,6 +79,14 @@ public class Lift implements Updatable
 	
 	public void plate_angle(double angle) // Sets angle of lift plate
 	{
+		if(angle == 0) 
+		{
+			plate_solenoid.set(DoubleSolenoid.Value.kReverse);
+		}
+		else if (angle > 0)
+		{
+			plate_solenoid.set(DoubleSolenoid.Value.kForward);
+		}
 		// return true;
 	}
 	
