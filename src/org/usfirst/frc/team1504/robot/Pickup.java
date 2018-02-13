@@ -111,7 +111,7 @@ public class Pickup implements Updatable {
 	
 	public void set_state(arm_position state) //sets position of arm
 	{
-		arm_state = state;
+		if(!encoder.getStopped()) arm_state = state;
 	}
 	public void set_state(flipper state) //sets position of arm
 	{
