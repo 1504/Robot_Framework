@@ -2,7 +2,6 @@ package org.usfirst.frc.team1504.robot;
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-
 public class Lift implements Updatable
 {
 	public enum lift_position {BOTTOM, MIDDLE, TOP, OFF};
@@ -76,7 +75,7 @@ public class Lift implements Updatable
 	
 	public boolean pickup_safe() //checks if it is safe to move lift so it won't crash into things
 	{
-		return (get_lift_height() < 5);
+		return (get_lift_height() < Map.LIFT_SAFETY_THRESHOLD);
 	}
 	
 	public void plate_angle(double angle) // Sets angle of lift plate
