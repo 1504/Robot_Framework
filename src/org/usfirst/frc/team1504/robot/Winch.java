@@ -140,14 +140,14 @@ public class Winch implements Updatable
 			return;*/
 		
 		// Deploy winch
-		/*if(IO.winch_deploy())
+		if(IO.winch_deploy())
 		{
 			set_deployed(true);
 			Drive.getInstance().fSideAngleDegrees(90);
-		}*/
+		}
 		
 		// Run that thang!
-		/*_nancy.set(IO.winch_input());
-		_mead.set(-IO.winch_input());*/
+		_nancy.set(IO.winch_input());
+		_mead.set(-IO.winch_input());
 	}
 }

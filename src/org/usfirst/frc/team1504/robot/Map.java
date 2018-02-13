@@ -13,6 +13,7 @@ public class Map {
 	public static final int DRIVE_CARTESIAN_JOYSTICK = 0;
 	public static final int DRIVE_POLAR_JOYSTICK = 1;
 	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
+	public static final int WINCH_BUTTON = 9; //left joystick press
 	
 	// Joystick inputs
 	//public static final int PICKUP_ON = 8; 
