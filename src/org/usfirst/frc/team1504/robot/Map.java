@@ -33,10 +33,10 @@ public class Map {
  * Pickup stuff
  */
 	
-		public static final int ARM_TALON_PORT = 38;
+		public static final int ARM_TALON_PORT = 20;
 		
-		public static final int ROLLER_TALON_PORT_LEFT = 40;
-		public static final int ROLLER_TALON_PORT_RIGHT = 41;
+		public static final int ROLLER_TALON_PORT_LEFT = 21;
+		public static final int ROLLER_TALON_PORT_RIGHT = 22;
 		
 		public static final double ROLLER_SPEED = 0.7;
 		
@@ -56,7 +56,7 @@ public class Map {
  * Elevator / Lift Stuff
  */
 		
-		public static final int LIFT_TALON_PORT = 42;
+		public static final int LIFT_TALON_PORT = 30;
 		
 		public static final double LIFT_MOTOR_SPEED = 0.5;
 		
