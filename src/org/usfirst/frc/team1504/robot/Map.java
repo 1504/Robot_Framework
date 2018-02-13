@@ -235,39 +235,8 @@ public class Map {
 /**
  * Auton stuff	
  */
-	public static final double[][] AUTON_RIGHT_TO_RIGHT_DROP_SEQUENCES = {{0.5, 0.0, 0.0, 0, 3000}, {-0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.25, 0.0, 0, 1000}};
-	public static final double[][] AUTON_RIGHT_TO_LEFT_DROP_SEQUENCE = {{0.25, 0.0, 0.0, 0, 1000},{0.0, 0.0, 0.25, 0, 1000},{0.25, 0.0, 0.0, 0, 3000},{0.0, 25.0, 0.0, 0, 1000},{0.5, 0.0, 0.0, 0, 2000}, {-0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.25, 0, 1000}};
-	 /*If at right side and right end is the goal + return to mid (ram)
-	  *If at right side and left end is goal + return to mid (forward, turn left, forward, turn right, ram, back up, turn right, forward, turn left)
-     */
-	public static final double[][] AUTON_LEFT_TO_LEFT_DROP_SEQUENCES = {{0.5, 0.0, 0.0, 0, 3000}, {-0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.25, 0, 1000}};
-	public static final double[][] AUTON_LEFT_TO_RIGHT_DROP_SEQUENCE = {{0.25, 0.0, 0.0, 0, 1500}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 3500}, {0.0, 0.0, 0.25, 0, 1000}, {0.5, 0.0, 0.0, 0.0, 2000}, {-0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.25, 0, 1000}};
-    /*If at left side and left side is the goal + return to mid (ram)
-     *If at left side and right end is the goal + return to mid (forward, right, forward, left, ram, back up, turn right, forward, turn left)
-     */
-    public static final double[][] AUTON_MID_DROP_SEQUENCES = {{0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1750}, {0.0, 0.0, 0.25, 0, 1000}, {0.5, 0.0, 0.0, 0, 2500}, {-0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.25, 0.0, 0, 1000}};
-    public static final double[][] AUTON_MID_TO_RIGHT_SEQUENCE = {{0.25, 0.0, 0.0, 0, 1000},{0.0, 0.25, 0.0, 0, 1000},{0.25, 0.0, 0.0, 0, 2000},{0.0, 0.0, 25.0, 0, 1000},{0.5, 0.0, 0.0, 0, 2000}, {-0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.25, 0.0, 0, 1000}};
-    /*If at middle and left end is the goal + return to mid (ram, forward)
-	* If at middle and right end is goal + return to mid (ram, forward, right, forward, left, ram, back up, turn left, forward, turn right)
-	*/
-	public static final double[][] AUTON_PICKUP_FROM_MID_SEQUENCES =  {{0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 1, 500}, {0.0, 0.0, 0.0, 2, 500}, {0.0, 0.0, 0.0, 6, 50}, {0.1, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 0, 500}, {0.0, 0.0, 0.0, 5, 500}, {0.0, 0.0, 0.0, 9, 500}};
-	
-	/*Going to the exchange from mid
-	 *Picking up a cube from mid
-	 * */
-	public static final double[][] AUTON_SCALE_TO_RIGHT_FROM_MID_SEQUENCES = {{0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 2000}, {0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 2000}, {0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 500}, {0.0, 0.25, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 7, 1000}, {0.5, 0.0, 0.0, 0, 2000}, {-0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 8, 1000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 2000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.25, 0.0, 0, 1000}};
-	public static final double[][] AUTON_SCALE_TO_LEFT_FROM_MID_SEQUENCES = {{0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 2000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 2000}, {0.0, 0.25, 0.0, 0, 1000}, {0.25, 0.0, 0.0, 0, 500}, {0.0, 0.0, 0.25, 0, 1000}, {0.0, 0.0, 0.0, 7, 1000}, {0.5, 0.0, 0.0, 0, 2000}, {-0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 8, 1000}, {0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 2000}, {0.0, 0.0, 0.25, 0, 1000}, {0.25, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.25, 0, 1000}};
-	/*From middle and right end of scale is the goal + return to mid (turn right, forward, turn left, forward, turn left, forward, turn right, extend lift, ram, back up, return lift, turn right, forward, turn right, forward, turn right, forward, turn right)
-	  From middle and left end of scale is the goal + return to mid (turn left, forward, turn right, forward, turn right, forward, turn left, extend lift, ram, back up, return lift, turn left, forward, turn left, forward, turn left, forward, turn left) 
-	 */
-	public static final double[][] AUTON_LEFT_SCALE_SEQUENCES = {{0.75, 0.0, 0.0, 0, 3000}, {0.0, 0.0, 0.25, 0, 1000}, {0.0, 0.0, 0.0, 7, 1000}, {0.0, 0.0, 0.0, 10, 1000}};
-	/* Drive forward to the scale, turn right, raise the lift, drop the plate
-	 */
-	public static final double[][] AUTON_RIGHT_SCALE_SEQUENCES = {{0.75, 0.0, 0.0, 0, 3000}, {0.0, 0.0, -0.25, 0, 1000}, {0.0, 0.0, 0.0, 7, 1000}, {0.0, 0.0, 0.0, 10, 1000}};
-	/*Drive forward to the scale, turn left, raise the lift, drop the plate
-	 */
-	public static final double[][] RIGHT_SCALE_UNIVERSAL_AUTON_SEQUENCES = {{Autonomous.find_angle_theta(Robot.left_x, Robot.left_y), -0.5, 0.0, 13, 5000}, {0.0, 0.0, 0.0, 10, 1000}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 2, 50}, {-90.0, 0.75, 0.0, 13, 2000}, {0.0, -0.75, 0.0, 0, 2500}, {90.0, -0.75, 0.0, 0, 2000}, {0.0, 0.5, 0.0, 0.0, 1000}, {0.0, 0.0, 0.0, 6, 50}, {0.0, 0.0, 0.0, 5, 500}, {0.0, 0.0, 0.0, 3, 50}, {0.0, 0.0, 0.0, 4, 100}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 5, 1}, {0.0, -0.75, 0.0, 0.0, 2000}, {0.0, 0.0, 0.0, 7, 100}, {0.0, 0.0, 0.0, 10, 200}}; // Add an angle into index 0
-	public static final double[][] AUTON_PORTAL_FROM_MID_SEQUENCES = {{-90, 0.1, 0.0, 0, 1000}, {0.0, 0.2, 0.0, 13, 1000}, {0.0, 0.0, 0.0, 3, 1000}, {0.0, -0.2, 0.0, 0, 1000}, {90, 0.1, 0.0, 0, 1000}};
+	public static final double[][] RIGHT_SWITCH_UNIVERSAL_AUTON_SEQUENCES = {{Autonomous.find_angle_theta(Robot.left_x, Robot.left_y), -0.5, 0.0, 13, 5000}, {0.0, 0.0, 0.0, 10, 1000}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 2, 50}, {-90.0, 0.75, 0.0, 13, 2000}, {0.0, -0.75, 0.0, 0, 2500}, {90.0, -0.75, 0.0, 0, 2000}, {0.0, 0.5, 0.0, 0.0, 1000}, {0.0, 0.0, 0.0, 6, 50}, {0.0, 0.0, 0.0, 5, 500}, {0.0, 0.0, 0.0, 3, 50}, {0.0, 0.0, 0.0, 4, 100}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 5, 1}, {0.0, -0.75, 0.0, 0.0, 2000}, {0.0, 0.0, 0.0, 7, 100}, {0.0, 0.0, 0.0, 10, 200}}; // Add an angle into index 0
+	public static final double[][] AUTON_EXCHANGE_FROM_MID_SEQUENCES = {{-90, 0.1, 0.0, 0, 1000}, {0.0, 0.2, 0.0, 13, 1000}, {0.0, 0.0, 0.0, 3, 1000}, {0.0, -0.2, 0.0, 0, 1000}, {90, 0.1, 0.0, 0, 1000}};
 	//{angle,strength/speed,turning,mode,time}
 /**
  * Logger stuff
