@@ -73,11 +73,6 @@ public class Lift implements Updatable
 		return _motor.getSelectedSensorPosition(0);
 	}
 	
-	public boolean pickup_safe() //checks if it is safe to move lift so it won't crash into things
-	{
-		return (get_lift_height() < Map.LIFT_SAFETY_THRESHOLD);
-	}
-	
 	public void plate_angle(double angle) // Sets angle of lift plate
 	{
 		// return true;

@@ -68,14 +68,14 @@ public class Pickup implements Updatable {
 	
 	public boolean lift_safe() //says whether or not the pickup arms are backed where the lift can be
 	{
-		return _lift.get_lift_height() > 10;
+		return _lift.get_lift_height() > Map.LIFT_SAFETY_THRESHOLD;
 	}
 	private void update_mode() //checks if pickup is in progress
 	{
 		set_intake_speed(IO.get_override_pickup() ?
 					IO.intake_input()*Map.FLIPPER_MAGIC : intake_speeds[intake_state.ordinal()]);
 		
-		if (_lift.pickup_safe())
+		if (!lift_safe())
 		{
 			set_arm_speed(arm_angle[arm_state.ordinal()] - encoder.get() * Map.PICKUP_GAIN);
 			// Sets arm velocity based on how far away the target is and where it is.
