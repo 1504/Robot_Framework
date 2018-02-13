@@ -30,6 +30,15 @@ public class IO
 	{
 		return Utils.deadzone(Math.abs(_secondary.getRawAxis(Map.INTAKE_POWER_AXIS)));
 	}
+	public static double winch_input()
+	{
+		return Utils.deadzone(Math.abs(_secondary.getRawAxis(Map.JOYSTICK_Y_AXIS)));
+	}
+	public static boolean winch_deploy()
+	{
+		return _secondary.getRawButton(Map.WINCH_BUTTON);
+	}
+	
 	public static boolean get_override_pickup()
 	{
 		return _secondary.getRawButton(Map.MASTER_OVERRIDE) && _secondary.getRawButton(Map.PICKUP_DOWN);
