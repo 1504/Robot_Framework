@@ -172,7 +172,7 @@ public class Robot extends RobotBase {
     
     public void test() {
     	System.out.println("Test Mode!");
-    	ADIS16448_IMU imu = new ADIS16448_IMU();
+    	//ADIS16448_IMU imu = new ADIS16448_IMU();
     	/*DoubleSolenoid _piston1 = new DoubleSolenoid(0, 1);
     	WPI_TalonSRX _motor = new WPI_TalonSRX(Map.ARM_TALON_PORT);
 		Latch_Joystick control = new Latch_Joystick(0);
@@ -180,10 +180,19 @@ public class Robot extends RobotBase {
 //    	CameraInterface ci = CameraInterface.getInstance();
     	//ci.set_mode(CameraInterface.CAMERA_MODE.MULTI);
     	//ci.set_mode(CameraInterface.CAMERA_MODE.SINGLE); 4 or 5
-    	BuiltInAccelerometer accel = new BuiltInAccelerometer();
+    	//BuiltInAccelerometer accel = new BuiltInAccelerometer();
+    	WPI_TalonSRX _grab_left;
+		WPI_TalonSRX _grab_right;
+		_grab_left = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_LEFT);
+		_grab_right = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_RIGHT);
+		Latch_Joystick _secondary = new Latch_Joystick(Map.DRIVE_SECONDARY_JOYSTICK);
     	while (isTest() && isEnabled())
     	{
-    		System.out.println("Gyro-X"+accel.getX());
+    		double speed = _secondary.getRawAxis(Map.INTAKE_POWER_AXIS);
+    		_grab_left.set(speed);
+    		_grab_right.set(-speed);
+    		
+    		//System.out.println("Gyro-X"+accel.getX());
     		/*System.out.println("Gyro-X"+imu.getAngleX());
     	    System.out.println("Gyro-Y"+imu.getAngleY());
     	    System.out.println("Gyro-Z"+imu.getAngleZ());
