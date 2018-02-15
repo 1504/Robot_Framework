@@ -23,8 +23,7 @@ public class Pickup implements Updatable {
 	public enum flipper {OPEN, CLOSE}; // declares states of flippers
 	public static flipper flipper_state = flipper.CLOSE; // sets flippers to be closed at beginning of match
 	
-	public enum intake {IN, OUT, OFF};
-	public static intake intake_state = intake.OFF;
+	
 	public double[] intake_speeds = {Map.ROLLER_SPEED, -Map.ROLLER_SPEED, 0};
 	private static final Pickup instance = new Pickup();
 	private DriverStation _ds = DriverStation.getInstance();
@@ -60,20 +59,24 @@ public class Pickup implements Updatable {
 		_arm.set(ControlMode.Velocity, speed);
 	}
 	
+	public void set_intake_speed() //sets both the right and left flipper speeds
+	{
+		_grab_left.set(IO.get_intake_speed());
+		_grab_right.set(-IO.get_intake_speed());
+	}
+	
 	public void set_intake_speed(double speed) //sets both the right and left flipper speeds
 	{
 		_grab_left.set(speed);
 		_grab_right.set(-speed);
 	}
-	
 	public boolean lift_safe() //says whether or not the pickup arms are backed where the lift can be
 	{
 		return _lift.get_lift_height() > Map.LIFT_SAFETY_THRESHOLD;
 	}
 	private void update_mode() //checks if pickup is in progress
 	{
-		set_intake_speed(IO.get_override_pickup() ?
-					IO.intake_input()*Map.FLIPPER_MAGIC : intake_speeds[intake_state.ordinal()]);
+		set_intake_speed();
 		
 		if (!lift_safe())
 		{
@@ -92,21 +95,7 @@ public class Pickup implements Updatable {
 			set_state(arm_position.DOWN);
 		}
 		
-		if (IO.spin_rotors_in())
-		{
-			set_state(intake.IN);
-		}
-		else if (IO.spin_rotors_out())
-		{
-			set_state(intake.OUT);
-		}
-		/*there is a bug here. If we try to set the state of the intake in auton, it will fail
-		this should only be ran in telop, if we run it in auton the else is always true, so the
-		intake never runs*/
-		else 
-		{
-			set_state(intake.OFF);
-		}
+		
 	}
 	
 	public void set_state(arm_position state) //sets position of arm
@@ -120,10 +109,7 @@ public class Pickup implements Updatable {
 	{
 		flipper_state = state;
 	}
-	public void set_state(intake state)
-	{
-		intake_state = state;
-	}
+	
 
 	public void semaphore_update() //updates robot information
 	{
