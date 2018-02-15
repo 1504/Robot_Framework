@@ -69,31 +69,22 @@ public class Pickup implements Updatable {
 	}
 	private void update_mode() //checks if pickup is in progress
 	{
-		set_intake_speed(IO.get_intake_speed());
-		
 		if (!lift_safe())
 		{
-			set_arm_speed(arm_angle[arm_state.ordinal()] - encoder.get() * Map.PICKUP_GAIN);
+			set_arm_speed((arm_angle[arm_state.ordinal()] - encoder.get()) * Map.PICKUP_GAIN);
 			// Sets arm velocity based on how far away the target is and where it is.
 			// Finds target angle by finding element of arm_state then finds its angle element in the arm_angle array
 		}
 		_grab_piston.set(DoubleSolenoid.Value.values()[flipper_state.ordinal()+1]);
 		//this bit of code should set the piston based on the state
-		if (IO.get_arm_up())
-		{
-			set_state(arm_position.UP);
-		}
-		else if (IO.get_arm_down())
-		{
-			set_state(arm_position.DOWN);
-		}
+
 	}
 	
 	public void set_state(arm_position state) //sets position of arm
 	{
-		if(!encoder.getStopped()) 
+		if(!encoder.getStopped()) //making sure the encoder is connected
 		{	
-		arm_state = state;
+			arm_state = state;
 		}
 	}
 	public void set_state(flipper state) //sets position of arm
@@ -104,8 +95,19 @@ public class Pickup implements Updatable {
 
 	public void semaphore_update() //updates robot information
 	{
-		if(_ds.isOperatorControl() && !_ds.isDisabled())
-			set_state(flipper.values()[IO.open_flippers()]);
+		if(_ds.isOperatorControl() && !_ds.isDisabled()) //only runs in teleop
+		{
+			set_state(flipper.values()[IO.open_flippers()]); 
+			set_intake_speed(IO.get_intake_speed());
+			if (IO.get_arm_up())
+			{
+				set_state(arm_position.UP);
+			}
+			else if (IO.get_arm_down())
+			{
+				set_state(arm_position.DOWN);
+			}
+		}
 		update_mode();
 	}
 }
