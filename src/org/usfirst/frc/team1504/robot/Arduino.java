@@ -94,7 +94,7 @@ public class Arduino
 			RGB[2] = 0;
 		}
 		
-		if(Pickup.intake_state == Pickup.intake.IN)
+		/*if(Pickup.intake_state == Pickup.intake.IN)
 		{
 			RGB[0] = 255;
 			RGB[1] = 255;
@@ -105,7 +105,7 @@ public class Arduino
 			RGB[0] = 0;
 			RGB[1] = 0;
 			RGB[2] = 255;
-		}
+		}*/
 		
 		if(Pickup.arm_state == Pickup.arm_position.OFF) 
 		{

@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 import org.usfirst.frc.team1504.robot.Pickup;
 import org.usfirst.frc.team1504.robot.Pickup.flipper;
-import org.usfirst.frc.team1504.robot.Pickup.intake;
+import org.usfirst.frc.team1504.robot.Pickup;
 
 import edu.wpi.first.wpilibj.DriverStation;
 

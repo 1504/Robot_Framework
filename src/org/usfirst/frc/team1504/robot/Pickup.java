@@ -58,13 +58,6 @@ public class Pickup implements Updatable {
 	{
 		_arm.set(ControlMode.Velocity, speed);
 	}
-	
-	public void set_intake_speed() //sets both the right and left flipper speeds
-	{
-		_grab_left.set(IO.get_intake_speed());
-		_grab_right.set(-IO.get_intake_speed());
-	}
-	
 	public void set_intake_speed(double speed) //sets both the right and left flipper speeds
 	{
 		_grab_left.set(speed);
@@ -76,7 +69,7 @@ public class Pickup implements Updatable {
 	}
 	private void update_mode() //checks if pickup is in progress
 	{
-		set_intake_speed();
+		set_intake_speed(IO.get_intake_speed());
 		
 		if (!lift_safe())
 		{
@@ -94,8 +87,6 @@ public class Pickup implements Updatable {
 		{
 			set_state(arm_position.DOWN);
 		}
-		
-		
 	}
 	
 	public void set_state(arm_position state) //sets position of arm
