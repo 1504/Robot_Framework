@@ -47,14 +47,23 @@ public class IO
 	{
 		return _secondary.getRawButton(Map.MASTER_OVERRIDE) && _secondary.getRawButton(Map.LIFT_DOWN);
 	}
-	public static boolean spin_rotors_in()
+	public static double get_intake_speed()
 	{
-		return _secondary.getRawButton(Map.SPIN_ROTORS_IN);
+		if ((_secondary.getRawButton(Map.SPIN_ROTORS_OUT) && ((_secondary.getRawAxis(Map.SPIN_ROTORS_IN)) > 0)))
+		{
+			double new_speed = 1.0 - _secondary.getRawAxis(Map.SPIN_ROTORS_IN);
+			return new_speed;
+		}
+		else if (_secondary.getRawButton(Map.SPIN_ROTORS_OUT))
+		{
+			return 1.0;
+		}
+		else
+		{
+			return _secondary.getRawAxis(Map.SPIN_ROTORS_IN);
+		}
 	}
-	public static boolean spin_rotors_out()
-	{
-		return ((int) (2*_secondary.getRawAxis(Map.SPIN_ROTORS_OUT))) != 0; //some math because the button is a joystick
-	}
+	
 	public static int open_flippers()
 	{
 		return (int) (2*_secondary.getRawAxis(Map.OPEN_FLIPPERS)); //some math
