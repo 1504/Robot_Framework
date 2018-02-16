@@ -51,6 +51,7 @@ public class Robot extends RobotBase {
 	private Autonomous _autonomous = Autonomous.getInstance();
 	private Arduino _arduino = Arduino.getInstance();
 	private Pickup _pickup = Pickup.getInstance();
+	private Winch _winch = Winch.getInstance();
 	//private Lift _lift = Lift.getInstance();
 	//private Navx _navx = Navx.getInstance();
 //	private CameraInterface ci = CameraInterface.getInstance();

@@ -14,7 +14,7 @@ public class Winch implements Updatable
 {
 	private static Winch _instance = new Winch();
 
-	private boolean _deployed = false;
+	private boolean _deployed = true;
 	private boolean _override = false;
 	
 	private DriverStation _ds = DriverStation.getInstance();
@@ -138,14 +138,6 @@ public class Winch implements Updatable
 		//uncomment this once we have inputs figured out
 		/*if(_ds.getMatchTime() > 30.0 && !IO.winch_override())
 			return;*/
-		
-		// Deploy winch
-		if(IO.winch_deploy())
-		{
-			set_deployed(true);
-			Drive.getInstance().fSideAngleDegrees(90);
-		}
-		
 		// Run that thang!
 		_nancy.set(IO.winch_input());
 		_mead.set(-IO.winch_input());

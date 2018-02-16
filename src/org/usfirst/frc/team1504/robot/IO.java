@@ -32,7 +32,9 @@ public class IO
 	}
 	public static double winch_input()
 	{
-		return Utils.deadzone(Math.abs(_secondary.getRawAxis(Map.JOYSTICK_Y_AXIS)));
+		if( _secondary.getRawButton(Map.WINCH_OVERRIDE))
+			return Utils.deadzone(Math.abs(_secondary.getRawAxis(Map.INTAKE_POWER_AXIS)));
+		return 0;
 	}
 	public static boolean winch_deploy()
 	{
