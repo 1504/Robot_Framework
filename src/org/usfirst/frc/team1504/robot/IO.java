@@ -26,9 +26,9 @@ public class IO
 	 * Pickup stuff
 	 */
 	
-	public static double intake_input()
+	public static double override_input()
 	{
-		return Utils.deadzone(Math.abs(_secondary.getRawAxis(Map.INTAKE_POWER_AXIS)));
+		return Utils.deadzone(_secondary.getRawAxis(Map.INTAKE_POWER_AXIS));
 	}
 	public static double winch_input()
 	{
@@ -52,11 +52,11 @@ public class IO
 		if ((_secondary.getRawButton(Map.SPIN_ROTORS_OUT) && ((_secondary.getRawAxis(Map.SPIN_ROTORS_IN)) > 0)))
 		{
 			double new_speed = 1.0 - _secondary.getRawAxis(Map.SPIN_ROTORS_IN);
-			return new_speed;
+			return -new_speed;
 		}
 		else if (_secondary.getRawButton(Map.SPIN_ROTORS_OUT))
 		{
-			return 1.0;
+			return -1.0;
 		}
 		else
 		{

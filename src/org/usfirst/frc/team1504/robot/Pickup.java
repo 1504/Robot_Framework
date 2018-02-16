@@ -56,7 +56,7 @@ public class Pickup implements Updatable {
 	
 	public void set_arm_speed(double speed) //sets both the right and left arm speeds
 	{
-		_arm.set(ControlMode.Velocity, speed);
+		_arm.set(speed);
 	}
 	public void set_intake_speed(double speed) //sets both the right and left flipper speeds
 	{
@@ -65,13 +65,15 @@ public class Pickup implements Updatable {
 	}
 	public boolean lift_safe() //says whether or not the pickup arms are backed where the lift can be
 	{
-		return _lift.get_lift_height() > Map.LIFT_SAFETY_THRESHOLD;
+		return false;//_lift.get_lift_height() > Map.LIFT_SAFETY_THRESHOLD;
 	}
 	private void update_mode() //checks if pickup is in progress
 	{
 		if (!lift_safe())
 		{
-			set_arm_speed((arm_angle[arm_state.ordinal()] - encoder.get()) * Map.PICKUP_GAIN);
+			//set_arm_speed();
+			//(arm_angle[arm_state.ordinal()] - encoder.get()) * Map.PICKUP_GAIN
+			System.out.println(encoder.get());
 			// Sets arm velocity based on how far away the target is and where it is.
 			// Finds target angle by finding element of arm_state then finds its angle element in the arm_angle array
 		}
@@ -97,6 +99,7 @@ public class Pickup implements Updatable {
 	{
 		if(_ds.isOperatorControl() && !_ds.isDisabled()) //only runs in teleop
 		{
+			
 			set_state(flipper.values()[IO.open_flippers()]); 
 			set_intake_speed(IO.get_intake_speed());
 			if (IO.get_arm_up())
@@ -106,6 +109,10 @@ public class Pickup implements Updatable {
 			else if (IO.get_arm_down())
 			{
 				set_state(arm_position.DOWN);
+			}
+			if (IO.get_override_pickup())
+			{
+				set_arm_speed(IO.override_input());
 			}
 		}
 		update_mode();
