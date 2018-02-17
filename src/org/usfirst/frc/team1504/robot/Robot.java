@@ -143,6 +143,7 @@ public class Robot extends RobotBase {
      */
     public void autonomous() {
     	System.out.println("Autonomous mode");
+    	System.out.println("hey now you're ");
     }
 
     /**
@@ -248,21 +249,20 @@ public class Robot extends RobotBase {
      */
     public void startCompetition() {
         HAL.report(tResourceType.kResourceType_Framework,tInstances.kFramework_Simple);
-
         // first and one-time initialization
         LiveWindow.setEnabled(false);
         robotInit();
-        NetworkTable table;
-        table = NetworkTableInstance.getDefault().getTable("GRIP/switch");
-        double[] xRects = table.getEntry("centerX").getDoubleArray(new double[] {2, 3});
-        double[] yRects = table.getEntry("centerY").getDoubleArray(new double[] {2, 3});
-        if(xRects.length == 1)
-        	xRects = new double[] {2, 3};
-        if(yRects.length == 1)
-        	yRects = new double[] {2, 3};
-        double[] angles = _autonomous.switch_angles(xRects[0], xRects[1], 
-        											yRects[0], yRects[1]);
-        double[] arr = _drive.follow_angle(angles[0], .2);
+        //NetworkTable table;
+        //table = NetworkTableInstance.getDefault().getTable("GRIP/switch");
+        //double[] xRects = table.getEntry("centerX").getDoubleArray(new double[] {2, 3});
+        //double[] yRects = table.getEntry("centerY").getDoubleArray(new double[] {2, 3});
+        //if(xRects.length == 1)
+        //	xRects = new double[] {2, 3};
+        //if(yRects.length == 1)
+        //	yRects = new double[] {2, 3};
+        //double[] angles = _autonomous.switch_angles(xRects[0], xRects[1], 
+        //											yRects[0], yRects[1]);
+        //double[] arr = _drive.follow_angle(angles[0], .2);
         HAL.observeUserProgramStarting();
         while (true) {
             if (isDisabled()) {
@@ -276,14 +276,15 @@ public class Robot extends RobotBase {
                 m_ds.InAutonomous(true);
                 _logger.start("Auto");
                 autonomous();
-                
-                
+                System.out.println("hey now");
+                _autonomous.setup_path(new double[][] {{.3, 0, 0, 0, 3000}});
+                _autonomous.start();
                 String message = _ds.getGameSpecificMessage();
                 char left = 'L';
                 char right = 'R';
                 // char starting_position = 'E';
                 
-                char[] new_message = message.toCharArray();
+                /*char[] new_message = message.toCharArray();
                 
                 if (new_message[0] == left)
                 {
@@ -298,12 +299,10 @@ public class Robot extends RobotBase {
                 else
                 {
                 	// We must be in the middle so don't do anything unless we are net setting what to run in auton somewhere else
-                }
+                }*/
                 
                 
-                _autonomous.setup_path(new double[][] {{0.1, 0, 0.0, 0, 5000}});
-	            
-                _autonomous.start();
+                
                 while (isAutonomous() && !isDisabled()) {
                 	m_ds.waitForData(150);
              
