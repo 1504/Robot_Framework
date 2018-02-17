@@ -78,6 +78,10 @@ public class IO
 	{
 		return ! _secondary.getRawButton(Map.MASTER_OVERRIDE) && _secondary.getRawButton(Map.PICKUP_DOWN);
 	}
+	public static boolean get_lift_drop()
+	{
+		return _secondary.getRawButton(Map.LIFT_DROP_BUTTON);
+	}
 	public static double lift_input()
 	{
 		return Utils.deadzone(Math.abs(_secondary.getRawAxis(Map.INTAKE_POWER_AXIS)));

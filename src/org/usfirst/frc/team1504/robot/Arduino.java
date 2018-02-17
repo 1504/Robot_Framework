@@ -16,6 +16,7 @@ public class Arduino
 	
 	public enum PARTY_MODE {OFF, ON};
 	private Lift _lift = Lift.getInstance();
+	private Pickup _pickup = Pickup.getInstance();
 	
 	private static Arduino instance = new Arduino();
 	
@@ -79,23 +80,23 @@ public class Arduino
 	{
 		double[] RGB = {0, 0, 0};
 		int returnval;
-		if((Map.ARM_DOWN_ANGLE < Pickup.arm_get_position()) && (Pickup.arm_get_position() < Map.ARM_MID_ANGLE))
+		if((Map.ARM_DOWN_ANGLE < _pickup.arm_get_position()) && (_pickup.arm_get_position() < Map.ARM_MID_ANGLE))
 		{
-			returnval = (int) ((Pickup.arm_get_position() / Map.ARM_UP_ANGLE) * 255);
+			returnval = (int) ((_pickup.arm_get_position() / Map.ARM_UP_ANGLE) * 255);
 			RGB[0] = 0;
 			RGB[1] = returnval;
 			RGB[2] = 0;
 		}
-		else if((Map.ARM_MID_ANGLE < Pickup.arm_get_position()) && (Pickup.arm_get_position() < (2 * Map.ARM_DOWN_ANGLE))) 
+		else if((Map.ARM_MID_ANGLE < _pickup.arm_get_position()) && (_pickup.arm_get_position() < (2 * Map.ARM_DOWN_ANGLE))) 
 		{
-			returnval = (int) ((Pickup.arm_get_position() / (2 * Map.ARM_DOWN_ANGLE)) * 255);
+			returnval = (int) ((_pickup.arm_get_position() / (2 * Map.ARM_DOWN_ANGLE)) * 255);
 			RGB[0] = returnval;
 			RGB[1] = returnval;
 			RGB[2] = 0;
 		}
-		else if(((2 * Map.ARM_DOWN_ANGLE) < Pickup.arm_get_position()) && (Pickup.arm_get_position() < (Map.ARM_UP_ANGLE))) 
+		else if(((2 * Map.ARM_DOWN_ANGLE) < _pickup.arm_get_position()) && (_pickup.arm_get_position() < (Map.ARM_UP_ANGLE))) 
 		{
-			returnval = (int) ((Pickup.arm_get_position() / (Map.ARM_UP_ANGLE)) * 255);
+			returnval = (int) ((_pickup.arm_get_position() / (Map.ARM_UP_ANGLE)) * 255);
 			RGB[0] = 0;
 			RGB[1] = 0;
 			RGB[2] = returnval;

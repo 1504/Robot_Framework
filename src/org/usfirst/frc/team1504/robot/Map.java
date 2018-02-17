@@ -201,6 +201,7 @@ public class Map {
 	// Joystick raw axes
 	public static final int JOYSTICK_Y_AXIS = 1;
 	public static final int JOYSTICK_X_AXIS = 0;
+	public static final int LIFT_DROP_BUTTON = 0;
 	
 /**
  * Vision Interface stuff
