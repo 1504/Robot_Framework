@@ -20,7 +20,7 @@ public class Pickup implements Updatable {
 	public double[] arm_angle = {Map.ARM_UP_ANGLE, Map.ARM_DOWN_ANGLE, Map.ARM_UP_ANGLE/2}; // Map.ARM_UP_ANGLE/2 or Map.ARM_MID_ANGLE
 	public static arm_position arm_state = arm_position.DOWN; // sets arms to be down at beginning of match
 	
-	public enum flipper {OPEN, CLOSE}; // declares states of flippers
+	public enum flipper {CLOSE, OPEN}; // declares states of flippers
 	public static flipper flipper_state = flipper.CLOSE; // sets flippers to be closed at beginning of match
 	
 	
@@ -38,8 +38,6 @@ public class Pickup implements Updatable {
 		_grab_right = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_RIGHT);
 		_arm = new WPI_TalonSRX(Map.ARM_TALON_PORT);
 		_arm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 200); //200 here is the ms timeout when trying to connect
-		_arm.config_kP(0, 0.03, 200); //200 is the timeout ms
-		_arm.config_kI(0, 0.00015, 200);
 		_grab_piston = new DoubleSolenoid(0, 1); //0 and 1 are the ports, needs to be moved to the map
 		_grab_piston.set(DoubleSolenoid.Value.kOff); //not sure about this
 		Update_Semaphore.getInstance().register(this);
@@ -72,7 +70,7 @@ public class Pickup implements Updatable {
 		if (!lift_safe())
 		{
 			//set_arm_speed();
-			//(arm_angle[arm_state.ordinal()] - encoder.get()) * Map.PICKUP_GAIN
+			//(arm_angle[arm_state.ordinal()] - _arm.getSelectedSensorPosition(0)) * Map.PICKUP_GAIN
 			// System.out.println(encoder.get());
 			// Sets arm velocity based on how far away the target is and where it is.
 			// Finds target angle by finding element of arm_state then finds its angle element in the arm_angle array
@@ -105,7 +103,7 @@ public class Pickup implements Updatable {
 			
 			set_state(flipper.values()[IO.open_flippers()]); 
 			set_intake_speed(IO.get_intake_speed());
-			//System.out.println(IO.get_intake_speed());
+			System.out.println(_arm.getSelectedSensorPosition(0));
 			if (IO.get_arm_up())
 			{
 				set_state(arm_position.UP);
