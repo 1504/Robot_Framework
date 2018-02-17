@@ -68,7 +68,7 @@ public class IO
 	
 	public static int open_flippers()
 	{
-		return (int) (2*_secondary.getRawAxis(Map.OPEN_FLIPPERS)); //some math
+		return (int) (_secondary.getRawAxis(Map.OPEN_FLIPPERS)); //some math
 	}
 	public static boolean get_arm_up()
 	{

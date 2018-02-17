@@ -40,7 +40,7 @@ public class Pickup implements Updatable {
 		_arm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 200); //200 here is the ms timeout when trying to connect
 		_arm.config_kP(0, 0.03, 200); //200 is the timeout ms
 		_arm.config_kI(0, 0.00015, 200);
-		_grab_piston = new DoubleSolenoid(0, 1); //0 is on/forward, 1 for off/reverse
+		_grab_piston = new DoubleSolenoid(0, 1); //0 and 1 are the ports, needs to be moved to the map
 		_grab_piston.set(DoubleSolenoid.Value.kOff); //not sure about this
 		Update_Semaphore.getInstance().register(this);
 		
@@ -102,6 +102,7 @@ public class Pickup implements Updatable {
 			
 			set_state(flipper.values()[IO.open_flippers()]); 
 			set_intake_speed(IO.get_intake_speed());
+			//System.out.println(IO.get_intake_speed());
 			if (IO.get_arm_up())
 			{
 				set_state(arm_position.UP);
@@ -113,7 +114,9 @@ public class Pickup implements Updatable {
 			if (IO.get_override_pickup())
 			{
 				set_arm_speed(IO.override_input());
+				
 			}
+			
 		}
 		update_mode();
 	}

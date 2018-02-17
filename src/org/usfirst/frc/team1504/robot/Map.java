@@ -79,7 +79,7 @@ public class Map {
 		
 		public static final int WINCH_POWER_AXIS = 1;
 		
-		public static final double WINCH_DIRECTION = 1.0;
+		public static final double WINCH_DIRECTION = -1.0;
 		public static final double WINCH_SERVO_DEPLOYED = 180.0;
 		public static final double WINCH_SERVO_STORED = 0.0;
 		public static final double WINCH_BRAKE_TIMEOUT = 15.0;
@@ -124,7 +124,7 @@ public class Map {
 
 	
 	// Drive Input magic numbers
-	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { -1.0, 1.0, 0.6 };
+	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { -1.0, 1.0, -0.6 };
 	public static final double DRIVE_INPUT_TURN_FACTOR = 0.2;
 	
 	public static final double DRIVE_INPUT_VISION_SPEED = 0.75;
