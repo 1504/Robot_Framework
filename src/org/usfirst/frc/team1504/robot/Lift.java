@@ -46,6 +46,7 @@ public class Lift implements Updatable
 		
 		if(IO.get_override_lift()){
 			set_lift_velocity(IO.lift_input());
+			set_state(lift_position.OFF);
 		}
 		else if(_pickup.lift_safe()) 
 		{
