@@ -70,7 +70,7 @@ public class Pickup implements Updatable {
 		if (!lift_safe())
 		{
 			//set_arm_speed();
-			//(arm_angle[arm_state.ordinal()] - _arm.getSelectedSensorPosition(0)) * Map.PICKUP_GAIN
+			//double speed = java.lang.Math.max(0.7, (arm_angle[arm_state.ordinal()] - _arm.getSelectedSensorPosition(0)) * Map.PICKUP_GAIN);
 			// System.out.println(encoder.get());
 			// Sets arm velocity based on how far away the target is and where it is.
 			// Finds target angle by finding element of arm_state then finds its angle element in the arm_angle array
@@ -103,7 +103,7 @@ public class Pickup implements Updatable {
 			
 			set_state(flipper.values()[IO.open_flippers()]); 
 			set_intake_speed(IO.get_intake_speed());
-			System.out.println(_arm.getSelectedSensorPosition(0));
+			//System.out.println(_arm.getSelectedSensorPosition(0));
 			if (IO.get_arm_up())
 			{
 				set_state(arm_position.UP);
