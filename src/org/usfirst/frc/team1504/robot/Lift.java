@@ -61,7 +61,14 @@ public class Lift implements Updatable
 		{
 			set_lift_velocity((lift_height[1]-get_lift_height())/Map.LIFT_MAX_HEIGHT);
 		}	//makes the lift go to the middle
-		
+		if(IO.get_lift_drop()) 
+		{
+			plate_solenoid.set(DoubleSolenoid.Value.kForward);
+		} 
+		else
+		{
+			plate_solenoid.set(DoubleSolenoid.Value.kReverse);
+		}
 	}
 	
 	public void set_state(lift_position state)
