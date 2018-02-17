@@ -120,4 +120,9 @@ public class Pickup implements Updatable {
 		}
 		update_mode();
 	}
+	
+	public int arm_get_position()
+	{
+		return _arm.getSelectedSensorPosition(0);
+	}
 }
