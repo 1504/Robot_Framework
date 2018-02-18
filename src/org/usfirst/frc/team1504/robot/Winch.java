@@ -25,11 +25,11 @@ public class Winch implements Updatable
 	
 	protected Winch()
 	{
-		_nancy = new WPI_TalonSRX(Map.NANCY_TALON_PORT);
+		_nancy = new WPI_TalonSRX(Map.RIGHT_TALON_PORT);
 		_nancy.enableCurrentLimit(true);
 		_nancy.configContinuousCurrentLimit(Map.WINCH_CURRENT_LIMIT, 20); //20 is timeout in ms
 		
-		_mead = new WPI_TalonSRX(Map.MEAD_TALON_PORT);
+		_mead = new WPI_TalonSRX(Map.LEFT_TALON_PORT);
 		_mead.enableCurrentLimit(true);
 		_mead.configContinuousCurrentLimit(Map.WINCH_CURRENT_LIMIT, 20); //20 is timeout in ms
 		

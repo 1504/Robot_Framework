@@ -73,8 +73,8 @@ public class Map {
  */
 		
 		public static final int INTAKE_POWER_AXIS = 1;
-		public static final int NANCY_TALON_PORT = 40;
-		public static final int MEAD_TALON_PORT = 41;
+		public static final int LEFT_TALON_PORT = 40;
+		public static final int RIGHT_TALON_PORT = 41;
 		
 		public static final int WINCH_CURRENT_LIMIT = 70;
 		
