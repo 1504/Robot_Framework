@@ -230,7 +230,10 @@ public class Autonomous
 				output[1] = arr[1];
 			} else if(_path[step][3] == 12) //drive until crash
 			{
-				_path[step] = _drive.roborio_crash_bandicoot_check(_path[step]);
+				if(System.currentTimeMillis() - _start_time > 1000) //enable checking after a second
+				{
+					_path[step] = _drive.roborio_crash_bandicoot_check(_path[step]);
+				}
 				for(int value = 0; value < 3; value++)
 					output[value] = _path[step][value]; //set output to crash bandicoot check
 				if(_path[step][0] + _path[step][1] + _path[step][2] == 0) //if we crashed
