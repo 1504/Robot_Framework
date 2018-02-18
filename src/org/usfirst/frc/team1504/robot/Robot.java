@@ -277,8 +277,7 @@ public class Robot extends RobotBase {
                 _logger.start("Auto");
                 autonomous();
                 System.out.println("hey now");
-                _autonomous.setup_path(new double[][] {{.3, 0, 0, 0, 3000}});
-                _autonomous.start();
+                
                 String message = _ds.getGameSpecificMessage();
                 char left = 'L';
                 char right = 'R';
@@ -302,10 +301,10 @@ public class Robot extends RobotBase {
                 }*/
                 
                 
-                
+                _autonomous.setup_path(new double[][] {{.3, 0, 0, 0, 3000}});
+                _autonomous.start();
                 while (isAutonomous() && !isDisabled()) {
                 	m_ds.waitForData(150);
-             
                 	_semaphore.newData();
                 }
                 
