@@ -57,12 +57,12 @@ public class Pickup implements Updatable {
 	}
 	public void rotate_intake()
 	{
-		if(_secondary.getPOV(0) == 270)
+		if(IO.get_secondary_pov() == 270)
 		{
 			_grab_left.set(Map.ROTATION_SPEED);
 			_grab_right.set(Map.ROTATION_SPEED);
 		}
-		if(_secondary.getPOV(0) == 90)
+		if(IO.get_secondary_pov() == 90)
 		{
 			_grab_left.set(-Map.ROTATION_SPEED);
 			_grab_right.set(-Map.ROTATION_SPEED);
