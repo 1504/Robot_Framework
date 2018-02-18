@@ -46,15 +46,11 @@ public class Map {
 		
 		public static final double FLIPPER_MAGIC = 1.0;
 		public static final double PICKUP_GAIN = 0.03;
-<<<<<<< HEAD
-		
 		public static final double ROTATION_SPEED = 1;
 		/*
 		public static final int ENCODER_PORT_1 = 1;
 		public static final int ENCODER_PORT_2 = 2;
 		*/
-=======
->>>>>>> 60a7abe76ba487097a44307cc7f809f0bcb2afbe
 /**
  * Elevator / Lift Stuff
  */
