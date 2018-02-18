@@ -40,21 +40,12 @@ public class Map {
 		public static final int ROLLER_TALON_PORT_LEFT = 21;
 		public static final int ROLLER_TALON_PORT_RIGHT = 22;
 		
-		public static final double ROLLER_SPEED = 0.7;
-		
 		public static final int ARM_UP_ANGLE = 1000;
 		public static final int ARM_DOWN_ANGLE = 1000;
 		public static final int ARM_MID_ANGLE = 1000;
 		
-		public static final double ARM_SPEED = 0.3;
-		
 		public static final double FLIPPER_MAGIC = 1.0;
-		
 		public static final double PICKUP_GAIN = 0.03;
-		/*
-		public static final int ENCODER_PORT_1 = 1;
-		public static final int ENCODER_PORT_2 = 2;
-		*/
 /**
  * Elevator / Lift Stuff
  */

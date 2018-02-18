@@ -22,9 +22,6 @@ public class Pickup implements Updatable {
 	
 	public enum flipper {CLOSE, OPEN}; // declares states of flippers
 	public static flipper flipper_state = flipper.CLOSE; // sets flippers to be closed at beginning of match
-	
-	
-	public double[] intake_speeds = {Map.ROLLER_SPEED, -Map.ROLLER_SPEED, 0};
 	private static final Pickup instance = new Pickup();
 	private DriverStation _ds = DriverStation.getInstance();
 	public static Pickup getInstance() // sets instance
