@@ -51,6 +51,8 @@ public class Map {
 		public static final double FLIPPER_MAGIC = 1.0;
 		
 		public static final double PICKUP_GAIN = 0.03;
+		
+		public static final double ROTATION_SPEED = 1;
 		/*
 		public static final int ENCODER_PORT_1 = 1;
 		public static final int ENCODER_PORT_2 = 2;

@@ -61,10 +61,18 @@ public class Pickup implements Updatable {
 		_grab_left.set(speed);
 		_grab_right.set(-speed);
 	}
-	public void set_rotate_speed(double speed)
+	public void rotate_intake()
 	{
-		_grab_left.set(speed);
-		_grab_right.set(speed);
+		if(_secondary.getPOV(0) == 270)
+		{
+			_grab_left.set(Map.ROTATION_SPEED);
+			_grab_right.set(Map.ROTATION_SPEED);
+		}
+		if(_secondary.getPOV(0) == 90)
+		{
+			_grab_left.set(-Map.ROTATION_SPEED);
+			_grab_right.set(-Map.ROTATION_SPEED);
+		}
 	}
 	public boolean lift_safe() //says whether or not the pickup arms are backed where the lift can be
 	{
