@@ -19,19 +19,19 @@ public class Winch implements Updatable
 	
 	private DriverStation _ds = DriverStation.getInstance();
 	
-	private WPI_TalonSRX _nancy;
-	private WPI_TalonSRX _mead;
+	private WPI_TalonSRX _left;
+	private WPI_TalonSRX _right;
 	private Thread _winch;
 	
 	protected Winch()
 	{
-		_nancy = new WPI_TalonSRX(Map.RIGHT_TALON_PORT);
-		_nancy.enableCurrentLimit(true);
-		_nancy.configContinuousCurrentLimit(Map.WINCH_CURRENT_LIMIT, 20); //20 is timeout in ms
+		_left = new WPI_TalonSRX(Map.RIGHT_TALON_PORT);
+		_left.enableCurrentLimit(true);
+		_left.configContinuousCurrentLimit(Map.WINCH_CURRENT_LIMIT, 20); //20 is timeout in ms
 		
-		_mead = new WPI_TalonSRX(Map.LEFT_TALON_PORT);
-		_mead.enableCurrentLimit(true);
-		_mead.configContinuousCurrentLimit(Map.WINCH_CURRENT_LIMIT, 20); //20 is timeout in ms
+		_right = new WPI_TalonSRX(Map.LEFT_TALON_PORT);
+		_right.enableCurrentLimit(true);
+		_right.configContinuousCurrentLimit(Map.WINCH_CURRENT_LIMIT, 20); //20 is timeout in ms
 		
 		new Thread( new Runnable() {
 			public void run() {
@@ -41,8 +41,8 @@ public class Winch implements Updatable
 				{
 					if(_ds.isEnabled())
 					{
-						_mead.setNeutralMode(NeutralMode.Brake);
-						_nancy.setNeutralMode(NeutralMode.Brake);
+						_right.setNeutralMode(NeutralMode.Brake);
+						_left.setNeutralMode(NeutralMode.Brake);
 					}
 					
 					else if(!_ds.isEnabled())
@@ -55,8 +55,8 @@ public class Winch implements Updatable
 								Timer.delay(timeout);
 								if(_ds.isEnabled())
 									return;
-								_mead.setNeutralMode(NeutralMode.Coast);
-								_nancy.setNeutralMode(NeutralMode.Coast);
+								_right.setNeutralMode(NeutralMode.Coast);
+								_left.setNeutralMode(NeutralMode.Coast);
 //								System.out.println("Winch brakes OFF");
 							}
 						}).start();
@@ -66,19 +66,19 @@ public class Winch implements Updatable
 			}
 		}).start();
 		
-		_mead.setNeutralMode(NeutralMode.Brake);
-		_nancy.setNeutralMode(NeutralMode.Brake);
+		_right.setNeutralMode(NeutralMode.Brake);
+		_left.setNeutralMode(NeutralMode.Brake);
 		
 		_winch = new Thread(new Runnable() {
 			public void run()
 			{
 				while(!_deployed) //while winch not deployed, periodically backdrive winch to keep tension
 				{
-					_nancy.set(-.25);
-					_mead.set(.25);
+					_left.set(-.25);
+					_right.set(.25);
 					Timer.delay(.01);
-					_nancy.set(0.0);
-					_mead.set(0.0);
+					_left.set(0.0);
+					_right.set(0.0);
 					
 					try {
 						Thread.sleep(500); //ms
@@ -88,11 +88,11 @@ public class Winch implements Updatable
 				}
 				_deployed = false;
 				
-				_nancy.set(1.0); //deploy winch
-				_mead.set(-1.0);
+				_left.set(1.0); //deploy winch
+				_right.set(-1.0);
 				Timer.delay(2); 
-				_nancy.set(0.0);
-				_mead.set(0.0);
+				_left.set(0.0);
+				_right.set(0.0);
 				
 				_deployed = true;
 				
@@ -126,8 +126,8 @@ public class Winch implements Updatable
 	{
 		if (_override != override)
 		{
-			_nancy.enableCurrentLimit(!_override);
-			_mead.enableCurrentLimit(!_override);
+			_left.enableCurrentLimit(!_override);
+			_right.enableCurrentLimit(!_override);
 		}
 		_override = override;
 	}
@@ -139,7 +139,7 @@ public class Winch implements Updatable
 		/*if(_ds.getMatchTime() > 30.0 && !IO.winch_override())
 			return;*/
 		// Run that thang!
-		_nancy.set(IO.winch_input());
-		_mead.set(-IO.winch_input());
+		_left.set(IO.winch_input());
+		_right.set(-IO.winch_input());
 	}
 }
