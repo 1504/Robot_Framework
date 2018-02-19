@@ -181,7 +181,7 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 3) //eject cube
 			{
-				_pickup.set_intake_speed(0);
+				_pickup.set_intake_speed(-1);
 			}
 			else if(_path[step][3] == 4) //bring arm up
 			{
