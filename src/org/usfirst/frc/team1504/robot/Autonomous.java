@@ -81,6 +81,16 @@ public class Autonomous
 	
 	public void setup_path(double[][] path)
 	{
+		for(int i = 0; i < path.length; i++){
+			if(path[i][3] == 13){
+				double angle = path[i][0];
+				double speed = path[i][1];
+				double[] arr = _drive.follow_angle(angle, speed);
+				path[i][0] = arr[0];
+				path[i][1] = arr[1];
+				path[i][3] = 12;
+			}
+		}
 		_path = path;
 	}
 	public double[][] build_auton(double[][][] autons) //should let us combine multiple double arrays
@@ -220,24 +230,15 @@ public class Autonomous
 				output[1] = arr[1];
 			} else if(_path[step][3] == 12) //drive until crash
 			{
-				_path[step] = _drive.roborio_crash_bandicoot_check(_path[step]);
+				if(System.currentTimeMillis() - _start_time > 1000) //enable checking after a second
+				{
+					_path[step] = _drive.roborio_crash_bandicoot_check(_path[step]);
+				}
 				for(int value = 0; value < 3; value++)
 					output[value] = _path[step][value]; //set output to crash bandicoot check
 				if(_path[step][0] + _path[step][1] + _path[step][2] == 0) //if we crashed
 					step++; //move on
 				
-			} else if (_path[step][3] == 13) { //combines crash detection with angle movement.
-				double angle = _path[step][0];
-				double speed = _path[step][1];
-				double[] arr = _drive.follow_angle(angle, speed);
-				output[0] = arr[0];
-				output[1] = arr[1];
-				
-				double[] temp = _drive.roborio_crash_bandicoot_check(output);
-				for(int value = 0; value < 3; value++) // P loop
-					output[value] = temp[value];
-				if(output[0] + output[1] + output[2] == 0)
-					step++;
 			}
 			/*else if(_path[step][3] == 2)
 			{

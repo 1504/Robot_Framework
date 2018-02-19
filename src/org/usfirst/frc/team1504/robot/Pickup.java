@@ -22,9 +22,6 @@ public class Pickup implements Updatable {
 	
 	public enum flipper {CLOSE, OPEN}; // declares states of flippers
 	public static flipper flipper_state = flipper.CLOSE; // sets flippers to be closed at beginning of match
-	
-	
-	public double[] intake_speeds = {Map.ROLLER_SPEED, -Map.ROLLER_SPEED, 0};
 	private static final Pickup instance = new Pickup();
 	private DriverStation _ds = DriverStation.getInstance();
 	public static Pickup getInstance() // sets instance
@@ -41,9 +38,6 @@ public class Pickup implements Updatable {
 		_grab_piston = new DoubleSolenoid(0, 1); //0 and 1 are the ports, needs to be moved to the map
 		_grab_piston.set(DoubleSolenoid.Value.kOff); //not sure about this
 		Update_Semaphore.getInstance().register(this);
-		
-		// encoder = new Encoder(Map.ENCODER_PORT_1, Map.ENCODER_PORT_2, true, EncodingType.k4X); //EncodingType sets the decoding scale factor to 4x; if the arm moves more quickly, this could be lowered to 2x
-		// encoder.reset();
 		System.out.println("Pickup Initialized.\nPickup Disabled");
 	}
 	
@@ -61,6 +55,19 @@ public class Pickup implements Updatable {
 		_grab_left.set(speed);
 		_grab_right.set(-speed);
 	}
+	public void rotate_intake()
+	{
+		if(IO.get_secondary_pov() == 270)
+		{
+			_grab_left.set(Map.ROTATION_SPEED);
+			_grab_right.set(Map.ROTATION_SPEED);
+		}
+		if(IO.get_secondary_pov() == 90)
+		{
+			_grab_left.set(-Map.ROTATION_SPEED);
+			_grab_right.set(-Map.ROTATION_SPEED);
+		}
+	}
 	public boolean lift_safe() //says whether or not the pickup arms are backed where the lift can be
 	{
 		return false;//_lift.get_lift_height() > Map.LIFT_SAFETY_THRESHOLD;
@@ -70,7 +77,7 @@ public class Pickup implements Updatable {
 		if (!lift_safe())
 		{
 			//set_arm_speed();
-			//double speed = java.lang.Math.min(0.7, (arm_angle[arm_state.ordinal()] - _arm.getSelectedSensorPosition(0)) * Map.PICKUP_GAIN);
+			//double speed = (arm_angle[arm_state.ordinal()] - _arm.getSelectedSensorPosition(0)) * Map.PICKUP_GAIN;
 			// System.out.println(encoder.get());
 			// Sets arm velocity based on how far away the target is and where it is.
 			// Finds target angle by finding element of arm_state then finds its angle element in the arm_angle array
@@ -94,13 +101,10 @@ public class Pickup implements Updatable {
 	{
 		flipper_state = state;
 	}
-	
-
 	public void semaphore_update() //updates robot information
 	{
 		if(_ds.isOperatorControl() && !_ds.isDisabled()) //only runs in teleop
 		{
-			
 			set_state(flipper.values()[IO.open_flippers()]); 
 			set_intake_speed(IO.get_intake_speed());
 			//System.out.println(_arm.getSelectedSensorPosition(0));
@@ -116,7 +120,6 @@ public class Pickup implements Updatable {
 			{
 				set_arm_speed(IO.override_input());
 			}
-			
 		}
 		update_mode();
 	}

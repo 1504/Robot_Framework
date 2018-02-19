@@ -15,10 +15,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 //import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.interfaces.*;
 
 public class Drive implements Updatable
 {
-	private BuiltInAccelerometer accel = new BuiltInAccelerometer();
+	private BuiltInAccelerometer accel = new BuiltInAccelerometer(Accelerometer.Range.k8G);
 	private boolean above_crash_threshold = false;
 	private static class DTask implements Runnable
 	{
@@ -389,16 +390,12 @@ public class Drive implements Updatable
 		}
 		return input;
 	}
+	
 	public double[] roborio_crash_bandicoot_check(double[] input) {//uses roborio built in accelerometer
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
-		double robot_accel = Math.abs(Math.pow(accel.getX()*accel.getX()+accel.getY()*accel.getY()+accel.getZ()*accel.getZ(),2));
-		if(robot_accel < 0.05 && robot_accel > 0.03) 
-		{//If we change the orientation of the roborio this has to be getY. On the bottom right of the roborio is a picture of it's x,y, & z axis.
-			above_crash_threshold = true;
-		}
-		if(robot_accel > 0.8 && above_crash_threshold)
+		double robot_accel = Math.pow((Math.pow(accel.getX()*accel.getX()+accel.getZ()*accel.getZ(),2)),0.5);
+		if(robot_accel > 6.0) //needs to be found out
 		{
-			above_crash_threshold = false;
 			return null_response;
 		}
 		else

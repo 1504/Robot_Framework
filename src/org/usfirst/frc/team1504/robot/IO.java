@@ -94,7 +94,10 @@ public class IO
 	{
 		return !_secondary.getRawButton(Map.MASTER_OVERRIDE) &&  _secondary.getRawButton(Map.LIFT_DOWN);
 	}
-	
+	public static double get_secondary_pov()
+	{
+		return _secondary.getPOV();
+	}
 	
 	/**
 	 * Gear stuff
