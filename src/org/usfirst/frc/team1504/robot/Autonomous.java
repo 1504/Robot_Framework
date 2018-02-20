@@ -159,7 +159,18 @@ public class Autonomous
 				step++;
 			
 			// Alert user on new step
+			if(step > _path_step)
+			{
+				System.out.println("\tAutonomous step " + step + " @ " + (double)(System.currentTimeMillis() - _start_time)/1000);
+				_path_step = step;
+			}
 			
+			// Quit if there are no more steps left
+			if(step >= _path.length)
+			{
+				stop();
+				return;
+			}
 			
 			// Get the target position and actual current position
 			
@@ -223,11 +234,10 @@ public class Autonomous
 				double[] temp_path = {29, 5, 4};
 				for(int value = 0; value < 3; value++)
 					output[value] = _path[step][value]; //set output to crash bandicoot check
-				if(System.currentTimeMillis() - _start_time > 1000) //enable checking after a second
-				{
+			
 					temp_path = _drive.roborio_crash_bandicoot_check(_path[step]);
 					
-				}
+				
 				if(temp_path[0] + temp_path[1] + temp_path[2] == 0){ //if we crashed
 					step++;
 					for(int value = 0; value < 3; value++)
@@ -236,18 +246,7 @@ public class Autonomous
 				}
 				
 			}
-			if(step > _path_step)
-			{
-				System.out.println("\tAutonomous step " + step + " @ " + (double)(System.currentTimeMillis() - _start_time)/1000);
-				_path_step = step;
-			}
 			
-			// Quit if there are no more steps left
-			if(step >= _path.length)
-			{
-				stop();
-				return;
-			}
 			/*else if(_path[step][3] == 2)
 			{
 				// Calculate P(ID) output for the drive thread 
