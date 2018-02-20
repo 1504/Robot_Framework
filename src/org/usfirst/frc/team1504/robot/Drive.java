@@ -393,24 +393,24 @@ public class Drive implements Updatable
 
 	double initialSpike = 0.0;
 	double lowestSpike = 0.0;
-	double signSpike = -1.0;
+	double accelSign = -1.0;
 	public double[] roborio_crash_bandicoot_check(double[] input) {//uses roborio built in accelerometer
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
-		signSpike = Math.signum((accel.getX()*accel.getX()+accel.getZ()*accel.getZ()));
+		accelSign = Math.signum((accel.getX()*accel.getX()+accel.getZ()*accel.getZ()));
 		double robot_accel = Math.pow((Math.pow(accel.getX()*accel.getX()+accel.getZ()*accel.getZ(),2)),0.5);
-		if(robot_accel*signSpike > (initialSpike*signSpike))
+		System.out.println("Initial Spike: " + initialSpike + " Lowest Spike: " + lowestSpike);
+		if(robot_accel*accelSign < (initialSpike*accelSign)) //needs to be found out
+		{
+			System.out.println("Null returned");
+			return null_response;
+		}
+		else if(robot_accel*accelSign > (initialSpike*accelSign))
 		{
 			initialSpike = robot_accel;
 		}
-		if(robot_accel*signSpike < (initialSpike*signSpike)) //needs to be found out
-		{
-			return null_response;
-		}
-		else
-		{
-			return input;
-		}
+		return input;
 	}
+	
 	/**
 	 * Normalization function for arrays to normalize full scale to +- 1 <br>
 	 * Note: THIS FUNCTION OPERATES ON THE REFERENCE INPUT ARRAY AND WILL CHANGE IT!
