@@ -394,7 +394,8 @@ public class Drive implements Updatable
 	public double[] roborio_crash_bandicoot_check(double[] input) {//uses roborio built in accelerometer
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
 		double robot_accel = Math.pow((Math.pow(accel.getX()*accel.getX()+accel.getZ()*accel.getZ(),2)),0.5);
-		if(robot_accel > 6.0) //needs to be found out
+		//System.out.println(robot_accel);
+		if(robot_accel > .5) //needs to be found out
 		{
 			return null_response;
 		}

@@ -91,6 +91,7 @@ public class Autonomous
 				path[i][3] = 12;
 			}
 		}
+		_path_step = -1;
 		_path = path;
 	}
 	public double[][] build_auton(double[][][] autons) //should let us combine multiple double arrays
@@ -158,18 +159,7 @@ public class Autonomous
 				step++;
 			
 			// Alert user on new step
-			if(step > _path_step)
-			{
-				System.out.println("\tAutonomous step " + step + " @ " + (double)(System.currentTimeMillis() - _start_time)/1000);
-				_path_step = step;
-			}
 			
-			// Quit if there are no more steps left
-			if(step == _path.length)
-			{
-				stop();
-				return;
-			}
 			
 			// Get the target position and actual current position
 			
@@ -230,15 +220,33 @@ public class Autonomous
 				output[1] = arr[1];
 			} else if(_path[step][3] == 12) //drive until crash
 			{
-				if(System.currentTimeMillis() - _start_time > 1000) //enable checking after a second
-				{
-					_path[step] = _drive.roborio_crash_bandicoot_check(_path[step]);
-				}
+				double[] temp_path = {29, 5, 4};
 				for(int value = 0; value < 3; value++)
 					output[value] = _path[step][value]; //set output to crash bandicoot check
-				if(_path[step][0] + _path[step][1] + _path[step][2] == 0) //if we crashed
-					step++; //move on
+				if(System.currentTimeMillis() - _start_time > 1000) //enable checking after a second
+				{
+					temp_path = _drive.roborio_crash_bandicoot_check(_path[step]);
+					
+				}
+				if(temp_path[0] + temp_path[1] + temp_path[2] == 0){ //if we crashed
+					step++;
+					for(int value = 0; value < 3; value++)
+						output[value] = temp_path[value];
+					System.out.println("crashed");
+				}
 				
+			}
+			if(step > _path_step)
+			{
+				System.out.println("\tAutonomous step " + step + " @ " + (double)(System.currentTimeMillis() - _start_time)/1000);
+				_path_step = step;
+			}
+			
+			// Quit if there are no more steps left
+			if(step >= _path.length)
+			{
+				stop();
+				return;
 			}
 			/*else if(_path[step][3] == 2)
 			{
