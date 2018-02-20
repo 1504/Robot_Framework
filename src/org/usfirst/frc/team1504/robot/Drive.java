@@ -390,16 +390,19 @@ public class Drive implements Updatable
 		}
 		return input;
 	}
-	
+
+	double initialSpike = 0.0;
+	double lowestSpike = 0.0;
+	double signSpike = -1.0;
 	public double[] roborio_crash_bandicoot_check(double[] input) {//uses roborio built in accelerometer
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
-		double initialSpike = 0.0;
-		double robot_accel = (accel.getX()*accel.getX()+accel.getZ()*accel.getZ());
-		if(robot_accel > initialSpike)
+		signSpike = Math.signum((accel.getX()*accel.getX()+accel.getZ()*accel.getZ()));
+		double robot_accel = Math.pow((Math.pow(accel.getX()*accel.getX()+accel.getZ()*accel.getZ(),2)),0.5);
+		if(robot_accel*signSpike > (initialSpike*signSpike))
 		{
 			initialSpike = robot_accel;
 		}
-		if(robot_accel < (-1*initialSpike)) //needs to be found out
+		if(robot_accel*signSpike < (initialSpike*signSpike)) //needs to be found out
 		{
 			return null_response;
 		}
