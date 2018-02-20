@@ -398,15 +398,31 @@ public class Drive implements Updatable
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
 		accelSign = Math.signum((accel.getX()*accel.getX()+accel.getZ()*accel.getZ()));
 		double robot_accel = Math.pow((Math.pow(accel.getX()*accel.getX()+accel.getZ()*accel.getZ(),2)),0.5);
+		double spikeSign = Math.signum(initialSpike);
 		System.out.println("Initial Spike: " + initialSpike + " Lowest Spike: " + lowestSpike);
-		if(robot_accel*accelSign < (initialSpike*accelSign)) //needs to be found out
+	
+		if(time > 1000)
 		{
-			System.out.println("Null returned");
-			return null_response;
+			if(spikeSign > 0)
+			{
+				if(robot_accel*accelSign > initialSpike)
+				{
+					System.out.println("Null returned");
+					return null_response;
+				}
+			}
+			else if (spikeSign < 0)
+			{
+				if(robot_accel*accelSign < initialSpike)
+				{
+					System.out.println("Null returned");
+					return null_response;
+				}
+			}
 		}
-		else if(robot_accel*accelSign > (initialSpike*accelSign))
+		else if(robot_accel > Math.pow(Math.pow(initialSpike,2),0.5))
 		{
-			initialSpike = robot_accel;
+			initialSpike = robot_accel*accelSign;
 		}
 		return input;
 	}
