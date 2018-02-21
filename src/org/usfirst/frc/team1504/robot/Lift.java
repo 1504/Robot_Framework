@@ -10,7 +10,7 @@ public class Lift implements Updatable
 	private double[] lift_height = {Map.LIFT_MIN_HEIGHT, Map.LIFT_MAX_HEIGHT/2, Map.LIFT_MAX_HEIGHT, 0};
 	private String[] lifting_messages = {"lift is going to bottom","lift is going to mid","lift is going to top", "lift is off"};
 	public static lift_position lift_state = lift_position.OFF;
-	
+	private Drive _drive = Drive.getInstance();
 	private WPI_TalonSRX _motor; // declared for future use
 	private Pickup _pickup = Pickup.getInstance();// declared for future use 
 	
@@ -28,6 +28,14 @@ public class Lift implements Updatable
 	
 	private void update_mode() //checks where the lift is
 	{
+		if(IO.get_crash_detection())
+		{
+			double[] val = _drive.roborio_crash_bandicoot_check(new double[]{1, 1, 1}, 1001);
+			if(val[0] == 0.0) 
+			{
+				plate_solenoid.set(true);
+			}
+		}
 		if (get_lift_height() > Map.LIFT_MAX_HEIGHT) 
 		{
 			get_top_lift_sensor = true;

@@ -28,6 +28,7 @@ public class Map {
 	public static final int SPIN_ROTORS_OUT = 5; //LT1 -- LB
 	public static final int OPEN_FLIPPERS = 3; //right trigger axis
 	public static final int WINCH_OVERRIDE = 9; //left joystick button
+	public static final int CRASH_DETECTION = 7; //left joystick button
 	// WE DON'T HAVE A BUTTON FOR DROPPING THE CUBE FROM THE ELEVATOR
 
 	

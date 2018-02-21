@@ -408,6 +408,7 @@ public class Drive implements Updatable
 				if(robot_accel*accelSign > initialSpike)
 				{
 					System.out.println("Null returned");
+					initial_spike_reset();
 					return null_response;
 				}
 			}
@@ -416,6 +417,7 @@ public class Drive implements Updatable
 				if(robot_accel*accelSign < initialSpike)
 				{
 					System.out.println("Null returned");
+					initial_spike_reset();
 					return null_response;
 				}
 			}

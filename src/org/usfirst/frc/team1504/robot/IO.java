@@ -49,6 +49,10 @@ public class IO
 	{
 		return _secondary.getRawButton(Map.MASTER_OVERRIDE) && _secondary.getRawButton(Map.LIFT_DOWN);
 	}
+	public static boolean get_crash_detection()
+	{
+		return _secondary.getRawButton(Map.CRASH_DETECTION);
+	}
 	public static double get_intake_speed()
 	{
 		if ((_secondary.getRawButton(Map.SPIN_ROTORS_OUT) && ((_secondary.getRawAxis(Map.SPIN_ROTORS_IN)) > 0)))

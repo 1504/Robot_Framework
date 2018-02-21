@@ -248,7 +248,6 @@ public class Autonomous
 					for(int value = 0; value < 3; value++)
 						output[value] = temp_path[value];
 					System.out.println("crashed");
-					_drive.initial_spike_reset();
 					next_step = true;
 				}
 				//System.out.println("Crashed" + "Step: " + step + " Path Length: " + _path.length);
