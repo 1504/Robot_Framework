@@ -56,6 +56,7 @@ public class Autonomous
 	private long _start_time;
 	private double[][] _path;
 	private int _path_step;
+	private int step;
 	protected Autonomous()
 	{
 		//
@@ -110,7 +111,7 @@ public class Autonomous
 		
 		_task_timer = new Timer();
 		_task_timer.scheduleAtFixedRate(new Auto_Task(this), 0, 20);
-		
+		step = 0;
 		System.out.println("Autonomous loop started");
 	}
 	
@@ -154,9 +155,11 @@ public class Autonomous
 				continue;*/
 			
 			// Calculate the program step we're on, quit if we're at the end of the list
-			int step = 0;
 			while(step < _path.length && _path[step][4] < (System.currentTimeMillis() - _start_time))
+			{
 				step++;
+				System.out.println("Iteration" + "Step: " + step + " Path Length: " + _path.length);
+			}
 			
 			// Alert user on new step
 			if(step > _path_step)
@@ -168,6 +171,7 @@ public class Autonomous
 			// Quit if there are no more steps left
 			if(step >= _path.length)
 			{
+				System.out.println("Quiting" + "Step: " + step + " Path Length: " + _path.length);
 				stop();
 				return;
 			}
@@ -244,6 +248,7 @@ public class Autonomous
 						output[value] = temp_path[value];
 					System.out.println("crashed");
 				}
+				System.out.println("Crashed" + "Step: " + step + " Path Length: " + _path.length);
 				
 			}
 			
