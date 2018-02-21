@@ -116,7 +116,8 @@ public class Pickup implements Updatable {
 			{
 				set_state(arm_position.DOWN);
 			}
-			if (IO.get_override_pickup())
+			//if (IO.get_override_pickup())
+			if(!IO.get_override_lift())
 			{
 				set_arm_speed(IO.override_input());
 			}

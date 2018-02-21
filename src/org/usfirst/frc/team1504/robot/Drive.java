@@ -399,7 +399,7 @@ public class Drive implements Updatable
 		accelSign = Math.signum((accel.getX()*accel.getX()+accel.getZ()*accel.getZ()));
 		double robot_accel = Math.pow((Math.pow(accel.getX()*accel.getX()+accel.getZ()*accel.getZ(),2)),0.5);
 		double spikeSign = Math.signum(initialSpike);
-		System.out.println("Initial Spike: " + initialSpike + " Lowest Spike: " + lowestSpike);
+		System.out.println("Initial Spike: " + initialSpike + " Lowest Spike: " + lowestSpike + "RobotAccel: " + robot_accel);
 	
 		if(time > 1000)
 		{

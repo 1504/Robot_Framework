@@ -50,7 +50,7 @@ public class Lift implements Updatable
 		}
 		else if(_pickup.lift_safe()) 
 		{
-			set_lift_velocity((lift_height[lift_state.ordinal()]-get_lift_height())*Map.LIFT_GAIN);
+			//set_lift_velocity((lift_height[lift_state.ordinal()]-get_lift_height())*Map.LIFT_GAIN);
 			//sets lift velocity based on relative position to target
 			//finds target height by finding element of lift_state then finds its corresponding height in the lift_height array
 			//	ex: lift_state[2] = top, lift_height[2] = LIFT_MAX_HEIGHT
