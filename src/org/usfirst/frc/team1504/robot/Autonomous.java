@@ -173,7 +173,7 @@ public class Autonomous
 			// Quit if there are no more steps left
 			if(step >= _path.length)
 			{
-				//System.out.println("Quiting" + "Step: " + step + " Path Length: " + _path.length);
+				//System.out.println("Quitting" + "Step: " + step + " Path Length: " + _path.length);
 				stop();
 				return;
 			}
