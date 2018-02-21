@@ -56,7 +56,6 @@ public class Autonomous
 	private long _start_time;
 	private double[][] _path;
 	private int _path_step;
-	private int step;
 	protected Autonomous()
 	{
 		//
@@ -111,7 +110,6 @@ public class Autonomous
 		
 		_task_timer = new Timer();
 		_task_timer.scheduleAtFixedRate(new Auto_Task(this), 0, 20);
-		step = 0;
 		System.out.println("Autonomous loop started");
 	}
 	
@@ -153,25 +151,25 @@ public class Autonomous
 			// Otherwise we drive super fast and out of control
 			/*if(!_groundtruth.getDataGood())
 				continue;*/
-			
+			int step = 0;
 			// Calculate the program step we're on, quit if we're at the end of the list
 			while(step < _path.length && _path[step][4] < (System.currentTimeMillis() - _start_time))
 			{
 				step++;
-				System.out.println("Iteration" + "Step: " + step + " Path Length: " + _path.length);
+				//System.out.println("Iteration" + "Step: " + step + " Path Length: " + _path.length);
 			}
 			
 			// Alert user on new step
 			if(step > _path_step)
 			{
-				System.out.println("\tAutonomous step " + step + " @ " + (double)(System.currentTimeMillis() - _start_time)/1000);
+				//System.out.println("\tAutonomous step " + step + " @ " + (double)(System.currentTimeMillis() - _start_time)/1000);
 				_path_step = step;
 			}
 			
 			// Quit if there are no more steps left
 			if(step >= _path.length)
 			{
-				System.out.println("Quiting" + "Step: " + step + " Path Length: " + _path.length);
+				//System.out.println("Quiting" + "Step: " + step + " Path Length: " + _path.length);
 				stop();
 				return;
 			}
@@ -240,15 +238,15 @@ public class Autonomous
 					output[value] = _path[step][value]; //set output to crash bandicoot check
 			
 				temp_path = _drive.roborio_crash_bandicoot_check(_path[step], System.currentTimeMillis() - _start_time);
-					
 				
 				if(temp_path[0] + temp_path[1] + temp_path[2] == 0){ //if we crashed
-					step++;
+					stop();
 					for(int value = 0; value < 3; value++)
 						output[value] = temp_path[value];
 					System.out.println("crashed");
+					_drive.initial_spike_reset();
 				}
-				System.out.println("Crashed" + "Step: " + step + " Path Length: " + _path.length);
+				//System.out.println("Crashed" + "Step: " + step + " Path Length: " + _path.length);
 				
 			}
 			

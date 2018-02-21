@@ -427,6 +427,11 @@ public class Drive implements Updatable
 		return input;
 	}
 	
+	public void initial_spike_reset() {
+		initialSpike = 0.0;
+	}
+
+	
 	/**
 	 * Normalization function for arrays to normalize full scale to +- 1 <br>
 	 * Note: THIS FUNCTION OPERATES ON THE REFERENCE INPUT ARRAY AND WILL CHANGE IT!
