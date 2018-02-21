@@ -56,6 +56,8 @@ public class Autonomous
 	private long _start_time;
 	private double[][] _path;
 	private int _path_step;
+	int step = 0;
+	boolean next_step = false;
 	protected Autonomous()
 	{
 		//
@@ -104,10 +106,10 @@ public class Autonomous
 			return;
 		
 		_path_step = -1;
-		
+		step = 0;
 		_thread_alive = true;
 		_start_time = System.currentTimeMillis();
-		
+		next_step = false;
 		_task_timer = new Timer();
 		_task_timer.scheduleAtFixedRate(new Auto_Task(this), 0, 20);
 		System.out.println("Autonomous loop started");
@@ -151,10 +153,12 @@ public class Autonomous
 			// Otherwise we drive super fast and out of control
 			/*if(!_groundtruth.getDataGood())
 				continue;*/
-			int step = 0;
+
 			// Calculate the program step we're on, quit if we're at the end of the list
-			while(step < _path.length && _path[step][4] < (System.currentTimeMillis() - _start_time))
+			while(next_step || step < _path.length && _path[step][4] < (System.currentTimeMillis() - _start_time))
 			{
+				_start_time = System.currentTimeMillis();
+				next_step = false;
 				step++;
 				//System.out.println("Iteration" + "Step: " + step + " Path Length: " + _path.length);
 			}
@@ -240,11 +244,12 @@ public class Autonomous
 				temp_path = _drive.roborio_crash_bandicoot_check(_path[step], System.currentTimeMillis() - _start_time);
 				
 				if(temp_path[0] + temp_path[1] + temp_path[2] == 0){ //if we crashed
-					stop();
+					
 					for(int value = 0; value < 3; value++)
 						output[value] = temp_path[value];
 					System.out.println("crashed");
 					_drive.initial_spike_reset();
+					next_step = true;
 				}
 				//System.out.println("Crashed" + "Step: " + step + " Path Length: " + _path.length);
 				
