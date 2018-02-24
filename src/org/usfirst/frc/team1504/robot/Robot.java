@@ -44,6 +44,9 @@ public class Robot extends RobotBase {
 	public static double right_x;
 	public static double right_y;
 	
+	public static enum v_or_c {VISIONCODE, CONTINGENCY};
+	public static v_or_c vorc_state;
+	
 	private Digit_Board _db = Digit_Board.getInstance();
 	private DriverStation _ds = DriverStation.getInstance();
 	private Drive _drive = Drive.getInstance();
@@ -286,25 +289,41 @@ public class Robot extends RobotBase {
                 String message = _ds.getGameSpecificMessage();
                 char left = 'L';
                 char right = 'R';
-                // char starting_position = 'E';
+                char starting_position = 'E';
                 
-                /*char[] new_message = message.toCharArray();
                 
+                char[] new_message = message.toCharArray();
+                if(new_message.length == 3)
+                {
                 if (new_message[0] == left)
                 {
-                	left_x = xRects[0];
-                	left_y = yRects[0];
+                	if(vorc_state == v_or_c.VISIONCODE)
+                	{
+                	//left_x = xRects[0];
+                	//left_y = yRects[0];
+                	}
+                	if(vorc_state == v_or_c.CONTINGENCY)
+                	{
+                		//
+                	}
                 }
                 else if (new_message[0] == right)
                 {
-                	right_x = xRects[1];
-                	right_y = yRects[1];
+                	if(vorc_state == v_or_c.VISIONCODE)
+                	{
+                	//right_x = xRects[1];
+                	//right_y = yRects[1];
+                	}
+                	if(vorc_state == v_or_c.CONTINGENCY)
+                	{
+                		//
+                	}
                 }
                 else
                 {
                 	// We must be in the middle so don't do anything unless we are net setting what to run in auton somewhere else
-                }*/
-                
+                }
+            }
                 
                 _autonomous.setup_path(Map.CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_OR_LEFT_SWITCH_FROM_LEFT);
                 _autonomous.start();
