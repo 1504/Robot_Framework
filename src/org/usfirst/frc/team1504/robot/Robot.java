@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.hal.HAL;
@@ -100,8 +101,12 @@ public class Robot extends RobotBase {
 				while(true)
 				{	
 					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
-					SmartDashboard.putNumber("Robot Voltage", m_ds.getBatteryVoltage());
+					SmartDashboard.putNumber("Robot Voltage", RobotController.getBatteryVoltage());
 					SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
+					//SmartDashboard.putNumber("Arm Power", );
+					
+					
+					
 					/*
 					 * Borrowed from Mike
 					 */	

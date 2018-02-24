@@ -67,7 +67,8 @@ public class Lift implements Updatable
 		}
 		else
 		{
-			set_lift_velocity((lift_height[1]-get_lift_height())/Map.LIFT_MAX_HEIGHT);
+			//set_lift_velocity((lift_height[1]-get_lift_height())/Map.LIFT_MAX_HEIGHT);
+			set_lift_velocity(0);
 		}	//makes the lift go to the middle
 		if(IO.get_lift_drop()) 
 		{
