@@ -22,6 +22,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -76,7 +77,7 @@ public class Robot extends RobotBase {
     	System.out.println(_ds.getGameSpecificMessage()); 
     	//RRL - Right side switch (closer), Right side scale, Left side switch (farther)
     	//System.out.println(new String(Base64.getDecoder().decode(Map.TEAM_BANNER)));
-    	String message = _ds.getGameSpecificMessage();
+
     	/*String[] game_message;
     	game_message[0] = message.substring(0, 1);
     	game_message[1] = message.substring(1, 2);
@@ -98,13 +99,29 @@ public class Robot extends RobotBase {
 				_arduino.setPartyMode(PARTY_MODE.ON);
 				char edge_track = 0;
 				PowerDistributionPanel pdp = new PowerDistributionPanel();
+				Compressor c = new Compressor(0);
+				
 				while(true)
 				{	
-					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					SmartDashboard.putNumber("Robot Voltage", RobotController.getBatteryVoltage());
 					SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
-					//SmartDashboard.putNumber("Arm Power", );
+					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
+					SmartDashboard.putNumber("Arm Power", pdp.getVoltage());
 					
+					SmartDashboard.putNumber("PDP Current: Channel 0", pdp.getCurrent(0));
+					SmartDashboard.putNumber("PDP Current: Channel 1", pdp.getCurrent(1));
+					SmartDashboard.putNumber("PDP Current: Channel 2", pdp.getCurrent(2));
+					SmartDashboard.putNumber("PDP Current: Channel 3", pdp.getCurrent(3));
+					
+					SmartDashboard.putNumber("PDP Current: Channel 10", pdp.getCurrent(10));
+					SmartDashboard.putNumber("PDP Current: Channel 11", pdp.getCurrent(11));
+					SmartDashboard.putNumber("PDP Current: Channel 12", pdp.getCurrent(12));
+					SmartDashboard.putNumber("PDP Current: Channel 13", pdp.getCurrent(13));
+					SmartDashboard.putNumber("PDP Current: Channel 14", pdp.getCurrent(14));
+					SmartDashboard.putNumber("PDP Current: Channel 15", pdp.getCurrent(15));
+					
+					SmartDashboard.putBoolean("Pressure", c.getPressureSwitchValue());
+					SmartDashboard.putNumber("Pressure", c.getCompressorCurrent());
 					
 					
 					/*
