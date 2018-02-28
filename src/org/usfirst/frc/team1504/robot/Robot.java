@@ -342,7 +342,7 @@ public class Robot extends RobotBase {
                 }
             }
                 
-                _autonomous.setup_path(Map.CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_OR_LEFT_SWITCH_FROM_LEFT);
+                _autonomous.setup_path(Map.TEST_AUTON_SEQUENCE);
                 _autonomous.start();
                 while (isAutonomous() && !isDisabled()) {
                 	m_ds.waitForData(150);
