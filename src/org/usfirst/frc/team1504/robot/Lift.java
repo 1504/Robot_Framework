@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 public class Lift implements Updatable
 {
 	public enum lift_position {BOTTOM, MIDDLE, TOP, OFF};
-	private double[] lift_height = {Map.LIFT_MIN_HEIGHT, Map.LIFT_MAX_HEIGHT/2, Map.LIFT_MAX_HEIGHT, 0};
+	//private double[] lift_height = {Map.LIFT_MIN_HEIGHT, Map.LIFT_MAX_HEIGHT/2, Map.LIFT_MAX_HEIGHT, 0};
 	private String[] lifting_messages = {"lift is going to bottom","lift is going to mid","lift is going to top", "lift is off"};
 	public static lift_position lift_state = lift_position.OFF;
 	private Drive _drive = Drive.getInstance();
@@ -35,7 +35,7 @@ public class Lift implements Updatable
 			{
 				plate_solenoid.set(true);
 			}
-		}
+		}/*
 		if (get_lift_height() > Map.LIFT_MAX_HEIGHT) 
 		{
 			get_top_lift_sensor = true;
@@ -51,7 +51,7 @@ public class Lift implements Updatable
 			get_top_lift_sensor = false;
 			get_bottom_lift_sensor = false;
 		}
-		
+		*/
 		if(IO.get_override_lift()){
 			set_lift_velocity(IO.lift_input());
 			set_state(lift_position.OFF);
@@ -73,6 +73,7 @@ public class Lift implements Updatable
 		if(IO.get_lift_drop()) 
 		{
 			plate_solenoid.set(true);
+			System.out.println(IO.get_lift_drop());
 		} 
 		else
 		{
@@ -93,7 +94,7 @@ public class Lift implements Updatable
 	{
 		return _motor.getSelectedSensorPosition(0);
 	}
-	
+	/*
 	public void plate_angle(double angle) // Sets angle of lift plate
 	{
 		if(angle == 0) 
@@ -106,7 +107,7 @@ public class Lift implements Updatable
 		}
 		// return true;
 	}
-	
+	*/
 	public static Lift getInstance() //returns instance
 	{
 		return instance;

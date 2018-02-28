@@ -223,11 +223,11 @@ public class Autonomous
 			else if(_path[step][3] == 9) //stop flippers
 			{
 				_pickup.set_intake_speed(0);
-			}
+			}/*
 			else if(_path[step][3] == 10) //Auton Scale drop
 			{
 				_lift.plate_angle(45.0);
-			}
+			}*/
 			else if(_path[step][3] == 11) //go at an angle, speed
 			{
 				double angle = _path[step][0];

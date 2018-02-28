@@ -46,6 +46,7 @@ public class Arduino
 	{
 		//flashes current colors
 	}
+	/*
 	public double[] lift_gradient() 
 	{
 		double[] RGB = {0, 0, 0};
@@ -75,7 +76,7 @@ public class Arduino
 		
 		return RGB;
 	}
-	
+	*/
 	public double[] arm_gradient() 
 	{
 		double[] RGB = {0, 0, 0};
