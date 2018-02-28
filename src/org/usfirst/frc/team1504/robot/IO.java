@@ -72,6 +72,7 @@ public class IO
 	
 	public static int open_flippers()
 	{
+		if(_secondary.getRawButton(Map.CRASH_DETECTION)) return 0;
 		return (int) (Math.abs(_secondary.getRawAxis(Map.OPEN_FLIPPERS)-1)); //some math
 	}
 	public static boolean get_arm_up()
