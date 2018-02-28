@@ -197,8 +197,8 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 2) //open arm
 			{
-				//_pickup.set_state(Pickup.flipper.OPEN);
-				_pickup._grab_piston.set(DoubleSolenoid.Value.kForward);
+				_pickup.set_state(Pickup.flipper.CLOSE);
+				//_pickup._grab_piston.set(DoubleSolenoid.Value.kForward);
 			}
 			else if(_path[step][3] == 3) //eject cube
 			{
@@ -208,9 +208,10 @@ public class Autonomous
 			{
 				_pickup.set_state(Pickup.arm_position.UP);
 			}
-			else if(_path[step][3] == 5) //close arm
+			else if(_path[step][3] == 5) //close arm changed this?
 			{
-				_pickup._grab_piston.set(DoubleSolenoid.Value.kReverse);
+				_pickup.set_state(Pickup.flipper.OPEN);
+				//_pickup._grab_piston.set(DoubleSolenoid.Value.kReverse);
 			}
 			else if(_path[step][3] == 6) //intake a cube
 			{
