@@ -9,6 +9,7 @@ import org.usfirst.frc.team1504.robot.Arduino.PARTY_MODE;
 import org.usfirst.frc.team1504.robot.Arduino.SHOOTER_STATUS;
 import edu.wpi.first.networktables.*;
 import com.analog.adis16448.frc.ADIS16448_IMU;
+import java.util.HashMap;
 
 //import java.io.BufferedReader;
 //import java.io.IOException;
@@ -35,6 +36,7 @@ import edu.wpi.first.wpilibj.hal.HALUtil;
 import edu.wpi.first.wpilibj.hal.FRCNetComm.tInstances;
 import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends RobotBase {
@@ -57,6 +59,8 @@ public class Robot extends RobotBase {
 	private Arduino _arduino = Arduino.getInstance();
 	private Pickup _pickup = Pickup.getInstance();
 	private Winch _winch = Winch.getInstance();
+	
+	private HashMap<String, double[][]> map = new HashMap<String, double[][]>();
 	//private Lift _lift = Lift.getInstance();
 	//private Navx _navx = Navx.getInstance();
 //	private CameraInterface ci = CameraInterface.getInstance();
@@ -86,6 +90,19 @@ public class Robot extends RobotBase {
     	game_message[1] = message.substring(1, 2);
     	game_message[2] = message.substring(2, 3);*/
     	
+    	
+    	// "TYPE-OF-AUTON_START_END"
+    	map.put("Contingency_Mid_Left", Map.CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES);
+    	map.put("Contingency_Mid_Right", Map.CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES);
+    	map.put("Contingency_Left_Right", Map.CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES);
+    	map.put("Contingency_Right_Left", Map.CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES);
+    	map.put("Contingency_Straight", Map.CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_OR_LEFT_SWITCH_FROM_LEFT);
+    	map.put("Contingency_Spot_Pickup_Spot", Map.PICKUP_FROM_SPOT);
+    	map.put("Contingency_Spot_Right-Scale", Map.RIGHT_SCALE_FROM_END_OF_CONTINGENCY_SEQUENCES);
+    	map.put("Contingency_Spot_Left-Scale", Map.LEFT_SCALE_FROM_END_OF_CONTINGENCY_SEQUENCES);
+    	map.put("Contingency_Spot_Exchange", Map.AUTON_EXCHANGE_FROM_MID_SEQUENCES);
+    	// System.out.println(map.get("Contingencies"));
+    	
     }
 
     /**
@@ -104,6 +121,18 @@ public class Robot extends RobotBase {
 				PowerDistributionPanel pdp = new PowerDistributionPanel();
 				Compressor c = new Compressor(0);
 				
+				SendableChooser<String> autoChooser = new SendableChooser<String>();
+				autoChooser.addDefault("Straight Forward", new String("Contingency_Straight"));
+				autoChooser.addObject("Left From Mid", new String("Contingency_Mid_Left"));
+				autoChooser.addObject("Right From Mid", new String("Contingency_Mid_Right"));
+				autoChooser.addObject("Right From Left", new String("Contingency_Left_Right"));
+				autoChooser.addObject("Left From RIght", new String("Contingency_Right_Left"));
+				autoChooser.addObject("Pickup From Spot", new String("Contingency_Spot_Pickup_Spot"));
+				autoChooser.addObject("Right Scale From Spot", new String("Contingency_Spot_Right-Scale"));
+				autoChooser.addObject("Left Scale From Spot", new String("Contingency_Spot_Left-Scale"));
+				autoChooser.addObject("Exchange From Spot", new String("Contingency_Spot_Exchange"));
+				SmartDashboard.putData("Auton Mode Chooser", autoChooser);
+				
 				while(true)
 				{	
 					SmartDashboard.putNumber("Robot Voltage", RobotController.getBatteryVoltage());
@@ -111,6 +140,9 @@ public class Robot extends RobotBase {
 					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					SmartDashboard.putNumber("Arm Power", pdp.getVoltage());
 					
+					
+					
+					/*
 					SmartDashboard.putNumber("PDP Current: Channel 0", pdp.getCurrent(0));
 					SmartDashboard.putNumber("PDP Current: Channel 1", pdp.getCurrent(1));
 					SmartDashboard.putNumber("PDP Current: Channel 2", pdp.getCurrent(2));
@@ -122,6 +154,7 @@ public class Robot extends RobotBase {
 					SmartDashboard.putNumber("PDP Current: Channel 13", pdp.getCurrent(13));
 					SmartDashboard.putNumber("PDP Current: Channel 14", pdp.getCurrent(14));
 					SmartDashboard.putNumber("PDP Current: Channel 15", pdp.getCurrent(15));
+					*/
 					
 					SmartDashboard.putBoolean("Pressure", c.getPressureSwitchValue());
 					SmartDashboard.putNumber("Pressure", c.getCompressorCurrent());
