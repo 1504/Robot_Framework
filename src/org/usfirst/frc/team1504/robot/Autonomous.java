@@ -8,7 +8,9 @@ import org.usfirst.frc.team1504.robot.Pickup;
 import org.usfirst.frc.team1504.robot.Pickup.flipper;
 import org.usfirst.frc.team1504.robot.Pickup;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Solenoid;
 
 public class Autonomous 
 {
@@ -50,6 +52,7 @@ public class Autonomous
 	private Drive _drive = Drive.getInstance();
 	private Pickup _pickup = Pickup.getInstance();
 	private Lift _lift = Lift.getInstance();
+	//private Solenoid plate_solenoid = new Solenoid(Map.LIFT_PLATE_SOLENOID_PORT);
 	private static GripPipeline _pipe = GripPipeline.getInstance();
 	private Timer _task_timer;
 	private volatile boolean _thread_alive = true;
@@ -195,6 +198,7 @@ public class Autonomous
 			else if(_path[step][3] == 2) //open arm
 			{
 				_pickup.set_state(Pickup.flipper.OPEN);
+				Pickup._grab_piston.set(DoubleSolenoid.Value.kForward);
 			}
 			else if(_path[step][3] == 3) //eject cube
 			{
@@ -223,7 +227,12 @@ public class Autonomous
 			else if(_path[step][3] == 9) //stop flippers
 			{
 				_pickup.set_intake_speed(0);
-			}/*
+			}
+			else if(_path[step][3] == 14) //extend lift all the way down
+			{
+				Lift.plate_solenoid.set(true);
+			}
+			/*
 			else if(_path[step][3] == 10) //Auton Scale drop
 			{
 				_lift.plate_angle(45.0);
