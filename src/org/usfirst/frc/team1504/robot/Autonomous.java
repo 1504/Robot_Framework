@@ -197,8 +197,8 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 2) //open arm
 			{
-				_pickup.set_state(Pickup.flipper.OPEN);
-				Pickup._grab_piston.set(DoubleSolenoid.Value.kForward);
+				//_pickup.set_state(Pickup.flipper.OPEN);
+				_pickup._grab_piston.set(DoubleSolenoid.Value.kForward);
 			}
 			else if(_path[step][3] == 3) //eject cube
 			{
@@ -210,7 +210,7 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 5) //close arm
 			{
-				_pickup.set_state(Pickup.flipper.CLOSE);
+				_pickup._grab_piston.set(DoubleSolenoid.Value.kReverse);
 			}
 			else if(_path[step][3] == 6) //intake a cube
 			{
@@ -230,7 +230,7 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 14) //extend lift all the way down
 			{
-				Lift.plate_solenoid.set(true);
+				_lift.plate_solenoid.set(true);
 			}
 			/*
 			else if(_path[step][3] == 10) //Auton Scale drop

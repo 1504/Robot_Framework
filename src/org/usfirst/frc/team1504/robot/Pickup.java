@@ -13,7 +13,7 @@ public class Pickup implements Updatable {
 	private WPI_TalonSRX _grab_left;
 	private WPI_TalonSRX _grab_right;
 	private WPI_TalonSRX _arm;
-	public static DoubleSolenoid _grab_piston; 
+	public DoubleSolenoid _grab_piston; 
 	private Lift _lift = Lift.getInstance();
 	// Encoder encoder;
 	public enum arm_position {UP, DOWN, MIDDLE, OFF}; // declares states of arms
