@@ -235,7 +235,7 @@ public class Map {
  * Auton stuff	
  */
 	//norm/starting conditions arm down, lift down, facing alliance station
-
+	public static final double HORIZONTAL_MULTIPLIER = 1.2;
 	public static final double AUTON_DEFAULT_SPEED = -0.5;
 	
 	public static final double[][] TEST_AUTON_SEQUENCE = {{75, .5, 0.0, 11, 5000}};
