@@ -59,13 +59,13 @@ public class Pickup implements Updatable {
 	{
 		if(IO.get_secondary_pov() == 270)
 		{
-			_grab_left.set(Map.ROTATION_SPEED);
-			_grab_right.set(Map.ROTATION_SPEED);
+			_grab_left.set(IO.get_intake_speed());
+			_grab_right.set(IO.get_intake_speed());
 		}
 		if(IO.get_secondary_pov() == 90)
 		{
-			_grab_left.set(-Map.ROTATION_SPEED);
-			_grab_right.set(-Map.ROTATION_SPEED);
+			_grab_left.set(-IO.get_intake_speed());
+			_grab_right.set(-IO.get_intake_speed());
 		}
 	}
 	public boolean lift_safe() //says whether or not the pickup arms are backed where the lift can be
@@ -83,6 +83,7 @@ public class Pickup implements Updatable {
 			// Finds target angle by finding element of arm_state then finds its angle element in the arm_angle array
 		}
 		_grab_piston.set(DoubleSolenoid.Value.values()[flipper_state.ordinal()+1]);
+		rotate_intake();
 		//this bit of code should set the piston based on the state
 
 	}
