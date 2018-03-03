@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Servo;
@@ -136,7 +137,10 @@ public class Robot extends RobotBase {
 
 				SmartDashboard.putData("Auton Mode Chooser", autoChooser);
 				SmartDashboard.putData("Auton Mode Chooser", autoChooser1);
-				
+				Preferences prefs = Preferences.getInstance();
+				Map.ARM_UP_ANGLE = prefs.getInt("Arm Up Angle", 0);
+				Map.ARM_DOWN_ANGLE = prefs.getInt("Arm Down Angle", 0);
+				Map.ARM_MID_ANGLE = prefs.getInt("Arm Mid Angle", 0);
 				while(true)
 				{	
 					SmartDashboard.putNumber("Robot Voltage", RobotController.getBatteryVoltage());
