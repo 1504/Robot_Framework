@@ -103,6 +103,10 @@ public class Autonomous
 	{
 		return Stream.of(autons).flatMap(Stream::of).toArray(double[][]::new);
 	}
+	public double[][] build_auton(double[][] first, double[][] second) //should let us combine multiple double arrays
+	{
+		return build_auton(new double [][][]{first, second});
+	}
 	public void start()
 	{
 		if(_path == null)
