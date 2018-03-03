@@ -61,7 +61,7 @@ public class Robot extends RobotBase {
 	private Winch _winch = Winch.getInstance();
 	
 	private HashMap<String, double[][]> map = new HashMap<String, double[][]>();
-	private SendableChooser<String> autoChooser = new SendableChooser<String>();
+	private SendableChooser<String> pos = new SendableChooser<String>();
 	private SendableChooser<String> autoChooser1 = new SendableChooser<String>();
 	//private Lift _lift = Lift.getInstance();
 	//private Navx _navx = Navx.getInstance();
@@ -125,16 +125,16 @@ public class Robot extends RobotBase {
 				Compressor c = new Compressor(0);
 				SmartDashboard.putNumber("Auton Delay", 0.0);
 				
-				autoChooser.addDefault("Left", new String("Left"));
-				autoChooser.addObject("Mid", new String("Mid"));
-				autoChooser.addObject("Right", new String("Right"));
+				pos.addDefault("Left", new String("Left"));
+				pos.addObject("Mid", new String("Mid"));
+				pos.addObject("Right", new String("Right"));
 				
 				autoChooser1.addDefault("Switch", new String("Switch"));
-				autoChooser1.addObject("Switch & Block", new String("Switch+Block"));
-				autoChooser1.addObject("Switch & Scale", new String("Switch+Scale"));
-				autoChooser1.addObject("Switch & Exchange", new String("Switch+Exchange"));
-
-				SmartDashboard.putData("Auton Mode Chooser", autoChooser);
+				autoChooser1.addObject("Switch & Block", new String("SwitchBlock"));
+				autoChooser1.addObject("Switch & Scale", new String("SwitchScale"));
+				autoChooser1.addObject("Switch & Exchange", new String("SwitchExchange"));
+				
+				SmartDashboard.putData("Auton Mode Chooser", pos);
 				SmartDashboard.putData("Auton Mode Chooser", autoChooser1);
 				
 				while(true)
@@ -379,7 +379,7 @@ public class Robot extends RobotBase {
                 }
             }
                 
-                double [][] path = _autonomous.build_auton(new double[][][]{map.get(autoChooser.getSelected())});
+                double [][] path = _autonomous.build_auton(new double[][][]{map.get(pos.getSelected())});
                 double [][] auton_delay = new double[][] {{0.0, 0.0, 0.0, 0, SmartDashboard.getNumber("Auton Delay", 0.0)}};
                 
                 _autonomous.setup_path(_autonomous.build_auton(new double[][][]{auton_delay, path}));
