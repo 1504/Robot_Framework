@@ -89,7 +89,7 @@ public class Autonomous
 		for(int i = 0; i < path.length; i++){
 			if(path[i][3] == 13){
 				double angle = path[i][0];
-				double speed = path[i][1];
+				double speed = path[i][1] * Map.HORIZONTAL_MULTIPLIER; //1.2 is a multiplier for the horizontal to have better angle;
 				double[] arr = _drive.follow_angle(angle, speed);
 				path[i][0] = arr[0];
 				path[i][1] = arr[1];
@@ -102,6 +102,10 @@ public class Autonomous
 	public double[][] build_auton(double[][][] autons) //should let us combine multiple double arrays
 	{
 		return Stream.of(autons).flatMap(Stream::of).toArray(double[][]::new);
+	}
+	public double[][] build_auton(double[][] first, double[][] second) //should let us combine multiple double arrays
+	{
+		return build_auton(new double [][][]{first, second});
 	}
 	public void start()
 	{
@@ -229,7 +233,7 @@ public class Autonomous
 			{
 				_pickup.set_intake_speed(0);
 			}
-			else if(_path[step][3] == 14) //extend lift all the way down
+			else if(_path[step][3] == 14) //push out cube from lift plate
 			{
 				_lift.plate_solenoid.set(true);
 			}
@@ -241,7 +245,7 @@ public class Autonomous
 			else if(_path[step][3] == 11) //go at an angle, speed
 			{
 				double angle = _path[step][0];
-				double speed = _path[step][1] * 1.2; //1.2 is a multiplier for the horizontal to have better angle
+				double speed = _path[step][1] * Map.HORIZONTAL_MULTIPLIER; //1.2 is a multiplier for the horizontal to have better angle
 				double[] arr = _drive.follow_angle(angle, speed);
 				output[0] = arr[0];
 				output[1] = arr[1];

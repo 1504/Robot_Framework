@@ -61,6 +61,8 @@ public class Robot extends RobotBase {
 	private Winch _winch = Winch.getInstance();
 	
 	private HashMap<String, double[][]> map = new HashMap<String, double[][]>();
+	private SendableChooser<String> pos = new SendableChooser<String>();
+	private SendableChooser<String> autoChooser1 = new SendableChooser<String>();
 	//private Lift _lift = Lift.getInstance();
 	//private Navx _navx = Navx.getInstance();
 //	private CameraInterface ci = CameraInterface.getInstance();
@@ -121,18 +123,19 @@ public class Robot extends RobotBase {
 				char edge_track = 0;
 				PowerDistributionPanel pdp = new PowerDistributionPanel();
 				Compressor c = new Compressor(0);
+				SmartDashboard.putNumber("Auton Delay", 0.0);
 				
-				SendableChooser<String> autoChooser = new SendableChooser<String>();
-				autoChooser.addDefault("Straight Forward", new String("Contingency_Straight"));
-				autoChooser.addObject("Left From Mid", new String("Contingency_Mid_Left"));
-				autoChooser.addObject("Right From Mid", new String("Contingency_Mid_Right"));
-				autoChooser.addObject("Right From Left", new String("Contingency_Left_Right"));
-				autoChooser.addObject("Left From RIght", new String("Contingency_Right_Left"));
-				autoChooser.addObject("Pickup From Spot", new String("Contingency_Spot_Pickup_Spot"));
-				autoChooser.addObject("Right Scale From Spot", new String("Contingency_Spot_Right-Scale"));
-				autoChooser.addObject("Left Scale From Spot", new String("Contingency_Spot_Left-Scale"));
-				autoChooser.addObject("Exchange From Spot", new String("Contingency_Spot_Exchange"));
-				SmartDashboard.putData("Auton Mode Chooser", autoChooser);
+				pos.addDefault("Left", new String("Left"));
+				pos.addObject("Mid", new String("Mid"));
+				pos.addObject("Right", new String("Right"));
+				
+				autoChooser1.addDefault("Switch", new String("Switch"));
+				autoChooser1.addObject("Switch & Block", new String("SwitchBlock"));
+				autoChooser1.addObject("Switch & Scale", new String("SwitchScale"));
+				autoChooser1.addObject("Switch & Exchange", new String("SwitchExchange"));
+				
+				SmartDashboard.putData("Auton Mode Chooser", pos);
+				SmartDashboard.putData("Auton Mode Chooser", autoChooser1);
 				
 				while(true)
 				{	
@@ -376,7 +379,10 @@ public class Robot extends RobotBase {
                 }
             }
                 
-                _autonomous.setup_path(Map.TEST_AUTON_SEQUENCE);
+                double [][] path = _autonomous.build_auton(new double[][][]{map.get(pos.getSelected())});
+                double [][] auton_delay = new double[][] {{0.0, 0.0, 0.0, 0, SmartDashboard.getNumber("Auton Delay", 0.0)}};
+                
+                _autonomous.setup_path(_autonomous.build_auton(new double[][][]{auton_delay, path}));
                 _autonomous.start();
                 while (isAutonomous() && !isDisabled()) {
                 	m_ds.waitForData(150);
