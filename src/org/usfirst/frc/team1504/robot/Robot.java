@@ -96,11 +96,12 @@ public class Robot extends RobotBase {
     	map.put("Contingency_Mid_Right", Map.CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES);
     	map.put("Contingency_Left_Right", Map.CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES);
     	map.put("Contingency_Right_Left", Map.CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES);
-    	map.put("Contingency_Straight", Map.CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_OR_LEFT_SWITCH_FROM_LEFT);
+    	map.put("Contingency_Straight_Right", Map.CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT);
     	map.put("Contingency_Spot_Pickup_Spot", Map.PICKUP_FROM_SPOT);
     	map.put("Contingency_Spot_Right-Scale", Map.RIGHT_SCALE_FROM_END_OF_CONTINGENCY_SEQUENCES);
     	map.put("Contingency_Spot_Left-Scale", Map.LEFT_SCALE_FROM_END_OF_CONTINGENCY_SEQUENCES);
     	map.put("Contingency_Spot_Exchange", Map.AUTON_EXCHANGE_FROM_MID_SEQUENCES);
+    	map.put("Contingency_Straight_Left", Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT);
     	// System.out.println(map.get("Contingencies"));
     	
     }
