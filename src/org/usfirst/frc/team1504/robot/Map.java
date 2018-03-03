@@ -251,7 +251,7 @@ public class Map {
 	public static final double[][] PICKUP_FROM_SPOT = {{0.0, 0.0, 0.5, 0, 1000}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 6, 50}, {0.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 1500}, {0.0, 0.0, 0.0, 5, 50}, {0.0, 0.0, 0.0, 9, 50}, {0.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 1500}, {0.0, 0.0, 0.0, 4, 50}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 5, 50}}; //Pickup a cube, return to common starting spot, and then move cube onto lift
 	public static final double[][] RIGHT_SCALE_FROM_SPOT = {{90.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 3000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 7, 500}, {0.0, 0.0, 0.0, 14, 100}};
 	public static final double[][] LEFT_SCALE_FROM_SPOT = {{-90.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 3000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 7, 500}, {0.0, 0.0, 0.0, 14, 100}};
-	public static final double[][] AUTON_EXCHANGE_FROM_MID_SEQUENCES = {{-90, (0.1*(AUTON_DEFAULT_SPEED)), 0.0, 0, 1000}, {0.0, 0.2, 0.0, 13, 1000}, {0.0, 0.0, 0.0, 3, 1000}, {0.0, -0.2, 0.0, 0, 1000}, {90, 0.1, 0.0, 0, 1000}};
+	public static final double[][] AUTON_EXCHANGE_FROM_SPOT_SEQUENCES = {{32.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 3000}};
 	//{angle,strength/speed,turning,mode,time}
 /**
  * Logger stuff
