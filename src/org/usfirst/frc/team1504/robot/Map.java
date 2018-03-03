@@ -238,7 +238,7 @@ public class Map {
 
 	public static final double AUTON_DEFAULT_SPEED = -0.5;
 	
-	public static final double[][] TEST_AUTON_SEQUENCE = {{0.0, 0.0, 0.0, 2, 500}, {0.0, 0.0, 0.0, 5, 500}};
+	public static final double[][] TEST_AUTON_SEQUENCE = {{75, .5, 0.0, 11, 5000}};
 	
 	public static final double[][] CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES = {{-17.8, AUTON_DEFAULT_SPEED, 0.0, 13, 6500}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {-32.735, AUTON_DEFAULT_SPEED, 0.0, 13, 2000}}; //Move to switch at an angle and eject cube
 	public static final double[][] CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES = {{17.8, AUTON_DEFAULT_SPEED, 0.0, 13, 6500}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {32.735, AUTON_DEFAULT_SPEED, 0.0, 13, 2000}}; //Move to switch at an angle and eject cube

@@ -21,7 +21,7 @@ public class Pickup implements Updatable {
 	public static arm_position arm_state = arm_position.DOWN; // sets arms to be down at beginning of match
 	
 	public enum flipper {CLOSE, OPEN}; // declares states of flippers
-	public static flipper flipper_state = flipper.CLOSE; // sets flippers to be closed at beginning of match
+	public static flipper flipper_state = flipper.OPEN; // sets flippers to be closed at beginning of match
 	private static final Pickup instance = new Pickup();
 	private DriverStation _ds = DriverStation.getInstance();
 	public static Pickup getInstance() // sets instance

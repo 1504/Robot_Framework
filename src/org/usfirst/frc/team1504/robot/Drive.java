@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj.interfaces.*;
 public class Drive implements Updatable
 {
 	private BuiltInAccelerometer accel = new BuiltInAccelerometer(Accelerometer.Range.k8G);
-	private boolean above_crash_threshold = false;
 	private static class DTask implements Runnable
 	{
 		private Drive _d;

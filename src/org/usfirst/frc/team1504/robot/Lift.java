@@ -2,6 +2,7 @@ package org.usfirst.frc.team1504.robot;
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Solenoid;
 
 public class Lift implements Updatable
@@ -17,6 +18,7 @@ public class Lift implements Updatable
 	public Solenoid plate_solenoid = new Solenoid(Map.LIFT_PLATE_SOLENOID_PORT);
 	boolean get_top_lift_sensor; // used as a value to check position of lift
 	boolean get_bottom_lift_sensor; // used as a value to check position of lift 
+	private DriverStation _ds = DriverStation.getInstance();
 	
 	private static final Lift instance = new Lift(); // used later to initialize
 	
@@ -70,15 +72,7 @@ public class Lift implements Updatable
 			//set_lift_velocity((lift_height[1]-get_lift_height())/Map.LIFT_MAX_HEIGHT);
 			set_lift_velocity(0);
 		}	//makes the lift go to the middle
-		if(IO.get_lift_drop()) 
-		{
-			plate_solenoid.set(true);
-			System.out.println(IO.get_lift_drop());
-		} 
-		else
-		{
-			plate_solenoid.set(false);
-		}
+		
 	}
 	
 	public void set_state(lift_position state)
@@ -120,6 +114,18 @@ public class Lift implements Updatable
 	
 	public void semaphore_update() //updates data from robot
 	{
+		if(_ds.isOperatorControl() && !_ds.isDisabled()) //only runs in teleop
+		{
+			if(IO.get_lift_drop()) 
+			{
+				plate_solenoid.set(true);
+				System.out.println(IO.get_lift_drop());
+			} 
+			else
+			{
+				plate_solenoid.set(false);
+			}
+		}
 		update_mode();
 	}
 }
