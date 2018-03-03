@@ -41,9 +41,9 @@ public class Map {
 		public static final int ROLLER_TALON_PORT_LEFT = 21;
 		public static final int ROLLER_TALON_PORT_RIGHT = 22;
 		
-		public static final int ARM_UP_ANGLE = 1000;
-		public static final int ARM_DOWN_ANGLE = 1000;
-		public static final int ARM_MID_ANGLE = 1000;
+		public static int ARM_UP_ANGLE = 1000; //not final because they vary from bots
+		public static int ARM_DOWN_ANGLE = 1000;
+		public static int ARM_MID_ANGLE = 1000;
 		
 		public static final double FLIPPER_MAGIC = 1.0;
 		public static final double PICKUP_GAIN = 0.03;
@@ -240,18 +240,19 @@ public class Map {
 	
 	public static final double[][] TEST_AUTON_SEQUENCE = {{75, .5, 0.0, 11, 5000}};
 	
-	public static final double[][] CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES = {{-17.8, AUTON_DEFAULT_SPEED, 0.0, 13, 6500}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {-32.735, AUTON_DEFAULT_SPEED, 0.0, 13, 2000}}; //Move to switch at an angle and eject cube
-	public static final double[][] CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES = {{17.8, AUTON_DEFAULT_SPEED, 0.0, 13, 6500}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {32.735, AUTON_DEFAULT_SPEED, 0.0, 13, 2000}}; //Move to switch at an angle and eject cube
-	public static final double[][] CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES = {{37.0, AUTON_DEFAULT_SPEED, 0.0, 13, 7500}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {32.735, AUTON_DEFAULT_SPEED, 0.0, 13, 2000}}; //Move to switch at an angle and eject cube
-	public static final double[][] CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES = {{-37.0, AUTON_DEFAULT_SPEED, 0.0, 13, 7500}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {-32.735, AUTON_DEFAULT_SPEED, 0.0, 13, 2000}}; //Move to switch at an angle and eject cube
-	public static final double[][] CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES = {{0, (AUTON_DEFAULT_SPEED), 0.0, 13, 5000}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {32.735, AUTON_DEFAULT_SPEED, 0.0, 13, 2000}}; //Move straight to switch and eject cube
-	public static final double[][] CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES = {{0, (AUTON_DEFAULT_SPEED), 0.0, 13, 5000}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {-32.735, AUTON_DEFAULT_SPEED, 0.0, 13, 2000}};
+	public static final double[][] CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES = {{-23.2, AUTON_DEFAULT_SPEED, 0.0, 13, 6500}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {-32.735, AUTON_DEFAULT_SPEED, 0.0, 13, 2000}}; //Move to switch at an angle and eject cube
+	public static final double[][] CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES = {{23.2, AUTON_DEFAULT_SPEED, 0.0, 13, 6500}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {32.735, AUTON_DEFAULT_SPEED, 0.0, 13, 2000}}; //Move to switch at an angle and eject cube
+	public static final double[][] CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES = {{40.6, AUTON_DEFAULT_SPEED, 0.0, 13, 7500}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {32.735, AUTON_DEFAULT_SPEED, 0.0, 13, 2000}}; //Move to switch at an angle and eject cube
+	public static final double[][] CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES = {{-40.6, AUTON_DEFAULT_SPEED, 0.0, 13, 7500}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {-32.735, AUTON_DEFAULT_SPEED, 0.0, 13, 2000}}; //Move to switch at an angle and eject cube
+	public static final double[][] CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT = {{0, (AUTON_DEFAULT_SPEED), 0.0, 13, 5000}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {32.735, AUTON_DEFAULT_SPEED, 0.0, 13, 2000}}; //Move straight to switch and eject cube
+	public static final double[][] CONTINGENCY_LEFT_SWITCH_FROM_LEFT = {{0, (AUTON_DEFAULT_SPEED), 0.0, 13, 5000}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {-32.735, AUTON_DEFAULT_SPEED, 0.0, 13, 2000}};
+
 	//public static final double[][] RIGHT_SCALE_UNIVERSAL_AUTON_SEQUENCES = {{Autonomous.find_angle_theta(Robot.right_x, Robot.right_y), -0.5, 0.0, 13, 5000}, {0.0, 0.0, 0.0, 10, 1000}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 2, 50}, {-90.0, 0.75, 0.0, 13, 2000}, {0.0, -0.75, 0.0, 11, 2500}, {90.0, -0.75, 0.0, 11, 2000}, {0.0, 0.5, 0.0, 11, 1000}, {0.0, 0.0, 0.0, 6, 50}, {0.0, 0.0, 0.0, 5, 500}, {0.0, 0.0, 0.0, 3, 50}, {0.0, 0.0, 0.0, 4, 100}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 5, 1}, {0.0, -0.75, 0.0, 13, 2000}, {0.0, 0.0, 0.0, 7, 100}, {0.0, 0.0, 0.0, 10, 200}}; // Add an angle into index 0
 	//public static final double[][] LEFT_SCALE_UNIVERSAL_AUTON_SEQUENCES = {{Autonomous.find_angle_theta(Robot.left_x, Robot.left_y), -0.5, 0.0, 13, 5000}, {0.0, 0.0, 0.0, 10, 1000}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 2, 50}, {90.0, 0.75, 0.0, 13, 2000}, {0.0, -0.75, 0.0, 11, 2500}, {-90.0, -0.75, 0.0, 11, 2000}, {0.0, 0.5, 0.0, 11, 1000}, {0.0, 0.0, 0.0, 6, 50}, {0.0, 0.0, 0.0, 5, 500}, {0.0, 0.0, 0.0, 3, 50}, {0.0, 0.0, 0.0, 4, 100}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 5, 1}, {0.0, -0.75, 0.0, 13, 2000}, {0.0, 0.0, 0.0, 7, 100}, {0.0, 0.0, 0.0, 10, 200}}; // Add an angle into index 0
 	public static final double[][] PICKUP_FROM_SPOT = {{0.0, 0.0, 0.5, 0, 1000}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 6, 50}, {0.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 1500}, {0.0, 0.0, 0.0, 5, 50}, {0.0, 0.0, 0.0, 9, 50}, {0.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 1500}, {0.0, 0.0, 0.0, 4, 50}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 5, 50}}; //Pickup a cube, return to common starting spot, and then move cube onto lift
-	public static final double[][] RIGHT_SCALE_FROM_END_OF_CONTINGENCY_SEQUENCES = {{90.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 3000}, {0.0, 0.0, 0.5, 0, 1000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 7, 500}, {0.0, 0.0, 0.0, 14, 100}};
-	public static final double[][] LEFT_SCALE_FROM_END_OF_CONTINGENCY_SEQUENCES = {{-90.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 3000}, {0.0, 0.0, 0.5, 0, 1000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 7, 500}, {0.0, 0.0, 0.0, 14, 100}};
-	public static final double[][] AUTON_EXCHANGE_FROM_MID_SEQUENCES = {{-90, (0.1*(AUTON_DEFAULT_SPEED)), 0.0, 0, 1000}, {0.0, 0.2, 0.0, 13, 1000}, {0.0, 0.0, 0.0, 3, 1000}, {0.0, -0.2, 0.0, 0, 1000}, {90, 0.1, 0.0, 0, 1000}};
+	public static final double[][] RIGHT_SCALE_FROM_SPOT = {{90.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 3000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 7, 500}, {0.0, 0.0, 0.0, 14, 100}};
+	public static final double[][] LEFT_SCALE_FROM_SPOT = {{-90.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 3000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 7, 500}, {0.0, 0.0, 0.0, 14, 100}};
+	public static final double[][] AUTON_EXCHANGE_FROM_SPOT_SEQUENCES = {{32.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 3000}};
 	//{angle,strength/speed,turning,mode,time}
 /**
  * Logger stuff
