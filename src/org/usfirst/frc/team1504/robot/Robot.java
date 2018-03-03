@@ -61,6 +61,7 @@ public class Robot extends RobotBase {
 	private Winch _winch = Winch.getInstance();
 	
 	private HashMap<String, double[][]> map = new HashMap<String, double[][]>();
+	private SendableChooser<String> autoChooser = new SendableChooser<String>();
 	//private Lift _lift = Lift.getInstance();
 	//private Navx _navx = Navx.getInstance();
 //	private CameraInterface ci = CameraInterface.getInstance();
@@ -122,12 +123,12 @@ public class Robot extends RobotBase {
 				PowerDistributionPanel pdp = new PowerDistributionPanel();
 				Compressor c = new Compressor(0);
 				
-				SendableChooser<String> autoChooser = new SendableChooser<String>();
+				
 				autoChooser.addDefault("Straight Forward", new String("Contingency_Straight"));
 				autoChooser.addObject("Left From Mid", new String("Contingency_Mid_Left"));
 				autoChooser.addObject("Right From Mid", new String("Contingency_Mid_Right"));
 				autoChooser.addObject("Right From Left", new String("Contingency_Left_Right"));
-				autoChooser.addObject("Left From RIght", new String("Contingency_Right_Left"));
+				autoChooser.addObject("Left From Right", new String("Contingency_Right_Left"));
 				autoChooser.addObject("Pickup From Spot", new String("Contingency_Spot_Pickup_Spot"));
 				autoChooser.addObject("Right Scale From Spot", new String("Contingency_Spot_Right-Scale"));
 				autoChooser.addObject("Left Scale From Spot", new String("Contingency_Spot_Left-Scale"));
@@ -375,8 +376,8 @@ public class Robot extends RobotBase {
                 	// We must be in the middle so don't do anything unless we are net setting what to run in auton somewhere else
                 }
             }
-                
-                _autonomous.setup_path(Map.TEST_AUTON_SEQUENCE);
+                double [][] path = map.get(autoChooser.getSelected());
+                _autonomous.setup_path(path);
                 _autonomous.start();
                 while (isAutonomous() && !isDisabled()) {
                 	m_ds.waitForData(150);
