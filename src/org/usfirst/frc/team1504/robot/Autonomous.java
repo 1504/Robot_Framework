@@ -241,7 +241,7 @@ public class Autonomous
 			else if(_path[step][3] == 11) //go at an angle, speed
 			{
 				double angle = _path[step][0];
-				double speed = _path[step][1];
+				double speed = _path[step][1] * 1.2; //1.2 is a multiplier for the horizontal to have better angle
 				double[] arr = _drive.follow_angle(angle, speed);
 				output[0] = arr[0];
 				output[1] = arr[1];
@@ -250,11 +250,8 @@ public class Autonomous
 				double[] temp_path = {29, 5, 4};
 				for(int value = 0; value < 3; value++)
 					output[value] = _path[step][value]; //set output to crash bandicoot check
-			
 				temp_path = _drive.roborio_crash_bandicoot_check(_path[step], System.currentTimeMillis() - _start_time);
-				
 				if(temp_path[0] + temp_path[1] + temp_path[2] == 0){ //if we crashed
-					
 					for(int value = 0; value < 3; value++)
 						output[value] = temp_path[value];
 					System.out.println("crashed");
