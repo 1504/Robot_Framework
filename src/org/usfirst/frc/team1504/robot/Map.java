@@ -41,9 +41,9 @@ public class Map {
 		public static final int ROLLER_TALON_PORT_LEFT = 21;
 		public static final int ROLLER_TALON_PORT_RIGHT = 22;
 		
-		public static final int ARM_UP_ANGLE = 1000;
-		public static final int ARM_DOWN_ANGLE = 1000;
-		public static final int ARM_MID_ANGLE = 1000;
+		public static int ARM_UP_ANGLE = 1000; //not final because they vary from bots
+		public static int ARM_DOWN_ANGLE = 1000;
+		public static int ARM_MID_ANGLE = 1000;
 		
 		public static final double FLIPPER_MAGIC = 1.0;
 		public static final double PICKUP_GAIN = 0.03;
