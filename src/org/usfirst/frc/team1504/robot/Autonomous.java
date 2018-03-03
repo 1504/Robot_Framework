@@ -89,7 +89,7 @@ public class Autonomous
 		for(int i = 0; i < path.length; i++){
 			if(path[i][3] == 13){
 				double angle = path[i][0];
-				double speed = path[i][1];
+				double speed = path[i][1] * 1.2; //1.2 is a multiplier for the horizontal to have better angle;
 				double[] arr = _drive.follow_angle(angle, speed);
 				path[i][0] = arr[0];
 				path[i][1] = arr[1];
