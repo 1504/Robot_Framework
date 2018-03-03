@@ -122,7 +122,7 @@ public class Robot extends RobotBase {
 				char edge_track = 0;
 				PowerDistributionPanel pdp = new PowerDistributionPanel();
 				Compressor c = new Compressor(0);
-				
+				SmartDashboard.putNumber("Auton Delay", 0.0);
 				
 				autoChooser.addDefault("Straight Forward", new String("Contingency_Straight"));
 				autoChooser.addObject("Left From Mid", new String("Contingency_Mid_Left"));
@@ -376,8 +376,11 @@ public class Robot extends RobotBase {
                 	// We must be in the middle so don't do anything unless we are net setting what to run in auton somewhere else
                 }
             }
-                double [][] path = map.get(autoChooser.getSelected());
-                _autonomous.setup_path(path);
+                
+                double [][] path = _autonomous.build_auton(new double[][][]{map.get(autoChooser.getSelected())});
+                double [][] auton_delay = new double[][] {{0.0, 0.0, 0.0, 0, SmartDashboard.getNumber("Auton Delay", 0.0)}};
+                
+                _autonomous.setup_path(_autonomous.build_auton(new double[][][]{auton_delay, path}));
                 _autonomous.start();
                 while (isAutonomous() && !isDisabled()) {
                 	m_ds.waitForData(150);

@@ -229,7 +229,7 @@ public class Autonomous
 			{
 				_pickup.set_intake_speed(0);
 			}
-			else if(_path[step][3] == 14) //extend lift all the way down
+			else if(_path[step][3] == 14) //push out cube from lift plate
 			{
 				_lift.plate_solenoid.set(true);
 			}
