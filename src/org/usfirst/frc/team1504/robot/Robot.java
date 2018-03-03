@@ -62,6 +62,7 @@ public class Robot extends RobotBase {
 	
 	private HashMap<String, double[][]> map = new HashMap<String, double[][]>();
 	private SendableChooser<String> autoChooser = new SendableChooser<String>();
+	private SendableChooser<String> autoChooser1 = new SendableChooser<String>();
 	//private Lift _lift = Lift.getInstance();
 	//private Navx _navx = Navx.getInstance();
 //	private CameraInterface ci = CameraInterface.getInstance();
@@ -124,16 +125,17 @@ public class Robot extends RobotBase {
 				Compressor c = new Compressor(0);
 				SmartDashboard.putNumber("Auton Delay", 0.0);
 				
-				autoChooser.addDefault("Straight Forward", new String("Contingency_Straight"));
-				autoChooser.addObject("Left From Mid", new String("Contingency_Mid_Left"));
-				autoChooser.addObject("Right From Mid", new String("Contingency_Mid_Right"));
-				autoChooser.addObject("Right From Left", new String("Contingency_Left_Right"));
-				autoChooser.addObject("Left From Right", new String("Contingency_Right_Left"));
-				autoChooser.addObject("Pickup From Spot", new String("Contingency_Spot_Pickup_Spot"));
-				autoChooser.addObject("Right Scale From Spot", new String("Contingency_Spot_Right-Scale"));
-				autoChooser.addObject("Left Scale From Spot", new String("Contingency_Spot_Left-Scale"));
-				autoChooser.addObject("Exchange From Spot", new String("Contingency_Spot_Exchange"));
+				autoChooser.addDefault("Left", new String("Left"));
+				autoChooser.addObject("Mid", new String("Mid"));
+				autoChooser.addObject("Right", new String("Right"));
+				
+				autoChooser1.addDefault("Switch", new String("Switch"));
+				autoChooser1.addObject("Switch & Block", new String("Switch+Block"));
+				autoChooser1.addObject("Switch & Scale", new String("Switch+Scale"));
+				autoChooser1.addObject("Switch & Exchange", new String("Switch+Exchange"));
+
 				SmartDashboard.putData("Auton Mode Chooser", autoChooser);
+				SmartDashboard.putData("Auton Mode Chooser", autoChooser1);
 				
 				while(true)
 				{	
