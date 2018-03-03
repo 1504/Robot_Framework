@@ -404,7 +404,7 @@ public class Drive implements Updatable
 		{
 			if(spikeSign > 0)
 			{
-				if(robot_accel*accelSign > initialSpike)
+				if(robot_accel*accelSign > Map.CRASH_DETECTION_THRESHOLD_MULTIPLIER*initialSpike)
 				{
 					System.out.println("Null returned");
 					initial_spike_reset();
@@ -413,7 +413,7 @@ public class Drive implements Updatable
 			}
 			else if (spikeSign < 0)
 			{
-				if(robot_accel*accelSign < initialSpike)
+				if(robot_accel*accelSign < Map.CRASH_DETECTION_THRESHOLD_MULTIPLIER*initialSpike)
 				{
 					System.out.println("Null returned");
 					initial_spike_reset();
