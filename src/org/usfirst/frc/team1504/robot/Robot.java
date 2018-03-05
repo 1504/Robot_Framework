@@ -123,11 +123,11 @@ public class Robot extends RobotBase {
     	map.put("RightSwitchScaleRR", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.RIGHT_SCALE_FROM_SPOT));
     	
     	map.put("LeftSwitchExchangeLE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
-    	map.put("LeftSwitchExchangeRE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
-    	map.put("MidSwitchExchangeLE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
-    	map.put("MidSwitchExchangeRE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
-    	map.put("RightSwitchExchangeLE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
-    	map.put("RightSwitchExchangeRE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
+    	map.put("LeftSwitchExchangeRE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
+    	map.put("MidSwitchExchangeLE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
+    	map.put("MidSwitchExchangeRE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
+    	map.put("RightSwitchExchangeLE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
+    	map.put("RightSwitchExchangeRE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
     	
     	//map.put("LeftExchangeEE", Map.AUTON_EXCHANGE_FROM_LEFT_SEQUENCES);
     	//map.put("MidExchangeEE", Map.AUTON_EXCHANGE_FROM_MID_SEQUENCES);
