@@ -105,7 +105,16 @@ public class Autonomous
 	}
 	public double[][] build_auton(double[][] first, double[][] second) //should let us combine multiple double arrays
 	{
-		return build_auton(new double [][][]{first, second});
+		double[][] new_auton = {};
+		for(int i = 0; i < (first.length); i++)
+		{
+			new_auton[i] = first[i];
+		}
+		for(int i = first.length; i < (second.length); i++)
+		{
+			new_auton[i] = second[i];
+		}
+		return new_auton;
 	}
 	public void start()
 	{
