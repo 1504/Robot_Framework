@@ -395,8 +395,10 @@ public class Drive implements Updatable
 	double accelSign = -1.0;
 	public double[] roborio_crash_bandicoot_check(double[] input, long time) {//uses roborio built in accelerometer
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
+		double forward_backward_weight = 2.0-Math.abs(follow_angle(input[0],input[1])[0]);
+		double tracking_weight = 2.0-Math.abs(follow_angle(input[0],input[1])[1]);
 		accelSign = Math.signum((accel.getX()*accel.getX()+accel.getZ()*accel.getZ()));
-		double robot_accel = Math.pow((Math.pow(accel.getX()*accel.getX(),2)),0.5);
+		double robot_accel = Math.pow((Math.pow(accel.getX()*accel.getX()/forward_backward_weight+accel.getZ()*accel.getZ()/tracking_weight,2)),0.5);
 		double spikeSign = Math.signum(initialSpike);
 		System.out.println("Initial Spike: " + initialSpike + " Lowest Spike: " + lowestSpike + "RobotAccel: " + robot_accel);
 	
