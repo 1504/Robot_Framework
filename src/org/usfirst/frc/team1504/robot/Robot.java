@@ -163,7 +163,7 @@ public class Robot extends RobotBase {
 				autoChooser1.addObject("Switch & Scale", new String("SwitchScale"));
 				autoChooser1.addObject("Switch & Exchange", new String("SwitchExchange"));
 				
-				SmartDashboard.putData("Auton Mode Chooser", pos);
+				SmartDashboard.putData("Position Chooser", pos);
 				SmartDashboard.putData("Auton Mode Chooser", autoChooser1);
 				Preferences prefs = Preferences.getInstance();
 				Map.ARM_UP_ANGLE = prefs.getInt("Arm Up Angle", 0);
