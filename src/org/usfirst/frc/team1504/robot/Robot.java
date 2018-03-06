@@ -413,7 +413,11 @@ public class Robot extends RobotBase {
                 
                 
                 
-                String seq = pos.getSelected() +  autoChooser1.getSelected() + new_message[0] + new_message[1];
+                String seq = pos.getSelected() +  autoChooser1.getSelected() + new_message[0];
+                if (autoChooser1.getSelected() == "SwitchScale")
+                {
+                	seq = seq + new_message[1];
+                }
                 double [][] path = _autonomous.build_auton(new double[][][]{map.get(seq)});
                 double [][] auton_delay = new double[][] {{0.0, 0.0, 0.0, 0, SmartDashboard.getNumber("Auton Delay", 0.0)}};
                 
