@@ -95,12 +95,12 @@ public class Robot extends RobotBase {
     	
     	
     	// "TYPE-OF-AUTON_START_END"   	 	
-    	map.put("LeftSwitchLE", Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES);
-    	map.put("LeftSwitchRE", Map.CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES);
-    	map.put("MidSwitchLE", Map.CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES);
-    	map.put("MidSwitchRE", Map.CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES);
-    	map.put("RightSwitchLE", Map.CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES);
-    	map.put("RightSwitchRE", Map.CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES);
+    	map.put("LeftSwitchL", Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES);
+    	map.put("LeftSwitchR", Map.CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES);
+    	map.put("MidSwitchL", Map.CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES);
+    	map.put("MidSwitchR", Map.CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES);
+    	map.put("RightSwitchL", Map.CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES);
+    	map.put("RightSwitchR", Map.CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES);
     	
     	map.put("LeftSwitchBlockLE", _autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT));
     	map.put("LeftSwitchBlockRE", _autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT));
