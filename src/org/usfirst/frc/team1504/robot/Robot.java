@@ -165,6 +165,8 @@ public class Robot extends RobotBase {
 				
 				SmartDashboard.putData("Position Chooser", pos);
 				SmartDashboard.putData("Auton Mode Chooser", autoChooser1);
+				
+				
 				Preferences prefs = Preferences.getInstance();
 				Map.ARM_UP_ANGLE = prefs.getInt("Arm Up Angle", 0);
 				Map.ARM_DOWN_ANGLE = prefs.getInt("Arm Down Angle", 0);
@@ -194,6 +196,8 @@ public class Robot extends RobotBase {
 					
 					SmartDashboard.putBoolean("Pressure", c.getPressureSwitchValue());
 					SmartDashboard.putNumber("Pressure", c.getCompressorCurrent());
+					
+					//SmartDashbaord.putNumber("", );
 					
 					
 					/*

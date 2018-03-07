@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1504.robot;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.stream.Stream;
@@ -105,7 +106,8 @@ public class Autonomous
 	}
 	public double[][] build_auton(double[][] first, double[][] second) //should let us combine multiple double arrays
 	{
-		double[][] new_auton = {};
+		ArrayList<double[][]> new_auton = new ArrayList<double[][]>();
+		/*
 		for(int i = 0; i < (first.length); i++)
 		{
 			new_auton[i] = first[i];
@@ -114,7 +116,11 @@ public class Autonomous
 		{
 			new_auton[i] = second[i];
 		}
-		return new_auton;
+		*/
+		  new_auton.add(first);
+		  new_auton.add(second);
+		  double[][] c = (double[][])new_auton.toArray();
+		return c;
 	}
 	public void start()
 	{
