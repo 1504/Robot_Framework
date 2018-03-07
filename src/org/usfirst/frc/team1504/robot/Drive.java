@@ -133,7 +133,7 @@ public class Drive implements Updatable {
 		// Get new values from the map
 		// Do all configurating first (orbit, front, etc.)
 		if(!_ds.isAutonomous())
-			drive_inputs(IO.drive_input());
+			drive_inputs(orbit_point(IO.drive_input()));
 		// so "_new_data = true" at the VERY END OF EVERYTHING
 	}
 	
@@ -390,6 +390,20 @@ public class Drive implements Updatable {
 		// So we stay off the CAN bus as much as possible here
 		update_dashboard(new byte[] {output[1], output[4], output[7], output[10]});
 	}
+	public double[] follow_angle(double angle, double speed)
+	{
+		
+        double angle_a = Math.toRadians(angle);
+        double speed_a = speed;
+        
+        double forward_speed = speed_a * Math.cos(angle_a);
+        double tracking_direction = speed_a * Math.sin(angle_a);
+        
+        double[] speeds = new double[] {forward_speed, tracking_direction};
+        return speeds;
+        //System.out.println("Forward speed: " + forward_speed);
+        //System.out.println("Tracking speed: " + tracking_direction);
+	}
 	double initialSpike = 0.0;
 	double lowestSpike = 0.0;
 	double accelSign = -1.0;
@@ -453,14 +467,14 @@ public class Drive implements Updatable {
 					{
 						//setFrontAngleDegrees(IO.drive_frontside_degrees());
 						
-						if(_rotation_offset == (Math.PI / 2.0))
-							input[1] *= 0.5;
+						//if(_rotation_offset == (Math.PI / 2.0))
+						//	input[1] *= 0.5;
 						// Detents
-						input = detents(input);
+						//input = detents(input);
 						// Orbit point
-						input = orbit_point(input);
+					//	input = orbit_point(input);
 						// Frontside
-						input = front_side(input);
+						//input = front_side(input);
 						
 						_input = input;
 					}
