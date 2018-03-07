@@ -153,10 +153,7 @@ public class Robot extends RobotBase {
 				char edge_track = 0;
 				PowerDistributionPanel pdp = new PowerDistributionPanel();
 				Compressor c = new Compressor(0);
-				AnalogInput high = new AnalogInput(0);
-				AnalogInput low = new AnalogInput(1);
-				SmartDashboard.putData("High-Pressure", high);
-				SmartDashboard.putData("Low-Pressure", low);
+				
 				
 				SmartDashboard.putNumber("Auton Delay", 0.0);
 				
@@ -177,13 +174,16 @@ public class Robot extends RobotBase {
 				Map.ARM_UP_ANGLE = prefs.getInt("Arm Up Angle", 0);
 				Map.ARM_DOWN_ANGLE = prefs.getInt("Arm Down Angle", 0);
 				Map.ARM_MID_ANGLE = prefs.getInt("Arm Mid Angle", 0);
+				AnalogInput high = new AnalogInput(0);
+				AnalogInput low = new AnalogInput(1);
 				while(true)
 				{	
 					SmartDashboard.putNumber("Robot Voltage", RobotController.getBatteryVoltage());
 					SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
 					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					SmartDashboard.putNumber("Arm Power", pdp.getVoltage());
-					
+					SmartDashboard.putNumber("High-Pressure", high.getAverageVoltage());
+					SmartDashboard.putNumber("Low-Pressure", low.getAverageVoltage());
 					
 					
 					/*
