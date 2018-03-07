@@ -21,6 +21,7 @@ import com.ctre.CANTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
@@ -152,6 +153,11 @@ public class Robot extends RobotBase {
 				char edge_track = 0;
 				PowerDistributionPanel pdp = new PowerDistributionPanel();
 				Compressor c = new Compressor(0);
+				AnalogInput high = new AnalogInput(0);
+				AnalogInput low = new AnalogInput(1);
+				SmartDashboard.putData("High-Pressure", high);
+				SmartDashboard.putData("Low-Pressure", low);
+				
 				SmartDashboard.putNumber("Auton Delay", 0.0);
 				
 				pos.addDefault("Left", new String("Left"));
