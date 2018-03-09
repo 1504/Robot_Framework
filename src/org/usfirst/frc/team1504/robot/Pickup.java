@@ -46,6 +46,10 @@ public class Pickup implements Updatable {
 		getInstance();
 	}
 	
+	public double getPower()
+	{
+		return _arm.getOutputCurrent();
+	}
 	public void set_arm_speed(double speed) //sets both the right and left arm speeds
 	{
 		_arm.set(speed);
@@ -78,7 +82,7 @@ public class Pickup implements Updatable {
 		{
 			//set_arm_speed();
 			//double speed = (arm_angle[arm_state.ordinal()] - _arm.getSelectedSensorPosition(0)) * Map.PICKUP_GAIN;
-			System.out.println(_arm.getSelectedSensorPosition(0));
+			//System.out.println("arm position" + _arm.getSelectedSensorPosition(0));
 			//set_arm_speed(speed)
 			// Sets arm velocity based on how far away the target is and where it is.
 			// Finds target angle by finding element of arm_state then finds its angle element in the arm_angle array

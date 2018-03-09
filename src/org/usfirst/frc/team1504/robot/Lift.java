@@ -65,7 +65,7 @@ public class Lift implements Updatable
 			//finds target height by finding element of lift_state then finds its corresponding height in the lift_height array
 			//	ex: lift_state[2] = top, lift_height[2] = LIFT_MAX_HEIGHT
 			//takes target height (say top:200) - current height (say 100) and then multiplies by gain multiplier for speed
-			System.out.println(lifting_messages[lift_state.ordinal()]);
+			System.out.println(lifting_messages[lift_state.ordinal()] + "lifting messages");
 		}
 		else
 		{

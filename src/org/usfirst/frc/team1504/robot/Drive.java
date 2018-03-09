@@ -233,7 +233,7 @@ public class Drive implements Updatable
 				{
 					synchronized (_dumplock)
 					{
-						_dumplock.notifyAll();
+						//_dumplock.notifyAll();
 					}
 //					_dump = false;
 				}
