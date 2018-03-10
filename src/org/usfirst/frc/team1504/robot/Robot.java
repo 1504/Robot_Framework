@@ -428,6 +428,11 @@ public class Robot extends RobotBase {
                 System.out.println(new_message[0]);
                 System.out.println(pos.getSelected() == "Left");
                 System.out.println(new_message[0] == 'L');
+                if(new_message[0] == 'L')
+                	Map.RETURN_TO_CENTER_DIRECTION = -1.0;
+                else
+                	Map.RETURN_TO_CENTER_DIRECTION = 1.0;
+                	
                 if(pos.getSelected().toCharArray()[0] == new_message[0])
                 	path = Map.FORWARD_SHOOT_SEQUENCES;
                 else
