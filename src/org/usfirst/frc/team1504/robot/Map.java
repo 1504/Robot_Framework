@@ -238,10 +238,12 @@ public class Map {
 	public static final double HORIZONTAL_MULTIPLIER = 1.2;
 	public static final double AUTON_DEFAULT_SPEED = -0.5;
 	public static final double AUTON_FAST_SPEED = -0.75;
-	public static final double CRASH_DETECTION_THRESHOLD_MULTIPLIER = 0.75;
+	public static final double CRASH_DETECTION_THRESHOLD_MULTIPLIER = 0.9;
+	public static final double DETECTION_DELAY = 1000;
 	public static final double AUTON_RUNTIME = 4000;
 	public static final double AUTON_DIAGONAL_RUNTIME = 4000;
 	public static final double AUTON_FAST_RUNTIME = 1000;
+	public static final double AUTON_RETURN_MULTIPLIER = 0.9;
 	public static final double[][] TEST_AUTON_SEQUENCE = {{0, .5, 0.0, 11, 5000}};
 	public static final double[][] CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES_MOVE_ONLY = {{36.87, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_DIAGONAL_RUNTIME}};
 	public static final double[][] CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES_MOVE_ONLY = {{-36.87, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_DIAGONAL_RUNTIME}};
@@ -257,12 +259,12 @@ public class Map {
 	public static final double[][] CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES = {{-36.87, AUTON_DEFAULT_SPEED, 0.0, 11, 7500}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {-32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move to switch at an angle and eject cube
 	public static final double[][] CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES = {{0, (AUTON_DEFAULT_SPEED), 0.0, 11, 5000}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move straight to switch and eject cube
 
-	public static final double[][] FAST_LEFT_SWITCH_FROM_LEFT_SEQUENCES = {{0, (AUTON_FAST_SPEED), 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 200}, {-32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}}; //Move straight to switch and eject cube
-	public static final double[][] FAST_LEFT_SWITCH_FROM_MID_SEQUENCES = {{-14.04, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 200}, {-32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}}; //Move to switch at an angle and eject cube
-	public static final double[][] FAST_RIGHT_SWITCH_FROM_MID_SEQUENCES = {{14.04, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 200}, {32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}}; //Move to switch at an angle and eject cube
-	public static final double[][] FAST_RIGHT_SWITCH_FROM_LEFT_SEQUENCES = {{36.87, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 200}, {32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}}; //Move to switch at an angle and eject cube
-	public static final double[][] FAST_LEFT_SWITCH_FROM_RIGHT_SEQUENCES = {{-36.87, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 200}, {-32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}}; //Move to switch at an angle and eject cube
-	public static final double[][] FAST_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES = {{0, (AUTON_FAST_SPEED), 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 200}, {32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}}; //Move straight to switch and eject cube
+	public static final double[][] FAST_LEFT_SWITCH_FROM_LEFT_SEQUENCES = {{0, (AUTON_FAST_SPEED), 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 200}, {-32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}}; //Move straight to switch and eject cube
+	public static final double[][] FAST_LEFT_SWITCH_FROM_MID_SEQUENCES = {{-14.04, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 200}, {-32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}}; //Move to switch at an angle and eject cube
+	public static final double[][] FAST_RIGHT_SWITCH_FROM_MID_SEQUENCES = {{14.04, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 200}, {32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}}; //Move to switch at an angle and eject cube
+	public static final double[][] FAST_RIGHT_SWITCH_FROM_LEFT_SEQUENCES = {{36.87, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 200}, {32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}}; //Move to switch at an angle and eject cube
+	public static final double[][] FAST_LEFT_SWITCH_FROM_RIGHT_SEQUENCES = {{-36.87, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 200}, {-32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}}; //Move to switch at an angle and eject cube
+	public static final double[][] FAST_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES = {{0, (AUTON_FAST_SPEED), 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 200}, {32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}}; //Move straight to switch and eject cube
 	
 	public static final double[][] CONTINGENCY_LEFT_SWITCH_FROM_LEFT_NOTHING = {{0, (AUTON_DEFAULT_SPEED), 0.0, 11, 5000}};
 

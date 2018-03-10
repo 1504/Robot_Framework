@@ -400,7 +400,7 @@ public class Drive implements Updatable
 		double spikeSign = Math.signum(initialSpike);
 		System.out.println("Initial Spike: " + initialSpike + "RobotAccel: " + robot_accel);
 	
-		if(time > 1000)
+		if(time > Map.DETECTION_DELAY)
 		{
 			if(spikeSign > 0)
 			{
