@@ -237,36 +237,36 @@ public class Map {
 	//norm/starting conditions arm down, lift down, facing alliance station
 	public static final double HORIZONTAL_MULTIPLIER = 1.2;
 	public static final double AUTON_DEFAULT_SPEED = -0.5;
-	public static final double AUTON_FAST_SPEED = -0.75;
+	public static final double AUTON_FAST_SPEED = -0.5;
 	public static final double CRASH_DETECTION_THRESHOLD_MULTIPLIER = 0.9;
 	public static final double DETECTION_DELAY = 1000;
-	public static final double AUTON_RUNTIME = 4000;
-	public static final double AUTON_DIAGONAL_RUNTIME = 4000;
-	public static final double AUTON_FAST_RUNTIME = 1000;
+	public static final double FIRE_TIME = 200;
+	public static final double ARM_OPENING_TIME = 100;
+	public static final double AUTON_RUNTIME = 4500;
+	public static final double AUTON_FAST_RUNTIME = 4000;
 	public static final double AUTON_RETURN_MULTIPLIER = 0.9;
-	public static final double[][] TEST_AUTON_SEQUENCE = {{0, .5, 0.0, 11, 5000}};
-	public static final double[][] CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES_MOVE_ONLY = {{36.87, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_DIAGONAL_RUNTIME}};
-	public static final double[][] CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES_MOVE_ONLY = {{-36.87, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_DIAGONAL_RUNTIME}};
-	public static final double[][] DIRECT_FORWARD = {{0, (AUTON_DEFAULT_SPEED), 0.0, 11, AUTON_RUNTIME}};
-	public static final double[][] DIRECT_FORWARD_WITH_OPEN = {{0, (AUTON_DEFAULT_SPEED), 0.0, 11, AUTON_RUNTIME}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}};
-	public static final double[][] CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES_MOVE_ONLY = {{-14.04, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_DIAGONAL_RUNTIME}};
-	public static final double[][] CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES_MOVE_ONLY = {{14.04, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_DIAGONAL_RUNTIME}};
+	/*
+	public static final double[][] CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES = {{36.87, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_RUNTIME}};
+	public static final double[][] CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES = {{-36.87, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_RUNTIME}};
+	public static final double[][] CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES = {{-14.04, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_RUNTIME}};
+	public static final double[][] CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES = {{14.04, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_RUNTIME}};
+	*/
+	/*
+	public static final double[][] LEFT_SWITCH_FROM_LEFT_AND_RETURN_SEQUENCES = {{0, (AUTON_DEFAULT_SPEED), 0.0, 11, AUTON_RUNTIME}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 1000}, {-32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move straight to switch and eject cube
+	public static final double[][] LEFT_SWITCH_FROM_MID_AND_RETURN_SEQUENCES = {{-14.04, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_RUNTIME}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 1000}, {-32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move to switch at an angle and eject cube
+	public static final double[][] RIGHT_SWITCH_FROM_MID_AND_SEQUENCES = {{14.04, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_RUNTIME}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 1000}, {32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move to switch at an angle and eject cube
+	public static final double[][] RIGHT_SWITCH_FROM_LEFT_AND_SEQUENCES = {{36.87, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_RUNTIME}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 1000}, {32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move to switch at an angle and eject cube
+	public static final double[][] LEFT_SWITCH_FROM_RIGHT_AND_SEQUENCES = {{-36.87, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_RUNTIME}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 1000}, {-32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move to switch at an angle and eject cube
+	public static final double[][] RIGHT_SWITCH_FROM_RIGHT_AND_SEQUENCES = {{0, (AUTON_DEFAULT_SPEED), 0.0, 11, AUTON_RUNTIME}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 1000}, {32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move straight to switch and eject cube
+	*/
 	
-	public static final double[][] CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES = {{0, (AUTON_DEFAULT_SPEED), 0.0, 11, 5000}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {-32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move straight to switch and eject cube
-	public static final double[][] CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES = {{-14.04, AUTON_DEFAULT_SPEED, 0.0, 11, 6500}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {-32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move to switch at an angle and eject cube
-	public static final double[][] CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES = {{14.04, AUTON_DEFAULT_SPEED, 0.0, 11, 6500}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move to switch at an angle and eject cube
-	public static final double[][] CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES = {{36.87, AUTON_DEFAULT_SPEED, 0.0, 11, 7500}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move to switch at an angle and eject cube
-	public static final double[][] CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES = {{-36.87, AUTON_DEFAULT_SPEED, 0.0, 11, 7500}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {-32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move to switch at an angle and eject cube
-	public static final double[][] CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES = {{0, (AUTON_DEFAULT_SPEED), 0.0, 11, 5000}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 50}, {32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move straight to switch and eject cube
-
-	public static final double[][] FAST_LEFT_SWITCH_FROM_LEFT_SEQUENCES = {{0, (AUTON_FAST_SPEED), 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 200}, {-32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}}; //Move straight to switch and eject cube
-	public static final double[][] FAST_LEFT_SWITCH_FROM_MID_SEQUENCES = {{-14.04, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 200}, {-32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}}; //Move to switch at an angle and eject cube
-	public static final double[][] FAST_RIGHT_SWITCH_FROM_MID_SEQUENCES = {{14.04, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 200}, {32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}}; //Move to switch at an angle and eject cube
-	public static final double[][] FAST_RIGHT_SWITCH_FROM_LEFT_SEQUENCES = {{36.87, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 200}, {32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}}; //Move to switch at an angle and eject cube
-	public static final double[][] FAST_LEFT_SWITCH_FROM_RIGHT_SEQUENCES = {{-36.87, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 200}, {-32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}}; //Move to switch at an angle and eject cube
-	public static final double[][] FAST_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES = {{0, (AUTON_FAST_SPEED), 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 14, 200}, {32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}}; //Move straight to switch and eject cube
-	
-	public static final double[][] CONTINGENCY_LEFT_SWITCH_FROM_LEFT_NOTHING = {{0, (AUTON_DEFAULT_SPEED), 0.0, 11, 5000}};
+	public static final double[][] FORWARD_SHOOT_SEQUENCES = {{0, (AUTON_FAST_SPEED), 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}};//, {-32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}}; //Move straight to switch and eject cube
+	/*public static final double[][] LEFT_SWITCH_FROM_MID_SEQUENCES = {{-14.04, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}};//, {-32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}}; //Move to switch at an angle and eject cube
+	public static final double[][] RIGHT_SWITCH_FROM_MID_SEQUENCES = {{14.04, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}};//, {32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}}; //Move to switch at an angle and eject cube
+	public static final double[][] RIGHT_SWITCH_FROM_LEFT_SEQUENCES = {{36.87, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}};//, {32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}}; //Move to switch at an angle and eject cube
+	public static final double[][] LEFT_SWITCH_FROM_RIGHT_SEQUENCES = {{-36.87, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}};//, {-32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}}; //Move to switch at an angle and eject cube
+	*/
+	public static final double[][] FORWARD_SEQUENCE = {{0, (AUTON_DEFAULT_SPEED), 0.0, 11, AUTON_RUNTIME}};
 
 	//public static final double[][] RIGHT_SCALE_UNIVERSAL_AUTON_SEQUENCES = {{Autonomous.find_angle_theta(Robot.right_x, Robot.right_y), -0.5, 0.0, 13, 5000}, {0.0, 0.0, 0.0, 10, 1000}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 2, 50}, {-90.0, 0.75, 0.0, 13, 2000}, {0.0, -0.75, 0.0, 11, 2500}, {90.0, -0.75, 0.0, 11, 2000}, {0.0, 0.5, 0.0, 11, 1000}, {0.0, 0.0, 0.0, 6, 50}, {0.0, 0.0, 0.0, 5, 500}, {0.0, 0.0, 0.0, 3, 50}, {0.0, 0.0, 0.0, 4, 100}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 5, 1}, {0.0, -0.75, 0.0, 13, 2000}, {0.0, 0.0, 0.0, 7, 100}, {0.0, 0.0, 0.0, 10, 200}}; // Add an angle into index 0
 	//public static final double[][] LEFT_SCALE_UNIVERSAL_AUTON_SEQUENCES = {{Autonomous.find_angle_theta(Robot.left_x, Robot.left_y), -0.5, 0.0, 13, 5000}, {0.0, 0.0, 0.0, 10, 1000}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 2, 50}, {90.0, 0.75, 0.0, 13, 2000}, {0.0, -0.75, 0.0, 11, 2500}, {-90.0, -0.75, 0.0, 11, 2000}, {0.0, 0.5, 0.0, 11, 1000}, {0.0, 0.0, 0.0, 6, 50}, {0.0, 0.0, 0.0, 5, 500}, {0.0, 0.0, 0.0, 3, 50}, {0.0, 0.0, 0.0, 4, 100}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 5, 1}, {0.0, -0.75, 0.0, 13, 2000}, {0.0, 0.0, 0.0, 7, 100}, {0.0, 0.0, 0.0, 10, 200}}; // Add an angle into index 0

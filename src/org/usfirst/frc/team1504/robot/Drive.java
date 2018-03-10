@@ -391,23 +391,26 @@ public class Drive implements Updatable
 	}
 
 	double initialSpike = 0.0;
-	double lowestSpike = 0.0;
+	double highestTravelingSpike = 0.0;
 	double accelSign = -1.0;
 	public double[] roborio_crash_bandicoot_check(double[] input, long time) {//uses roborio built in accelerometer
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
 		accelSign = Math.signum((accel.getX()*accel.getX()+accel.getZ()*accel.getZ()));
 		double robot_accel = Math.pow((Math.pow(accel.getX()*accel.getX()+accel.getZ()*accel.getZ(),2)),0.5);
 		double spikeSign = Math.signum(initialSpike);
-		System.out.println("Initial Spike: " + initialSpike + "RobotAccel: " + robot_accel);
-	
+		System.out.println("Initial Spike: " + initialSpike + " RobotAccel: " + robot_accel + " highestTravelingSpike: " + highestTravelingSpike);
 		if(time > Map.DETECTION_DELAY)
 		{
+			if(robot_accel > Math.pow(Math.pow(initialSpike,2),0.5))
+			{
+				highestTravelingSpike = robot_accel*accelSign;
+			}
 			if(spikeSign > 0)
 			{
 				if(robot_accel*accelSign > Map.CRASH_DETECTION_THRESHOLD_MULTIPLIER*initialSpike)
 				{
 					System.out.println("Null returned");
-					initial_spike_reset();
+					spike_reset();
 					return null_response;
 				}
 			}
@@ -416,7 +419,7 @@ public class Drive implements Updatable
 				if(robot_accel*accelSign < Map.CRASH_DETECTION_THRESHOLD_MULTIPLIER*initialSpike)
 				{
 					System.out.println("Null returned");
-					initial_spike_reset();
+					spike_reset();
 					return null_response;
 				}
 			}
@@ -428,8 +431,9 @@ public class Drive implements Updatable
 		return input;
 	}
 	
-	public void initial_spike_reset() {
+	public void spike_reset() {
 		initialSpike = 0.0;
+		highestTravelingSpike = 0.0;
 	}
 
 	

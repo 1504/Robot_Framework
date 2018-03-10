@@ -66,7 +66,7 @@ public class Robot extends RobotBase {
 	private SendableChooser<String> autoChooser1 = new SendableChooser<String>();
 	//private Lift _lift = Lift.getInstance();
 	//private Navx _navx = Navx.getInstance();
-//	private CameraInterface ci = CameraInterface.getInstance();
+//	//private CameraInterface ci = CameraInterface.getInstance();
 	//private Vision _vision = Vision.getInstance();
 	//Pneumatics t3 = Pneumatics.getInstance();
 	private Thread _dashboard_task;
@@ -83,7 +83,7 @@ public class Robot extends RobotBase {
     	Digit_Board.initialize();
     	//Pickup.initialize();
     	//Lift.initialize();
-    	//CameraServer.getInstance().startAutomaticCapture();
+ //   	//CameraServer.getInstance().startAutomaticCapture();
     	System.out.println("game specific message:"+_ds.getGameSpecificMessage()); 
     	//RRL - Right side switch (closer), Right side scale, Left side switch (farther)
     	//System.out.println(new String(Base64.getDecoder().decode(Map.TEAM_BANNER)));
@@ -95,21 +95,21 @@ public class Robot extends RobotBase {
     	
     	
     	// "TYPE-OF-AUTON_START_END"   	 	
-    	map.put("LeftSwitchL", Map.DIRECT_FORWARD);
-    	map.put("LeftSwitchR", Map.CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES_MOVE_ONLY);
-    	map.put("MidSwitchL", Map.CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES_MOVE_ONLY);
-    	map.put("MidSwitchR", Map.CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES_MOVE_ONLY);
-    	map.put("RightSwitchL", Map.CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES_MOVE_ONLY);
-    	map.put("RightSwitchR", Map.DIRECT_FORWARD);
-    	//map.put("LeftSwitchBlockLE", _autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT));
+    	/*map.put("LeftSwitchL", Map.FAST_LEFT_SWITCH_FROM_LEFT_SEQUENCES);
+    	map.put("LeftSwitchR", Map.FAST_RIGHT_SWITCH_FROM_LEFT_SEQUENCES);
+    	map.put("MidSwitchL", Map.FAST_LEFT_SWITCH_FROM_MID_SEQUENCES);
+    	map.put("MidSwitchR", Map.FAST_RIGHT_SWITCH_FROM_MID_SEQUENCES);
+    	map.put("RightSwitchL", Map.FAST_LEFT_SWITCH_FROM_RIGHT_SEQUENCES);
+    	map.put("RightSwitchR", Map.FAST_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES);
+    	map.put("LeftSwitchBlockLE", _autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT));
     	map.put("LeftSwitchBlockR", _autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT));
     	map.put("MidSwitchBlockL", _autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT));
     	map.put("MidSwitchBlockR", _autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT));
     	map.put("RightSwitchBlockL", _autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT));
     	map.put("RightSwitchBlockR", _autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT));
-    	
-    	//map.put("LeftSwitchScaleLL", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.LEFT_SCALE_FROM_SPOT));
-    	//map.put("LeftSwitchScaleLR", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.RIGHT_SCALE_FROM_SPOT));
+    	*/
+    	/*map.put("LeftSwitchScaleLL", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.LEFT_SCALE_FROM_SPOT));
+    	map.put("LeftSwitchScaleLR", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.RIGHT_SCALE_FROM_SPOT));
     	map.put("LeftSwitchScaleRL", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.LEFT_SCALE_FROM_SPOT));
     	map.put("LeftSwitchScaleRR", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.RIGHT_SCALE_FROM_SPOT));
     	map.put("MidSwitchScaleLL", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.LEFT_SCALE_FROM_SPOT));
@@ -121,19 +121,18 @@ public class Robot extends RobotBase {
     	map.put("RightSwitchScaleRL", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.LEFT_SCALE_FROM_SPOT));
     	map.put("RightSwitchScaleRR", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.RIGHT_SCALE_FROM_SPOT));
     	
-    	//map.put("LeftSwitchExchangeLE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
+    	map.put("LeftSwitchExchangeLE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
     	map.put("LeftSwitchExchangeRE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
     	map.put("MidSwitchExchangeLE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
     	map.put("MidSwitchExchangeRE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
     	map.put("RightSwitchExchangeLE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
     	map.put("RightSwitchExchangeRE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
     	
-    	//map.put("LeftExchangeEE", Map.AUTON_EXCHANGE_FROM_LEFT_SEQUENCES);
-    	//map.put("MidExchangeEE", Map.AUTON_EXCHANGE_FROM_MID_SEQUENCES);
-    	//map.put("RightExchangeEE", Map.AUTON_EXCHANGE_FROM_RIGHT_SEQUENCES);
-    	
-    	// System.out.println(map.get("Contingencies"));
-    	
+    	map.put("LeftExchangeEE", Map.AUTON_EXCHANGE_FROM_LEFT_SEQUENCES);
+    	map.put("MidExchangeEE", Map.AUTON_EXCHANGE_FROM_MID_SEQUENCES);
+    	map.put("RightExchangeEE", Map.AUTON_EXCHANGE_FROM_RIGHT_SEQUENCES);
+    	System.out.println(map.get("Contingencies"));
+    	*/
     }
 
     /**
@@ -423,9 +422,20 @@ public class Robot extends RobotBase {
                 }
                // double [][] path = _autonomous.build_auton(new double[][][]{map.get(seq)});
                 System.out.println(seq);
+                
+                double[][] path;
+                System.out.println(pos.getSelected());
+                System.out.println(new_message[0]);
+                System.out.println(pos.getSelected() == "Left");
+                System.out.println(new_message[0] == 'L');
+                if(pos.getSelected().toCharArray()[0] == new_message[0])
+                	path = Map.FORWARD_SHOOT_SEQUENCES;
+                else
+                	path = Map.FORWARD_SEQUENCE;
+                	
                //double [][] path = map.get(seq);
                 double [][] auton_delay = new double[][] {{0.0, 0.0, 0.0, 0, SmartDashboard.getNumber("Auton Delay", 0.0)}};
-                double [][] path = {{0, (Map.AUTON_DEFAULT_SPEED), 0.0, 11, Map.AUTON_RUNTIME}};
+               // double [][] path = {{0, (Map.AUTON_DEFAULT_SPEED), 0.0, 11, Map.AUTON_RUNTIME}};
                 //_autonomous.setup_path(_autonomous.build_auton(new double[][][]{auton_delay, path}));
                 //_autonomous.setup_path(_autonomous.build_auton(auton_delay, path);
                 _autonomous.setup_path(path);
