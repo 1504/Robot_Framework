@@ -176,7 +176,7 @@ public class Robot extends RobotBase {
 					SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
 					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					SmartDashboard.putNumber("Arm Power", _pickup.getPower());
-					SmartDashboard.putNumber("Distance (ft)", sanic.getAverageVoltage() * (1.0/.3));
+					SmartDashboard.putNumber("Distance (ft)", Drive.sanicVoltage() * (1.0/.3));
 					
 					
 					

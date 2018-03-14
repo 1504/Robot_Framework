@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.interfaces.*;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 public class Drive implements Updatable
 {
 	private BuiltInAccelerometer accel = new BuiltInAccelerometer(Accelerometer.Range.k8G);
@@ -119,7 +120,7 @@ public class Drive implements Updatable
 	private volatile double[] _orbit_point = {0.0, -1.15}; //{0.0, 1.15};
 
 	private WPI_TalonSRX[] _motors = new WPI_TalonSRX[Map.DRIVE_MOTOR_PORTS.length];
-
+	public static AnalogInput sanic = new AnalogInput(3);
 
 	/**
 	 * set up motors
@@ -395,6 +396,7 @@ public class Drive implements Updatable
 	double accelSign = -1.0;
 	public double[] roborio_crash_bandicoot_check(double[] input, long time) {//uses roborio built in accelerometer
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
+		double dist = 100;
 		accelSign = Math.signum((accel.getX()*accel.getX()+accel.getZ()*accel.getZ()));
 		double robot_accel = Math.pow((Math.pow(accel.getX()*accel.getX()+accel.getZ()*accel.getZ(),2)),0.5);
 		double spikeSign = Math.signum(initialSpike);
@@ -430,12 +432,21 @@ public class Drive implements Updatable
 		}
 		return input;
 	}
-	
+	private double[] crash_detection(double[] input) {
+		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
+		if (sanic.getAverageVoltage()*(1.0/0.3) < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
+		{
+			return null_response;
+		}
+		return input;
+	}
 	public void spike_reset() {
 		initialSpike = 0.0;
 		highestTravelingSpike = 0.0;
 	}
-
+	public static double sanicVoltage() {
+		return sanic.getAverageVoltage();
+	}
 	
 	/**
 	 * Normalization function for arrays to normalize full scale to +- 1 <br>
