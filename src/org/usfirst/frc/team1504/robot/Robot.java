@@ -21,6 +21,7 @@ import com.ctre.CANTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
@@ -164,7 +165,7 @@ public class Robot extends RobotBase {
 				SmartDashboard.putData("Position Chooser", pos);
 				SmartDashboard.putData("Auton Mode Chooser", autoChooser1);
 				
-				
+				AnalogInput sanic = new AnalogInput(3);
 				Preferences prefs = Preferences.getInstance();
 				Map.ARM_UP_ANGLE = prefs.getInt("Arm Up Angle", 0);
 				Map.ARM_DOWN_ANGLE = prefs.getInt("Arm Down Angle", 0);
@@ -175,6 +176,7 @@ public class Robot extends RobotBase {
 					SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
 					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					SmartDashboard.putNumber("Arm Power", _pickup.getPower());
+					SmartDashboard.putNumber("Distance (ft)", sanic.getAverageVoltage() * (1.0/.3));
 					
 					
 					
