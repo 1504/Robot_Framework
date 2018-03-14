@@ -239,7 +239,7 @@ public class Map {
 	public static final double AUTON_DEFAULT_SPEED = -0.5;
 	public static final double AUTON_FAST_SPEED = -0.5;
 	public static final double CRASH_DETECTION_THRESHOLD_MULTIPLIER = 0.9;
-	public static final int CRASH_DETECTION_DISTANCE_THRESHOLD = 250;
+	public static final int CRASH_DETECTION_DISTANCE_THRESHOLD = 300;
 	public static final double DETECTION_DELAY = 1000;
 	public static final double FIRE_TIME = 1500;
 	public static final double ARM_OPENING_TIME = 100;
