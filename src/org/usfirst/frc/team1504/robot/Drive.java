@@ -394,7 +394,7 @@ public class Drive implements Updatable
 	double initialSpike = 0.0;
 	double highestTravelingSpike = 0.0;
 	double accelSign = -1.0;
-	public double[] roborio_crash_bandicoot_check(double[] input, long time) {//uses roborio built in accelerometer
+	/*public double[] roborio_crash_bandicoot_check(double[] input, long time) {//uses roborio built in accelerometer
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
 		double dist = 100;
 		accelSign = Math.signum((accel.getX()*accel.getX()+accel.getZ()*accel.getZ()));
@@ -431,8 +431,8 @@ public class Drive implements Updatable
 			initialSpike = robot_accel*accelSign;
 		}
 		return input;
-	}
-	private double[] crash_detection(double[] input) {
+	}*/
+	public double[] roborio_crash_bandicoot_check(double[] input, long time) {
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
 		if (sanic.getValue() < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
 		{
