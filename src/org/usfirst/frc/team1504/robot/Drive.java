@@ -434,7 +434,7 @@ public class Drive implements Updatable
 	}
 	private double[] crash_detection(double[] input) {
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
-		if (sanic.getAverageVoltage()*(1.0/0.3) < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
+		if (sanic.getValue() < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
 		{
 			return null_response;
 		}
@@ -444,8 +444,8 @@ public class Drive implements Updatable
 		initialSpike = 0.0;
 		highestTravelingSpike = 0.0;
 	}
-	public static double sanicVoltage() {
-		return sanic.getAverageVoltage();
+	public static int sanicVoltage() {
+		return sanic.getValue();
 	}
 	
 	/**
