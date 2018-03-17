@@ -270,7 +270,7 @@ public class Map {
 	public static final double[][] RIGHT_SWITCH_FROM_MID_SEQUENCES = {{14.04, AUTON_FAST_SPEED, 0.0, 13, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}}; //Move to switch at an angle and eject cube
 	public static final double[][] RIGHT_SWITCH_FROM_LEFT_SEQUENCES = {{36.87, AUTON_FAST_SPEED, 0.0, 13, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}}; //Move to switch at an angle and eject cube
 	public static final double[][] LEFT_SWITCH_FROM_RIGHT_SEQUENCES = {{-36.87, AUTON_FAST_SPEED, 0.0, 13, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}};//Move to switch at an angle and eject cube
-	public static final double[][] RETURN_TO_CENTER = {{(32.735*(RETURN_TO_CENTER_DIRECTION)), (-1*AUTON_FAST_SPEED), 0.0, 11, 2000}}; //Returns back to center position (not original starting position)
+	public static final double[][] RETURN_TO_CENTER = {{(63.435*(RETURN_TO_CENTER_DIRECTION)), (-1*AUTON_FAST_SPEED), 0.0, 11, 2000}}; //Returns back to center position (not original starting position)
 	
 	public static final double[][] FORWARD_SEQUENCE = {{0, (AUTON_DEFAULT_SPEED), 0.0, 11, AUTON_RUNTIME}};
 
