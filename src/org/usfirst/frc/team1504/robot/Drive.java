@@ -192,7 +192,7 @@ public class Drive implements Updatable
 		while(_thread_alive)
 		{
 			input = _input;
-			
+			SmartDashboard.putNumber("Distance (ft)", sanic.getAverageValue());
 			if(_ds.isEnabled())
 			{
 				if (_new_data)
