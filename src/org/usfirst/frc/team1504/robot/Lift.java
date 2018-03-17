@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 public class Lift implements Updatable
 {
 	public enum lift_position {BOTTOM, MIDDLE, TOP, OFF};
-	//private double[] lift_height = {Map.LIFT_MIN_HEIGHT, Map.LIFT_MAX_HEIGHT/2, Map.LIFT_MAX_HEIGHT, 0};
+	private double[] lift_velocity = {-1.0, 0, 1.0, 0};
 	private String[] lifting_messages = {"lift is going to bottom","lift is going to mid","lift is going to top", "lift is off"};
 	public static lift_position lift_state = lift_position.OFF;
 	private Drive _drive = Drive.getInstance();
@@ -22,7 +22,10 @@ public class Lift implements Updatable
 	
 	private static DigitalInput top_lift_switch;
 	private static DigitalInput mid_lift_switch;
-	private static DigitalInput low_lift_switch;
+	private static DigitalInput bottom_lift_switch;
+	
+	private static boolean top_lock = false;
+	private static boolean bottom_lock = false;
 	
 	private static final Lift instance = new Lift(); // used later to initialize
 	
@@ -34,6 +37,7 @@ public class Lift implements Updatable
 	
 	private void update_mode() //checks where the lift is
 	{
+		checkIfLiftTriggered();
 		if(IO.get_crash_detection())
 		{
 			double[] val = _drive.roborio_crash_bandicoot_check(new double[]{1, 1, 1}, 1001);
@@ -41,34 +45,36 @@ public class Lift implements Updatable
 			{
 				plate_solenoid.set(true);
 			}
-		}/*
-		if (get_lift_height() > Map.LIFT_MAX_HEIGHT) 
-		{
-			get_top_lift_sensor = true;
-			lift_state = lift_position.OFF;
 		}
-		else if (get_lift_height() < Map.LIFT_MIN_HEIGHT)
-		{
-			get_bottom_lift_sensor = true;
-			lift_state = lift_position.OFF;
-		}
-		else 
-		{
-			get_top_lift_sensor = false;
-			get_bottom_lift_sensor = false;
-		}
-		*/
 		if(IO.get_override_lift()){
-			set_lift_velocity(IO.lift_input());
+			if(top_lock && IO.lift_input() > 0)
+			{
+				set_lift_velocity(0.0);
+			}
+			else if(bottom_lock && IO.lift_input() < 0)
+			{
+				set_lift_velocity(0.0);
+			}
+			else 
+			{
+				set_lift_velocity(IO.lift_input());
+			}
 			set_state(lift_position.OFF);
 		}
 		else if(_pickup.lift_safe()) 
 		{
-			//set_lift_velocity((lift_height[lift_state.ordinal()]-get_lift_height())*Map.LIFT_GAIN);
-			//sets lift velocity based on relative position to target
-			//finds target height by finding element of lift_state then finds its corresponding height in the lift_height array
-			//	ex: lift_state[2] = top, lift_height[2] = LIFT_MAX_HEIGHT
-			//takes target height (say top:200) - current height (say 100) and then multiplies by gain multiplier for speed
+			if(top_lock && lift_state.ordinal() == 2)
+			{
+				set_lift_velocity(0.0);
+			}
+			else if(bottom_lock && lift_state.ordinal() == 0)
+			{
+				set_lift_velocity(0.0);
+			}
+			else 
+			{
+				set_lift_velocity((lift_velocity[lift_state.ordinal()])*Map.LIFT_GAIN);
+			}
 			System.out.println(lifting_messages[lift_state.ordinal()] + "lifting messages");
 		}
 		else
@@ -114,22 +120,21 @@ public class Lift implements Updatable
 	{
 		getInstance();
 	}
-	public static boolean checkIfLiftTriggered(int switchTrigger)
+	public void checkIfLiftTriggered()
 	{
-		if(switchTrigger == 0)
+		if(bottom_lift_switch.get())
 		{
-			return low_lift_switch.get();
+			bottom_lock = true;
 		}
-		if(switchTrigger == 1)
+		if(mid_lift_switch.get() || (Map.LIFT_MAX_HEIGHT*(1.0 - Map.LIFT_LOCK_RELEASE_RANGE) < get_lift_height() && get_lift_height() < Map.LIFT_MAX_HEIGHT*Map.LIFT_LOCK_RELEASE_RANGE))
 		{
-			return mid_lift_switch.get();
+			bottom_lock = false;
+			top_lock = false;
 		}
-		if(switchTrigger == 2)
+		if(top_lift_switch.get())
 		{
-			return top_lift_switch.get();
+			top_lock = true;
 		}
-		System.out.println("No switches are true");
-		return false;
 	}
 	
 	public void semaphore_update() //updates data from robot
