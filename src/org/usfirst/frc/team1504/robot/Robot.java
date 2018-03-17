@@ -182,9 +182,8 @@ public class Robot extends RobotBase {
 					SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
 					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					SmartDashboard.putNumber("Arm Power", _pickup.getPower());
-					SmartDashboard.putNumber("Distance (ft)", _drive.sanic.getAverageValue());
-					SmartDashboard.putNumber("Pressure 1", pressure_1.getValue());
-					SmartDashboard.putNumber("Pressure 2", pressure_2.getValue());
+					SmartDashboard.putNumber("Pressure High", pressure_1.getAverageVoltage()*50 - 25);
+					SmartDashboard.putNumber("Pressure Low", pressure_2.getAverageVoltage()*50 - 25);
 					
 					
 					
@@ -441,19 +440,20 @@ public class Robot extends RobotBase {
                 System.out.println(new_message[0] == 'L');
                 
                 path = map.get(pos.getSelected() + "Switch" + new_message[0]);
-                
+                //path = Map.FORWARD_SHOOT_SEQUENCES;
                 if(new_message[0] == 'L')
                 	Map.RETURN_TO_CENTER_DIRECTION = -1.0;
                 else
                 	Map.RETURN_TO_CENTER_DIRECTION = 1.0;
                 	
-                if(pos.getSelected().toCharArray()[0] == new_message[0])
+                /*if(pos.getSelected().toCharArray()[0] == new_message[0])
                 	path = Map.FORWARD_SHOOT_SEQUENCES;
                 else
-                	path = Map.FORWARD_SEQUENCE;
+                	path = Map.FORWARD_SEQUENCE;*/
                 	
                //double [][] path = map.get(seq);
-                double [][] auton_delay = new double[][] {{0.0, 0.0, 0.0, 0, SmartDashboard.getNumber("Auton Delay", 0.0)}};
+                double [][] auton_delay = new double[][] {{0.0, 0.0, 0.0, 0, SmartDashboard.getNumber("Auton Delay", 0.0) * 1000}};
+                path = _autonomous.build_auton(auton_delay, path);
                // double [][] path = {{0, (Map.AUTON_DEFAULT_SPEED), 0.0, 11, Map.AUTON_RUNTIME}};
                 //_autonomous.setup_path(_autonomous.build_auton(new double[][][]{auton_delay, path}));
                 //_autonomous.setup_path(_autonomous.build_auton(auton_delay, path);
