@@ -165,7 +165,6 @@ public class Robot extends RobotBase {
 				SmartDashboard.putData("Position Chooser", pos);
 				SmartDashboard.putData("Auton Mode Chooser", autoChooser1);
 				
-				AnalogInput sanic = new AnalogInput(3);
 				Preferences prefs = Preferences.getInstance();
 				Map.ARM_UP_ANGLE = prefs.getInt("Arm Up Angle", 0);
 				Map.ARM_DOWN_ANGLE = prefs.getInt("Arm Down Angle", 0);
@@ -176,7 +175,7 @@ public class Robot extends RobotBase {
 					SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
 					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					SmartDashboard.putNumber("Arm Power", _pickup.getPower());
-					SmartDashboard.putNumber("Distance (ft)", sanic.getValue());
+					SmartDashboard.putNumber("Distance (ft)", _drive.sanic.getAverageValue());
 					
 					
 					
