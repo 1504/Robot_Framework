@@ -88,11 +88,6 @@ public class Robot extends RobotBase {
     	System.out.println("game specific message:"+_ds.getGameSpecificMessage()); 
     	//RRL - Right side switch (closer), Right side scale, Left side switch (farther)
     	//System.out.println(new String(Base64.getDecoder().decode(Map.TEAM_BANNER)));
-
-    	/*String[] game_message;
-    	game_message[0] = message.substring(0, 1);
-    	game_message[1] = message.substring(1, 2);
-    	game_message[2] = message.substring(2, 3);*/
     	
     	
     	// "TYPE-OF-AUTON_START_END"   	 	
@@ -384,15 +379,12 @@ public class Robot extends RobotBase {
                 System.out.println("hey now");
                 
                 String message = _ds.getGameSpecificMessage();
-                char left = 'L';
-                char right = 'R';
-                char starting_position = 'E';
-                
                 
                 char[] new_message = message.toCharArray();
+                /*
                 if(new_message.length == 3)
                 {
-                if (new_message[0] == left)
+                if (new_message[0] == 'L')
                 {
                 	if(vorc_state == v_or_c.VISIONCODE)
                 	{
@@ -404,7 +396,7 @@ public class Robot extends RobotBase {
                 		//
                 	}
                 }
-                else if (new_message[0] == right)
+                else if (new_message[0] == 'R')
                 {
                 	if(vorc_state == v_or_c.VISIONCODE)
                 	{
@@ -421,7 +413,7 @@ public class Robot extends RobotBase {
                 	// We must be in the middle so don't do anything unless we are net setting what to run in auton somewhere else
                 }
             }
-                
+                */
                 
                 /*
                 String seq = pos.getSelected() +  autoChooser1.getSelected() + new_message[0];
@@ -441,6 +433,8 @@ public class Robot extends RobotBase {
                 
                 path = map.get(pos.getSelected() + "Switch" + new_message[0]);
                 //path = Map.FORWARD_SHOOT_SEQUENCES;
+                /*
+>>>>>>> 96d066e025dfb1252e80cf2210e688db3a6c9607
                 if(new_message[0] == 'L')
                 	Map.RETURN_TO_CENTER_DIRECTION = -1.0;
                 else
@@ -449,12 +443,17 @@ public class Robot extends RobotBase {
                 /*if(pos.getSelected().toCharArray()[0] == new_message[0])
                 	path = Map.FORWARD_SHOOT_SEQUENCES;
                 else
+<<<<<<< HEAD
                 	path = Map.FORWARD_SEQUENCE;*/
                 	
                //double [][] path = map.get(seq);
                 double [][] auton_delay = new double[][] {{0.0, 0.0, 0.0, 0, SmartDashboard.getNumber("Auton Delay", 0.0) * 1000}};
                 path = _autonomous.build_auton(auton_delay, path);
                // double [][] path = {{0, (Map.AUTON_DEFAULT_SPEED), 0.0, 11, Map.AUTON_RUNTIME}};
+                	
+                //double [][] path = map.get(seq);
+                //double [][] auton_delay = new double[][] {{0.0, 0.0, 0.0, 0, SmartDashboard.getNumber("Auton Delay", 0.0)}};
+                // double [][] path = {{0, (Map.AUTON_DEFAULT_SPEED), 0.0, 11, Map.AUTON_RUNTIME}};
                 //_autonomous.setup_path(_autonomous.build_auton(new double[][][]{auton_delay, path}));
                 //_autonomous.setup_path(_autonomous.build_auton(auton_delay, path);
                 _autonomous.setup_path(path);
