@@ -167,8 +167,6 @@ public class Robot extends RobotBase {
 				
 				AnalogInput pressure_1 = new AnalogInput(0);
 				AnalogInput pressure_2 = new AnalogInput(1);
-				
-				AnalogInput sanic = new AnalogInput(3);
 				Preferences prefs = Preferences.getInstance();
 				Map.ARM_UP_ANGLE = prefs.getInt("Arm Up Angle", 0);
 				Map.ARM_DOWN_ANGLE = prefs.getInt("Arm Down Angle", 0);
@@ -179,7 +177,7 @@ public class Robot extends RobotBase {
 					SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
 					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					SmartDashboard.putNumber("Arm Power", _pickup.getPower());
-					SmartDashboard.putNumber("Distance (ft)", sanic.getValue());
+					SmartDashboard.putNumber("Distance (ft)", _drive.sanic.getAverageValue());
 					SmartDashboard.putNumber("Pressure 1", pressure_1.getValue());
 					SmartDashboard.putNumber("Pressure 2", pressure_2.getValue());
 					
