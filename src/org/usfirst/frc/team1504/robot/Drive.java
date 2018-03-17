@@ -196,7 +196,6 @@ public class Drive implements Updatable
 		while(_thread_alive)
 		{
 			input = _input;
-			SmartDashboard.putNumber("Distance (ft)", sanic.getAverageValue());
 			if(_ds.isEnabled())
 			{
 				if (_new_data)
@@ -442,7 +441,7 @@ public class Drive implements Updatable
 		{
 			return null_response;
 		}*/
-		autonDistances.add(sanic.getAverageValue());
+		autonDistances.add(sanic_value());
 		autonTimes.add(time);
 		int autonDistancesAverageOne = 0;
 		int autonDistancesAverageTwo = 0;
@@ -473,8 +472,14 @@ public class Drive implements Updatable
 		initialSpike = 0.0;
 		highestTravelingSpike = 0.0;
 	}
-	public static int sanicVoltage() {
-		return sanic.getValue();
+	public int sanic_value() {
+		if(sanic.getAverageValue() < 2000)
+		{
+			return sanic.getAverageValue();
+		} else
+		{ 
+			return 2000;
+		}
 	}
 	
 	/**
@@ -549,6 +554,7 @@ public class Drive implements Updatable
 		SmartDashboard.putNumber("Drive BL current", currents[1]);
 		SmartDashboard.putNumber("Drive BR current", currents[2]);
 		SmartDashboard.putNumber("Drive FR current", currents[3]);
+		SmartDashboard.putNumber("Distance (ft)", sanic_value());
 	}
 	
 	public double[] follow_angle(double angle, double speed)
