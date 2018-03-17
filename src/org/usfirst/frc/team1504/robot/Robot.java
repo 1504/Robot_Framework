@@ -434,23 +434,14 @@ public class Robot extends RobotBase {
                 System.out.println(new_message[0] == 'L');
                 path = map.get(pos.getSelected() + "Switch" + new_message[0]);
                 //path = Map.FORWARD_SHOOT_SEQUENCES;
-                /*
->>>>>>> 96d066e025dfb1252e80cf2210e688db3a6c9607
-=======
+            
                 path = map.get(seq);
                 
->>>>>>> 5e1c96579b7bc6edb084ccd24bc6f3b6563cd294
                 if(new_message[0] == 'L')
                 	Map.RETURN_TO_CENTER_DIRECTION = -1.0;
                 else
                 	Map.RETURN_TO_CENTER_DIRECTION = 1.0;
-                	
-                /*if(pos.getSelected().toCharArray()[0] == new_message[0])
-                	path = Map.FORWARD_SHOOT_SEQUENCES;
-                else
-<<<<<<< HEAD
-<<<<<<< HEAD
-                	path = Map.FORWARD_SEQUENCE;*/
+          
                 	
                //double [][] path = map.get(seq);
                 double [][] auton_delay = new double[][] {{0.0, 0.0, 0.0, 0, SmartDashboard.getNumber("Auton Delay", 0.0) * 1000}};
