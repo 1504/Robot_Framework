@@ -5,7 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DigitalInput;
-public class Lift implements Updatable
+public class Lift2 implements Updatable
 {
 	public enum lift_position {BOTTOM, MIDDLE, TOP, OFF};
 	private double[] lift_velocity = {-1.0, 0, 1.0, 0};
@@ -27,9 +27,9 @@ public class Lift implements Updatable
 	private static boolean top_lock = false;
 	private static boolean bottom_lock = false;
 	
-	private static final Lift instance = new Lift(); // used later to initialize
+	private static final Lift2 instance = new Lift2(); // used later to initialize
 	
-	private Lift() //assigns motor to lift
+	private Lift2() //assigns motor to lift
 	{	
 		_motor = new WPI_TalonSRX(Map.LIFT_TALON_PORT);
 		Update_Semaphore.getInstance().register(this);
@@ -111,7 +111,7 @@ public class Lift implements Updatable
 		// return true;
 	}
 	*/
-	public static Lift getInstance() //returns instance
+	public static Lift2 getInstance() //returns instance
 	{
 		return instance;
 	}
