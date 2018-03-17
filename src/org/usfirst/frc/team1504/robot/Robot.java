@@ -64,7 +64,7 @@ public class Robot extends RobotBase {
 	
 	private HashMap<String, double[][]> map = new HashMap<String, double[][]>();
 	private SendableChooser<String> pos = new SendableChooser<String>();
-	private SendableChooser<String> autoChooser1 = new SendableChooser<String>();
+	//private SendableChooser<String> autoChooser1 = new SendableChooser<String>();
 	//private Lift _lift = Lift.getInstance();
 	//private Navx _navx = Navx.getInstance();
 //	//private CameraInterface ci = CameraInterface.getInstance();
@@ -96,19 +96,22 @@ public class Robot extends RobotBase {
     	
     	
     	// "TYPE-OF-AUTON_START_END"   	 	
-    	/*map.put("LeftSwitchL", Map.FAST_LEFT_SWITCH_FROM_LEFT_SEQUENCES);
-    	map.put("LeftSwitchR", Map.FAST_RIGHT_SWITCH_FROM_LEFT_SEQUENCES);
-    	map.put("MidSwitchL", Map.FAST_LEFT_SWITCH_FROM_MID_SEQUENCES);
-    	map.put("MidSwitchR", Map.FAST_RIGHT_SWITCH_FROM_MID_SEQUENCES);
-    	map.put("RightSwitchL", Map.FAST_LEFT_SWITCH_FROM_RIGHT_SEQUENCES);
-    	map.put("RightSwitchR", Map.FAST_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES);
-    	map.put("LeftSwitchBlockLE", _autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT));
-    	map.put("LeftSwitchBlockR", _autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT));
-    	map.put("MidSwitchBlockL", _autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT));
-    	map.put("MidSwitchBlockR", _autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT));
-    	map.put("RightSwitchBlockL", _autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT));
-    	map.put("RightSwitchBlockR", _autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT));
+    	map.put("LeftSwitchL", Map.FORWARD_SHOOT_SEQUENCES);
+    	map.put("LeftSwitchR", Map.RIGHT_SWITCH_FROM_LEFT_SEQUENCES);
+    	map.put("MidSwitchL", Map.LEFT_SWITCH_FROM_MID_SEQUENCES);
+    	map.put("MidSwitchR", Map.RIGHT_SWITCH_FROM_MID_SEQUENCES);
+    	map.put("RightSwitchL", Map.LEFT_SWITCH_FROM_RIGHT_SEQUENCES);
+    	map.put("RightSwitchR", Map.FORWARD_SHOOT_SEQUENCES);
+    	
+    	/*
+    	map.put("LeftSwitchBlockLE", _autonomous.build_auton(Map.FORWARD_SHOOT_SEQUENCES, Map.PICKUP_FROM_SPOT));
+    	map.put("LeftSwitchBlockR", _autonomous.build_auton(Map.RIGHT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT));
+    	map.put("MidSwitchBlockL", _autonomous.build_auton(Map.LEFT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT));
+    	map.put("MidSwitchBlockR", _autonomous.build_auton(Map.RIGHT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT));
+    	map.put("RightSwitchBlockL", _autonomous.build_auton(Map.LEFT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT));
+    	map.put("RightSwitchBlockR", _autonomous.build_auton(Map.FORWARD_SHOOT_SEQUENCES, Map.PICKUP_FROM_SPOT));
     	*/
+    	
     	/*map.put("LeftSwitchScaleLL", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.LEFT_SCALE_FROM_SPOT));
     	map.put("LeftSwitchScaleLR", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.RIGHT_SCALE_FROM_SPOT));
     	map.put("LeftSwitchScaleRL", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.LEFT_SCALE_FROM_SPOT));
@@ -157,13 +160,15 @@ public class Robot extends RobotBase {
 				pos.addObject("Mid", new String("Mid"));
 				pos.addObject("Right", new String("Right"));
 				
+				/*
 				autoChooser1.addDefault("Switch", new String("Switch"));
 				autoChooser1.addObject("Switch & Block", new String("SwitchBlock"));
 				autoChooser1.addObject("Switch & Scale", new String("SwitchScale"));
 				autoChooser1.addObject("Switch & Exchange", new String("SwitchExchange"));
+				*/
 				
 				SmartDashboard.putData("Position Chooser", pos);
-				SmartDashboard.putData("Auton Mode Chooser", autoChooser1);
+				//SmartDashboard.putData("Auton Mode Chooser", autoChooser1);
 				
 				AnalogInput pressure_1 = new AnalogInput(0);
 				AnalogInput pressure_2 = new AnalogInput(1);
@@ -419,14 +424,15 @@ public class Robot extends RobotBase {
             }
                 
                 
-                
+                /*
                 String seq = pos.getSelected() +  autoChooser1.getSelected() + new_message[0];
                 if (autoChooser1.getSelected() == "SwitchScale")
                 {
                 	seq = seq + new_message[1];
                 }
+                */
                // double [][] path = _autonomous.build_auton(new double[][][]{map.get(seq)});
-                System.out.println(seq);
+                //System.out.println(seq);
                 
                 double[][] path;
                 System.out.println(pos.getSelected());
