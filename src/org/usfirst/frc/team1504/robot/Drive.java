@@ -434,7 +434,7 @@ public class Drive implements Updatable
 	}*/
 	public double[] roborio_crash_bandicoot_check(double[] input, long time) {
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
-		if (sanic.getValue() < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
+		if (sanic.getAverageValue() < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
 		{
 			return null_response;
 		}
