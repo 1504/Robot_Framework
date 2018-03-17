@@ -451,7 +451,7 @@ public class Robot extends RobotBase {
                 
                 if (autoChooser1.getSelected() == "Spot")
                 {
-                	path = _autonomous.build_auton(map.get(seq), Map.RETURN_TO_CENTER);
+                	path = _autonomous.build_auton(path, Map.RETURN_TO_CENTER);
                 }
                 
                 //double [][] path = map.get(seq);
