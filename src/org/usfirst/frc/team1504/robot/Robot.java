@@ -439,6 +439,9 @@ public class Robot extends RobotBase {
                 System.out.println(new_message[0]);
                 System.out.println(pos.getSelected() == "Left");
                 System.out.println(new_message[0] == 'L');
+                
+                path = map.get(pos.getSelected() + "Switch" + new_message[0]);
+                
                 if(new_message[0] == 'L')
                 	Map.RETURN_TO_CENTER_DIRECTION = -1.0;
                 else
