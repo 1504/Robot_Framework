@@ -417,14 +417,14 @@ public class Robot extends RobotBase {
                 */
                 
                 
-                String seq = pos.getSelected() +  autoChooser1.getSelected() + new_message[0];
+                String seq = pos.getSelected() +  "Switch" + new_message[0];
                 if (autoChooser1.getSelected() == "SwitchScale")
                 {
-                	seq = seq + new_message[1];
+                	seq += new_message[1];
                 }
                 
 
-               // double [][] path = _autonomous.build_auton(new double[][][]{map.get(seq)});
+                // double [][] path = _autonomous.build_auton(new double[][][]{map.get(seq)});
                 //System.out.println(seq);
                 
                 double[][] path;
@@ -434,7 +434,7 @@ public class Robot extends RobotBase {
                 System.out.println(new_message[0] == 'L');
                 path = map.get(pos.getSelected() + "Switch" + new_message[0]);
                 //path = Map.FORWARD_SHOOT_SEQUENCES;
-            
+                
                 path = map.get(seq);
                 
                 if(new_message[0] == 'L')
@@ -443,10 +443,10 @@ public class Robot extends RobotBase {
                 	Map.RETURN_TO_CENTER_DIRECTION = 1.0;
           
                 	
-               //double [][] path = map.get(seq);
+                //double [][] path = map.get(seq);
                 double [][] auton_delay = new double[][] {{0.0, 0.0, 0.0, 0, SmartDashboard.getNumber("Auton Delay", 0.0) * 1000}};
                 path = _autonomous.build_auton(auton_delay, path);
-               // double [][] path = {{0, (Map.AUTON_DEFAULT_SPEED), 0.0, 11, Map.AUTON_RUNTIME}};
+                // double [][] path = {{0, (Map.AUTON_DEFAULT_SPEED), 0.0, 11, Map.AUTON_RUNTIME}};
                 	
                 
                 if (autoChooser1.getSelected() == "Spot")
