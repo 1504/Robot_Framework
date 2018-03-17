@@ -103,10 +103,9 @@ public class Autonomous
 	}
 	public double[][] build_auton(double[][] first, double[][] second) //should let us combine multiple double arrays
 	{
-		double[][] result = new double[first.length + second.length][];
-        System.arraycopy(first, 0, result, 0, first.length);
-        System.arraycopy(second, 0, result, first.length, second.length);
-        return result;
+		double[][] result = Arrays.copyOf(first, first.length + second.length);
+		System.arraycopy(second, 0, result, first.length, second.length);
+		return result;
 	}
 	public void start()
 	{
