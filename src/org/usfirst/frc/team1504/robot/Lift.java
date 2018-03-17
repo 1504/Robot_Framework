@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Solenoid;
-
+import edu.wpi.first.wpilibj.DigitalInput;
 public class Lift implements Updatable
 {
 	public enum lift_position {BOTTOM, MIDDLE, TOP, OFF};
@@ -19,6 +19,10 @@ public class Lift implements Updatable
 	boolean get_top_lift_sensor; // used as a value to check position of lift
 	boolean get_bottom_lift_sensor; // used as a value to check position of lift 
 	private DriverStation _ds = DriverStation.getInstance();
+	
+	private static DigitalInput top_lift_switch;
+	private static DigitalInput mid_lift_switch;
+	private static DigitalInput low_lift_switch;
 	
 	private static final Lift instance = new Lift(); // used later to initialize
 	
@@ -72,7 +76,6 @@ public class Lift implements Updatable
 			//set_lift_velocity((lift_height[1]-get_lift_height())/Map.LIFT_MAX_HEIGHT);
 			set_lift_velocity(0);
 		}	//makes the lift go to the middle
-		
 	}
 	
 	public void set_state(lift_position state)
@@ -110,6 +113,23 @@ public class Lift implements Updatable
 	public static void initialize() // returns instance
 	{
 		getInstance();
+	}
+	public static boolean checkIfLiftTriggered(int switchTrigger)
+	{
+		if(switchTrigger == 0)
+		{
+			return low_lift_switch.get();
+		}
+		if(switchTrigger == 1)
+		{
+			return mid_lift_switch.get();
+		}
+		if(switchTrigger == 2)
+		{
+			return top_lift_switch.get();
+		}
+		System.out.println("No switches are true");
+		return false;
 	}
 	
 	public void semaphore_update() //updates data from robot
