@@ -24,9 +24,6 @@ public class Lift implements Updatable
 	private static DigitalInput mid_lift_switch;
 	private static DigitalInput bottom_lift_switch;
 	
-	private static boolean top_lock = false;
-	private static boolean bottom_lock = false;
-	
 	private static final Lift instance = new Lift(); // used later to initialize
 	
 	private Lift() //assigns motor to lift
@@ -37,7 +34,6 @@ public class Lift implements Updatable
 	
 	private void update_mode() //checks where the lift is
 	{
-		checkIfLiftTriggered();
 		if(IO.get_crash_detection())
 		{
 			double[] val = _drive.roborio_crash_bandicoot_check(new double[]{1, 1, 1}, 1001);
@@ -47,11 +43,11 @@ public class Lift implements Updatable
 			}
 		}
 		if(IO.get_override_lift()){
-			if(top_lock && IO.lift_input() > 0)
+			if(top_lift_switch.get() && IO.lift_input() > 0)
 			{
 				set_lift_velocity(0.0);
 			}
-			else if(bottom_lock && IO.lift_input() < 0)
+			else if(bottom_lift_switch.get() && IO.lift_input() < 0)
 			{
 				set_lift_velocity(0.0);
 			}
@@ -63,11 +59,11 @@ public class Lift implements Updatable
 		}
 		else if(_pickup.lift_safe()) 
 		{
-			if(top_lock && lift_state.ordinal() == 2)
+			if(top_lift_switch.get() && lift_state.ordinal() == 2)
 			{
 				set_lift_velocity(0.0);
 			}
-			else if(bottom_lock && lift_state.ordinal() == 0)
+			else if(bottom_lift_switch.get() && lift_state.ordinal() == 0)
 			{
 				set_lift_velocity(0.0);
 			}
@@ -119,22 +115,6 @@ public class Lift implements Updatable
 	public static void initialize() // returns instance
 	{
 		getInstance();
-	}
-	public void checkIfLiftTriggered()
-	{
-		if(bottom_lift_switch.get())
-		{
-			bottom_lock = true;
-		}
-		if(mid_lift_switch.get() || (Map.LIFT_MAX_HEIGHT*(1.0 - Map.LIFT_LOCK_RELEASE_RANGE) < get_lift_height() && get_lift_height() < Map.LIFT_MAX_HEIGHT*Map.LIFT_LOCK_RELEASE_RANGE))
-		{
-			bottom_lock = false;
-			top_lock = false;
-		}
-		if(top_lift_switch.get())
-		{
-			top_lock = true;
-		}
 	}
 	
 	public void semaphore_update() //updates data from robot
