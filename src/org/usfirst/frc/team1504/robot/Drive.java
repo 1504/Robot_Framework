@@ -444,19 +444,28 @@ public class Drive implements Updatable
 		}*/
 		autonDistances.add(sanic.getAverageValue());
 		autonTimes.add(time);
-		int lastFive = 0;
-		if(autonTimes.size() > 5)
-			lastFive = 5;
-		else
-			lastFive = autonTimes.size();
-	
-		int slope = (autonDistances.get(autonDistances.size()-1)-autonDistances.get(autonDistances.size()-lastFive))/((int)(autonTimes.get(autonTimes.size()-1)-autonTimes.get(autonTimes.size()-lastFive)));
-		if(slope*Map.GET_AVERAGE_TIME_DELAY < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
+		int autonDistancesAverageOne = 0;
+		int autonDistancesAverageTwo = 0;
+		if(autonDistances.size() > 20)
 		{
-
-			autonDistances = new ArrayList<Integer>();
-			autonTimes = new ArrayList<Long>();
-			return null_response;
+			for(int i = 1; i < 10;i++)
+			{
+				autonDistancesAverageOne += (autonDistances.get(autonDistances.size()-i));
+			}	
+			autonDistancesAverageOne = autonDistancesAverageOne/10;
+			for(int i = 1; i < 10;i++)
+			{
+				autonDistancesAverageTwo += (autonDistances.get(autonDistances.size()-i-10));
+			}	
+			autonDistancesAverageTwo = autonDistancesAverageTwo/10;
+			int slope = (autonDistancesAverageOne - autonDistancesAverageTwo)/((int)(autonTimes.get(autonTimes.size()-1)-autonTimes.get(autonTimes.size()-20)));
+			if(sanic.getAverageValue() + slope*Map.GET_AVERAGE_TIME_DELAY < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
+			{
+				System.out.println("slope: " + slope + " dist: " + sanic.getAverageValue());
+				autonDistances = new ArrayList<Integer>();
+				autonTimes = new ArrayList<Long>();
+				return null_response;
+			}
 		}
 		return input;
 	}
