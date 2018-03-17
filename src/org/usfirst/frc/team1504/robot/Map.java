@@ -223,7 +223,7 @@ public class Map {
 	public static final double VISION_VAL2 = 255.0;
 
 	public static final double CRASH_DETECTION_PORT = 3;
-	
+	public static final double GET_AVERAGE_TIME_DELAY = 500;
 /**
  * Pneumatics stuff
  */

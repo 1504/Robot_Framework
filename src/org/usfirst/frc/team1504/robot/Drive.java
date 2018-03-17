@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1504.robot;
 import com.analog.adis16448.frc.ADIS16448_IMU;
+import java.util.ArrayList;
 
 import java.nio.ByteBuffer;
 import java.util.TimerTask;
@@ -50,6 +51,9 @@ public class Drive implements Updatable
 	private char _dir = 0;
 	private TimerTask _osc = new TimerTask(){public void run() { _dir++;}};
 	private Timer _timer = new Timer();
+	
+	private ArrayList<Integer> autonDistances = new ArrayList<Integer>();
+	private ArrayList<Long> autonTimes = new ArrayList<Long>();
 	/**
 	 * gets the instance of the drive.
 	 * @return the drive
@@ -434,8 +438,24 @@ public class Drive implements Updatable
 	}*/
 	public double[] roborio_crash_bandicoot_check(double[] input, long time) {
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
-		if (sanic.getAverageValue() < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
+		/*if (sanic.getAverageValue() < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
 		{
+			return null_response;
+		}*/
+		autonDistances.add(sanic.getAverageValue());
+		autonTimes.add(time);
+		int lastFive = 0;
+		if(autonTimes.size() > 5)
+			lastFive = 5;
+		else
+			lastFive = autonTimes.size();
+	
+		int slope = (autonDistances.get(autonDistances.size()-1)-autonDistances.get(autonDistances.size()-lastFive))/((int)(autonTimes.get(autonTimes.size()-1)-autonTimes.get(autonTimes.size()-lastFive)));
+		if(slope*Map.GET_AVERAGE_TIME_DELAY < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
+		{
+
+			autonDistances = new ArrayList<Integer>();
+			autonTimes = new ArrayList<Long>();
 			return null_response;
 		}
 		return input;
