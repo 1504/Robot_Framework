@@ -399,9 +399,8 @@ public class Drive implements Updatable
 	double initialSpike = 0.0;
 	double highestTravelingSpike = 0.0;
 	double accelSign = -1.0;
-	/*public double[] roborio_crash_bandicoot_check(double[] input, long time) {//uses roborio built in accelerometer
+	public double[] roborio_crash_bandicoot_check(double[] input, long time) {//uses roborio built in accelerometer
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
-		double dist = 100;
 		accelSign = Math.signum((accel.getX()*accel.getX()+accel.getZ()*accel.getZ()));
 		double robot_accel = Math.pow((Math.pow(accel.getX()*accel.getX()+accel.getZ()*accel.getZ(),2)),0.5);
 		double spikeSign = Math.signum(initialSpike);
@@ -436,8 +435,8 @@ public class Drive implements Updatable
 			initialSpike = robot_accel*accelSign;
 		}
 		return input;
-	}*/
-	public double[] roborio_crash_bandicoot_check(double[] input, long time) {
+	}
+	/*public double[] roborio_crash_bandicoot_check(double[] input, long time) {
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
 		autonDistances.add(sanic_value());
 		autonTimes.add(time);		
@@ -457,19 +456,13 @@ public class Drive implements Updatable
 			return null_response;
 		}
 		return input;
-	}
+	}*/
 	public void spike_reset() {
 		initialSpike = 0.0;
 		highestTravelingSpike = 0.0;
 	}
 	public int sanic_value() {
-		if(sanic.getAverageValue() < 2000)
-		{
 			return sanic.getAverageValue();
-		} else
-		{ 
-			return 2000;
-		}
 	}
 	
 	/**
