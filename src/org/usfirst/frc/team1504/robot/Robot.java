@@ -160,6 +160,7 @@ public class Robot extends RobotBase {
 				autoChooser1.addObject("+ Spot", new String("Spot"));
 				autoChooser1.addObject("Switch & Block", new String("Block"));
 				autoChooser1.addObject("Go Forward", new String("GoForward"));
+				autoChooser1.addObject("Side Delivery", new String("SideDelivery"));
 				//autoChooser1.addObject("Switch & Scale", new String("SwitchScale"));
 				//autoChooser1.addObject("Switch & Exchange", new String("SwitchExchange"));
 				
@@ -453,6 +454,8 @@ public class Robot extends RobotBase {
                 	path = _autonomous.build_auton(path, Map.PICKUP_FROM_SPOT);
                 if (autoChooser1.getSelected().equals("GoForward"))
                 	path = Map.FORWARD_SEQUENCE;
+                if (autoChooser1.getSelected().equals("SideDelivery"))
+                	path = Map.SIDE_DELIVERY_SEQUENCES;
                 //double [][] path = map.get(seq);
                 //double [][] auton_delay = new double[][] {{0.0, 0.0, 0.0, 0, SmartDashboard.getNumber("Auton Delay", 0.0)}};
                 // double [][] path = {{0, (Map.AUTON_DEFAULT_SPEED), 0.0, 11, Map.AUTON_RUNTIME}};
