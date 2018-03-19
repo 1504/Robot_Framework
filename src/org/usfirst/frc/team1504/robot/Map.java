@@ -251,7 +251,7 @@ public class Map {
 	public static final double MID_TO_CUBE_RUNTIME = 1500;
 	public static double RETURN_TO_CENTER_DIRECTION = 1.0; //Technically the multiplier for returning to spot
 	public static double MID_ANGLE = 26.566; //Angles for moving from mid to switch
-	public static double EDGE_ANGLE = 45.0; //Angles for moving from edge (far left or right starting positions) to switch
+	public static double EDGE_ANGLE = 55.0; //Angles for moving from edge (far left or right starting positions) to switch
 	
 	/*
 	public static final double[][] CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES = {{36.87, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_RUNTIME}};
