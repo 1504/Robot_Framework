@@ -223,7 +223,7 @@ public class Map {
 	public static final double VISION_VAL2 = 255.0;
 
 	public static final double CRASH_DETECTION_PORT = 3;
-	
+	public static final double GET_AVERAGE_TIME_DELAY = 500;
 /**
  * Pneumatics stuff
  */
@@ -240,7 +240,7 @@ public class Map {
 	public static final double AUTON_DEFAULT_SPEED = -0.5;
 	public static final double AUTON_FAST_SPEED = -0.5;
 	public static final double CRASH_DETECTION_THRESHOLD_MULTIPLIER = 0.9;
-	public static final int CRASH_DETECTION_DISTANCE_THRESHOLD = 500;
+	public static final int CRASH_DETECTION_DISTANCE_THRESHOLD = 700;
 	public static final double DETECTION_DELAY = 1000;
 	public static final double FIRE_TIME = 1500;
 	public static final double ARM_OPENING_TIME = 100;

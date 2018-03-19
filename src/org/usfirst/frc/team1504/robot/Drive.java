@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1504.robot;
 import com.analog.adis16448.frc.ADIS16448_IMU;
+import java.util.ArrayList;
 
 import java.nio.ByteBuffer;
 import java.util.TimerTask;
@@ -9,6 +10,8 @@ import java.lang.Math;
 
 
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
+import org.usfirst.frc.team1504.utils.LinearRegression;
+
 //import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -50,6 +53,9 @@ public class Drive implements Updatable
 	private char _dir = 0;
 	private TimerTask _osc = new TimerTask(){public void run() { _dir++;}};
 	private Timer _timer = new Timer();
+	
+	private ArrayList<Integer> autonDistances = new ArrayList<Integer>();
+	private ArrayList<Long> autonTimes = new ArrayList<Long>();
 	/**
 	 * gets the instance of the drive.
 	 * @return the drive
@@ -192,7 +198,6 @@ public class Drive implements Updatable
 		while(_thread_alive)
 		{
 			input = _input;
-			SmartDashboard.putNumber("Distance (ft)", sanic.getAverageValue());
 			if(_ds.isEnabled())
 			{
 				if (_new_data)
@@ -434,8 +439,21 @@ public class Drive implements Updatable
 	}*/
 	public double[] roborio_crash_bandicoot_check(double[] input, long time) {
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
-		if (sanic.getAverageValue() < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
+		autonDistances.add(sanic_value());
+		autonTimes.add(time);		
+		double[] autonDistancesDouble = new double[autonDistances.size()];
+		double[] autonTimesDouble = new double[autonTimes.size()];
+		for(int i = 0; i < autonDistances.size(); i++)
 		{
+			autonDistancesDouble[i] = autonDistances.get(i);
+			autonTimesDouble[i] = (double)autonTimes.get(i);
+		}
+		LinearRegression regression = new LinearRegression(autonTimesDouble, autonDistancesDouble);
+		if(sanic.getAverageValue() + regression.slope()*Map.GET_AVERAGE_TIME_DELAY < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
+		{
+			System.out.println("slope: " + regression.slope() + " dist: " + sanic.getAverageValue());
+			autonDistances = new ArrayList<Integer>();
+			autonTimes = new ArrayList<Long>();
 			return null_response;
 		}
 		return input;
@@ -444,8 +462,14 @@ public class Drive implements Updatable
 		initialSpike = 0.0;
 		highestTravelingSpike = 0.0;
 	}
-	public static int sanicVoltage() {
-		return sanic.getValue();
+	public int sanic_value() {
+		if(sanic.getAverageValue() < 2000)
+		{
+			return sanic.getAverageValue();
+		} else
+		{ 
+			return 2000;
+		}
 	}
 	
 	/**
@@ -520,6 +544,7 @@ public class Drive implements Updatable
 		SmartDashboard.putNumber("Drive BL current", currents[1]);
 		SmartDashboard.putNumber("Drive BR current", currents[2]);
 		SmartDashboard.putNumber("Drive FR current", currents[3]);
+		SmartDashboard.putNumber("Distance (ft)", sanic_value());
 	}
 	
 	public double[] follow_angle(double angle, double speed)
