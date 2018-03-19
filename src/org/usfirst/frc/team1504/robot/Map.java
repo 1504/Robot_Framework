@@ -239,7 +239,7 @@ public class Map {
 	public static final double HORIZONTAL_MULTIPLIER = 1.4;
 	public static final double AUTON_DEFAULT_SPEED = -0.5;
 	public static final double AUTON_FAST_SPEED = -0.8;
-	public static final double CRASH_DETECTION_THRESHOLD_MULTIPLIER = 1.2;
+	public static final double CRASH_DETECTION_THRESHOLD_MULTIPLIER = 1.1;
 	public static final int CRASH_DETECTION_DISTANCE_THRESHOLD = 700;
 	public static final double DETECTION_DELAY = 1000;
 	public static final double FIRE_TIME = 1500;
@@ -250,8 +250,8 @@ public class Map {
 	public static final double SIDE_TO_MID_RUNTIME = 1500;
 	public static final double MID_TO_CUBE_RUNTIME = 1500;
 	public static double RETURN_TO_CENTER_DIRECTION = 1.0; //Technically the multiplier for returning to spot
-	public static double MID_ANGLE = 26.566; //Angles for moving from mid to switch
-	public static double EDGE_ANGLE = 45.0; //Angles for moving from edge (far left or right starting positions) to switch
+	public static double MID_ANGLE = 29.0; //Angles for moving from mid to switch
+	public static double EDGE_ANGLE = 55.0; //Angles for moving from edge (far left or right starting positions) to switch
 	
 	/*
 	public static final double[][] CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES = {{36.87, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_RUNTIME}};
@@ -274,6 +274,7 @@ public class Map {
 	public static final double[][] RIGHT_SWITCH_FROM_LEFT_SEQUENCES = {{EDGE_ANGLE, AUTON_FAST_SPEED, 0.0, 13, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}}; //Move to switch at an angle and eject cube
 	public static final double[][] LEFT_SWITCH_FROM_RIGHT_SEQUENCES = {{(-1*(EDGE_ANGLE)), AUTON_FAST_SPEED, 0.0, 13, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}};//Move to switch at an angle and eject cube
 	public static final double[][] RETURN_TO_SPOT = {{(63.435*(RETURN_TO_CENTER_DIRECTION)), (-1*AUTON_FAST_SPEED), 0.0, 11, 2000}}; //Returns back to center position (not original starting position) using spot multiplier (also called RETURN_TO_CENTER_DIRECTION)
+
 	public static final double[][] ALTERNATE_SWITCH_SEQUENCES = {{(45*(RETURN_TO_CENTER_DIRECTION)), 0.0, 0.0, 11, 1000}, {AUTON_DEFAULT_SPEED, 0.0, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}, {0.0, 0.0, 0.0, 5, 100}}; //Move at an angle until half position (halfway in between switch and starting position at right/light) and then move into switch
 	
 	public static final double[][] SIDE_DELIVERY_SEQUENCES = {{0.0, 0.0, (RETURN_TO_CENTER_DIRECTION*(0.25)), 0, 1000}, {AUTON_DEFAULT_SPEED, 0.0, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}, {0.0, 0.0, 0.0, 5, 100}}; //After forwards sequence turn using RETURN_TO_CENTER_DIRECTION multiplier and then move forwards and eject cube into switch
