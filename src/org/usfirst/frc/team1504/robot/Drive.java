@@ -10,6 +10,8 @@ import java.lang.Math;
 
 
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
+import org.usfirst.frc.team1504.utils.LinearRegression;
+
 //import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -437,34 +439,22 @@ public class Drive implements Updatable
 	}*/
 	public double[] roborio_crash_bandicoot_check(double[] input, long time) {
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
-		/*if (sanic.getAverageValue() < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
-		{
-			return null_response;
-		}*/
 		autonDistances.add(sanic_value());
-		autonTimes.add(time);
-		int autonDistancesAverageOne = 0;
-		int autonDistancesAverageTwo = 0;
-		if(autonDistances.size() > 20)
+		autonTimes.add(time);		
+		double[] autonDistancesDouble = new double[autonDistances.size()];
+		double[] autonTimesDouble = new double[autonTimes.size()];
+		for(int i = 0; i < autonDistances.size(); i++)
 		{
-			for(int i = 1; i < 10;i++)
-			{
-				autonDistancesAverageOne += (autonDistances.get(autonDistances.size()-i));
-			}	
-			autonDistancesAverageOne = autonDistancesAverageOne/10;
-			for(int i = 1; i < 10;i++)
-			{
-				autonDistancesAverageTwo += (autonDistances.get(autonDistances.size()-i-10));
-			}	
-			autonDistancesAverageTwo = autonDistancesAverageTwo/10;
-			int slope = (autonDistancesAverageOne - autonDistancesAverageTwo)/((int)(autonTimes.get(autonTimes.size()-1)-autonTimes.get(autonTimes.size()-20)));
-			if(sanic.getAverageValue() + slope*Map.GET_AVERAGE_TIME_DELAY < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
-			{
-				System.out.println("slope: " + slope + " dist: " + sanic.getAverageValue());
-				autonDistances = new ArrayList<Integer>();
-				autonTimes = new ArrayList<Long>();
-				return null_response;
-			}
+			autonDistancesDouble[i] = autonDistances.get(i);
+			autonTimesDouble[i] = (double)autonTimes.get(i);
+		}
+		LinearRegression regression = new LinearRegression(autonTimesDouble, autonDistancesDouble);
+		if(sanic.getAverageValue() + regression.slope()*Map.GET_AVERAGE_TIME_DELAY < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
+		{
+			System.out.println("slope: " + regression.slope() + " dist: " + sanic.getAverageValue());
+			autonDistances = new ArrayList<Integer>();
+			autonTimes = new ArrayList<Long>();
+			return null_response;
 		}
 		return input;
 	}
