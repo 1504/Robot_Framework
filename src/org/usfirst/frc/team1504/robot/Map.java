@@ -239,7 +239,7 @@ public class Map {
 	public static final double HORIZONTAL_MULTIPLIER = 1.4;
 	public static final double AUTON_DEFAULT_SPEED = -0.5;
 	public static final double AUTON_FAST_SPEED = -0.8;
-	public static final double CRASH_DETECTION_THRESHOLD_MULTIPLIER = 1.2;
+	public static final double CRASH_DETECTION_THRESHOLD_MULTIPLIER = 1.1;
 	public static final int CRASH_DETECTION_DISTANCE_THRESHOLD = 700;
 	public static final double DETECTION_DELAY = 1000;
 	public static final double FIRE_TIME = 1500;
@@ -250,7 +250,7 @@ public class Map {
 	public static final double SIDE_TO_MID_RUNTIME = 1500;
 	public static final double MID_TO_CUBE_RUNTIME = 1500;
 	public static double RETURN_TO_CENTER_DIRECTION = 1.0; //Technically the multiplier for returning to spot
-	public static double MID_ANGLE = 26.566; //Angles for moving from mid to switch
+	public static double MID_ANGLE = 29.0; //Angles for moving from mid to switch
 	public static double EDGE_ANGLE = 55.0; //Angles for moving from edge (far left or right starting positions) to switch
 	
 	/*
