@@ -236,10 +236,10 @@ public class Map {
  * Auton stuff	
  */
 	//norm/starting conditions arm down, lift down, facing alliance station
-	public static final double HORIZONTAL_MULTIPLIER = 1.2;
+	public static final double HORIZONTAL_MULTIPLIER = 1.4;
 	public static final double AUTON_DEFAULT_SPEED = -0.5;
-	public static final double AUTON_FAST_SPEED = -0.5;
-	public static final double CRASH_DETECTION_THRESHOLD_MULTIPLIER = 0.9;
+	public static final double AUTON_FAST_SPEED = -0.8;
+	public static final double CRASH_DETECTION_THRESHOLD_MULTIPLIER = 1.2;
 	public static final int CRASH_DETECTION_DISTANCE_THRESHOLD = 700;
 	public static final double DETECTION_DELAY = 1000;
 	public static final double FIRE_TIME = 1500;
@@ -275,7 +275,7 @@ public class Map {
 	public static final double[][] LEFT_SWITCH_FROM_RIGHT_SEQUENCES = {{(-1*(EDGE_ANGLE)), AUTON_FAST_SPEED, 0.0, 13, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}};//Move to switch at an angle and eject cube
 	public static final double[][] RETURN_TO_SPOT = {{(63.435*(RETURN_TO_CENTER_DIRECTION)), (-1*AUTON_FAST_SPEED), 0.0, 11, 2000}}; //Returns back to center position (not original starting position) using spot multiplier (also called RETURN_TO_CENTER_DIRECTION)
 	
-	public static final double[][] FORWARD_SEQUENCE = {{0, (AUTON_DEFAULT_SPEED), 0.0, 11, AUTON_RUNTIME}};
+	public static final double[][] FORWARD_SEQUENCE = {{0, (AUTON_DEFAULT_SPEED), 0.0, 11, 2800}};
 
 	//public static final double[][] RIGHT_SCALE_UNIVERSAL_AUTON_SEQUENCES = {{Autonomous.find_angle_theta(Robot.right_x, Robot.right_y), -0.5, 0.0, 13, 5000}, {0.0, 0.0, 0.0, 10, 1000}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 2, 50}, {-90.0, 0.75, 0.0, 13, 2000}, {0.0, -0.75, 0.0, 11, 2500}, {90.0, -0.75, 0.0, 11, 2000}, {0.0, 0.5, 0.0, 11, 1000}, {0.0, 0.0, 0.0, 6, 50}, {0.0, 0.0, 0.0, 5, 500}, {0.0, 0.0, 0.0, 3, 50}, {0.0, 0.0, 0.0, 4, 100}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 5, 1}, {0.0, -0.75, 0.0, 13, 2000}, {0.0, 0.0, 0.0, 7, 100}, {0.0, 0.0, 0.0, 10, 200}}; // Add an angle into index 0
 	//public static final double[][] LEFT_SCALE_UNIVERSAL_AUTON_SEQUENCES = {{Autonomous.find_angle_theta(Robot.left_x, Robot.left_y), -0.5, 0.0, 13, 5000}, {0.0, 0.0, 0.0, 10, 1000}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 2, 50}, {90.0, 0.75, 0.0, 13, 2000}, {0.0, -0.75, 0.0, 11, 2500}, {-90.0, -0.75, 0.0, 11, 2000}, {0.0, 0.5, 0.0, 11, 1000}, {0.0, 0.0, 0.0, 6, 50}, {0.0, 0.0, 0.0, 5, 500}, {0.0, 0.0, 0.0, 3, 50}, {0.0, 0.0, 0.0, 4, 100}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 5, 1}, {0.0, -0.75, 0.0, 13, 2000}, {0.0, 0.0, 0.0, 7, 100}, {0.0, 0.0, 0.0, 10, 200}}; // Add an angle into index 0
