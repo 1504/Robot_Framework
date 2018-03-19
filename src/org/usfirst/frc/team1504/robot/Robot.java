@@ -159,6 +159,7 @@ public class Robot extends RobotBase {
 				autoChooser1.addDefault("Switch", new String("Switch"));
 				autoChooser1.addObject("+ Spot", new String("Spot"));
 				autoChooser1.addObject("Switch & Block", new String("Block"));
+				autoChooser1.addObject("Go Forward", new String("GoForward"));
 				//autoChooser1.addObject("Switch & Scale", new String("SwitchScale"));
 				//autoChooser1.addObject("Switch & Exchange", new String("SwitchExchange"));
 				
@@ -418,12 +419,9 @@ public class Robot extends RobotBase {
                 
                 
                 String seq = pos.getSelected() +  "Switch" + new_message[0];
-                if (autoChooser1.getSelected() == "SwitchScale")
-                {
+                if (autoChooser1.getSelected().equals("SwitchScale"))
                 	seq += new_message[1];
-                }
                 
-
                 // double [][] path = _autonomous.build_auton(new double[][][]{map.get(seq)});
                 //System.out.println(seq);
                 
@@ -450,14 +448,11 @@ public class Robot extends RobotBase {
                 	
                 System.out.println(autoChooser1.getSelected());
                 if (autoChooser1.getSelected().equals("Spot") || autoChooser1.getSelected().equals("Block"))
-                {
                 	path = _autonomous.build_auton(path, Map.RETURN_TO_SPOT);
-                }
                 if (autoChooser1.getSelected().equals("Block"))
-                {
                 	path = _autonomous.build_auton(path, Map.PICKUP_FROM_SPOT);
-                }
-                
+                if (autoChooser1.getSelected().equals("GoForward"))
+                	path = Map.FORWARD_SEQUENCE;
                 //double [][] path = map.get(seq);
                 //double [][] auton_delay = new double[][] {{0.0, 0.0, 0.0, 0, SmartDashboard.getNumber("Auton Delay", 0.0)}};
                 // double [][] path = {{0, (Map.AUTON_DEFAULT_SPEED), 0.0, 11, Map.AUTON_RUNTIME}};
