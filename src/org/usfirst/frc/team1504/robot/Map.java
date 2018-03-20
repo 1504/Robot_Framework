@@ -2,10 +2,28 @@ package org.usfirst.frc.team1504.robot;
 
 public class Map {
 	//methods
-	public static double DETERMINE_MULTIPLIER() {
-		return DIRECTIONAL_MULTIPLIER;
+	
+	public static double[][] get_side_delivery_sequence(double DIRECTIONAL_MULTIPLIER) {
+		final double[][] SIDE_DELIVERY_SEQUENCES = {{0.0, 0.0, (DIRECTIONAL_MULTIPLIER*(0.4)), 0, 1000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}, {0.0, 0.0, 0.0, 5, 100}};
+		return SIDE_DELIVERY_SEQUENCES;
 	}
-/**
+
+	public static final double[][] get_return_to_spot_sequence(double DIRECTIONAL_MULTIPLIER) {
+		final double[][] RETURN_TO_SPOT = {{(63.435*(DIRECTIONAL_MULTIPLIER)), (-1*AUTON_FAST_SPEED), 0.0, 11, 2000}};
+		return RETURN_TO_SPOT;
+	}
+	
+	public static final double[][] get_spot_to_switch_sequence(double DIRECTIONAL_MULTIPLIER) { //WARNING: HAS NOT BEEN TESTED
+		final double[][] SPOT_TO_SWITCH = {{(63.435*(-1*DIRECTIONAL_MULTIPLIER)), AUTON_DEFAULT_SPEED, 0.0, 13, 2000}};
+		return SPOT_TO_SWITCH;
+	}
+	
+	public static final double[][] get_alternate_switch_sequence(double DIRECTIONAL_MULTIPLIER) {
+		final double[][] ALTERNATE_SWITCH_SEQUENCES = {{(45*(DIRECTIONAL_MULTIPLIER)), 0.0, 0.0, 11, 1000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}, {0.0, 0.0, 0.0, 5, 100}};
+		return ALTERNATE_SWITCH_SEQUENCES;
+	}
+	
+	/**
  * Utilities
  */
 	public static final double UTIL_JOYSTICK_DEADZONE = 0.05;
@@ -278,19 +296,15 @@ public class Map {
 	public static final double[][] RIGHT_SWITCH_FROM_MID_SEQUENCES = {{MID_ANGLE, AUTON_FAST_SPEED, 0.0, 13, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}}; //Move to switch at an angle and eject cube
 	public static final double[][] RIGHT_SWITCH_FROM_LEFT_SEQUENCES = {{EDGE_ANGLE, AUTON_FAST_SPEED, 0.0, 13, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}}; //Move to switch at an angle and eject cube
 	public static final double[][] LEFT_SWITCH_FROM_RIGHT_SEQUENCES = {{(-1*(EDGE_ANGLE)), AUTON_FAST_SPEED, 0.0, 13, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}};//Move to switch at an angle and eject cube
-	public static final double[][] RETURN_TO_SPOT = {{(63.435*(DETERMINE_MULTIPLIER())), (-1*AUTON_FAST_SPEED), 0.0, 11, 2000}}; //Returns back to center position (not original starting position) using spot multiplier (also called DIRECTIONAL_MULTIPLIER)
 
 	public static final double[][] LEFT_SIDE_DELIVERY_SEQUENCES = {{0.0, 0.0, ((-0.4)), 0, 1000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 11, 1000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}, {0.0, 0.0, 0.0, 5, 100}}; //After forwards sequence turn using DIRECTIONAL_MULTIPLIER multiplier and then move forwards and eject cube into switch
 	public static final double[][] RIGHT_SIDE_DELIVERY_SEQUENCES = {{0.0, 0.0, ((0.4)), 0, 1000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 11, 1000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}, {0.0, 0.0, 0.0, 5, 100}}; //After forwards sequence turn using DIRECTIONAL_MULTIPLIER multiplier and then move forwards and eject cube into switch
-	public static final double[][] ALTERNATE_SWITCH_SEQUENCES = {{(45*(DETERMINE_MULTIPLIER())), 0.0, 0.0, 11, 1000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}, {0.0, 0.0, 0.0, 5, 100}}; //Move at an angle until half position (halfway in between switch and starting position at right/light) and then move into switch
 	
-	public static final double[][] SIDE_DELIVERY_SEQUENCES = {{0.0, 0.0, (DETERMINE_MULTIPLIER()*(0.4)), 0, 1000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 0.0, 11, 1000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}, {0.0, 0.0, 0.0, 5, 100}}; //After forwards sequence turn using DIRECTIONAL_MULTIPLIER multiplier and then move forwards and eject cube into switch
 	public static final double[][] FORWARD_SEQUENCE = {{0, (AUTON_DEFAULT_SPEED), 0.0, 11, 2800}};
 
 	//public static final double[][] RIGHT_SCALE_UNIVERSAL_AUTON_SEQUENCES = {{Autonomous.find_angle_theta(Robot.right_x, Robot.right_y), -0.5, 0.0, 13, 5000}, {0.0, 0.0, 0.0, 10, 1000}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 2, 50}, {-90.0, 0.75, 0.0, 13, 2000}, {0.0, -0.75, 0.0, 11, 2500}, {90.0, -0.75, 0.0, 11, 2000}, {0.0, 0.5, 0.0, 11, 1000}, {0.0, 0.0, 0.0, 6, 50}, {0.0, 0.0, 0.0, 5, 500}, {0.0, 0.0, 0.0, 3, 50}, {0.0, 0.0, 0.0, 4, 100}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 5, 1}, {0.0, -0.75, 0.0, 13, 2000}, {0.0, 0.0, 0.0, 7, 100}, {0.0, 0.0, 0.0, 10, 200}}; // Add an angle into index 0
 	//public static final double[][] LEFT_SCALE_UNIVERSAL_AUTON_SEQUENCES = {{Autonomous.find_angle_theta(Robot.left_x, Robot.left_y), -0.5, 0.0, 13, 5000}, {0.0, 0.0, 0.0, 10, 1000}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 2, 50}, {90.0, 0.75, 0.0, 13, 2000}, {0.0, -0.75, 0.0, 11, 2500}, {-90.0, -0.75, 0.0, 11, 2000}, {0.0, 0.5, 0.0, 11, 1000}, {0.0, 0.0, 0.0, 6, 50}, {0.0, 0.0, 0.0, 5, 500}, {0.0, 0.0, 0.0, 3, 50}, {0.0, 0.0, 0.0, 4, 100}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 5, 1}, {0.0, -0.75, 0.0, 13, 2000}, {0.0, 0.0, 0.0, 7, 100}, {0.0, 0.0, 0.0, 10, 200}}; // Add an angle into index 0
 	public static final double[][] PICKUP_FROM_SPOT = {{0.0, 0.0, 0.5, 0, 1000}, {(-1*AUTON_DEFAULT_SPEED), 0.0, 0.0, 13, 2000}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 6, 50}, {(-1*AUTON_DEFAULT_SPEED), 0.0, 0.0, 13, 1000}, {0.0, 0.0, 0.0, 5, 50}, {0.0, 0.0, 0.0, 9, 50}, {AUTON_DEFAULT_SPEED, 0.0, 0.0, 11, 2000}}; //Pickup a cube, return to common starting spot, and then move cube onto lift
-	public static final double[][] SPOT_TO_SWITCH = {{(63.435*(-1*DETERMINE_MULTIPLIER())), AUTON_DEFAULT_SPEED, 0.0, 13, 2000}};
 	public static final double[][] RIGHT_SCALE_FROM_SPOT = {{90.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 3000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 7, 500}, {0.0, 0.0, 0.0, 14, 100}};
 	public static final double[][] LEFT_SCALE_FROM_SPOT = {{-90.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 3000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 7, 500}, {0.0, 0.0, 0.0, 14, 100}};
 	public static final double[][] AUTON_EXCHANGE_FROM_SPOT = {{32.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 3000}};

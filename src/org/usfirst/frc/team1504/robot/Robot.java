@@ -448,19 +448,15 @@ public class Robot extends RobotBase {
                 	
                 System.out.println(autoChooser1.getSelected());
                 if (autoChooser1.getSelected().equals("Spot") || autoChooser1.getSelected().equals("Block"))
-                	path = _autonomous.build_auton(path, Map.RETURN_TO_SPOT);
+                	path = _autonomous.build_auton(path, Map.get_return_to_spot_sequence(Map.DIRECTIONAL_MULTIPLIER));
                 if (autoChooser1.getSelected().equals("Block"))
                 	path = _autonomous.build_auton(path, Map.PICKUP_FROM_SPOT);
                 if (autoChooser1.getSelected().equals("GoForward"))
                 	path = Map.FORWARD_SEQUENCE;
-                if (autoChooser1.getSelected().equals("LeftSideDelivery"))
-                	path = _autonomous.build_auton(Map.FORWARD_SEQUENCE, Map.LEFT_SIDE_DELIVERY_SEQUENCES);
-                if (autoChooser1.getSelected().equals("RightSideDelivery"))
-                	path = _autonomous.build_auton(Map.FORWARD_SEQUENCE, Map.RIGHT_SIDE_DELIVERY_SEQUENCES);
                 
-                if (autoChooser1.getSelected().equals("SideDelivery") && ((game_message[0] == 'R') || (game_message[0] == 'L')))
-                	path = _autonomous.build_auton(Map.FORWARD_SEQUENCE, Map.SIDE_DELIVERY_SEQUENCES);
-                else if (autoChooser1.getSelected().equals("SideDelivery"))
+                if ((autoChooser1.getSelected().equals("SideDelivery") && (game_message[0] == 'R') && pos.getSelected().equals("Right")) || ((autoChooser1.getSelected().equals("SideDelivery") && (game_message[0] == 'L') && pos.getSelected().equals("Left"))))
+                	path = _autonomous.build_auton(Map.FORWARD_SEQUENCE, Map.get_side_delivery_sequence(Map.DIRECTIONAL_MULTIPLIER));
+                else if ((autoChooser1.getSelected().equals("SideDelivery") && (pos.getSelected().equals("Right"))) || (autoChooser1.getSelected().equals("SideDelivery")) && (pos.getSelected().equals("Left")))
                 	path = Map.FORWARD_SEQUENCE;
                 //double [][] path = map.get(seq);
                 //double [][] auton_delay = new double[][] {{0.0, 0.0, 0.0, 0, SmartDashboard.getNumber("Auton Delay", 0.0)}};
