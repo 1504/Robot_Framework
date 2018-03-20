@@ -384,7 +384,7 @@ public class Robot extends RobotBase {
                 
                 String message = _ds.getGameSpecificMessage();
                 
-                char[] new_message = message.toCharArray();
+                char[] game_message = message.toCharArray();
                 /*
                 if(new_message.length == 3)
                 {
@@ -420,24 +420,24 @@ public class Robot extends RobotBase {
                 */
                 
                 
-                String seq = pos.getSelected() +  "Switch" + new_message[0];
+                String seq = pos.getSelected() +  "Switch" + game_message[0];
                 if (autoChooser1.getSelected().equals("SwitchScale"))
-                	seq += new_message[1];
+                	seq += game_message[1];
                 
                 // double [][] path = _autonomous.build_auton(new double[][][]{map.get(seq)});
                 //System.out.println(seq);
                 
                 double[][] path;
                 System.out.println(pos.getSelected());
-                System.out.println(new_message[0]);
+                System.out.println(game_message[0]);
                 System.out.println(pos.getSelected() == "Left");
-                System.out.println(new_message[0] == 'L');
-                path = map.get(pos.getSelected() + "Switch" + new_message[0]);
+                System.out.println(game_message[0] == 'L');
+                path = map.get(pos.getSelected() + "Switch" + game_message[0]);
                 //path = Map.FORWARD_SHOOT_SEQUENCES;
                 
                 path = map.get(seq);
                 
-                if(new_message[0] == 'L')
+                if(game_message[0] == 'L')
                 	Map.DIRECTIONAL_MULTIPLIER = -1.0;
                 else
                 	Map.DIRECTIONAL_MULTIPLIER = 1.0;
@@ -458,6 +458,11 @@ public class Robot extends RobotBase {
                 	path = _autonomous.build_auton(Map.FORWARD_SEQUENCE, Map.LEFT_SIDE_DELIVERY_SEQUENCES);
                 if (autoChooser1.getSelected().equals("RightSideDelivery"))
                 	path = _autonomous.build_auton(Map.FORWARD_SEQUENCE, Map.RIGHT_SIDE_DELIVERY_SEQUENCES);
+                
+                if (autoChooser1.getSelected().equals("SideDelivery") && ((game_message[0] == 'R') || (game_message[0] == 'L')))
+                	path = _autonomous.build_auton(Map.FORWARD_SEQUENCE, Map.SIDE_DELIVERY_SEQUENCES);
+                else if (autoChooser1.getSelected().equals("SideDelivery"))
+                	path = Map.FORWARD_SEQUENCE;
                 //double [][] path = map.get(seq);
                 //double [][] auton_delay = new double[][] {{0.0, 0.0, 0.0, 0, SmartDashboard.getNumber("Auton Delay", 0.0)}};
                 // double [][] path = {{0, (Map.AUTON_DEFAULT_SPEED), 0.0, 11, Map.AUTON_RUNTIME}};
