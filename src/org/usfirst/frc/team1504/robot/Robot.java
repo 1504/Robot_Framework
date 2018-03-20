@@ -441,6 +441,11 @@ public class Robot extends RobotBase {
                 	Map.DIRECTIONAL_MULTIPLIER = -1.0;
                 else
                 	Map.DIRECTIONAL_MULTIPLIER = 1.0;
+                
+                if(new_message[0] == 'L')
+                	Map.TURNING_MULTIPLIER = 1.0;
+                else
+                	Map.TURNING_MULTIPLIER = -1.0;
           
                 	
                 //double [][] path = map.get(seq);
