@@ -160,8 +160,7 @@ public class Robot extends RobotBase {
 				autoChooser1.addObject("+ Spot", new String("Spot"));
 				autoChooser1.addObject("Switch & Block", new String("Block"));
 				autoChooser1.addObject("Go Forward", new String("GoForward"));
-				autoChooser1.addObject("Left Side Delivery", new String("LeftSideDelivery"));
-				autoChooser1.addObject("Right Side Delivery", new String("RightSideDelivery"));
+				autoChooser1.addObject("Side Delivery", new String("SideDelivery"));
 				//autoChooser1.addObject("Switch & Scale", new String("SwitchScale"));
 				//autoChooser1.addObject("Switch & Exchange", new String("SwitchExchange"));
 				
