@@ -438,9 +438,9 @@ public class Robot extends RobotBase {
                 path = map.get(seq);
                 
                 if(new_message[0] == 'L')
-                	Map.RETURN_TO_CENTER_DIRECTION = -1.0;
+                	Map.DIRECTIONAL_MULTIPLIER = -1.0;
                 else
-                	Map.RETURN_TO_CENTER_DIRECTION = 1.0;
+                	Map.DIRECTIONAL_MULTIPLIER = 1.0;
           
                 	
                 //double [][] path = map.get(seq);
