@@ -442,7 +442,7 @@ public class Robot extends RobotBase {
                 else
                 	Map.DIRECTIONAL_MULTIPLIER = 1.0;
                 
-                if(new_message[0] == 'L')
+                if(game_message[0] == 'L')
                 	Map.TURNING_MULTIPLIER = 1.0;
                 else
                 	Map.TURNING_MULTIPLIER = -1.0;
