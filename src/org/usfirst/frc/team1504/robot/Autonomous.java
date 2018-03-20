@@ -258,7 +258,7 @@ public class Autonomous
 				double[] temp_path = {29, 5, 4};
 				for(int value = 0; value < 3; value++)
 					output[value] = _path[step][value]; //set output to crash bandicoot check
-				temp_path = _drive.roborio_crash_bandicoot_check(_path[step], System.currentTimeMillis() - _start_time);
+				temp_path = _drive.roborio_crash_bandicoot_check(_path[step], System.currentTimeMillis() - _start_time, Map.CRASH_DETECTION_MODE);
 				if(temp_path[0] + temp_path[1] + temp_path[2] == 0){ //if we crashed
 					for(int value = 0; value < 3; value++)
 						output[value] = temp_path[value];

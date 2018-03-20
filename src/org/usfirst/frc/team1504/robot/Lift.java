@@ -36,7 +36,7 @@ public class Lift implements Updatable
 	{
 		if(IO.get_crash_detection())
 		{
-			double[] val = _drive.roborio_crash_bandicoot_check(new double[]{1, 1, 1}, 1001);
+			double[] val = _drive.roborio_crash_bandicoot_check(new double[]{1, 1, 1}, 1001, Map.CRASH_DETECTION_MODE);
 			if(val[0] == 0.0) 
 			{
 				plate_solenoid.set(true);
