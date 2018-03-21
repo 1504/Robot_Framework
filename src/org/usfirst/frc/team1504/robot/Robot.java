@@ -454,6 +454,11 @@ public class Robot extends RobotBase {
                 if (autoChooser1.getSelected().equals("GoForward"))
                 	path = Map.FORWARD_SEQUENCE;
                 
+                if (autoChooser1.getSelected().equals("Switch") && game_message[0] == 'L' && pos.getSelected().equals("Right"))
+                	path = Map.FORWARD_SEQUENCE;
+                else if (autoChooser1.getSelected().equals("Switch") && game_message[0] == 'R' && pos.getSelected().equals("Left"))
+                	path = Map.FORWARD_SEQUENCE;
+                
                 if ((autoChooser1.getSelected().equals("SideDelivery") && (game_message[0] == 'R') && pos.getSelected().equals("Right")) || ((autoChooser1.getSelected().equals("SideDelivery") && (game_message[0] == 'L') && pos.getSelected().equals("Left"))))
                 	path = _autonomous.build_auton(Map.FORWARD_SEQUENCE, Map.get_side_delivery_sequence(Map.DIRECTIONAL_MULTIPLIER));
                 else if ((autoChooser1.getSelected().equals("SideDelivery") && (pos.getSelected().equals("Right"))) || (autoChooser1.getSelected().equals("SideDelivery")) && (pos.getSelected().equals("Left")))
