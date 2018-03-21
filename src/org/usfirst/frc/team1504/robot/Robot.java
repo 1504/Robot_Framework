@@ -92,10 +92,10 @@ public class Robot extends RobotBase {
     	
     	// "TYPE-OF-AUTON_START_END"   	 	
     	map.put("LeftSwitchL", Map.FORWARD_SHOOT_SEQUENCES);
-    	map.put("LeftSwitchR", Map.RIGHT_SWITCH_FROM_LEFT_SEQUENCES);
+    	map.put("LeftSwitchR", Map.FORWARD_SEQUENCE);
     	map.put("MidSwitchL", Map.LEFT_SWITCH_FROM_MID_SEQUENCES);
     	map.put("MidSwitchR", Map.RIGHT_SWITCH_FROM_MID_SEQUENCES);
-    	map.put("RightSwitchL", Map.LEFT_SWITCH_FROM_RIGHT_SEQUENCES);
+    	map.put("RightSwitchL", Map.FORWARD_SEQUENCE);
     	map.put("RightSwitchR", Map.FORWARD_SHOOT_SEQUENCES);
     	
     	/*
@@ -452,11 +452,6 @@ public class Robot extends RobotBase {
                 if (autoChooser1.getSelected().equals("Block"))
                 	path = _autonomous.build_auton(path, Map.PICKUP_FROM_SPOT);
                 if (autoChooser1.getSelected().equals("GoForward"))
-                	path = Map.FORWARD_SEQUENCE;
-                
-                if (autoChooser1.getSelected().equals("Switch") && game_message[0] == 'L' && pos.getSelected().equals("Right"))
-                	path = Map.FORWARD_SEQUENCE;
-                else if (autoChooser1.getSelected().equals("Switch") && game_message[0] == 'R' && pos.getSelected().equals("Left"))
                 	path = Map.FORWARD_SEQUENCE;
                 
                 if ((autoChooser1.getSelected().equals("SideDelivery") && (game_message[0] == 'R') && pos.getSelected().equals("Right")) || ((autoChooser1.getSelected().equals("SideDelivery") && (game_message[0] == 'L') && pos.getSelected().equals("Left"))))
