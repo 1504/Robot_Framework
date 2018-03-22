@@ -20,7 +20,7 @@ public class Lift implements Updatable
 	boolean get_bottom_lift_sensor; // used as a value to check position of lift 
 	private DriverStation _ds = DriverStation.getInstance();
 	private double lift_speed = 0.0;
-	private static DigitalInput top_lift_switch;
+	private static DigitalInput top_lift_switch; //needs to be initialized
 	private static DigitalInput bottom_lift_switch;
 	
 	private static final Lift instance = new Lift(); // used later to initialize

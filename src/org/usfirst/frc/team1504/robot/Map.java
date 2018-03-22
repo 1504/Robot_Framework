@@ -9,12 +9,12 @@ public class Map {
 	}
 
 	public static double[][] get_return_to_spot_sequence(double DIRECTIONAL_MULTIPLIER) {
-		double[][] RETURN_TO_SPOT = {{(63.435*(DIRECTIONAL_MULTIPLIER)), (-1*AUTON_FAST_SPEED), 0.0, 11, 2000}};
+		double[][] RETURN_TO_SPOT = {{(90-MID_ANGLE*(DIRECTIONAL_MULTIPLIER)), (-1*AUTON_FAST_SPEED), 0.0, 11, 2000}};
 		return RETURN_TO_SPOT;
 	}
 	
 	public static double[][] get_spot_to_switch_sequence(double DIRECTIONAL_MULTIPLIER) { //WARNING: HAS NOT BEEN TESTED
-		double[][] SPOT_TO_SWITCH = {{(63.435*(-1*DIRECTIONAL_MULTIPLIER)), AUTON_DEFAULT_SPEED, 0.0, 13, 2000}};
+		double[][] SPOT_TO_SWITCH = {{(90-MID_ANGLE*(-1*DIRECTIONAL_MULTIPLIER)), AUTON_DEFAULT_SPEED, 0.0, 13, 2000}};
 		return SPOT_TO_SWITCH;
 	}
 	
@@ -299,8 +299,8 @@ public class Map {
 	public static final double[][] RIGHT_SWITCH_FROM_LEFT_SEQUENCES = {{EDGE_ANGLE, AUTON_FAST_SPEED, 0.0, 13, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}}; //Move to switch at an angle and eject cube
 	public static final double[][] LEFT_SWITCH_FROM_RIGHT_SEQUENCES = {{(-1*(EDGE_ANGLE)), AUTON_FAST_SPEED, 0.0, 13, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}};//Move to switch at an angle and eject cube
 
-	public static final double[][] LEFT_SIDE_DELIVERY_SEQUENCES = {{0.0, 0.0, ((-0.4)), 0, 1000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 11, 1000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}, {0.0, 0.0, 0.0, 5, 100}}; //After forwards sequence turn using DIRECTIONAL_MULTIPLIER multiplier and then move forwards and eject cube into switch
-	public static final double[][] RIGHT_SIDE_DELIVERY_SEQUENCES = {{0.0, 0.0, ((0.4)), 0, 1000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 11, 1000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}, {0.0, 0.0, 0.0, 5, 100}}; //After forwards sequence turn using DIRECTIONAL_MULTIPLIER multiplier and then move forwards and eject cube into switch
+	//public static final double[][] LEFT_SIDE_DELIVERY_SEQUENCES = {{0.0, 0.0, ((-0.4)), 0, 1000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 11, 1000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}, {0.0, 0.0, 0.0, 5, 100}}; //After forwards sequence turn using DIRECTIONAL_MULTIPLIER multiplier and then move forwards and eject cube into switch
+	//public static final double[][] RIGHT_SIDE_DELIVERY_SEQUENCES = {{0.0, 0.0, ((0.4)), 0, 1000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 11, 1000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}, {0.0, 0.0, 0.0, 5, 100}}; //After forwards sequence turn using DIRECTIONAL_MULTIPLIER multiplier and then move forwards and eject cube into switch
 	
 	public static final double[][] FORWARD_SEQUENCE = {{0, (AUTON_DEFAULT_SPEED), 0.0, 11, 2800}};
 
