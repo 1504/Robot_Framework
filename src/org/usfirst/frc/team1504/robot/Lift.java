@@ -19,9 +19,8 @@ public class Lift implements Updatable
 	boolean get_top_lift_sensor; // used as a value to check position of lift
 	boolean get_bottom_lift_sensor; // used as a value to check position of lift 
 	private DriverStation _ds = DriverStation.getInstance();
-	
+	private double lift_speed = 0.0;
 	private static DigitalInput top_lift_switch;
-	private static DigitalInput mid_lift_switch;
 	private static DigitalInput bottom_lift_switch;
 	
 	private static final Lift instance = new Lift(); // used later to initialize
@@ -36,48 +35,13 @@ public class Lift implements Updatable
 	{
 		if(IO.get_crash_detection())
 		{
-			double[] val = _drive.roborio_crash_bandicoot_check(new double[]{1, 1, 1}, 1001, Map.CRASH_DETECTION_MODE);
+			double[] val = _drive.roborio_crash_bandicoot_check(new double[]{1, 1, 1}, 200, Map.CRASH_DETECTION_MODE);
 			if(val[0] == 0.0) 
 			{
 				plate_solenoid.set(true);
 			}
 		}
-		if(IO.get_override_lift()){
-			if(top_lift_switch.get() && IO.lift_input() > 0)
-			{
-				set_lift_velocity(0.0);
-			}
-			else if(bottom_lift_switch.get() && IO.lift_input() < 0)
-			{
-				set_lift_velocity(0.0);
-			}
-			else 
-			{
-				set_lift_velocity(IO.lift_input());
-			}
-			set_state(lift_position.OFF);
-		}
-		else if(_pickup.lift_safe()) 
-		{
-			if(top_lift_switch.get() && lift_state.ordinal() == 2)
-			{
-				set_lift_velocity(0.0);
-			}
-			else if(bottom_lift_switch.get() && lift_state.ordinal() == 0)
-			{
-				set_lift_velocity(0.0);
-			}
-			else 
-			{
-				set_lift_velocity((lift_velocity[lift_state.ordinal()])*Map.LIFT_GAIN);
-			}
-			System.out.println(lifting_messages[lift_state.ordinal()] + "lifting messages");
-		}
-		else
-		{
-			//set_lift_velocity((lift_height[1]-get_lift_height())/Map.LIFT_MAX_HEIGHT);
-			set_lift_velocity(0);
-		}	//makes the lift go to the middle
+		_motor.set(lift_speed);
 	}
 	
 	public void set_state(lift_position state)
@@ -85,28 +49,20 @@ public class Lift implements Updatable
 		lift_state = state;
 	}
 	
-	private void set_lift_velocity(double speed) {
-		_motor.set(speed);
+	public boolean set_lift_velocity(double speed) {
+		if(top_lift_switch.get() && speed > 0)
+		{
+			set_lift_velocity(0);
+			return false;
+		} else if(bottom_lift_switch.get() && speed < 0)
+		{
+			set_lift_velocity(0);
+			return false;
+		}
+		lift_speed = speed;
+		return true;
 	}
 	
-	public double get_lift_height() 
-	{
-		return _motor.getSelectedSensorPosition(0);
-	}
-	/*
-	public void plate_angle(double angle) // Sets angle of lift plate
-	{
-		if(angle == 0) 
-		{
-			plate_solenoid.set(false);
-		}
-		else if (angle > 0)
-		{
-			plate_solenoid.set(true);
-		}
-		// return true;
-	}
-	*/
 	public static Lift getInstance() //returns instance
 	{
 		return instance;
@@ -130,7 +86,9 @@ public class Lift implements Updatable
 			{
 				plate_solenoid.set(false);
 			}
+			set_lift_velocity(IO.lift_input());
 		}
 		update_mode();
 	}
+
 }
