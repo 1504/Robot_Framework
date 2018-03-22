@@ -50,11 +50,11 @@ public class Lift implements Updatable
 	}
 	
 	public boolean set_lift_velocity(double speed) {
-		if(top_lift_switch.get() && speed > 0)
+		if(Map.LIMIT_SWITCH_EXISTS || top_lift_switch.get() && speed > 0)
 		{
 			set_lift_velocity(0);
 			return false;
-		} else if(bottom_lift_switch.get() && speed < 0)
+		} else if(Map.LIMIT_SWITCH_EXISTS || bottom_lift_switch.get() && speed < 0)
 		{
 			set_lift_velocity(0);
 			return false;

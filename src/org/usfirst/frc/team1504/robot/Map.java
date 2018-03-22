@@ -88,6 +88,7 @@ public class Map {
 		public static final double LIFT_GAIN = 0.3;
 		public static final double LIFT_SAFETY_THRESHOLD = 5;
 		public static final double LIFT_LOCK_RELEASE_RANGE = 0.7;
+		public static final boolean LIMIT_SWITCH_EXISTS = false; 
 /*
  * Winch Stuff
  */
