@@ -4,12 +4,12 @@ public class Map {
 	//methods
 	
 	public static double[][] get_side_delivery_sequence(double DIRECTIONAL_MULTIPLIER) {
-		double[][] SIDE_DELIVERY_SEQUENCES = {{0.0, 0.0, (DIRECTIONAL_MULTIPLIER*(0.4)), 0, 1000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 0.0, 11, 1000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}, {0.0, 0.0, 0.0, 5, 100}};
+		double[][] SIDE_DELIVERY_SEQUENCES = {{0.0, 0.0, (DIRECTIONAL_MULTIPLIER*(0.4)), 0, 1000}, {AUTON_DEFAULT_SPEED, 0.0, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}, {0.0, 0.0, 0.0, 5, 100}};
 		return SIDE_DELIVERY_SEQUENCES;
 	}
 
 	public static double[][] get_return_to_spot_sequence(double DIRECTIONAL_MULTIPLIER) {
-		double[][] RETURN_TO_SPOT = {{(90-MID_ANGLE*(DIRECTIONAL_MULTIPLIER)), (-1*AUTON_FAST_SPEED), 0.0, 11, 2000}};
+		double[][] RETURN_TO_SPOT = {{(90-MID_ANGLE*(DIRECTIONAL_MULTIPLIER)), (-1*AUTON_FAST_SPEED), 0.0, 11, 1500}};
 		return RETURN_TO_SPOT;
 	}
 	
