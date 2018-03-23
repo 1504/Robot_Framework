@@ -97,7 +97,7 @@ public class IO
 	}
 	public static boolean get_lift_down()
 	{
-		return !_secondary.getRawButton(Map.MASTER_OVERRIDE) &&  _secondary.getRawButton(Map.LIFT_DOWN);
+		return _secondary.getRawButton(Map.LIFT_DOWN);
 	}
 	public static double get_secondary_pov()
 	{

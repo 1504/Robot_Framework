@@ -20,8 +20,9 @@ public class Lift implements Updatable
 	boolean get_bottom_lift_sensor; // used as a value to check position of lift 
 	private DriverStation _ds = DriverStation.getInstance();
 	private double lift_speed = 0.0;
-	private static DigitalInput top_lift_switch; //needs to be initialized
-	private static DigitalInput bottom_lift_switch;
+	private boolean button_mode = false;
+	private static DigitalInput top_lift_switch = new DigitalInput(0); //needs to be initialized
+	private static DigitalInput bottom_lift_switch = new DigitalInput(1);
 	
 	private static final Lift instance = new Lift(); // used later to initialize
 	
@@ -86,8 +87,19 @@ public class Lift implements Updatable
 			{
 				plate_solenoid.set(false);
 			}
-			System.out.println(IO.lift_input());
-			set_lift_velocity(IO.lift_input());
+			if(IO.get_lift_up())
+			{
+				set_lift_velocity(-1.0);
+				button_mode = true;
+			} else if(IO.get_lift_down())
+			{
+				set_lift_velocity(1.0);
+				button_mode = true;
+			} else if(!button_mode || Math.abs(IO.lift_input()) > 0.1)
+			{
+				set_lift_velocity(IO.lift_input());
+				button_mode = false;
+			}
 		}
 		update_mode();
 	}
