@@ -471,7 +471,7 @@ public class Drive implements Updatable
 		}
 		return input;
 	}*/
-	public double[] roborio_crash_bandicoot_check(double[] input, long time) {
+	public double[] roborio_crash_bandicoot_check(double[] input, long time, int mode) {
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
 		if (sanic.getAverageValue() < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
 		{
