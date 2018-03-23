@@ -44,7 +44,7 @@ public class Lift implements Updatable
 			}
 		}
 		_motor.set(lift_speed);
-		if(button_mode && (!bottom_lift_switch.get() || !top_lift_switch.get())){
+		if(button_mode && (!bottom_lift_switch.get() && lift_speed > 0) || (!top_lift_switch.get() && lift_speed < 0)){
 			set_lift_velocity(0.0);
 			button_mode = false;
 		}
@@ -92,22 +92,29 @@ public class Lift implements Updatable
 			{
 				plate_solenoid.set(false);
 			}
-			if(IO.get_lift_up())
+			if(IO.get_override_lift())
 			{
-				set_lift_velocity(-1.0);
-				button_mode = true;
-			} else if(IO.get_lift_down())
+				lift_speed = IO.lift_input();
+			}
+			else
 			{
-				set_lift_velocity(1.0);
-				button_mode = true;
-			} else if(!button_mode || Math.abs(IO.lift_input()) > 0.1)
-			{
-				set_lift_velocity(IO.lift_input());
-				button_mode = false;
+				if(IO.get_lift_up())
+				{
+					set_lift_velocity(-1.0);
+					button_mode = true;
+				} else if(IO.get_lift_down())
+				{
+					set_lift_velocity(1.0);
+					button_mode = true;
+				} else if(!button_mode || Math.abs(IO.lift_input()) > 0.1)
+				{
+					set_lift_velocity(IO.lift_input());
+					button_mode = false;
+				}
 			}
 		}
 		SmartDashboard.putNumber("Lift Current", _motor.getOutputCurrent());
-		//System.out.println(top_lift_switch.get());
+		//System.out.println(IO.get_override_lift());
 		update_mode();
 	}
 

@@ -198,13 +198,18 @@ public class Drive implements Updatable
 		while(_thread_alive)
 		{
 			input = _input;
+			if(input.length < 3 || _input.length < 3)
+			{
+				System.out.println("WARNING: Input out of sync in mainTask function");
+				continue;
+			}
 			if(_ds.isEnabled())
 			{
 				if (_new_data)
 				{
 					if(_ds.isOperatorControl())
 					{
-						input = detents(input);
+						//input = detents(input);
 						if(IO.reset_front_side())
 						{
 							fSideAngleDegrees(0.0);
@@ -292,6 +297,15 @@ public class Drive implements Updatable
 	}
 	private double[] frontside(double[] input)
 	{
+		if(input.length < 2)
+		{
+			System.out.println("MASSIVE WARNING");
+			for(int i = 0; i < input.length; i++){
+				System.out.print(input[i]);
+				System.out.print("\n");
+			}
+			return input;
+		}
 		double[] offset = new double[3];
 		offset[0] = input[0] * Math.cos(_rot_offset) + input[1] * Math.sin(_rot_offset);
 		offset[1] = input[1] * Math.cos(_rot_offset) - input[0] * Math.sin(_rot_offset);
@@ -418,7 +432,9 @@ public class Drive implements Updatable
 			robot_accel = Math.pow((Math.pow(accel.getX()*accel.getX()+accel.getZ()*accel.getZ(),2)),0.5);
 		}
 		double spikeSign = Math.signum(initialSpike);
-		System.out.println("Initial Spike: " + initialSpike + " RobotAccel: " + robot_accel + " highestTravelingSpike: " + highestTravelingSpike);
+		SmartDashboard.putNumber("Crash Detection Initial Spike", initialSpike);
+		SmartDashboard.putNumber("Last Accel", robot_accel);
+		//System.out.println("Initial Spike: " +  + " RobotAccel: " + robot_accel + " highestTravelingSpike: " + highestTravelingSpike);
 		if(time > Map.DETECTION_DELAY)
 		{
 			if(robot_accel > Math.pow(Math.pow(initialSpike,2),0.5))

@@ -47,7 +47,7 @@ public class IO
 	}
 	public static boolean get_override_lift()
 	{
-		return _secondary.getRawButton(Map.MASTER_OVERRIDE) && _secondary.getRawButton(Map.LIFT_DOWN);
+		return _secondary.getRawButton(Map.MASTER_OVERRIDE);
 	}
 	public static boolean get_crash_detection()
 	{
@@ -57,16 +57,12 @@ public class IO
 	{
 		if ((_secondary.getRawButton(Map.SPIN_ROTORS_OUT) && ((_secondary.getRawAxis(Map.SPIN_ROTORS_IN)) > 0)))
 		{
-			double new_speed = 1.0 - _secondary.getRawAxis(Map.SPIN_ROTORS_IN);
+			double new_speed = Math.pow(_secondary.getRawAxis(Map.SPIN_ROTORS_IN), 3.0);
 			return -new_speed;
-		}
-		else if (_secondary.getRawButton(Map.SPIN_ROTORS_OUT))
-		{
-			return -1.0;
 		}
 		else
 		{
-			return _secondary.getRawAxis(Map.SPIN_ROTORS_IN);
+			return Math.pow(_secondary.getRawAxis(Map.SPIN_ROTORS_IN), 3.0);
 		}
 	}
 	
