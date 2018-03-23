@@ -9,7 +9,7 @@ public class Map {
 	}
 
 	public static double[][] get_return_to_spot_sequence(double DIRECTIONAL_MULTIPLIER) {
-		double[][] RETURN_TO_SPOT = {{(90-MID_ANGLE*(DIRECTIONAL_MULTIPLIER)), (-1*AUTON_FAST_SPEED), 0.0, 11, 1500}};
+		double[][] RETURN_TO_SPOT = {{(90-MID_ANGLE*(DIRECTIONAL_MULTIPLIER)), (-1*AUTON_FAST_SPEED), 0.0, 11, 1500}, {0.0, 0.0, (DIRECTIONAL_MULTIPLIER*(0.4)), 0, 2000}};
 		return RETURN_TO_SPOT;
 	}
 	
