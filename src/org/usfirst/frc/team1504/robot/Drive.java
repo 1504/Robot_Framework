@@ -450,7 +450,7 @@ public class Drive implements Updatable
 		}
 		return input;
 	}*/
-	public double[] roborio_crash_bandicoot_check(double[] input, long time, int mode) {
+	/*public double[] roborio_crash_bandicoot_check(double[] input, long time, int mode) {
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
 		autonDistances.add(sanic_value());
 		autonTimes.add(time);		
@@ -470,8 +470,8 @@ public class Drive implements Updatable
 			return null_response;
 		}
 		return input;
-	}
-	/*public double[] roborio_crash_bandicoot_check(double[] input, long time) {
+	}*/
+	public double[] roborio_crash_bandicoot_check(double[] input, long time) {
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
 		if (sanic.getAverageValue() < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
 		{
@@ -479,7 +479,7 @@ public class Drive implements Updatable
 		}
 		return input;
 	} //simple crash detection, no lin reg
-	 */
+	 
 	public void spike_reset() {
 		initialSpike = 0.0;
 		highestTravelingSpike = 0.0;
