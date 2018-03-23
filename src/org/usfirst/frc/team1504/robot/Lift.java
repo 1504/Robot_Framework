@@ -50,11 +50,11 @@ public class Lift implements Updatable
 	}
 	
 	public boolean set_lift_velocity(double speed) {
-		if(Map.LIMIT_SWITCH_EXISTS || top_lift_switch.get() && speed > 0)
+		if(Map.LIMIT_SWITCH_EXISTS && top_lift_switch.get() && speed > 0)
 		{
 			set_lift_velocity(0);
 			return false;
-		} else if(Map.LIMIT_SWITCH_EXISTS || bottom_lift_switch.get() && speed < 0)
+		} else if(Map.LIMIT_SWITCH_EXISTS && bottom_lift_switch.get() && speed < 0)
 		{
 			set_lift_velocity(0);
 			return false;
@@ -86,6 +86,7 @@ public class Lift implements Updatable
 			{
 				plate_solenoid.set(false);
 			}
+			System.out.println(IO.lift_input());
 			set_lift_velocity(IO.lift_input());
 		}
 		update_mode();

@@ -89,7 +89,7 @@ public class IO
 	}
 	public static double lift_input()
 	{
-		return Utils.deadzone(_secondary.getRawAxis(Map.INTAKE_POWER_AXIS));
+		return Utils.deadzone(_secondary.getRawAxis(Map.LIFT_AXIS));
 	}
 	public static boolean get_lift_up()
 	{
