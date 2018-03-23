@@ -227,11 +227,11 @@ public class Autonomous
 			}
 			else if(_path[step][3] == 7) //extend lift all the way up
 			{
-				next_step = !_lift.set_lift_velocity(1.0);
+				next_step = !_lift.set_lift_velocity(-1.0);
 			}
 			else if(_path[step][3] == 8) //extend lift all the way down
 			{
-				next_step = !_lift.set_lift_velocity(-1.0);
+				next_step = !_lift.set_lift_velocity(1.0);
 			}
 			else if(_path[step][3] == 9) //stop flippers
 			{
