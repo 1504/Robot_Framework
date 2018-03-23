@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DigitalInput;
 public class Lift implements Updatable
 {
@@ -43,6 +44,10 @@ public class Lift implements Updatable
 			}
 		}
 		_motor.set(lift_speed);
+		if(button_mode && (!bottom_lift_switch.get() || !top_lift_switch.get())){
+			set_lift_velocity(0.0);
+			button_mode = false;
+		}
 	}
 	
 	public void set_state(lift_position state)
@@ -51,11 +56,11 @@ public class Lift implements Updatable
 	}
 	
 	public boolean set_lift_velocity(double speed) {
-		if(Map.LIMIT_SWITCH_EXISTS && top_lift_switch.get() && speed > 0)
+		if(!top_lift_switch.get() && speed < 0)
 		{
 			set_lift_velocity(0);
 			return false;
-		} else if(Map.LIMIT_SWITCH_EXISTS && bottom_lift_switch.get() && speed < 0)
+		} else if(!bottom_lift_switch.get() && speed > 0)
 		{
 			set_lift_velocity(0);
 			return false;
@@ -101,6 +106,8 @@ public class Lift implements Updatable
 				button_mode = false;
 			}
 		}
+		SmartDashboard.putNumber("Lift Current", _motor.getOutputCurrent());
+		//System.out.println(top_lift_switch.get());
 		update_mode();
 	}
 

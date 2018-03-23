@@ -4,7 +4,7 @@ public class Map {
 	//methods
 	
 	public static double[][] get_side_delivery_sequence(double DIRECTIONAL_MULTIPLIER) {
-		double[][] SIDE_DELIVERY_SEQUENCES = {{0.0, 0.0, (DIRECTIONAL_MULTIPLIER*(0.4)), 0, 1000}, {AUTON_DEFAULT_SPEED, 0.0, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}, {0.0, 0.0, 0.0, 5, 100}};
+		double[][] SIDE_DELIVERY_SEQUENCES = {{0.0, 0.0, (DIRECTIONAL_MULTIPLIER*(0.4)), 0, 1000}, {AUTON_DEFAULT_SPEED, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}};
 		return SIDE_DELIVERY_SEQUENCES;
 	}
 
