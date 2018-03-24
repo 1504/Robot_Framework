@@ -200,7 +200,13 @@ public class Drive implements Updatable
 			input = _input;
 			if(input.length < 3 || _input.length < 3)
 			{
-				System.out.println("WARNING: Input out of sync in mainTask function");
+				System.out.print("WARNING: Input out of sync in mainTask function: ");
+				for(int i = 0; i < input.length; i++){
+					System.out.print(input[i] + " ");
+					
+				}
+				System.out.print("\n");
+				input = new double[3];
 				continue;
 			}
 			if(_ds.isEnabled())
