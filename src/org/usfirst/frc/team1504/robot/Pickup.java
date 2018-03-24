@@ -2,6 +2,7 @@ package org.usfirst.frc.team1504.robot;
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
@@ -24,6 +25,8 @@ public class Pickup implements Updatable {
 	public static flipper flipper_state = flipper.OPEN; // sets flippers to be closed at beginning of match
 	private static final Pickup instance = new Pickup();
 	private DriverStation _ds = DriverStation.getInstance();
+	private static DigitalInput bottom_arm = new DigitalInput(6);
+	private boolean hold_down = false;
 	public static Pickup getInstance() // sets instance
 	{
 		return instance;
@@ -125,7 +128,19 @@ public class Pickup implements Updatable {
 			//if (IO.get_override_pickup())
 			if(!IO.get_override_lift() && !IO.get_override_winch())
 			{
-				set_arm_speed(IO.override_input());
+				if(!bottom_arm.get() || hold_down)
+				{
+					hold_down = true;
+					set_arm_speed(-0.2);
+				} else if(IO.override_input() > 0.1)
+				{
+					hold_down = false;
+					set_arm_speed(IO.override_input());
+				}
+				else 
+				{
+					set_arm_speed(IO.override_input());
+				}
 			}
 		}
 		update_mode();

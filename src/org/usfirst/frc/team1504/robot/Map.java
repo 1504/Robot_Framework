@@ -12,7 +12,7 @@ public class Map {
 		double angle = MID_ANGLE;
 		if(DIRECTIONAL_MULTIPLIER == -1.0)
 			angle = MID_ANGLE + 4;
-		double[][] RETURN_TO_SPOT = {{((90-angle)*(DIRECTIONAL_MULTIPLIER)), (-1*AUTON_FAST_SPEED), 0.0, 11, 1500}, {0.0, 0.0, (DIRECTIONAL_MULTIPLIER*(0.4)), 0, 2000}};
+		double[][] RETURN_TO_SPOT = {{((-angle)*(-1*DIRECTIONAL_MULTIPLIER)), (-1*AUTON_FAST_SPEED), 0.0, 11, 1500}, {0.0, 0.0, (DIRECTIONAL_MULTIPLIER*(0.4)), 0, 2000}, {0.0, 0.0, 0.0, 0.0, 100}};
 		return RETURN_TO_SPOT;
 	}
 	
@@ -295,7 +295,7 @@ public class Map {
 	public static final double[][] LEFT_SWITCH_FROM_RIGHT_AND_SEQUENCES = {{-36.87, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_RUNTIME}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 1000}, {-32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move to switch at an angle and eject cube
 	public static final double[][] RIGHT_SWITCH_FROM_RIGHT_AND_SEQUENCES = {{0, (AUTON_DEFAULT_SPEED), 0.0, 11, AUTON_RUNTIME}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 1000}, {32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move straight to switch and eject cube
 	*/
-	public static final double[] PUSH_FORWARD = {0, -.25, 0.0, 11, 750};
+	public static final double[] PUSH_FORWARD = {0, -.35, 0.0, 11, 750};
 	public static final double[][] FORWARD_SHOOT_SEQUENCES = {{0.0, (AUTON_FAST_SPEED), 0.0, 13, 2800}, PUSH_FORWARD, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}};
 	public static final double[][] FORWARD_SHOOT_GRAB_CUBE_SEQUENCES = {{0, (AUTON_FAST_SPEED), 0.0, 13, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}, {0.0, -1.0*AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}, {90.0*DIRECTIONAL_MULTIPLIER, AUTON_DEFAULT_SPEED, 0.0, 11, SIDE_TO_MID_RUNTIME}, {0.0, 0.0, 0.5, 11, 1000}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 6, 500}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 11, MID_TO_CUBE_RUNTIME}, {0.0, 0.0, 0.0, 5, 1000}, {0.0, 0.0, 0.0, 9, 50}, {90.0*DIRECTIONAL_MULTIPLIER, -1.0*AUTON_DEFAULT_SPEED, 0.0, 11, SIDE_TO_MID_RUNTIME}};//, {-32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}}; //Move straight to switch and eject cube
 	public static final double[][] LEFT_SWITCH_FROM_MID_SEQUENCES = {{(-1*(MID_ANGLE + 4.0)), AUTON_FAST_SPEED, 0.0, 13, AUTON_FAST_RUNTIME}, PUSH_FORWARD, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}}; //Move to switch at an angle and eject cube
