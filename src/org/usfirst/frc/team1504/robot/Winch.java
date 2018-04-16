@@ -12,6 +12,17 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class Winch implements Updatable
 {
+	public static final int INTAKE_POWER_AXIS = 1;
+	public static final int LIFT_AXIS = 5;
+	public static final int LEFT_TALON_PORT = 40;
+	public static final int RIGHT_TALON_PORT = 41;
+	public static final int WINCH_CURRENT_LIMIT = 70;
+	public static final int WINCH_POWER_AXIS = 1;
+	public static final double WINCH_DIRECTION = -1.0;
+	public static final double WINCH_SERVO_DEPLOYED = 180.0;
+	public static final double WINCH_SERVO_STORED = 0.0;
+	public static final double WINCH_BRAKE_TIMEOUT = 15.0;
+	
 	private static Winch _instance = new Winch();
 
 	private boolean _deployed = true;
@@ -25,17 +36,17 @@ public class Winch implements Updatable
 	
 	protected Winch()
 	{
-		_left = new WPI_TalonSRX(Map.RIGHT_TALON_PORT);
+		_left = new WPI_TalonSRX(RIGHT_TALON_PORT);
 		_left.enableCurrentLimit(true);
-		_left.configContinuousCurrentLimit(Map.WINCH_CURRENT_LIMIT, 20); //20 is timeout in ms
+		_left.configContinuousCurrentLimit(WINCH_CURRENT_LIMIT, 20); //20 is timeout in ms
 		
-		_right = new WPI_TalonSRX(Map.LEFT_TALON_PORT);
+		_right = new WPI_TalonSRX(LEFT_TALON_PORT);
 		_right.enableCurrentLimit(true);
-		_right.configContinuousCurrentLimit(Map.WINCH_CURRENT_LIMIT, 20); //20 is timeout in ms
+		_right.configContinuousCurrentLimit(WINCH_CURRENT_LIMIT, 20); //20 is timeout in ms
 		
 		new Thread( new Runnable() {
 			public void run() {
-				double timeout = Map.WINCH_BRAKE_TIMEOUT;
+				double timeout = WINCH_BRAKE_TIMEOUT;
 
 				while(true)
 				{
