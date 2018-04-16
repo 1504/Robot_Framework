@@ -171,9 +171,9 @@ public class Robot extends RobotBase {
 				AnalogInput pressure_1 = new AnalogInput(0);
 				AnalogInput pressure_2 = new AnalogInput(1);
 				Preferences prefs = Preferences.getInstance();
-				Pickup.ARM_UP_ANGLE = prefs.getInt("Arm Up Angle", 0);
-				Pickup.ARM_DOWN_ANGLE = prefs.getInt("Arm Down Angle", 0);
-				Pickup.ARM_MID_ANGLE = prefs.getInt("Arm Mid Angle", 0);
+				Pickup.UP_ANGLE = prefs.getInt("Arm Up Angle", 0);
+				Pickup.DOWN_ANGLE = prefs.getInt("Arm Down Angle", 0);
+				Pickup.MID_ANGLE = prefs.getInt("Arm Mid Angle", 0);
 				while(true)
 				{	
 					SmartDashboard.putNumber("Robot Voltage", RobotController.getBatteryVoltage());
