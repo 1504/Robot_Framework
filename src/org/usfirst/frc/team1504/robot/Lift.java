@@ -17,8 +17,6 @@ public class Lift implements Updatable
 	private WPI_TalonSRX _motor; // declared for future use
 	
 	public Solenoid plate_solenoid = new Solenoid(PLATE_SOLENOID_PORT);
-	boolean get_top_sensor; // used as a value to check position of lift
-	boolean get_bottom_sensor; // used as a value to check position of lift 
 	private DriverStation _ds = DriverStation.getInstance();
 	private double speed = 0.0;
 	private boolean button_mode = false;
