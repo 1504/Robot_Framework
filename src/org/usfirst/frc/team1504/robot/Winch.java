@@ -1,7 +1,5 @@
 package org.usfirst.frc.team1504.robot;
 
-import java.util.TimerTask;
-
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -26,8 +24,6 @@ public class Winch implements Updatable
 	private static Winch _instance = new Winch();
 
 	private boolean _deployed = true;
-	private boolean _override = false;
-	
 	private DriverStation _ds = DriverStation.getInstance();
 	
 	private WPI_TalonSRX _left;
@@ -133,16 +129,6 @@ public class Winch implements Updatable
 		_deployed = deployed;
 	}
 
-	private void set_current_limit(boolean override)
-	{
-		if (_override != override)
-		{
-			_left.enableCurrentLimit(!_override);
-			_right.enableCurrentLimit(!_override);
-		}
-		_override = override;
-	}
-	
 	public void semaphore_update()
 	{
 		//set_current_limit(IO.winch_override());

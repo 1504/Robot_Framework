@@ -19,12 +19,9 @@ public class Lift implements Updatable
 	public static final boolean LIMIT_SWITCH_EXISTS = false;
 	
 	public enum position {BOTTOM, MIDDLE, TOP, OFF};
-	private double[] velocity = {-1.0, 0, 1.0, 0};
-	private String[] lifting_messages = {"lift is going to bottom","lift is going to mid","lift is going to top", "lift is off"};
 	public static position state = position.OFF;
 	private Drive _drive = Drive.getInstance();
 	private WPI_TalonSRX _motor; // declared for future use
-	private Pickup _pickup = Pickup.getInstance();// declared for future use 
 	
 	public Solenoid plate_solenoid = new Solenoid(PLATE_SOLENOID_PORT);
 	boolean get_top_sensor; // used as a value to check position of lift
