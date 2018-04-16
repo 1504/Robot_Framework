@@ -97,41 +97,6 @@ public class Robot extends RobotBase {
     	map.put("MidSwitchR", Map.RIGHT_SWITCH_FROM_MID_SEQUENCES);
     	map.put("RightSwitchL", Map.FORWARD_SEQUENCE);
     	map.put("RightSwitchR", Map.FORWARD_SHOOT_SEQUENCES);
-    	
-    	/*
-    	map.put("LeftSwitchBlockL", _autonomous.build_auton(Map.FORWARD_SHOOT_SEQUENCES, Map.PICKUP_FROM_SPOT));
-    	map.put("LeftSwitchBlockR", _autonomous.build_auton(Map.RIGHT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT));
-    	map.put("MidSwitchBlockL", _autonomous.build_auton(Map.LEFT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT));
-    	map.put("MidSwitchBlockR", _autonomous.build_auton(Map.RIGHT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT));
-    	map.put("RightSwitchBlockL", _autonomous.build_auton(Map.LEFT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT));
-    	map.put("RightSwitchBlockR", _autonomous.build_auton(Map.FORWARD_SHOOT_SEQUENCES, Map.PICKUP_FROM_SPOT));
-    	*/
-    	
-    	/*map.put("LeftSwitchScaleLL", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.LEFT_SCALE_FROM_SPOT));
-    	map.put("LeftSwitchScaleLR", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.RIGHT_SCALE_FROM_SPOT));
-    	map.put("LeftSwitchScaleRL", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.LEFT_SCALE_FROM_SPOT));
-    	map.put("LeftSwitchScaleRR", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.RIGHT_SCALE_FROM_SPOT));
-    	map.put("MidSwitchScaleLL", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.LEFT_SCALE_FROM_SPOT));
-    	map.put("MidSwitchScaleLR", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.RIGHT_SCALE_FROM_SPOT));
-    	map.put("MidSwitchScaleRL", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.LEFT_SCALE_FROM_SPOT));
-    	map.put("MidSwitchScaleRR", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.RIGHT_SCALE_FROM_SPOT));
-    	map.put("RightSwitchScaleLL", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.LEFT_SCALE_FROM_SPOT));
-    	map.put("RightSwitchScaleLR", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.RIGHT_SCALE_FROM_SPOT));
-    	map.put("RightSwitchScaleRL", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.LEFT_SCALE_FROM_SPOT));
-    	map.put("RightSwitchScaleRR", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.RIGHT_SCALE_FROM_SPOT));
-    	
-    	map.put("LeftSwitchExchangeLE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
-    	map.put("LeftSwitchExchangeRE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
-    	map.put("MidSwitchExchangeLE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
-    	map.put("MidSwitchExchangeRE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
-    	map.put("RightSwitchExchangeLE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
-    	map.put("RightSwitchExchangeRE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
-    	
-    	map.put("LeftExchangeEE", Map.AUTON_EXCHANGE_FROM_LEFT_SEQUENCES);
-    	map.put("MidExchangeEE", Map.AUTON_EXCHANGE_FROM_MID_SEQUENCES);
-    	map.put("RightExchangeEE", Map.AUTON_EXCHANGE_FROM_RIGHT_SEQUENCES);
-    	System.out.println(map.get("Contingencies"));
-    	*/
     }
 
     /**
@@ -177,24 +142,7 @@ public class Robot extends RobotBase {
 					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					SmartDashboard.putNumber("Arm Power", _pickup.getPower());
 					SmartDashboard.putNumber("Pressure High", pressure_1.getAverageVoltage()*50 - 25);
-					SmartDashboard.putNumber("Pressure Low", pressure_2.getAverageVoltage()*50 - 25);
-					
-					
-					
-					/*
-					SmartDashboard.putNumber("PDP Current: Channel 0", pdp.getCurrent(0));
-					SmartDashboard.putNumber("PDP Current: Channel 1", pdp.getCurrent(1));
-					SmartDashboard.putNumber("PDP Current: Channel 2", pdp.getCurrent(2));
-					SmartDashboard.putNumber("PDP Current: Channel 3", pdp.getCurrent(3));
-					
-					SmartDashboard.putNumber("PDP Current: Channel 10", pdp.getCurrent(10));
-					SmartDashboard.putNumber("PDP Current: Channel 11", pdp.getCurrent(11));
-					SmartDashboard.putNumber("PDP Current: Channel 12", pdp.getCurrent(12));
-					SmartDashboard.putNumber("PDP Current: Channel 13", pdp.getCurrent(13));
-					SmartDashboard.putNumber("PDP Current: Channel 14", pdp.getCurrent(14));
-					SmartDashboard.putNumber("PDP Current: Channel 15", pdp.getCurrent(15));
-					*/
-					
+					SmartDashboard.putNumber("Pressure Low", pressure_2.getAverageVoltage()*50 - 25);					
 					SmartDashboard.putBoolean("Pressure", c.getPressureSwitchValue());
 					SmartDashboard.putNumber("Pressure", c.getCompressorCurrent());
 					
@@ -273,68 +221,9 @@ public class Robot extends RobotBase {
     
     public void test() {
     	System.out.println("Test Mode!");
-    	//ADIS16448_IMU imu = new ADIS16448_IMU();
-    	/*DoubleSolenoid _piston1 = new DoubleSolenoid(0, 1);
-    	WPI_TalonSRX _motor = new WPI_TalonSRX(Map.ARM_TALON_PORT);
-		Latch_Joystick control = new Latch_Joystick(0);
-		double magic = 1.0;*/
-//    	CameraInterface ci = CameraInterface.getInstance();
-    	//ci.set_mode(CameraInterface.CAMERA_MODE.MULTI);
-    	//ci.set_mode(CameraInterface.CAMERA_MODE.SINGLE); 4 or 5
-    	//BuiltInAccelerometer accel = new BuiltInAccelerometer();
-    	WPI_TalonSRX _grab_left;
-		WPI_TalonSRX _grab_right;
-		_grab_left = new WPI_TalonSRX(Pickup.ROLLER_TALON_PORT_LEFT);
-		_grab_right = new WPI_TalonSRX(Pickup.ROLLER_TALON_PORT_RIGHT);
-		Latch_Joystick _secondary = new Latch_Joystick(Map.DRIVE_SECONDARY_JOYSTICK);
     	while (isTest() && isEnabled())
     	{
-    		double speed = _secondary.getRawAxis(Winch.INTAKE_POWER_AXIS);
-    		_grab_left.set(speed);
-    		_grab_right.set(-speed);
     		
-    		//System.out.println("Gyro-X"+accel.getX());
-    		/*System.out.println("Gyro-X"+imu.getAngleX());
-    	    System.out.println("Gyro-Y"+imu.getAngleY());
-    	    System.out.println("Gyro-Z"+imu.getAngleZ());
-    	    
-    	    System.out.println("Accel-X"+imu.getAccelX());
-    	    System.out.println("Accel-Y"+imu.getAccelY());
-    	    System.out.println("Accel-Z"+imu.getAccelZ());
-    	    
-    	    System.out.println("Pitch"+imu.getPitch());
-    	    System.out.println("Roll"+imu.getRoll());
-    	    System.out.println("Yaw"+imu.getYaw());
-    	    
-    	    System.out.println("Pressure: "+imu.getBarometricPressure());
-    	    System.out.println("Temperature: "+imu.getTemperature()); */
-    	    //Timer.delay(1000);
-    		//System.out.println("Test Mode!");
-    		/*if(control.getRawButton(1)) {
-    			_piston1.set(DoubleSolenoid.Value.kForward);
-    		} else if (control.getRawButton(2)) {
-    			_piston1.set(DoubleSolenoid.Value.kReverse);
-    		}
-    		
-    		if(control.getRawButton(1)){
-    			magic = 1.0;
-    		} else{
-    			magic = 2.0;
-    		}
-    		if (control.getRawButton(4)){
-    			_motor.set(control.getRawAxis(1)/magic*-1.0);
-    		}
-    		else if (control.getRawButton(5)){
-    			_motor.set(control.getRawAxis(1)/magic);
-    		}
-    		else{
-        		_motor.set(control.getRawAxis(1)/magic);
-    		}*/
-    		
-    		// Switch camera views every 5 seconds like a pro
-//    		ci.set_active_camera(ci.get_active_camera() == CameraInterface.CAMERAS.GEARSIDE ? CameraInterface.CAMERAS.INTAKESIDE : CameraInterface.CAMERAS.GEARSIDE);
-//            System.out.println("Switching active camera to " + ci.get_active_camera().toString());
-//            Timer.delay(5);
     	}
     }
 
@@ -351,17 +240,6 @@ public class Robot extends RobotBase {
         // first and one-time initialization
         LiveWindow.setEnabled(false);
         robotInit();
-        //NetworkTable table;
-        //table = NetworkTableInstance.getDefault().getTable("GRIP/switch");
-        //double[] xRects = table.getEntry("centerX").getDoubleArray(new double[] {2, 3});
-        //double[] yRects = table.getEntry("centerY").getDoubleArray(new double[] {2, 3});
-        //if(xRects.length == 1)
-        //	xRects = new double[] {2, 3};
-        //if(yRects.length == 1)
-        //	yRects = new double[] {2, 3};
-        //double[] angles = _autonomous.switch_angles(xRects[0], xRects[1], 
-        //											yRects[0], yRects[1]);
-        //double[] arr = _drive.follow_angle(angles[0], .2);
         HAL.observeUserProgramStarting();
         while (true) {
             if (isDisabled()) {
@@ -419,16 +297,12 @@ public class Robot extends RobotBase {
                 if (autoChooser1.getSelected().equals("SwitchScale"))
                 	seq += game_message[1];
                 
-                // double [][] path = _autonomous.build_auton(new double[][][]{map.get(seq)});
-                //System.out.println(seq);
-                
                 double[][] path;
                 System.out.println(pos.getSelected());
                 System.out.println(game_message[0]);
                 System.out.println(pos.getSelected() == "Left");
                 System.out.println(game_message[0] == 'L');
                 path = map.get(pos.getSelected() + "Switch" + game_message[0]);
-                //path = Map.FORWARD_SHOOT_SEQUENCES;
                 
                 path = map.get(seq);
                 
@@ -437,11 +311,9 @@ public class Robot extends RobotBase {
                 else
                 	Map.DIRECTIONAL_MULTIPLIER = 1.0;
           
-                //double [][] path = map.get(seq);
                 double [][] auton_delay = new double[][] {{0.0, 0.0, 0.0, 0, SmartDashboard.getNumber("Auton Delay", 0.0) * 1000}};
                 path = _autonomous.build_auton(auton_delay, path);
-                // double [][] path = {{0, (Map.AUTON_DEFAULT_SPEED), 0.0, 11, Map.AUTON_RUNTIME}};
-                	
+               
                 System.out.println(autoChooser1.getSelected());
                 if (autoChooser1.getSelected().equals("Spot") || autoChooser1.getSelected().equals("Block"))
                 	path = _autonomous.build_auton(path, Map.get_return_to_spot_sequence(Map.DIRECTIONAL_MULTIPLIER));
@@ -454,11 +326,7 @@ public class Robot extends RobotBase {
                 	path = _autonomous.build_auton(Map.FORWARD_SEQUENCE, Map.get_side_delivery_sequence(Map.DIRECTIONAL_MULTIPLIER));
                 else if ((autoChooser1.getSelected().equals("SideDelivery") && (pos.getSelected().equals("Right"))) || (autoChooser1.getSelected().equals("SideDelivery")) && (pos.getSelected().equals("Left")))
                 	path = Map.FORWARD_SEQUENCE;
-                //double [][] path = map.get(seq);
-                //double [][] auton_delay = new double[][] {{0.0, 0.0, 0.0, 0, SmartDashboard.getNumber("Auton Delay", 0.0)}};
-                // double [][] path = {{0, (Map.AUTON_DEFAULT_SPEED), 0.0, 11, Map.AUTON_RUNTIME}};
-                //_autonomous.setup_path(_autonomous.build_auton(new double[][][]{auton_delay, path}));
-                //_autonomous.setup_path(_autonomous.build_auton(auton_delay, path);
+                
                 _autonomous.setup_path(path);
                 _autonomous.start();
                 while (isAutonomous() && !isDisabled()) {

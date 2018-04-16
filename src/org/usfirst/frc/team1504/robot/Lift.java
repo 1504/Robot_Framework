@@ -58,7 +58,8 @@ public class Lift implements Updatable
 		{
 			set_velocity(0);
 			return false;
-		} else if(!bottom_switch.get() && speed > 0)
+		} 
+		else if(!bottom_switch.get() && speed > 0)
 		{
 			set_velocity(0);
 			return false;
@@ -112,7 +113,6 @@ public class Lift implements Updatable
 			}
 		}
 		SmartDashboard.putNumber("Lift Current", _motor.getOutputCurrent());
-		//System.out.println(IO.get_override_lift());
 		update_mode();
 	}
 
