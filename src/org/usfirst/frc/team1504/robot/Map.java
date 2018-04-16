@@ -227,7 +227,7 @@ public class Map {
 	public static final int PNEUMATICS_HIGHSIDE_PORT = 0;
 	public static final int PNEUMATICS_LOWSIDE_PORT = 1;
 	
-	public static final int LIFT_PLATE_SOLENOID_PORT = 2; 
+	public static final int PLATE_SOLENOID_PORT = 2;
 	
 /**
  * Auton stuff	

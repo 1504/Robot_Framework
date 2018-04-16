@@ -8,37 +8,38 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DigitalInput;
 public class Lift implements Updatable
 {
-	public static final int LIFT_TALON_PORT = 30;
-	public static final double LIFT_MOTOR_SPEED = 0.5;
-	public static final double LIFT_MAX_HEIGHT = 10; 
-	public static final double LIFT_MIN_HEIGHT = 0; 
-	public static final double LIFT_GAIN = 0.3;
-	public static final double LIFT_SAFETY_THRESHOLD = 5;
-	public static final double LIFT_LOCK_RELEASE_RANGE = 0.7;
+	public static final int TALON_PORT = 30;
+	public static final int PLATE_SOLENOID_PORT = 2; 
+	public static final double MOTOR_SPEED = 0.5;
+	public static final double MAX_HEIGHT = 10; 
+	public static final double MIN_HEIGHT = 0; 
+	public static final double GAIN = 0.3;
+	public static final double SAFETY_THRESHOLD = 5;
+	public static final double LOCK_RELEASE_RANGE = 0.7;
 	public static final boolean LIMIT_SWITCH_EXISTS = false;
 	
-	public enum lift_position {BOTTOM, MIDDLE, TOP, OFF};
-	private double[] lift_velocity = {-1.0, 0, 1.0, 0};
+	public enum position {BOTTOM, MIDDLE, TOP, OFF};
+	private double[] velocity = {-1.0, 0, 1.0, 0};
 	private String[] lifting_messages = {"lift is going to bottom","lift is going to mid","lift is going to top", "lift is off"};
-	public static lift_position lift_state = lift_position.OFF;
+	public static position state = position.OFF;
 	private Drive _drive = Drive.getInstance();
 	private WPI_TalonSRX _motor; // declared for future use
 	private Pickup _pickup = Pickup.getInstance();// declared for future use 
 	
-	public Solenoid plate_solenoid = new Solenoid(Map.LIFT_PLATE_SOLENOID_PORT);
-	boolean get_top_lift_sensor; // used as a value to check position of lift
-	boolean get_bottom_lift_sensor; // used as a value to check position of lift 
+	public Solenoid plate_solenoid = new Solenoid(PLATE_SOLENOID_PORT);
+	boolean get_top_sensor; // used as a value to check position of lift
+	boolean get_bottom_sensor; // used as a value to check position of lift 
 	private DriverStation _ds = DriverStation.getInstance();
-	private double lift_speed = 0.0;
+	private double speed = 0.0;
 	private boolean button_mode = false;
-	private static DigitalInput top_lift_switch = new DigitalInput(0); //needs to be initialized
-	private static DigitalInput bottom_lift_switch = new DigitalInput(1);
+	private static DigitalInput top_switch = new DigitalInput(0); //needs to be initialized
+	private static DigitalInput bottom_switch = new DigitalInput(1);
 	
 	private static final Lift instance = new Lift(); // used later to initialize
 	
 	private Lift() //assigns motor to lift
 	{	
-		_motor = new WPI_TalonSRX(LIFT_TALON_PORT);
+		_motor = new WPI_TalonSRX(TALON_PORT);
 		Update_Semaphore.getInstance().register(this);
 	}
 	
@@ -52,29 +53,29 @@ public class Lift implements Updatable
 				plate_solenoid.set(true);
 			}
 		}
-		_motor.set(lift_speed);
-		if(button_mode && (!bottom_lift_switch.get() && lift_speed > 0) || (!top_lift_switch.get() && lift_speed < 0)){
-			set_lift_velocity(0.0);
+		_motor.set(speed);
+		if(button_mode && (!bottom_switch.get() && speed > 0) || (!top_switch.get() && speed < 0)){
+			set_velocity(0.0);
 			button_mode = false;
 		}
 	}
 	
-	public void set_state(lift_position state)
+	public void set_state(position state)
 	{
-		lift_state = state;
+		state = state;
 	}
 	
-	public boolean set_lift_velocity(double speed) {
-		if(!top_lift_switch.get() && speed < 0)
+	public boolean set_velocity(double speed) {
+		if(!top_switch.get() && speed < 0)
 		{
-			set_lift_velocity(0);
+			set_velocity(0);
 			return false;
-		} else if(!bottom_lift_switch.get() && speed > 0)
+		} else if(!bottom_switch.get() && speed > 0)
 		{
-			set_lift_velocity(0);
+			set_velocity(0);
 			return false;
 		}
-		lift_speed = speed;
+		speed = speed;
 		return true;
 	}
 	
@@ -92,10 +93,10 @@ public class Lift implements Updatable
 	{
 		if(_ds.isOperatorControl() && !_ds.isDisabled()) //only runs in teleop
 		{
-			if(IO.get_lift_drop()) 
+			if(IO.lift_drop()) 
 			{
 				plate_solenoid.set(true);
-				System.out.println(IO.get_lift_drop());
+				System.out.println(IO.lift_drop());
 			} 
 			else
 			{
@@ -103,21 +104,21 @@ public class Lift implements Updatable
 			}
 			if(IO.get_override_lift())
 			{
-				lift_speed = IO.lift_input();
+				speed = IO.lift_input();
 			}
 			else
 			{
-				if(IO.get_lift_up())
+				if(IO.lift_up())
 				{
-					set_lift_velocity(-1.0);
+					set_velocity(-1.0);
 					button_mode = true;
-				} else if(IO.get_lift_down())
+				} else if(IO.lift_down())
 				{
-					set_lift_velocity(1.0);
+					set_velocity(1.0);
 					button_mode = true;
 				} else if(!button_mode || Math.abs(IO.lift_input()) > 0.1)
 				{
-					set_lift_velocity(IO.lift_input());
+					set_velocity(IO.lift_input());
 					button_mode = false;
 				}
 			}
