@@ -171,9 +171,9 @@ public class Robot extends RobotBase {
 				AnalogInput pressure_1 = new AnalogInput(0);
 				AnalogInput pressure_2 = new AnalogInput(1);
 				Preferences prefs = Preferences.getInstance();
-				Map.ARM_UP_ANGLE = prefs.getInt("Arm Up Angle", 0);
-				Map.ARM_DOWN_ANGLE = prefs.getInt("Arm Down Angle", 0);
-				Map.ARM_MID_ANGLE = prefs.getInt("Arm Mid Angle", 0);
+				Pickup.ARM_UP_ANGLE = prefs.getInt("Arm Up Angle", 0);
+				Pickup.ARM_DOWN_ANGLE = prefs.getInt("Arm Down Angle", 0);
+				Pickup.ARM_MID_ANGLE = prefs.getInt("Arm Mid Angle", 0);
 				while(true)
 				{	
 					SmartDashboard.putNumber("Robot Voltage", RobotController.getBatteryVoltage());
@@ -288,8 +288,8 @@ public class Robot extends RobotBase {
     	//BuiltInAccelerometer accel = new BuiltInAccelerometer();
     	WPI_TalonSRX _grab_left;
 		WPI_TalonSRX _grab_right;
-		_grab_left = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_LEFT);
-		_grab_right = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_RIGHT);
+		_grab_left = new WPI_TalonSRX(Pickup.ROLLER_TALON_PORT_LEFT);
+		_grab_right = new WPI_TalonSRX(Pickup.ROLLER_TALON_PORT_RIGHT);
 		Latch_Joystick _secondary = new Latch_Joystick(Map.DRIVE_SECONDARY_JOYSTICK);
     	while (isTest() && isEnabled())
     	{
