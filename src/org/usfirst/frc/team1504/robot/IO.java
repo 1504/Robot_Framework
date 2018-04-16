@@ -32,28 +32,28 @@ public class IO
 	}
 	public static double winch_input()
 	{
-		if(IO.get_override_winch())
+		if(IO.override_winch())
 			return Utils.deadzone(Math.abs(_secondary.getRawAxis(Winch.INTAKE_POWER_AXIS)));
 		return 0;
 	}
-	public static boolean get_override_winch()
+	public static boolean override_winch()
 	{
 		return _secondary.getRawButton(Map.WINCH_BUTTON);
 	}
 	
-	public static boolean get_override_pickup()
+	public static boolean override_pickup()
 	{
 		return _secondary.getRawButton(Map.MASTER_OVERRIDE) && _secondary.getRawButton(Map.PICKUP_DOWN);
 	}
-	public static boolean get_override_lift()
+	public static boolean override_lift()
 	{
 		return _secondary.getRawButton(Map.MASTER_OVERRIDE);
 	}
-	public static boolean get_crash_detection()
+	public static boolean crash_detection()
 	{
 		return _secondary.getRawButton(Map.CRASH_DETECTION);
 	}
-	public static double get_intake_speed()
+	public static double intake_speed()
 	{
 		if ((_secondary.getRawButton(Map.SPIN_ROTORS_OUT) && ((_secondary.getRawAxis(Map.SPIN_ROTORS_IN)) > 0)))
 		{

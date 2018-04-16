@@ -35,7 +35,7 @@ public class Lift implements Updatable
 	
 	private void update_mode() //checks where the lift is
 	{
-		if(IO.get_crash_detection())
+		if(IO.crash_detection())
 		{
 			double[] val = _drive.roborio_crash_bandicoot_check(new double[]{1, 1, 1}, 200, Map.CRASH_DETECTION_MODE);
 			if(val[0] == 0.0) 
@@ -92,7 +92,7 @@ public class Lift implements Updatable
 			{
 				plate_solenoid.set(false);
 			}
-			if(IO.get_override_lift())
+			if(IO.override_lift())
 			{
 				speed = IO.lift_input();
 			}

@@ -74,48 +74,16 @@ public class Pickup implements Updatable {
 		_grab_left.set(speed);
 		_grab_right.set(-speed);
 	}
-	public void rotate_intake()
-	{
-		if(IO.get_secondary_pov() == 270)
-		{
-			_grab_left.set(IO.get_intake_speed());
-			_grab_right.set(IO.get_intake_speed());
-		}
-		if(IO.get_secondary_pov() == 90)
-		{
-			_grab_left.set(-IO.get_intake_speed());
-			_grab_right.set(-IO.get_intake_speed());
-		}
-	}
-	public boolean lift_safe() //says whether or not the pickup arms are backed where the lift can be
-	{
-		return false;//_lift.get_lift_height() > Map.LIFT_SAFETY_THRESHOLD;
-	}
+
 	private void update_mode() //checks if pickup is in progress
 	{
-		if (!lift_safe())
-		{
-			//set_arm_speed();
-			//double speed = (arm_angle[arm_state.ordinal()] - _arm.getSelectedSensorPosition(0)) * Map.PICKUP_GAIN;
-			//System.out.println("arm position" + _arm.getSelectedSensorPosition(0));
-			//set_arm_speed(speed)
-			// Sets arm velocity based on how far away the target is and where it is.
-			// Finds target angle by finding element of arm_state then finds its angle element in the arm_angle array
-		}
 		_grab_piston.set(DoubleSolenoid.Value.values()[flipper_state.ordinal()+1]);
-		rotate_intake();
 		//this bit of code should set the piston based on the state
-
 	}
 	
 	public void set_state(arm_position state) //sets position of arm
 	{
-		/*
-		if(!encoder.getStopped()) //making sure the encoder is connected
-		{	
-			arm_state = state;
-		}
-		*/
+
 		arm_state = state;
 	}
 	public void set_state(flipper state) //sets position of arm
@@ -127,8 +95,8 @@ public class Pickup implements Updatable {
 		if(_ds.isOperatorControl() && !_ds.isDisabled()) //only runs in teleop
 		{
 			set_state(flipper.values()[IO.open_flippers()]); 
-			set_intake_speed(IO.get_intake_speed());
-			//System.out.println(_arm.getSelectedSensorPosition(0));
+			set_intake_speed(IO.intake_speed());
+
 			if (IO.get_arm_up())
 			{
 				set_state(arm_position.UP);
@@ -137,8 +105,8 @@ public class Pickup implements Updatable {
 			{
 				set_state(arm_position.DOWN);
 			}
-			//if (IO.get_override_pickup())
-			if(!IO.get_override_lift() && !IO.get_override_winch())
+
+			if(!IO.override_lift() && !IO.override_winch())
 			{
 				 if(IO.override_input() < -0.1)
 				{
