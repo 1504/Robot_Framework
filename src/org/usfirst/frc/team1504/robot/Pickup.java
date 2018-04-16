@@ -18,8 +18,25 @@ public class Pickup implements Updatable {
 	private Lift _lift = Lift.getInstance();
 	// Encoder encoder;
 	public enum arm_position {UP, DOWN, MIDDLE, OFF}; // declares states of arms
-	public double[] arm_angle = {Map.ARM_UP_ANGLE, Map.ARM_DOWN_ANGLE, Map.ARM_UP_ANGLE/2}; // Map.ARM_UP_ANGLE/2 or Map.ARM_MID_ANGLE
+	public double[] arm_angle = {ARM_UP_ANGLE, ARM_DOWN_ANGLE, ARM_UP_ANGLE/2}; // Map.ARM_UP_ANGLE/2 or Map.ARM_MID_ANGLE
 	public static arm_position arm_state = arm_position.DOWN; // sets arms to be down at beginning of match
+	
+	public static final int ARM_TALON_PORT = 20;
+	
+	public static final int ROLLER_TALON_PORT_LEFT = 21;
+	public static final int ROLLER_TALON_PORT_RIGHT = 22;
+	
+	public static int ARM_UP_ANGLE = 1000; //not final because they vary from bots
+	public static int ARM_DOWN_ANGLE = 1000;
+	public static int ARM_MID_ANGLE = 1000;
+	
+	public static final double FLIPPER_MAGIC = 1.0;
+	public static final double PICKUP_GAIN = 0.03;
+	public static final double ROTATION_SPEED = 1;
+	/*
+	public static final int ENCODER_PORT_1 = 1;
+	public static final int ENCODER_PORT_2 = 2;
+	*/
 	
 	public enum flipper {CLOSE, OPEN}; // declares states of flippers
 	public static flipper flipper_state = flipper.OPEN; // sets flippers to be closed at beginning of match
@@ -34,9 +51,9 @@ public class Pickup implements Updatable {
 	
 	private Pickup() // pickup constructor
 	{
-		_grab_left = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_LEFT);
-		_grab_right = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_RIGHT);
-		_arm = new WPI_TalonSRX(Map.ARM_TALON_PORT);
+		_grab_left = new WPI_TalonSRX(ROLLER_TALON_PORT_LEFT);
+		_grab_right = new WPI_TalonSRX(ROLLER_TALON_PORT_RIGHT);
+		_arm = new WPI_TalonSRX(ARM_TALON_PORT);
 		_arm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 200); //200 here is the ms timeout when trying to connect
 		_grab_piston = new DoubleSolenoid(0, 1); //0 and 1 are the ports, needs to be moved to the map
 		_grab_piston.set(DoubleSolenoid.Value.kOff); //not sure about this

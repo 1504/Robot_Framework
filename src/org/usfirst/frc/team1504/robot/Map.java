@@ -58,6 +58,7 @@ public class Map {
 
 	
 /**
+<<<<<<< HEAD
  * Pickup stuff
  */
 	
@@ -77,6 +78,7 @@ public class Map {
 		public static final int ENCODER_PORT_1 = 1;
 		public static final int ENCODER_PORT_2 = 2;
 		*/
+
 		
 /**
  * Drive class things
