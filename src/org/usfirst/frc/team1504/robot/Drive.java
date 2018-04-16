@@ -10,7 +10,6 @@ import java.lang.Math;
 
 
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
-import org.usfirst.frc.team1504.utils.LinearRegression;
 
 //import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -466,42 +465,15 @@ public class Drive implements Updatable
 				}
 			}
 		}
+		
 		else if(robot_accel > Math.pow(Math.pow(initialSpike,2),0.5))
 		{
 			initialSpike = robot_accel*accelSign;
 		}
+		
 		return input;
 	}
-	/*public double[] roborio_crash_bandicoot_check(double[] input, long time, int mode) {
-		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
-		autonDistances.add(sanic_value());
-		autonTimes.add(time);		
-		double[] autonDistancesDouble = new double[autonDistances.size()];
-		double[] autonTimesDouble = new double[autonTimes.size()];
-		for(int i = 0; i < autonDistances.size(); i++)
-		{
-			autonDistancesDouble[i] = autonDistances.get(i);
-			autonTimesDouble[i] = (double)autonTimes.get(i);
-		}
-		LinearRegression regression = new LinearRegression(autonTimesDouble, autonDistancesDouble);
-		if(sanic.getAverageValue() + regression.slope()*Map.GET_AVERAGE_TIME_DELAY < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
-		{
-			System.out.println("slope: " + regression.slope() + " dist: " + sanic.getAverageValue());
-			autonDistances = new ArrayList<Integer>();
-			autonTimes = new ArrayList<Long>();
-			return null_response;
-		}
-		return input;
-	}*/
-	/*public double[] roborio_crash_bandicoot_check(double[] input, long time, int mode) {
-		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
-		if (sanic.getAverageValue() < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
-		{
-			return null_response;
-		}
-		return input;
-	} //simple crash detection, no lin reg
-	 */
+	
 	public void spike_reset() {
 		initialSpike = 0.0;
 		highestTravelingSpike = 0.0;

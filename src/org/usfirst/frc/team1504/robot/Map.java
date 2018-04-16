@@ -41,12 +41,8 @@ public class Map {
 	public static final int WINCH_BUTTON = 9; //left joystick press
 	
 	// Joystick inputs
-	//public static final int PICKUP_ON = 8; 
-	//public static final int PICKUP_OFF = 9;
 	public static final int PICKUP_UP = 3; //X
 	public static final int PICKUP_DOWN = 1; //A
-	//public static final int LIFT_ON = 6;
-	//public static final int LIFT_OFF = 7;
 	public static final int LIFT_UP = 2; //B
 	public static final int LIFT_DOWN = 1; //A
 	public static final int SPIN_ROTORS_IN = 2; //left trigger axis
@@ -54,21 +50,13 @@ public class Map {
 	public static final int OPEN_FLIPPERS = 3; //right trigger axis
 	public static final int WINCH_OVERRIDE = 9; //left joystick button
 	public static final int CRASH_DETECTION = 7; //left joystick button
-	// WE DON'T HAVE A BUTTON FOR DROPPING THE CUBE FROM THE ELEVATOR
+	public static final int MASTER_OVERRIDE = 6; //RT1 -- RB
 
 	
-/**
-		
+
 /**
  * Drive class things
- */
-	
-	// Drive angle stuff
-		public static final double DRIVE_ANGLE = 60.0; // We need to get this value from IO and vision code
-		public static final double DRIVE_SPEED = 1.0; // This can be changed but it is 1 so we ram into things;
-		
-		
-		
+ */	
 	// Drive Motor enumeration
 	public static enum DRIVE_MOTOR { FRONT_LEFT, BACK_LEFT, BACK_RIGHT, FRONT_RIGHT }
 	
@@ -126,14 +114,8 @@ public class Map {
  * Buttons
  */
 	public static final int VISION_INTERFACE_CAMERA_PORT_BUTTON = 5;
-	public static final int MASTER_OVERRIDE = 6; //RT1 -- RB
 	
 	
-/**
- * Camera
- */
-	public static final long CAMERA_X = 180;
-	public static final long CAMERA_Y = 160;
 	
 	
 /**

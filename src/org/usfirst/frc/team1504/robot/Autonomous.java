@@ -126,22 +126,6 @@ public class Autonomous
 		System.out.println("Autonomous loop started");
 	}
 	
-	public double[] switch_angles(double x1, double x2, double y1, double y2)
-	{
-		double left_box = find_angle_theta(x1, y1);
-		double right_box = find_angle_theta(x2, y2);
-		double[] angles = new double[] {left_box, right_box};
-		return angles;
-	}
-	
-	public static double find_angle_theta(double x, double y)
-	{
-        double angle_theta = Math.toDegrees(Math.atan((x - (Map.CAMERA_X / 2)) / (y - Map.CAMERA_Y)));
-        return angle_theta;
-	
-	}
-	
-	
 	public void stop()
 	{
 		_drive.drive_inputs(0.0, 0.0, 0.0);
@@ -265,18 +249,8 @@ public class Autonomous
 					System.out.println("crashed");
 					next_step = true;
 				}
-				//System.out.println("Crashed" + "Step: " + step + " Path Length: " + _path.length);
-				
+				//System.out.println("Crashed" + "Step: " + step + " Path Length: " + _path.length);	
 			}
-			
-			/*else if(_path[step][3] == 2)
-			{
-				// Calculate P(ID) output for the drive thread 
-				for(int value = 0; value < 3; value++) // P loop
-					output[value] = _path[step][value];
-				_pipe.set_drive_input();
-			}*/
-//			double[] testoutput = {1.0, 1.0, 1.0, 1.0};
 			_drive.drive_inputs(output);
 			
 			try {
@@ -285,11 +259,5 @@ public class Autonomous
 				e.printStackTrace();
 			}
 		}
-	}
-	public void auton_slam() {
-		//Dummy values for camera inputs
-		int camera_input_X = 10;
-		int camera_input_Y = 10;
-		double[][] AUTON_SLAM_SEQUENCE = {{0.0, 0.25, 0.0, 0, (find_angle_theta(camera_input_X,camera_input_Y)/(Math.PI/2))*1000}, {0.5, 0.0, 0.0, 0}};
 	}
 }
