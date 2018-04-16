@@ -10,13 +10,6 @@ public class Lift implements Updatable
 {
 	public static final int TALON_PORT = 30;
 	public static final int PLATE_SOLENOID_PORT = 2; 
-	public static final double MOTOR_SPEED = 0.5;
-	public static final double MAX_HEIGHT = 10; 
-	public static final double MIN_HEIGHT = 0; 
-	public static final double GAIN = 0.3;
-	public static final double SAFETY_THRESHOLD = 5;
-	public static final double LOCK_RELEASE_RANGE = 0.7;
-	public static final boolean LIMIT_SWITCH_EXISTS = false;
 	
 	public enum position {BOTTOM, MIDDLE, TOP, OFF};
 	public static position state = position.OFF;
@@ -57,12 +50,12 @@ public class Lift implements Updatable
 		}
 	}
 	
-	public void set_state(position state)
+	public void set_state(position state_)
 	{
-		state = state;
+		state = state_;
 	}
 	
-	public boolean set_velocity(double speed) {
+	public boolean set_velocity(double speed_) {
 		if(!top_switch.get() && speed < 0)
 		{
 			set_velocity(0);
@@ -72,7 +65,7 @@ public class Lift implements Updatable
 			set_velocity(0);
 			return false;
 		}
-		speed = speed;
+		speed = speed_;
 		return true;
 	}
 	
