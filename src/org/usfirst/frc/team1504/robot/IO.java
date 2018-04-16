@@ -79,7 +79,7 @@ public class IO
 	{
 		return ! _secondary.getRawButton(Map.MASTER_OVERRIDE) && _secondary.getRawButton(Map.PICKUP_DOWN);
 	}
-	public static boolean get_lift_drop()
+	public static boolean lift_drop()
 	{
 		return _secondary.getRawButton(Map.LIFT_DROP_BUTTON);
 	}
@@ -87,11 +87,11 @@ public class IO
 	{
 		return Utils.deadzone(_secondary.getRawAxis(Winch.LIFT_AXIS));
 	}
-	public static boolean get_lift_up()
+	public static boolean lift_up()
 	{
 		return _secondary.getRawButton(Map.LIFT_UP);
 	}
-	public static boolean get_lift_down()
+	public static boolean lift_down()
 	{
 		return _secondary.getRawButton(Map.LIFT_DOWN);
 	}

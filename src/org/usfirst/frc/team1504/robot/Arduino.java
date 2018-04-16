@@ -81,18 +81,18 @@ public class Arduino
 	public double[] return_colors() 
 	{
 		double[] RGB = {0,128,0};
-		if(_lift.lift_state == Lift.lift_position.BOTTOM)
+		if(_lift.state == Lift.position.BOTTOM)
 		{
 			RGB[0] = 0;
 			RGB[1] = 255;
 			RGB[2] = 0;
 		}
-		else if(_lift.lift_state == Lift.lift_position.MIDDLE) {
+		else if(_lift.state == Lift.position.MIDDLE) {
 			RGB[0] = 255;
 			RGB[1] = 255;
 			RGB[2] = 0;
 		}
-		else if(_lift.lift_state == Lift.lift_position.TOP) {
+		else if(_lift.state == Lift.position.TOP) {
 			RGB[0] = 255;
 			RGB[1] = 0;
 			RGB[2] = 0;
