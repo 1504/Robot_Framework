@@ -8,6 +8,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DigitalInput;
 public class Lift implements Updatable
 {
+	public static final int LIFT_TALON_PORT = 30;
+	public static final double LIFT_MOTOR_SPEED = 0.5;
+	public static final double LIFT_MAX_HEIGHT = 10; 
+	public static final double LIFT_MIN_HEIGHT = 0; 
+	public static final double LIFT_GAIN = 0.3;
+	public static final double LIFT_SAFETY_THRESHOLD = 5;
+	public static final double LIFT_LOCK_RELEASE_RANGE = 0.7;
+	public static final boolean LIMIT_SWITCH_EXISTS = false;
+	
 	public enum lift_position {BOTTOM, MIDDLE, TOP, OFF};
 	private double[] lift_velocity = {-1.0, 0, 1.0, 0};
 	private String[] lifting_messages = {"lift is going to bottom","lift is going to mid","lift is going to top", "lift is off"};
@@ -29,7 +38,7 @@ public class Lift implements Updatable
 	
 	private Lift() //assigns motor to lift
 	{	
-		_motor = new WPI_TalonSRX(Map.LIFT_TALON_PORT);
+		_motor = new WPI_TalonSRX(LIFT_TALON_PORT);
 		Update_Semaphore.getInstance().register(this);
 	}
 	

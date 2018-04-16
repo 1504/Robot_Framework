@@ -293,7 +293,7 @@ public class Robot extends RobotBase {
 		Latch_Joystick _secondary = new Latch_Joystick(Map.DRIVE_SECONDARY_JOYSTICK);
     	while (isTest() && isEnabled())
     	{
-    		double speed = _secondary.getRawAxis(Map.INTAKE_POWER_AXIS);
+    		double speed = _secondary.getRawAxis(Winch.INTAKE_POWER_AXIS);
     		_grab_left.set(speed);
     		_grab_right.set(-speed);
     		

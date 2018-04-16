@@ -28,12 +28,12 @@ public class IO
 	
 	public static double override_input()
 	{
-		return Utils.deadzone(_secondary.getRawAxis(Map.INTAKE_POWER_AXIS));
+		return Utils.deadzone(_secondary.getRawAxis(Winch.INTAKE_POWER_AXIS));
 	}
 	public static double winch_input()
 	{
 		if(IO.get_override_winch())
-			return Utils.deadzone(Math.abs(_secondary.getRawAxis(Map.INTAKE_POWER_AXIS)));
+			return Utils.deadzone(Math.abs(_secondary.getRawAxis(Winch.INTAKE_POWER_AXIS)));
 		return 0;
 	}
 	public static boolean get_override_winch()
@@ -85,7 +85,7 @@ public class IO
 	}
 	public static double lift_input()
 	{
-		return Utils.deadzone(_secondary.getRawAxis(Map.LIFT_AXIS));
+		return Utils.deadzone(_secondary.getRawAxis(Winch.LIFT_AXIS));
 	}
 	public static boolean get_lift_up()
 	{
