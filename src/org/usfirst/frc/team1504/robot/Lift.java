@@ -91,7 +91,8 @@ public class Lift implements Updatable
 			{
 				plate_solenoid.set(false);
 			}
-			if(IO.override_lift())
+			speed = IO.lift_input();
+			/*if(IO.override_lift())
 			{
 				speed = IO.lift_input();
 			}
@@ -110,7 +111,7 @@ public class Lift implements Updatable
 					set_velocity(IO.lift_input());
 					button_mode = false;
 				}
-			}
+			}*/
 		}
 		SmartDashboard.putNumber("Lift Current", _motor.getOutputCurrent());
 		update_mode();
