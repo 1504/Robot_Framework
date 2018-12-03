@@ -25,7 +25,7 @@ public class Map {
 		double[][] ALTERNATE_SWITCH_SEQUENCES = {{(45*(DIRECTIONAL_MULTIPLIER)), 0.0, 0.0, 11, 1000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}, {0.0, 0.0, 0.0, 5, 100}};
 		return ALTERNATE_SWITCH_SEQUENCES;
 	}
-	
+	//i made a comment here-chandan 2019
 	/**
  * Utilities
  */
