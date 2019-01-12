@@ -534,18 +534,24 @@ public class Drive implements Updatable
 			  		drive_inputs(Map.FORWARD_COUNTERCLOCK);
 			  	else if(sensor6.get())
 			  		drive_inputs(Map.FORWARD_CLOCKWISE);
+			  	else 
+			  		drive_inputs(Map.FORWARD);
 			}
 			else if(sensor1.get()){
 			  	if(sensor4.get())
 			  		drive_inputs(Map.FORWARD_LEFT);
 			  	else if(sensor5.get() || sensor6.get())
 			  		drive_inputs(Map.FORWARD_CLOCKWISE);
+			  	else
+			  		drive_inputs(Map.FORWARD);
 			}
 			else if(sensor3.get()){
 			  	if(sensor6.get())
 			  		drive_inputs(Map.FORWARD_RIGHT);
 			  	else if(sensor1.get() || sensor4.get())
 			  		drive_inputs(Map.FORWARD_COUNTERCLOCK);
+			  	else
+			  		drive_inputs(Map.FORWARD);
 			}
 		}
 	}
