@@ -514,12 +514,19 @@ public class Drive implements Updatable
 			return sanic.getAverageValue();
 	}
 	
-	DigitalInput sensor1 = new DigitalInput(Map.sensor1);
-	DigitalInput sensor2 = new DigitalInput(Map.sensor2);
-	DigitalInput sensor3 = new DigitalInput(Map.sensor3);
-	DigitalInput sensor4 = new DigitalInput(Map.sensor4);
-	DigitalInput sensor5 = new DigitalInput(Map.sensor5);
-	DigitalInput sensor6 = new DigitalInput(Map.sensor6);
+	//DigitalInput sensor1 = new DigitalInput(Map.sensor1);
+	//DigitalInput sensor2 = new DigitalInput(Map.sensor2);
+	//DigitalInput sensor3 = new DigitalInput(Map.sensor3);
+	//DigitalInput sensor4 = new DigitalInput(Map.sensor4);
+	//DigitalInput sensor5 = new DigitalInput(Map.sensor5);
+	//DigitalInput sensor6 = new DigitalInput(Map.sensor6);
+	
+	boolean sensor1 = false;
+	boolean sensor2 = true;
+	boolean sensor3 = true;
+	boolean sensor4 = true;
+	boolean sensor5 = false;
+	boolean sensor6 = true;
 	
 	public void auto_alignment() {
 		//Code to correct course of robot once vision tape is contacted (by two sensors)
@@ -534,28 +541,28 @@ public class Drive implements Updatable
 			final double[] FORWARD_RIGHT = {alignment_values[0], alignment_values[1], 0.0};
 			final double[] FORWARD_LEFT = {alignment_values[0], -alignment_values[1], 0.0};
 			final double[] FORWARD = {alignment_values[0], 0.0, 0.0};
-			if(!sensor2.get()){
-				if(!sensor5.get())
+			if(!sensor2){
+				if(!sensor5)
 			  		drive_inputs(FORWARD);
-			  	else if(!sensor4.get())
+			  	else if(!sensor4)
 			  		drive_inputs(FORWARD_COUNTERCLOCK);
-			  	else if(!sensor6.get())
+			  	else if(!sensor6)
 			  		drive_inputs(FORWARD_CLOCKWISE);
 			  	else 
 			  		drive_inputs(FORWARD);
 			}
-			else if(!sensor1.get()){
-			  	if(!sensor4.get())
+			else if(!sensor1){
+			  	if(!sensor4)
 			  		drive_inputs(FORWARD_LEFT);
-			  	else if(!sensor5.get() || !sensor6.get())
+			  	else if(!sensor5 || !sensor6)
 			  		drive_inputs(FORWARD_CLOCKWISE);
 			  	else
 			  		drive_inputs(FORWARD);
 			}
-			else if(!sensor3.get()){
-			  	if(!sensor6.get())
+			else if(!sensor3){
+			  	if(!sensor6)
 			  		drive_inputs(FORWARD_RIGHT);
-			  	else if(!sensor1.get() || !sensor4.get())
+			  	else if(!sensor1 || !sensor4)
 			  		drive_inputs(FORWARD_COUNTERCLOCK);
 			  	else
 			  		drive_inputs(FORWARD);

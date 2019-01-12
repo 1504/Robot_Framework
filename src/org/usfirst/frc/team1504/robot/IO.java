@@ -150,6 +150,7 @@ public class IO
 	
 	public static boolean get_auto_alignment()
 	{
-		return _secondary.getRawButton(Map.AUTO_ALIGNMENT_BUTTON);
+		return true;
+		//return _secondary.getRawButton(Map.AUTO_ALIGNMENT_BUTTON);
 	}
 }
