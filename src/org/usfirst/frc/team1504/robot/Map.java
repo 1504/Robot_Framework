@@ -262,6 +262,8 @@ public class Map {
 /**
  * Auton stuff	
  */
+	public static final int COURSE_CORRECTION_BUTTON = 100;
+	
 	//norm/starting conditions arm down, lift down, facing alliance station
 	public static final double HORIZONTAL_MULTIPLIER = 1.4;
 	public static final double AUTON_DEFAULT_SPEED = -0.5;

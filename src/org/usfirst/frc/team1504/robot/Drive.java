@@ -152,10 +152,13 @@ public class Drive implements Updatable
 			}
 			else
 			{
+				/*if(IO.get_course_correction())
+				{
+					Autonomous.course_correction();
+				}*/
 				drive_inputs(IO.drive_input());
 			}
 		}
-
 	}
 	
 	/**

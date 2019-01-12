@@ -292,30 +292,34 @@ public class Autonomous
 		int camera_input_Y = 10;
 		double[][] AUTON_SLAM_SEQUENCE = {{0.0, 0.25, 0.0, 0, (find_angle_theta(camera_input_X,camera_input_Y)/(Math.PI/2))*1000}, {0.5, 0.0, 0.0, 0}};
 	}
-	public void course_correction() {
-		//Code to correct course of robot once vision tape is contacted (by two sensors)
+	public static void course_correction() {
+		/*Code to correct course of robot once vision tape is contacted (by two sensors)
+		 * The code stops the moment the trigger is released, so the driver can switch back to manual if they need to
+		*/
 		/*
-		  if(sensor2)
-		  	if(sensor5)
-		  		_drive.drive_inputs(Map.FORWARD);
-		  	else if(sensor4)
-		  		_drive.drive_inputs(Map.FORWARD_COUNTERCLOCK);
-		  		//rotate counterclockwise
-		  	else if(sensor6)
-		  		_drive.drive_inputs(Map.FORWARD_CLOCKWISE);
-		  		//rotate clockwise
-		  if(sensor1)
-		  	if(sensor4)
-		  		_drive.drive_inputs(Map.FORWARD_LEFT);
-		  	else if(sensor5 || sensor 6)
-		  		_drive.drive_inputs(Map.FORWARD_CLOCKWISE);
-		  		//rotate clockwise
-		  if(sensor3)
-		  	if(sensor6)
-		  		_drive.drive_inputs(Map.FORWARD_RIGHT);
-		  	else if(sensor1 || sensor 4)
-		  		_drive.drive_inputs(Map.FORWARD_COUNTERCLOCK);
-		  		//rotate counterclockwise
+		while(IO.get_course_correction()) //checks trigger
+		{
+			if(sensor2){
+				if(sensor5)
+			  		_drive.drive_inputs(Map.FORWARD);
+			  	else if(sensor4)
+			  		_drive.drive_inputs(Map.FORWARD_COUNTERCLOCK);
+			  	else if(sensor6)
+			  		_drive.drive_inputs(Map.FORWARD_CLOCKWISE);
+			}
+			else if(sensor1){
+			  	if(sensor4)
+			  		_drive.drive_inputs(Map.FORWARD_LEFT);
+			  	else if(sensor5 || sensor 6)
+			  		_drive.drive_inputs(Map.FORWARD_CLOCKWISE);
+			}
+			else if(sensor3){
+			  	if(sensor6)
+			  		_drive.drive_inputs(Map.FORWARD_RIGHT);
+			  	else if(sensor1 || sensor 4)
+			  		_drive.drive_inputs(Map.FORWARD_COUNTERCLOCK);
+			}
+		}
 		*/
 	}
 	
