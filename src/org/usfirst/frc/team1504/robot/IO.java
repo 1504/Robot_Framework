@@ -148,8 +148,8 @@ public class IO
 	}
 	
 	
-	public static boolean get_course_correction()
+	public static boolean get_auto_alignment()
 	{
-		return _secondary.getRawButton(Map.COURSE_CORRECTION_BUTTON);
+		return _secondary.getRawButton(Map.AUTO_ALIGNMENT_BUTTON);
 	}
 }

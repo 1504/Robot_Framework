@@ -18,6 +18,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 //import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.interfaces.*;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -146,16 +147,12 @@ public class Drive implements Updatable
 	{
 		if(!_ds.isAutonomous())
 		{
-			if(IO.drive_wiggle() != 0.0)
+			if(IO.drive_wiggle() != 0.0 && !IO.get_auto_alignment())
 			{
 				drive_inputs(new double[] { 0.25 * (((_dir & 1) == 0) ? 1.0 : -1.0) , 0.31 * IO.drive_wiggle()});
 			}
 			else
 			{
-				/*if(IO.get_course_correction())
-				{
-					Autonomous.course_correction();
-				}*/
 				drive_inputs(IO.drive_input());
 			}
 		}
@@ -233,6 +230,10 @@ public class Drive implements Updatable
 					_new_data = false;
 					_dump = true;
 					_input = input;
+				}
+				if(IO.get_auto_alignment())
+				{
+					auto_alignment();
 				}
 				
 				//_groundtruth.getData();
@@ -511,6 +512,42 @@ public class Drive implements Updatable
 	}
 	public int sanic_value() {
 			return sanic.getAverageValue();
+	}
+	
+	DigitalInput sensor1 = new DigitalInput(Map.sensor1);
+	DigitalInput sensor2 = new DigitalInput(Map.sensor2);
+	DigitalInput sensor3 = new DigitalInput(Map.sensor3);
+	DigitalInput sensor4 = new DigitalInput(Map.sensor4);
+	DigitalInput sensor5 = new DigitalInput(Map.sensor5);
+	DigitalInput sensor6 = new DigitalInput(Map.sensor6);
+	
+	public void auto_alignment() {
+		/*Code to correct course of robot once vision tape is contacted (by two sensors)
+		 * The code stops the moment the trigger is released, so the driver can switch back to manual if they need to
+		*/
+		while(IO.get_auto_alignment()) //checks trigger
+		{
+			if(sensor2.get()){
+				if(sensor5.get())
+			  		drive_inputs(Map.FORWARD);
+			  	else if(sensor4.get())
+			  		drive_inputs(Map.FORWARD_COUNTERCLOCK);
+			  	else if(sensor6.get())
+			  		drive_inputs(Map.FORWARD_CLOCKWISE);
+			}
+			else if(sensor1.get()){
+			  	if(sensor4.get())
+			  		drive_inputs(Map.FORWARD_LEFT);
+			  	else if(sensor5.get() || sensor6.get())
+			  		drive_inputs(Map.FORWARD_CLOCKWISE);
+			}
+			else if(sensor3.get()){
+			  	if(sensor6.get())
+			  		drive_inputs(Map.FORWARD_RIGHT);
+			  	else if(sensor1.get() || sensor4.get())
+			  		drive_inputs(Map.FORWARD_COUNTERCLOCK);
+			}
+		}
 	}
 	
 	/**

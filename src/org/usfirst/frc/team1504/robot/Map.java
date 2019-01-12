@@ -231,6 +231,13 @@ public class Map {
 /**
  * Vision Interface stuff
  */
+	public static final int sensor1 = 100;
+	public static final int sensor2 = 100;
+	public static final int sensor3 = 100;
+	public static final int sensor4 = 100;
+	public static final int sensor5 = 100;
+	public static final int sensor6 = 100;
+	
 	public static final int VISION_INTERFACE_PORT1 = 0;
 	public static final int VISION_INTERFACE_PORT2 = 1;
 	public static final double VISION_INTERFACE_VIDEO_WIDTH = 600; //800; //480; // FOV UPDATE
@@ -262,7 +269,7 @@ public class Map {
 /**
  * Auton stuff	
  */
-	public static final int COURSE_CORRECTION_BUTTON = 100;
+	public static final int AUTO_ALIGNMENT_BUTTON = 100;
 	
 	//norm/starting conditions arm down, lift down, facing alliance station
 	public static final double HORIZONTAL_MULTIPLIER = 1.4;
