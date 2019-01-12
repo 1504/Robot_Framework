@@ -522,36 +522,43 @@ public class Drive implements Updatable
 	DigitalInput sensor6 = new DigitalInput(Map.sensor6);
 	
 	public void auto_alignment() {
-		/*Code to correct course of robot once vision tape is contacted (by two sensors)
-		 * The code stops the moment the trigger is released, so the driver can switch back to manual if they need to
-		*/
+		//Code to correct course of robot once vision tape is contacted (by two sensors)
+		// The code stops the moment the trigger is released, so the driver can switch back to manual if they need to
+		//
+		double[] alignment_values = {SmartDashboard.getNumber("Forward", 0), SmartDashboard.getNumber("Track", 0), SmartDashboard.getNumber("Rotate", 0)};
 		while(IO.get_auto_alignment()) //checks trigger
 		{
-			if(sensor2.get()){
-				if(sensor5.get())
-			  		drive_inputs(Map.FORWARD);
-			  	else if(sensor4.get())
-			  		drive_inputs(Map.FORWARD_COUNTERCLOCK);
-			  	else if(sensor6.get())
-			  		drive_inputs(Map.FORWARD_CLOCKWISE);
+			
+			final double[] FORWARD_CLOCKWISE = {alignment_values[0], 0.0, -alignment_values[2]};
+			final double[] FORWARD_COUNTERCLOCK = {alignment_values[0], 0.0, alignment_values[2]};
+			final double[] FORWARD_RIGHT = {alignment_values[0], alignment_values[1], 0.0};
+			final double[] FORWARD_LEFT = {alignment_values[0], -alignment_values[1], 0.0};
+			final double[] FORWARD = {alignment_values[0], 0.0, 0.0};
+			if(!sensor2.get()){
+				if(!sensor5.get())
+			  		drive_inputs(FORWARD);
+			  	else if(!sensor4.get())
+			  		drive_inputs(FORWARD_COUNTERCLOCK);
+			  	else if(!sensor6.get())
+			  		drive_inputs(FORWARD_CLOCKWISE);
 			  	else 
-			  		drive_inputs(Map.FORWARD);
+			  		drive_inputs(FORWARD);
 			}
-			else if(sensor1.get()){
-			  	if(sensor4.get())
-			  		drive_inputs(Map.FORWARD_LEFT);
-			  	else if(sensor5.get() || sensor6.get())
-			  		drive_inputs(Map.FORWARD_CLOCKWISE);
+			else if(!sensor1.get()){
+			  	if(!sensor4.get())
+			  		drive_inputs(FORWARD_LEFT);
+			  	else if(!sensor5.get() || !sensor6.get())
+			  		drive_inputs(FORWARD_CLOCKWISE);
 			  	else
-			  		drive_inputs(Map.FORWARD);
+			  		drive_inputs(FORWARD);
 			}
-			else if(sensor3.get()){
-			  	if(sensor6.get())
-			  		drive_inputs(Map.FORWARD_RIGHT);
-			  	else if(sensor1.get() || sensor4.get())
-			  		drive_inputs(Map.FORWARD_COUNTERCLOCK);
+			else if(!sensor3.get()){
+			  	if(!sensor6.get())
+			  		drive_inputs(FORWARD_RIGHT);
+			  	else if(!sensor1.get() || !sensor4.get())
+			  		drive_inputs(FORWARD_COUNTERCLOCK);
 			  	else
-			  		drive_inputs(Map.FORWARD);
+			  		drive_inputs(FORWARD);
 			}
 		}
 	}

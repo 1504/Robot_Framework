@@ -42,7 +42,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends RobotBase {
-
+	
 	public static double left_x;
 	public static double left_y;
 	
@@ -167,10 +167,7 @@ public class Robot extends RobotBase {
 				autoChooser1.addObject("Side Delivery", new String("SideDelivery"));
 				//autoChooser1.addObject("Switch & Scale", new String("SwitchScale"));
 				//autoChooser1.addObject("Switch & Exchange", new String("SwitchExchange"));
-				
-				final double[] tuned_auto_align = {SmartDashboard.getNumber("Forward", 0), SmartDashboard.getNumber("Track", 0), SmartDashboard.getNumber("Rotate", 0)};
-				
-				
+								
 				SmartDashboard.putData("Position Chooser", pos);
 				SmartDashboard.putData("Auton Mode Chooser", autoChooser1);
 				

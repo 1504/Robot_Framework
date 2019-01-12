@@ -231,12 +231,13 @@ public class Map {
 /**
  * Vision Interface stuff
  */
-	public static final int sensor1 = 100;
-	public static final int sensor2 = 100;
-	public static final int sensor3 = 100;
-	public static final int sensor4 = 100;
-	public static final int sensor5 = 100;
-	public static final int sensor6 = 100;
+	public static final int sensor1 = 0;
+	public static final int sensor2 = 1;
+	public static final int sensor3 = 2;
+	public static final int sensor4 = 3;
+	public static final int sensor5 = 4;
+	public static final int sensor6 = 5;
+			;
 	
 	public static final int VISION_INTERFACE_PORT1 = 0;
 	public static final int VISION_INTERFACE_PORT2 = 1;
@@ -326,11 +327,7 @@ public class Map {
 	public static final double[][] AUTON_EXCHANGE_FROM_SPOT = {{32.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 3000}};
 	//{angle,strength/speed,turning,mode,time}
 	
-	public static final double[] FORWARD_CLOCKWISE = {0.3, 0.0, -0.5};
-	public static final double[] FORWARD_COUNTERCLOCK = {0.3, 0.0, 0.5};
-	public static final double[] FORWARD_RIGHT = {0.3, 0.5, 0.0};
-	public static final double[] FORWARD_LEFT = {0.3, -0.5, 0.0};
-	public static final double[] FORWARD = {0.5, 0.0, 0.0};
+	
 	//{forward, right, counterclock}
 /**
  * Logger stuff
