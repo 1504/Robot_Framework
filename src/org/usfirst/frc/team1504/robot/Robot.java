@@ -65,6 +65,10 @@ public class Robot extends RobotBase {
 	private HashMap<String, double[][]> map = new HashMap<String, double[][]>();
 	private SendableChooser<String> pos = new SendableChooser<String>();
 	private SendableChooser<String> autoChooser1 = new SendableChooser<String>();
+	
+	private SendableChooser<Double> powers = new SendableChooser<Double>();
+	
+	
 	//private Lift _lift = Lift.getInstance();
 	//private Navx _navx = Navx.getInstance();
 //	//private CameraInterface ci = CameraInterface.getInstance();
@@ -163,6 +167,8 @@ public class Robot extends RobotBase {
 				autoChooser1.addObject("Side Delivery", new String("SideDelivery"));
 				//autoChooser1.addObject("Switch & Scale", new String("SwitchScale"));
 				//autoChooser1.addObject("Switch & Exchange", new String("SwitchExchange"));
+				
+				final double[] tuned_auto_align = {SmartDashboard.getNumber("Forward", 0), SmartDashboard.getNumber("Track", 0), SmartDashboard.getNumber("Rotate", 0)};
 				
 				
 				SmartDashboard.putData("Position Chooser", pos);
