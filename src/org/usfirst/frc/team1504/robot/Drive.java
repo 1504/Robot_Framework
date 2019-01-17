@@ -39,7 +39,7 @@ public class Drive implements Updatable
 			_d.mainTask();
 		}
 	}
-	
+	boolean tst1, tst2, tst3, tst4, tst5, tst6 = false;
 	private static final Drive instance = new Drive();
 	 public static final ADIS16448_IMU imu = new ADIS16448_IMU();
 	 
@@ -211,6 +211,7 @@ public class Drive implements Updatable
 			}
 			if(_ds.isEnabled())
 			{
+				
 				if (_new_data)
 				{
 					if(_ds.isOperatorControl())
@@ -231,11 +232,13 @@ public class Drive implements Updatable
 					_dump = true;
 					_input = input;
 				}
+				//System.out.println("input before alignment call: " + _input + " | " + input);
 				if(IO.get_auto_alignment())
 				{
 					auto_alignment();
 				}
-				
+				//System.out.print("input before entry: " + _input + " | " + input);
+				//input = _input;
 				//_groundtruth.getData();
 				//input = groundtruth_correction(input);
 				input = accelerometer_correction(input);
@@ -514,59 +517,76 @@ public class Drive implements Updatable
 			return sanic.getAverageValue();
 	}
 	
-	//DigitalInput sensor1 = new DigitalInput(Map.sensor1);
-	//DigitalInput sensor2 = new DigitalInput(Map.sensor2);
-	//DigitalInput sensor3 = new DigitalInput(Map.sensor3);
-	//DigitalInput sensor4 = new DigitalInput(Map.sensor4);
-	//DigitalInput sensor5 = new DigitalInput(Map.sensor5);
-	//DigitalInput sensor6 = new DigitalInput(Map.sensor6);
+	DigitalInput sensor1 = new DigitalInput(Map.sensor1);
+	DigitalInput sensor2 = new DigitalInput(Map.sensor2);
+	DigitalInput sensor3 = new DigitalInput(Map.sensor3);
+	DigitalInput sensor4 = new DigitalInput(Map.sensor4);
+	DigitalInput sensor5 = new DigitalInput(Map.sensor5);
+	DigitalInput sensor6 = new DigitalInput(Map.sensor6);
 	
-	boolean sensor1 = false;
-	boolean sensor2 = true;
-	boolean sensor3 = true;
-	boolean sensor4 = true;
-	boolean sensor5 = false;
-	boolean sensor6 = true;
+	//boolean sensor1 = false;
+	//boolean sensor2 = true;
+	//boolean sensor3 = true;
+	//boolean sensor4 = true;
+	//boolean sensor5 = false;
+	//boolean sensor6 = true;
 	
 	public void auto_alignment() {
 		//Code to correct course of robot once vision tape is contacted (by two sensors)
 		// The code stops the moment the trigger is released, so the driver can switch back to manual if they need to
 		//
-		double[] alignment_values = {SmartDashboard.getNumber("Forward", 0), SmartDashboard.getNumber("Track", 0), SmartDashboard.getNumber("Rotate", 0)};
-		while(IO.get_auto_alignment()) //checks trigger
+		//double[] alignment_values = {SmartDashboard.getNumber("Forward", 0), SmartDashboard.getNumber("Track", 0), SmartDashboard.getNumber("Rotate", 0)};
+		double[] alignment_values = {0.2, 0.2, 0.2};
+		if(IO.get_auto_alignment()) //checks trigger
 		{
-			
 			final double[] FORWARD_CLOCKWISE = {alignment_values[0], 0.0, -alignment_values[2]};
+			//final double[] FORWARD_CLOCKWISE = {0.2, 0.0, -0.2};
 			final double[] FORWARD_COUNTERCLOCK = {alignment_values[0], 0.0, alignment_values[2]};
 			final double[] FORWARD_RIGHT = {alignment_values[0], alignment_values[1], 0.0};
 			final double[] FORWARD_LEFT = {alignment_values[0], -alignment_values[1], 0.0};
 			final double[] FORWARD = {alignment_values[0], 0.0, 0.0};
-			if(!sensor2){
-				if(!sensor5)
+			if(!sensor2.get()){
+				if(!sensor5.get())
 			  		drive_inputs(FORWARD);
-			  	else if(!sensor4)
+			  	else if(!sensor4.get())
 			  		drive_inputs(FORWARD_COUNTERCLOCK);
-			  	else if(!sensor6)
+			  	else if(!sensor6.get())
 			  		drive_inputs(FORWARD_CLOCKWISE);
 			  	else 
 			  		drive_inputs(FORWARD);
 			}
-			else if(!sensor1){
-			  	if(!sensor4)
+			else if(!sensor1.get()){
+			  	if(!sensor4.get())
 			  		drive_inputs(FORWARD_LEFT);
-			  	else if(!sensor5 || !sensor6)
-			  		drive_inputs(FORWARD_CLOCKWISE);
+			  	else if(!sensor5.get() || !sensor6.get()) {
+			  		drive_inputs(FORWARD_CLOCKWISE);}
 			  	else
 			  		drive_inputs(FORWARD);
 			}
-			else if(!sensor3){
-			  	if(!sensor6)
+			else if(!sensor3.get()){
+			  	if(!sensor6.get())
 			  		drive_inputs(FORWARD_RIGHT);
-			  	else if(!sensor1 || !sensor4)
+			  	else if(!sensor1.get() || !sensor4.get())
 			  		drive_inputs(FORWARD_COUNTERCLOCK);
 			  	else
 			  		drive_inputs(FORWARD);
 			}
+			if(sensor1.get() == false)
+				tst1 = true;
+			if(sensor2.get() == false) 
+				tst2 = true;
+			if(sensor3.get() == false) 
+				tst3 = true;
+			if(sensor4.get() == false) 
+				tst4 = true;
+			if(sensor5.get() == false) 
+				tst5 = true;
+			if(sensor6.get() == false) 
+				tst6 = true;
+			if(tst1 && tst2 && tst3 && tst4 && tst5 && tst6) {
+				System.out.println("all sensors work");
+			}
+			System.out.println("sensors: " + sensor1.get() + " " + sensor2.get() + sensor3.get() + sensor4.get() + sensor5.get() + sensor6.get());
 		}
 	}
 	

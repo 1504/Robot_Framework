@@ -22,8 +22,8 @@ public class Lift implements Updatable
 	private DriverStation _ds = DriverStation.getInstance();
 	private double lift_speed = 0.0;
 	private boolean button_mode = false;
-	private static DigitalInput top_lift_switch = new DigitalInput(0); //needs to be initialized
-	private static DigitalInput bottom_lift_switch = new DigitalInput(1);
+	//private static DigitalInput top_lift_switch = new DigitalInput(0); //needs to be initialized
+	//private static DigitalInput bottom_lift_switch = new DigitalInput(1);
 	
 	private static final Lift instance = new Lift(); // used later to initialize
 	
@@ -44,10 +44,10 @@ public class Lift implements Updatable
 			}
 		}
 		_motor.set(lift_speed);
-		if(button_mode && (!bottom_lift_switch.get() && lift_speed > 0) || (!top_lift_switch.get() && lift_speed < 0)){
-			set_lift_velocity(0.0);
-			button_mode = false;
-		}
+		//if(button_mode && (!bottom_lift_switch.get() && lift_speed > 0) || (!top_lift_switch.get() && lift_speed < 0)){
+		//	set_lift_velocity(0.0);
+		//	button_mode = false;
+		//}
 	}
 	
 	public void set_state(lift_position state)
@@ -56,7 +56,7 @@ public class Lift implements Updatable
 	}
 	
 	public boolean set_lift_velocity(double speed) {
-		if(!top_lift_switch.get() && speed < 0)
+		/*if(!top_lift_switch.get() && speed < 0)
 		{
 			set_lift_velocity(0);
 			return false;
@@ -65,7 +65,7 @@ public class Lift implements Updatable
 			set_lift_velocity(0);
 			return false;
 		}
-		lift_speed = speed;
+		lift_speed = speed;*/
 		return true;
 	}
 	

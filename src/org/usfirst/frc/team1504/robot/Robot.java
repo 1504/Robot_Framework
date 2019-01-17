@@ -151,8 +151,8 @@ public class Robot extends RobotBase {
 			public void run() {
 				_arduino.setPartyMode(PARTY_MODE.ON);
 				char edge_track = 0;
-				PowerDistributionPanel pdp = new PowerDistributionPanel();
-				Compressor c = new Compressor(0);
+				//PowerDistributionPanel pdp = new PowerDistributionPanel();
+				//Compressor c = new Compressor(0);
 				SmartDashboard.putNumber("Auton Delay", 0.0);
 				
 				pos.addDefault("Left", new String("Left"));
@@ -171,20 +171,20 @@ public class Robot extends RobotBase {
 				SmartDashboard.putData("Position Chooser", pos);
 				SmartDashboard.putData("Auton Mode Chooser", autoChooser1);
 				
-				AnalogInput pressure_1 = new AnalogInput(0);
-				AnalogInput pressure_2 = new AnalogInput(1);
+				//AnalogInput pressure_1 = new AnalogInput(0);
+				//AnalogInput pressure_2 = new AnalogInput(1);
 				Preferences prefs = Preferences.getInstance();
 				Map.ARM_UP_ANGLE = prefs.getInt("Arm Up Angle", 0);
 				Map.ARM_DOWN_ANGLE = prefs.getInt("Arm Down Angle", 0);
 				Map.ARM_MID_ANGLE = prefs.getInt("Arm Mid Angle", 0);
 				while(true)
 				{	
-					SmartDashboard.putNumber("Robot Voltage", RobotController.getBatteryVoltage());
-					SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
-					SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
-					SmartDashboard.putNumber("Arm Power", _pickup.getPower());
-					SmartDashboard.putNumber("Pressure High", pressure_1.getAverageVoltage()*50 - 25);
-					SmartDashboard.putNumber("Pressure Low", pressure_2.getAverageVoltage()*50 - 25);
+					//SmartDashboard.putNumber("Robot Voltage", RobotController.getBatteryVoltage());
+					//SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
+					//SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
+					//SmartDashboard.putNumber("Arm Power", _pickup.getPower());
+					//SmartDashboard.putNumber("Pressure High", pressure_1.getAverageVoltage()*50 - 25);
+					//SmartDashboard.putNumber("Pressure Low", pressure_2.getAverageVoltage()*50 - 25);
 					
 					
 					
@@ -202,8 +202,8 @@ public class Robot extends RobotBase {
 					SmartDashboard.putNumber("PDP Current: Channel 15", pdp.getCurrent(15));
 					*/
 					
-					SmartDashboard.putBoolean("Pressure", c.getPressureSwitchValue());
-					SmartDashboard.putNumber("Pressure", c.getCompressorCurrent());
+					//SmartDashboard.putBoolean("Pressure", c.getPressureSwitchValue());
+					//SmartDashboard.putNumber("Pressure", c.getCompressorCurrent());
 					
 					//SmartDashbaord.putNumber("", );
 					
