@@ -30,17 +30,6 @@ public class IO
 	{
 		return Utils.deadzone(_secondary.getRawAxis(Map.INTAKE_POWER_AXIS));
 	}
-	public static double winch_input()
-	{
-		if(IO.get_override_winch())
-			return Utils.deadzone(Math.abs(_secondary.getRawAxis(Map.INTAKE_POWER_AXIS)));
-		return 0;
-	}
-	public static boolean get_override_winch()
-	{
-		return _secondary.getRawButton(Map.WINCH_BUTTON);
-	}
-	
 	public static boolean get_override_pickup()
 	{
 		return _secondary.getRawButton(Map.MASTER_OVERRIDE) && _secondary.getRawButton(Map.PICKUP_DOWN);
@@ -66,10 +55,9 @@ public class IO
 		}
 	}
 	
-	public static int open_flippers()
+	public static boolean get_grabber()
 	{
-		if(_secondary.getRawButton(Map.CRASH_DETECTION)) return 0;
-		return (int) (Math.abs(_secondary.getRawAxis(Map.OPEN_FLIPPERS)-1)); //some math
+		return _secondary.getRawButton(Map.GRABBER);
 	}
 	public static boolean get_arm_up()
 	{

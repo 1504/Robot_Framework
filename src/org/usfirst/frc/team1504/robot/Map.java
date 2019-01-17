@@ -38,7 +38,6 @@ public class Map {
 	public static final int DRIVE_CARTESIAN_JOYSTICK = 0;
 	public static final int DRIVE_POLAR_JOYSTICK = 1;
 	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
-	public static final int WINCH_BUTTON = 9; //left joystick press
 	
 	// Joystick inputs
 	//public static final int PICKUP_ON = 8; 
@@ -52,7 +51,7 @@ public class Map {
 	public static final int SPIN_ROTORS_IN = 2; //left trigger axis
 	public static final int SPIN_ROTORS_OUT = 5; //LT1 -- LB
 	public static final int OPEN_FLIPPERS = 3; //right trigger axis
-	public static final int WINCH_OVERRIDE = 9; //left joystick button
+	public static final int GRABBER = 9; //left joystick button
 	public static final int CRASH_DETECTION = 7; //left joystick button
 	// WE DON'T HAVE A BUTTON FOR DROPPING THE CUBE FROM THE ELEVATOR
 
@@ -237,7 +236,6 @@ public class Map {
 	public static final int sensor4 = 3;
 	public static final int sensor5 = 4;
 	public static final int sensor6 = 5;
-			;
 	
 	public static final int VISION_INTERFACE_PORT1 = 0;
 	public static final int VISION_INTERFACE_PORT2 = 1;
@@ -262,8 +260,8 @@ public class Map {
 /**
  * Pneumatics stuff
  */
-	public static final int PNEUMATICS_HIGHSIDE_PORT = 0;
-	public static final int PNEUMATICS_LOWSIDE_PORT = 1;
+	public static final int GRAB_PISTON_HIGHSIDE_PORT = 0;
+	public static final int GRAB_PISTON_LOWSIDE_PORT = 1;
 	
 	public static final int LIFT_PLATE_SOLENOID_PORT = 2; 
 	
@@ -291,36 +289,15 @@ public class Map {
 	public static double MID_ANGLE = 33.0; //Angles for moving from mid to switch
 	public static double EDGE_ANGLE = 55.0; //Angles for moving from edge (far left or right starting positions) to switch
 	
-	/*
-	public static final double[][] CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES = {{36.87, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_RUNTIME}};
-	public static final double[][] CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES = {{-36.87, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_RUNTIME}};
-	public static final double[][] CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES = {{-14.04, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_RUNTIME}};
-	public static final double[][] CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES = {{14.04, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_RUNTIME}};
-	*/
-	/*
-	public static final double[][] LEFT_SWITCH_FROM_LEFT_AND_RETURN_SEQUENCES = {{0, (AUTON_DEFAULT_SPEED), 0.0, 11, AUTON_RUNTIME}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 1000}, {-32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move straight to switch and eject cube
-	public static final double[][] LEFT_SWITCH_FROM_MID_AND_RETURN_SEQUENCES = {{-14.04, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_RUNTIME}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 1000}, {-32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move to switch at an angle and eject cube
-	public static final double[][] RIGHT_SWITCH_FROM_MID_AND_SEQUENCES = {{14.04, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_RUNTIME}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 1000}, {32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move to switch at an angle and eject cube
-	public static final double[][] RIGHT_SWITCH_FROM_LEFT_AND_SEQUENCES = {{36.87, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_RUNTIME}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 1000}, {32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move to switch at an angle and eject cube
-	public static final double[][] LEFT_SWITCH_FROM_RIGHT_AND_SEQUENCES = {{-36.87, AUTON_DEFAULT_SPEED, 0.0, 11, AUTON_RUNTIME}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 1000}, {-32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move to switch at an angle and eject cube
-	public static final double[][] RIGHT_SWITCH_FROM_RIGHT_AND_SEQUENCES = {{0, (AUTON_DEFAULT_SPEED), 0.0, 11, AUTON_RUNTIME}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 1000}, {32.735, AUTON_DEFAULT_SPEED, 0.0, 11, 2000}}; //Move straight to switch and eject cube
-	*/
 	public static final double[] PUSH_FORWARD = {0, -.35, 0.0, 11, 750};
 	public static final double[][] TEST_SEQUENCES = {{0.0, (AUTON_FAST_SPEED), 0.0, 13, 1000}};
 	public static final double[][] FORWARD_SHOOT_SEQUENCES = {{0.0, (AUTON_FAST_SPEED), 0.0, 13, 2800}, PUSH_FORWARD, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}};
 	public static final double[][] FORWARD_SHOOT_GRAB_CUBE_SEQUENCES = {{0, (AUTON_FAST_SPEED), 0.0, 13, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}, {0.0, -1.0*AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}, {90.0*DIRECTIONAL_MULTIPLIER, AUTON_DEFAULT_SPEED, 0.0, 11, SIDE_TO_MID_RUNTIME}, {0.0, 0.0, 0.5, 11, 1000}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 6, 500}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 11, MID_TO_CUBE_RUNTIME}, {0.0, 0.0, 0.0, 5, 1000}, {0.0, 0.0, 0.0, 9, 50}, {90.0*DIRECTIONAL_MULTIPLIER, -1.0*AUTON_DEFAULT_SPEED, 0.0, 11, SIDE_TO_MID_RUNTIME}};//, {-32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}}; //Move straight to switch and eject cube
 	public static final double[][] LEFT_SWITCH_FROM_MID_SEQUENCES = {{(-1*(MID_ANGLE + 4.0)), AUTON_FAST_SPEED, 0.0, 13, AUTON_FAST_RUNTIME}, PUSH_FORWARD, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}}; //Move to switch at an angle and eject cube
 	public static final double[][] RIGHT_SWITCH_FROM_MID_SEQUENCES = {{MID_ANGLE, AUTON_FAST_SPEED, 0.0, 13, AUTON_FAST_RUNTIME}, PUSH_FORWARD, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}}; //Move to switch at an angle and eject cube
-	//public static final double[][] RIGHT_SWITCH_FROM_LEFT_SEQUENCES = {{EDGE_ANGLE, AUTON_FAST_SPEED, 0.0, 13, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}}; //Move to switch at an angle and eject cube
-	//public static final double[][] LEFT_SWITCH_FROM_RIGHT_SEQUENCES = {{(-1*(EDGE_ANGLE)), AUTON_FAST_SPEED, 0.0, 13, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}};//Move to switch at an angle and eject cube
-
-	//public static final double[][] LEFT_SIDE_DELIVERY_SEQUENCES = {{0.0, 0.0, ((-0.4)), 0, 1000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 11, 1000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}, {0.0, 0.0, 0.0, 5, 100}}; //After forwards sequence turn using DIRECTIONAL_MULTIPLIER multiplier and then move forwards and eject cube into switch
-	//public static final double[][] RIGHT_SIDE_DELIVERY_SEQUENCES = {{0.0, 0.0, ((0.4)), 0, 1000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 11, 1000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}, {0.0, 0.0, 0.0, 5, 100}}; //After forwards sequence turn using DIRECTIONAL_MULTIPLIER multiplier and then move forwards and eject cube into switch
 	
 	public static final double[][] FORWARD_SEQUENCE = {{0, (AUTON_DEFAULT_SPEED), 0.0, 11, 2800}};
 
-	//public static final double[][] RIGHT_SCALE_UNIVERSAL_AUTON_SEQUENCES = {{Autonomous.find_angle_theta(Robot.right_x, Robot.right_y), -0.5, 0.0, 13, 5000}, {0.0, 0.0, 0.0, 10, 1000}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 2, 50}, {-90.0, 0.75, 0.0, 13, 2000}, {0.0, -0.75, 0.0, 11, 2500}, {90.0, -0.75, 0.0, 11, 2000}, {0.0, 0.5, 0.0, 11, 1000}, {0.0, 0.0, 0.0, 6, 50}, {0.0, 0.0, 0.0, 5, 500}, {0.0, 0.0, 0.0, 3, 50}, {0.0, 0.0, 0.0, 4, 100}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 5, 1}, {0.0, -0.75, 0.0, 13, 2000}, {0.0, 0.0, 0.0, 7, 100}, {0.0, 0.0, 0.0, 10, 200}}; // Add an angle into index 0
-	//public static final double[][] LEFT_SCALE_UNIVERSAL_AUTON_SEQUENCES = {{Autonomous.find_angle_theta(Robot.left_x, Robot.left_y), -0.5, 0.0, 13, 5000}, {0.0, 0.0, 0.0, 10, 1000}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 2, 50}, {90.0, 0.75, 0.0, 13, 2000}, {0.0, -0.75, 0.0, 11, 2500}, {-90.0, -0.75, 0.0, 11, 2000}, {0.0, 0.5, 0.0, 11, 1000}, {0.0, 0.0, 0.0, 6, 50}, {0.0, 0.0, 0.0, 5, 500}, {0.0, 0.0, 0.0, 3, 50}, {0.0, 0.0, 0.0, 4, 100}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 5, 1}, {0.0, -0.75, 0.0, 13, 2000}, {0.0, 0.0, 0.0, 7, 100}, {0.0, 0.0, 0.0, 10, 200}}; // Add an angle into index 0
 	public static final double[][] PICKUP_FROM_SPOT = {{0.0, 0.0, 0.5, 0, 1000}, {(-1*AUTON_DEFAULT_SPEED), 0.0, 0.0, 13, 2000}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 6, 50}, {(-1*AUTON_DEFAULT_SPEED), 0.0, 0.0, 13, 1000}, {0.0, 0.0, 0.0, 5, 50}, {0.0, 0.0, 0.0, 9, 50}, {AUTON_DEFAULT_SPEED, 0.0, 0.0, 11, 2000}}; //Pickup a cube, return to common starting spot, and then move cube onto lift
 	public static final double[][] RIGHT_SCALE_FROM_SPOT = {{90.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 3000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 7, 500}, {0.0, 0.0, 0.0, 14, 100}};
 	public static final double[][] LEFT_SCALE_FROM_SPOT = {{-90.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 3000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 7, 500}, {0.0, 0.0, 0.0, 14, 100}};

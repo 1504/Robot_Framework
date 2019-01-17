@@ -15,6 +15,7 @@ public class Pickup implements Updatable {
 	private WPI_TalonSRX _grab_right;
 	private WPI_TalonSRX _arm;
 	public DoubleSolenoid _grab_piston; 
+	public DoubleSolenoid _grabber;
 	private Lift _lift = Lift.getInstance();
 	// Encoder encoder;
 	public enum arm_position {UP, DOWN, MIDDLE, OFF}; // declares states of arms
@@ -81,19 +82,7 @@ public class Pickup implements Updatable {
 	}
 	private void update_mode() //checks if pickup is in progress
 	{
-		if (!lift_safe())
-		{
-			//set_arm_speed();
-			//double speed = (arm_angle[arm_state.ordinal()] - _arm.getSelectedSensorPosition(0)) * Map.PICKUP_GAIN;
-			//System.out.println("arm position" + _arm.getSelectedSensorPosition(0));
-			//set_arm_speed(speed)
-			// Sets arm velocity based on how far away the target is and where it is.
-			// Finds target angle by finding element of arm_state then finds its angle element in the arm_angle array
-		}
-		_grab_piston.set(DoubleSolenoid.Value.values()[flipper_state.ordinal()+1]);
 		rotate_intake();
-		//this bit of code should set the piston based on the state
-
 	}
 	
 	public void set_state(arm_position state) //sets position of arm
@@ -110,11 +99,27 @@ public class Pickup implements Updatable {
 	{
 		flipper_state = state;
 	}
+	public void change_grabber_state() {
+		if(_grab_piston.get() == DoubleSolenoid.Value.kOff)
+			_grab_piston.set(DoubleSolenoid.Value.kForward);
+		
+		if(_grab_piston.get() == DoubleSolenoid.Value.kForward);
+			_grab_piston.set(DoubleSolenoid.Value.kReverse);
+			
+		if(_grab_piston.get() == DoubleSolenoid.Value.kReverse);
+			_grab_piston.set(DoubleSolenoid.Value.kForward);
+	}
 	public void semaphore_update() //updates robot information
 	{
 		if(_ds.isOperatorControl() && !_ds.isDisabled()) //only runs in teleop
 		{
-			set_state(flipper.values()[IO.open_flippers()]); 
+			
+			if(IO.get_grabber()) 
+			{
+				change_grabber_state();
+			}
+					
+			
 			set_intake_speed(IO.get_intake_speed());
 			//System.out.println(_arm.getSelectedSensorPosition(0));
 			if (IO.get_arm_up())
@@ -126,7 +131,7 @@ public class Pickup implements Updatable {
 				set_state(arm_position.DOWN);
 			}
 			//if (IO.get_override_pickup())
-			if(!IO.get_override_lift() && !IO.get_override_winch())
+			if(!IO.get_override_lift())
 			{
 				 if(IO.override_input() < -0.1)
 				{

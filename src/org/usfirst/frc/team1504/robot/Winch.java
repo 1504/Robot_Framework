@@ -139,7 +139,7 @@ public class Winch implements Updatable
 		/*if(_ds.getMatchTime() > 30.0 && !IO.winch_override())
 			return;*/
 		// Run that thang!
-		_left.set(IO.winch_input());
-		_right.set(-IO.winch_input());
+		//_left.set(IO.winch_input());
+		//_right.set(-IO.winch_input());
 	}
 }
