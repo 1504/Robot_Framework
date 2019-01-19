@@ -60,7 +60,6 @@ public class Robot extends RobotBase {
 	private Autonomous _autonomous = Autonomous.getInstance();
 	private Arduino _arduino = Arduino.getInstance();
 	private Pickup _pickup = Pickup.getInstance();
-	private Winch _winch = Winch.getInstance();
 	
 	private HashMap<String, double[][]> map = new HashMap<String, double[][]>();
 	private SendableChooser<String> pos = new SendableChooser<String>();
@@ -501,7 +500,6 @@ public class Robot extends RobotBase {
                 }
                 
                 _logger.stop();
-                //_winch.set_deployed(false);
                 //Timer.delay(1);
                 m_ds.InOperatorControl(false);
             }

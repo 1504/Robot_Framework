@@ -91,23 +91,6 @@ public class Map {
 		public static final double LIFT_SAFETY_THRESHOLD = 5;
 		public static final double LIFT_LOCK_RELEASE_RANGE = 0.7;
 		public static final boolean LIMIT_SWITCH_EXISTS = false; 
-/*
- * Winch Stuff
- */
-		
-		public static final int INTAKE_POWER_AXIS = 1;
-		public static final int LIFT_AXIS = 5;
-		public static final int LEFT_TALON_PORT = 40;
-		public static final int RIGHT_TALON_PORT = 41;
-		
-		public static final int WINCH_CURRENT_LIMIT = 70;
-		
-		public static final int WINCH_POWER_AXIS = 1;
-		
-		public static final double WINCH_DIRECTION = -1.0;
-		public static final double WINCH_SERVO_DEPLOYED = 180.0;
-		public static final double WINCH_SERVO_STORED = 0.0;
-		public static final double WINCH_BRAKE_TIMEOUT = 15.0;
 		
 /**
  * Drive class things
