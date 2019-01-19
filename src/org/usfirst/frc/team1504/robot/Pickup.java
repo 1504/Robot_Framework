@@ -99,26 +99,18 @@ public class Pickup implements Updatable {
 	{
 		flipper_state = state;
 	}
-	public void change_grabber_state() {
-		if(_grab_piston.get() == DoubleSolenoid.Value.kOff)
+	public void update_grabber_state() {
+		if(IO.get_grabber())
 			_grab_piston.set(DoubleSolenoid.Value.kForward);
-		
-		if(_grab_piston.get() == DoubleSolenoid.Value.kForward);
+		else
 			_grab_piston.set(DoubleSolenoid.Value.kReverse);
 			
-		if(_grab_piston.get() == DoubleSolenoid.Value.kReverse);
-			_grab_piston.set(DoubleSolenoid.Value.kForward);
 	}
 	public void semaphore_update() //updates robot information
 	{
 		if(_ds.isOperatorControl() && !_ds.isDisabled()) //only runs in teleop
 		{
-			
-			if(IO.get_grabber()) 
-			{
-				change_grabber_state();
-			}
-					
+			update_grabber_state();
 			
 			set_intake_speed(IO.get_intake_speed());
 			//System.out.println(_arm.getSelectedSensorPosition(0));

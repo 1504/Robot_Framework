@@ -43,15 +43,15 @@ public class Map {
 	//public static final int PICKUP_ON = 8; 
 	//public static final int PICKUP_OFF = 9;
 	public static final int PICKUP_UP = 3; //X
-	public static final int PICKUP_DOWN = 1; //A
+	public static final int PICKUP_DOWN = 6; //A
 	//public static final int LIFT_ON = 6;
 	//public static final int LIFT_OFF = 7;
-	public static final int LIFT_UP = 2; //B
-	public static final int LIFT_DOWN = 1; //A
-	public static final int SPIN_ROTORS_IN = 2; //left trigger axis
+	public static final int LIFT_UP = 9; //B
+	public static final int LIFT_DOWN = 4; //A
+	public static final int SPIN_ROTORS_IN = 10; //left trigger axis
 	public static final int SPIN_ROTORS_OUT = 5; //LT1 -- LB
-	public static final int OPEN_FLIPPERS = 3; //right trigger axis
-	public static final int GRABBER = 9; //left joystick button
+	//public static final int OPEN_FLIPPERS = 3; //right trigger axis
+	public static final int GRABBER = 2; //left joystick button
 	public static final int CRASH_DETECTION = 7; //left joystick button
 	// WE DON'T HAVE A BUTTON FOR DROPPING THE CUBE FROM THE ELEVATOR
 
@@ -268,7 +268,6 @@ public class Map {
 /**
  * Auton stuff	
  */
-	public static final int AUTO_ALIGNMENT_BUTTON = 100;
 	
 	//norm/starting conditions arm down, lift down, facing alliance station
 	public static final double HORIZONTAL_MULTIPLIER = 1.4;

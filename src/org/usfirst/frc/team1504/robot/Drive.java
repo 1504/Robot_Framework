@@ -147,7 +147,7 @@ public class Drive implements Updatable
 	{
 		if(!_ds.isAutonomous())
 		{
-			if(IO.drive_wiggle() != 0.0 && !IO.get_auto_alignment())
+			if(IO.drive_wiggle() != 0.0)
 			{
 				drive_inputs(new double[] { 0.25 * (((_dir & 1) == 0) ? 1.0 : -1.0) , 0.31 * IO.drive_wiggle()});
 			}
@@ -214,7 +214,7 @@ public class Drive implements Updatable
 				
 				if (_new_data)
 				{
-					if(_ds.isOperatorControl())
+					if(_ds.isOperatorControl() && !IO.get_auto_alignment())
 					{
 						//input = detents(input);
 						if(IO.reset_front_side())
@@ -537,47 +537,40 @@ public class Drive implements Updatable
 		//
 		//double[] alignment_values = {SmartDashboard.getNumber("Forward", 0), SmartDashboard.getNumber("Track", 0), SmartDashboard.getNumber("Rotate", 0)};
 		double[] alignment_values = {0.24, 0.24, 0.24};
-		if(IO.get_auto_alignment()) //checks trigger
-		{
-			final double[] FORWARD_CLOCKWISE = {0.0, 0.0, -alignment_values[2]};
-			//final double[] FORWARD_CLOCKWISE = {0.2, 0.0, -0.2};
-			final double[] FORWARD_COUNTERCLOCK = {0.0, 0.0, alignment_values[2]};
-			final double[] FORWARD_RIGHT = {alignment_values[0], alignment_values[1], 0.0};
-			final double[] FORWARD_LEFT = {alignment_values[0], -alignment_values[1], 0.0};
-			final double[] FORWARD = {alignment_values[0], 0.0, 0.0};
-			if(!sensor2.get()){
-				if(!sensor5.get())
-			  		drive_inputs(FORWARD);
-			  	else if(!sensor4.get())
-			  		drive_inputs(FORWARD_COUNTERCLOCK);
-			  	else if(!sensor6.get())
-			  		drive_inputs(FORWARD_CLOCKWISE);
-			  	else 
-			  		drive_inputs(FORWARD);
-			}
-			if(!sensor1.get()){
-			  	if(!sensor4.get())
-			  		drive_inputs(FORWARD_LEFT);
-			  	else if(!sensor5.get() || !sensor6.get()) {
-			  		drive_inputs(FORWARD_CLOCKWISE);}
-			  	else
-			  		drive_inputs(FORWARD);
-			}
-			if(!sensor3.get()){
-			  	if(!sensor6.get())
-			  		drive_inputs(FORWARD_RIGHT);
-			  	else if(!sensor1.get() || !sensor4.get())
-			  		drive_inputs(FORWARD_COUNTERCLOCK);
-			  	else
-			  		drive_inputs(FORWARD);
-			}
-			if(sensor1.get() && sensor2.get() && sensor3.get())
-			{
-				if(!sensor4.get())
-					drive_inputs(FORWARD_LEFT);
-				if(!sensor5.get())
-					drive_inputs(FORWARD_RIGHT);
-			}
+		final double[] FORWARD_CLOCKWISE = {0.0, 0.0, -alignment_values[2]};
+		//final double[] FORWARD_CLOCKWISE = {0.2, 0.0, -0.2};
+		final double[] FORWARD_COUNTERCLOCK = {0.0, 0.0, alignment_values[2]};
+		final double[] FORWARD_RIGHT = {alignment_values[0], alignment_values[1], 0.0};
+		final double[] FORWARD_LEFT = {alignment_values[0], -alignment_values[1], 0.0};
+		final double[] FORWARD = {alignment_values[0], 0.0, 0.0};
+		if(!sensor1.get() && !sensor3.get()) {
+			return;
+		}
+		if(!sensor1.get()) {
+		  	if(!sensor5.get() || !sensor6.get()) {
+		  		drive_inputs(FORWARD_CLOCKWISE);}
+		  	else if(!sensor4.get())
+		  		drive_inputs(FORWARD_LEFT);
+		  	else
+		  		drive_inputs(FORWARD_LEFT);
+		}
+		if(!sensor3.get()){
+		  	if(!sensor1.get() || !sensor4.get())
+		  		drive_inputs(FORWARD_COUNTERCLOCK);
+		  	else if(!sensor6.get())
+		  		drive_inputs(FORWARD_RIGHT);
+		  	else
+		  		drive_inputs(FORWARD_RIGHT);
+		}
+		if(!sensor2.get()){
+		  	if(!sensor4.get())
+		  		drive_inputs(FORWARD_COUNTERCLOCK);
+		  	else if(!sensor6.get())
+		  		drive_inputs(FORWARD_CLOCKWISE);
+		  	else if(!sensor5.get())
+		  		drive_inputs(FORWARD);
+		  	else 
+		  		drive_inputs(FORWARD);
 		}
 	}
 	
