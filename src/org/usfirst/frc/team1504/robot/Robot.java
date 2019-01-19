@@ -149,6 +149,9 @@ public class Robot extends RobotBase {
     protected void robotInit() {
     	_dashboard_task = new Thread(new Runnable() {
 			public void run() {
+
+				Pickup.update_grabber_state();
+				
 				_arduino.setPartyMode(PARTY_MODE.ON);
 				char edge_track = 0;
 				//PowerDistributionPanel pdp = new PowerDistributionPanel();

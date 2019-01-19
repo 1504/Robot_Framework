@@ -268,6 +268,7 @@ public class Map {
 /**
  * Auton stuff	
  */
+	public static final int AUTO_ALIGNMENT_BUTTON = 1;
 	
 	//norm/starting conditions arm down, lift down, facing alliance station
 	public static final double HORIZONTAL_MULTIPLIER = 1.4;

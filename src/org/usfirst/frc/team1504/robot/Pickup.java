@@ -14,7 +14,7 @@ public class Pickup implements Updatable {
 	private WPI_TalonSRX _grab_left;
 	private WPI_TalonSRX _grab_right;
 	private WPI_TalonSRX _arm;
-	public DoubleSolenoid _grab_piston; 
+	public static DoubleSolenoid _grab_piston; 
 	public DoubleSolenoid _grabber;
 	private Lift _lift = Lift.getInstance();
 	// Encoder encoder;
@@ -99,7 +99,7 @@ public class Pickup implements Updatable {
 	{
 		flipper_state = state;
 	}
-	public void update_grabber_state() {
+	public static void update_grabber_state() {
 		if(IO.get_grabber())
 			_grab_piston.set(DoubleSolenoid.Value.kForward);
 		else
@@ -109,9 +109,7 @@ public class Pickup implements Updatable {
 	public void semaphore_update() //updates robot information
 	{
 		if(_ds.isOperatorControl() && !_ds.isDisabled()) //only runs in teleop
-		{
-			update_grabber_state();
-			
+		{			
 			set_intake_speed(IO.get_intake_speed());
 			//System.out.println(_arm.getSelectedSensorPosition(0));
 			if (IO.get_arm_up())
