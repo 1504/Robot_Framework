@@ -203,7 +203,6 @@ public class Drive implements Updatable
 				System.out.print("WARNING: Input out of sync in mainTask function: ");
 				for(int i = 0; i < input.length; i++){
 					System.out.print(input[i] + " ");
-					
 				}
 				System.out.print("\n");
 				input = new double[3];
@@ -211,12 +210,9 @@ public class Drive implements Updatable
 			}
 			if(_ds.isEnabled())
 			{
-				
 				if (_new_data)
 				{
-					if(Autonomous.check_sensors() && IO.get_auto_alignment())
-						Autonomous.auto_alignment();
-					else if(_ds.isOperatorControl())
+					if(_ds.isOperatorControl())
 					{
 						//input = detents(input);
 						if(IO.reset_front_side())
@@ -234,17 +230,14 @@ public class Drive implements Updatable
 					_dump = true;
 					_input = input;
 				}
-				
+				if(Auto_Alignment.check_sensors() && IO.get_auto_alignment())
+				{
+					input =  Auto_Alignment.auto_alignment();
+				}
 				//_groundtruth.getData();
 				//input = groundtruth_correction(input);
 				input = accelerometer_correction(input);
-				//if(IO.gear_input())
-					//input = _gear.setDriveInput();
-				//if(IO.camera_shooter_input())
-					//input = _camera.set_drive_input(); 
-				
 				output = outputCompute(input);
-//				System.out.println("output computed, input: " + input[0] + " " + input[1] + " " + input[2] + "|||| output: " + output[0] + " " + output[1] + " " + output[2] + " " + output[3]);
 				motorOutput(output);
 				
 				_loops_since_last_dump++;
@@ -258,8 +251,7 @@ public class Drive implements Updatable
 //					_dump = false;
 				}
 			}
-			//when disabled:
-			else
+			else //when disabled:
 			{
 				update_dash();
 				try

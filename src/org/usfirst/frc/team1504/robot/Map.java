@@ -1,36 +1,10 @@
 package org.usfirst.frc.team1504.robot;
 
-public class Map {
-	//methods
-	
-	public static double[][] get_side_delivery_sequence(double DIRECTIONAL_MULTIPLIER) {
-		double[][] SIDE_DELIVERY_SEQUENCES = {{0.0, 0.0, (DIRECTIONAL_MULTIPLIER*(0.4)), 0, 1000}, {AUTON_DEFAULT_SPEED, 0.0, 0.0, 0, 1000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}};
-		return SIDE_DELIVERY_SEQUENCES;
-	}
-
-	public static double[][] get_return_to_spot_sequence(double DIRECTIONAL_MULTIPLIER) {
-		double angle = MID_ANGLE;
-		if(DIRECTIONAL_MULTIPLIER == -1.0)
-			angle = MID_ANGLE + 4;
-		double[][] RETURN_TO_SPOT = {{((-angle)*(-1*DIRECTIONAL_MULTIPLIER)), (-1*AUTON_FAST_SPEED), 0.0, 11, 1500}, {0.0, 0.0, (DIRECTIONAL_MULTIPLIER*(0.4)), 0, 2000}, {0.0, 0.0, 0.0, 0.0, 100}};
-		return RETURN_TO_SPOT;
-	}
-	
-	public static double[][] get_spot_to_switch_sequence(double DIRECTIONAL_MULTIPLIER) { //WARNING: HAS NOT BEEN TESTED
-		double[][] SPOT_TO_SWITCH = {{(90-MID_ANGLE*(-1*DIRECTIONAL_MULTIPLIER)), AUTON_DEFAULT_SPEED, 0.0, 13, 2000}};
-		return SPOT_TO_SWITCH;
-	}
-	
-	public static double[][] get_alternate_switch_sequence(double DIRECTIONAL_MULTIPLIER) {
-		double[][] ALTERNATE_SWITCH_SEQUENCES = {{(45*(DIRECTIONAL_MULTIPLIER)), 0.0, 0.0, 11, 1000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 2, 100}, {0.0, 0.0, 0.0, 14, 100}, {0.0, 0.0, 0.0, 5, 100}};
-		return ALTERNATE_SWITCH_SEQUENCES;
-	}
-	
+public class Map {		
 	/**
  * Utilities
  */
 	public static final double UTIL_JOYSTICK_DEADZONE = 0.05;
-	
 	
 /**
  * Inputs
@@ -40,44 +14,30 @@ public class Map {
 	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
 	
 	// Joystick inputs
-	//public static final int PICKUP_ON = 8; 
-	//public static final int PICKUP_OFF = 9;
-	public static final int PICKUP_UP = 3; //X
-	public static final int PICKUP_DOWN = 6; //A
-	//public static final int LIFT_ON = 6;
-	//public static final int LIFT_OFF = 7;
-	public static final int LIFT_UP = 9; //B
-	public static final int LIFT_DOWN = 4; //A
-	public static final int SPIN_ROTORS_IN = 10; //left trigger axis
+	public static final int SPIN_ROTORS_IN = 2; //left trigger axis
 	public static final int SPIN_ROTORS_OUT = 5; //LT1 -- LB
-	//public static final int OPEN_FLIPPERS = 3; //right trigger axis
 	public static final int GRABBER = 2; //left joystick button
-	public static final int CRASH_DETECTION = 7; //left joystick button
-	// WE DON'T HAVE A BUTTON FOR DROPPING THE CUBE FROM THE ELEVATOR
-
-	
+	public static final int CRASH_DETECTION = 7; //left joystick button	
+	//3 : X
+	//6 : A
+	//9 : B
+	//4 : A
+	//2 : left trigger axis
+	//5 : LT1 -- LB
+	//3 : right trigger axis
+	//2 : left joystick button
+	//7 : left joystick button
 /**
  * Pickup stuff
  */
 		public static final int INTAKE_POWER_AXIS = 1;
 		public static final int LIFT_AXIS = 5;
-	
-		public static final int ARM_TALON_PORT = 20;
 		
-		public static final int ROLLER_TALON_PORT_LEFT = 21;
-		public static final int ROLLER_TALON_PORT_RIGHT = 22;
+		public static final int ROLLER_TALON_PORT_LEFT = 20;
+		public static final int ROLLER_TALON_PORT_RIGHT = 21;
 		
-		public static int ARM_UP_ANGLE = 1000; //not final because they vary from bots
-		public static int ARM_DOWN_ANGLE = 1000;
-		public static int ARM_MID_ANGLE = 1000;
-		
-		public static final double FLIPPER_MAGIC = 1.0;
 		public static final double PICKUP_GAIN = 0.03;
 		public static final double ROTATION_SPEED = 1;
-		/*
-		public static final int ENCODER_PORT_1 = 1;
-		public static final int ENCODER_PORT_2 = 2;
-		*/
 /**
  * Elevator / Lift Stuff
  */
@@ -98,12 +58,6 @@ public class Map {
  * Drive class things
  */
 	
-	// Drive angle stuff
-		public static final double DRIVE_ANGLE = 60.0; // We need to get this value from IO and vision code
-		public static final double DRIVE_SPEED = 1.0; // This can be changed but it is 1 so we ram into things;
-		
-		
-		
 	// Drive Motor enumeration
 	public static enum DRIVE_MOTOR { FRONT_LEFT, BACK_LEFT, BACK_RIGHT, FRONT_RIGHT }
 	
@@ -134,7 +88,7 @@ public class Map {
 
 	
 	// Drive Input magic numbers
-	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { -1.0, 1.0, -0.6 };
+	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { -1.0, 1.0, 0.6 };
 	public static final double DRIVE_INPUT_TURN_FACTOR = 0.2;
 	
 	public static final double DRIVE_INPUT_VISION_SPEED = 0.75;
@@ -256,40 +210,11 @@ public class Map {
 	public static final int AUTO_ALIGNMENT_BUTTON = 1;
 	
 	//norm/starting conditions arm down, lift down, facing alliance station
-	public static final double HORIZONTAL_MULTIPLIER = 1.4;
-	public static final double AUTON_DEFAULT_SPEED = -0.5;
-	public static final double AUTON_FAST_SPEED = -0.8;
 	public static final double CRASH_DETECTION_THRESHOLD_MULTIPLIER = 1.1;
 	public static final int CRASH_DETECTION_DISTANCE_THRESHOLD = 700;
 	public static final int CRASH_DETECTION_MODE = 0;
 	public static final double DETECTION_DELAY = 1000;
-	public static final double FIRE_TIME = 1500;
-	public static final double ARM_OPENING_TIME = 100;
-	public static final double AUTON_RUNTIME = 4000;
-	public static final double AUTON_FAST_RUNTIME = 4000;
-	public static final double AUTON_RETURN_MULTIPLIER = 0.75;
-	public static final double SIDE_TO_MID_RUNTIME = 1500;
-	public static final double MID_TO_CUBE_RUNTIME = 1500;
-	public static double DIRECTIONAL_MULTIPLIER = 1.0; //Technically the multiplier for returning to spot
-	public static double MID_ANGLE = 33.0; //Angles for moving from mid to switch
-	public static double EDGE_ANGLE = 55.0; //Angles for moving from edge (far left or right starting positions) to switch
-	
-	public static final double[] PUSH_FORWARD = {0, -.35, 0.0, 11, 750};
-	public static final double[][] TEST_SEQUENCES = {{0.0, (AUTON_FAST_SPEED), 0.0, 13, 1000}};
-	public static final double[][] FORWARD_SHOOT_SEQUENCES = {{0.0, (AUTON_FAST_SPEED), 0.0, 13, 2800}, PUSH_FORWARD, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}};
-	public static final double[][] FORWARD_SHOOT_GRAB_CUBE_SEQUENCES = {{0, (AUTON_FAST_SPEED), 0.0, 13, AUTON_FAST_RUNTIME}, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}, {0.0, -1.0*AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}, {90.0*DIRECTIONAL_MULTIPLIER, AUTON_DEFAULT_SPEED, 0.0, 11, SIDE_TO_MID_RUNTIME}, {0.0, 0.0, 0.5, 11, 1000}, {0.0, 0.0, 0.0, 1, 50}, {0.0, 0.0, 0.0, 6, 500}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 11, MID_TO_CUBE_RUNTIME}, {0.0, 0.0, 0.0, 5, 1000}, {0.0, 0.0, 0.0, 9, 50}, {90.0*DIRECTIONAL_MULTIPLIER, -1.0*AUTON_DEFAULT_SPEED, 0.0, 11, SIDE_TO_MID_RUNTIME}};//, {-32.735, AUTON_FAST_SPEED, 0.0, 11, AUTON_FAST_RUNTIME*AUTON_RETURN_MULTIPLIER}}; //Move straight to switch and eject cube
-	public static final double[][] LEFT_SWITCH_FROM_MID_SEQUENCES = {{(-1*(MID_ANGLE + 4.0)), AUTON_FAST_SPEED, 0.0, 13, AUTON_FAST_RUNTIME}, PUSH_FORWARD, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}}; //Move to switch at an angle and eject cube
-	public static final double[][] RIGHT_SWITCH_FROM_MID_SEQUENCES = {{MID_ANGLE, AUTON_FAST_SPEED, 0.0, 13, AUTON_FAST_RUNTIME}, PUSH_FORWARD, {0.0, 0.0, 0.0, 2, ARM_OPENING_TIME}, {0.0, 0.0, 0.0, 14, FIRE_TIME}}; //Move to switch at an angle and eject cube
-	
-	public static final double[][] FORWARD_SEQUENCE = {{0, (AUTON_DEFAULT_SPEED), 0.0, 11, 2800}};
-
-	public static final double[][] PICKUP_FROM_SPOT = {{0.0, 0.0, 0.5, 0, 1000}, {(-1*AUTON_DEFAULT_SPEED), 0.0, 0.0, 13, 2000}, {0.0, 0.0, 0.0, 2, 50}, {0.0, 0.0, 0.0, 6, 50}, {(-1*AUTON_DEFAULT_SPEED), 0.0, 0.0, 13, 1000}, {0.0, 0.0, 0.0, 5, 50}, {0.0, 0.0, 0.0, 9, 50}, {AUTON_DEFAULT_SPEED, 0.0, 0.0, 11, 2000}}; //Pickup a cube, return to common starting spot, and then move cube onto lift
-	public static final double[][] RIGHT_SCALE_FROM_SPOT = {{90.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 3000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 7, 500}, {0.0, 0.0, 0.0, 14, 100}};
-	public static final double[][] LEFT_SCALE_FROM_SPOT = {{-90.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 3000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 7, 500}, {0.0, 0.0, 0.0, 14, 100}};
-	public static final double[][] AUTON_EXCHANGE_FROM_SPOT = {{32.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 3000}};
 	//{angle,strength/speed,turning,mode,time}
-	
-	
 	//{forward, right, counterclock}
 /**
  * Logger stuff

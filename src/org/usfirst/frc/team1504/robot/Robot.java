@@ -57,7 +57,6 @@ public class Robot extends RobotBase {
 	private Drive _drive = Drive.getInstance();
 	private Update_Semaphore _semaphore = Update_Semaphore.getInstance();
 	private Logger _logger = Logger.getInstance();
-	private Autonomous _autonomous = Autonomous.getInstance();
 	private Arduino _arduino = Arduino.getInstance();
 	private Pickup _pickup = Pickup.getInstance();
 	
@@ -91,50 +90,6 @@ public class Robot extends RobotBase {
     	System.out.println("game specific message:"+_ds.getGameSpecificMessage()); 
     	//RRL - Right side switch (closer), Right side scale, Left side switch (farther)
     	//System.out.println(new String(Base64.getDecoder().decode(Map.TEAM_BANNER)));
-    	
-    	
-    	// "TYPE-OF-AUTON_START_END"   	 	
-    	map.put("LeftSwitchL", Map.FORWARD_SHOOT_SEQUENCES);
-    	map.put("LeftSwitchR", Map.FORWARD_SEQUENCE);
-    	map.put("MidSwitchL", Map.LEFT_SWITCH_FROM_MID_SEQUENCES);
-    	map.put("MidSwitchR", Map.RIGHT_SWITCH_FROM_MID_SEQUENCES);
-    	map.put("RightSwitchL", Map.FORWARD_SEQUENCE);
-    	map.put("RightSwitchR", Map.FORWARD_SHOOT_SEQUENCES);
-    	
-    	/*
-    	map.put("LeftSwitchBlockL", _autonomous.build_auton(Map.FORWARD_SHOOT_SEQUENCES, Map.PICKUP_FROM_SPOT));
-    	map.put("LeftSwitchBlockR", _autonomous.build_auton(Map.RIGHT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT));
-    	map.put("MidSwitchBlockL", _autonomous.build_auton(Map.LEFT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT));
-    	map.put("MidSwitchBlockR", _autonomous.build_auton(Map.RIGHT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT));
-    	map.put("RightSwitchBlockL", _autonomous.build_auton(Map.LEFT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT));
-    	map.put("RightSwitchBlockR", _autonomous.build_auton(Map.FORWARD_SHOOT_SEQUENCES, Map.PICKUP_FROM_SPOT));
-    	*/
-    	
-    	/*map.put("LeftSwitchScaleLL", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.LEFT_SCALE_FROM_SPOT));
-    	map.put("LeftSwitchScaleLR", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.RIGHT_SCALE_FROM_SPOT));
-    	map.put("LeftSwitchScaleRL", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.LEFT_SCALE_FROM_SPOT));
-    	map.put("LeftSwitchScaleRR", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.RIGHT_SCALE_FROM_SPOT));
-    	map.put("MidSwitchScaleLL", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.LEFT_SCALE_FROM_SPOT));
-    	map.put("MidSwitchScaleLR", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.RIGHT_SCALE_FROM_SPOT));
-    	map.put("MidSwitchScaleRL", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.LEFT_SCALE_FROM_SPOT));
-    	map.put("MidSwitchScaleRR", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.RIGHT_SCALE_FROM_SPOT));
-    	map.put("RightSwitchScaleLL", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.LEFT_SCALE_FROM_SPOT));
-    	map.put("RightSwitchScaleLR", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.RIGHT_SCALE_FROM_SPOT));
-    	map.put("RightSwitchScaleRL", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.LEFT_SCALE_FROM_SPOT));
-    	map.put("RightSwitchScaleRR", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.RIGHT_SCALE_FROM_SPOT));
-    	
-    	map.put("LeftSwitchExchangeLE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
-    	map.put("LeftSwitchExchangeRE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_LEFT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
-    	map.put("MidSwitchExchangeLE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
-    	map.put("MidSwitchExchangeRE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_MID_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
-    	map.put("RightSwitchExchangeLE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_LEFT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
-    	map.put("RightSwitchExchangeRE", _autonomous.build_auton(_autonomous.build_auton(Map.CONTINGENCY_RIGHT_SWITCH_FROM_RIGHT_SEQUENCES, Map.PICKUP_FROM_SPOT), Map.AUTON_EXCHANGE_FROM_SPOT));
-    	
-    	map.put("LeftExchangeEE", Map.AUTON_EXCHANGE_FROM_LEFT_SEQUENCES);
-    	map.put("MidExchangeEE", Map.AUTON_EXCHANGE_FROM_MID_SEQUENCES);
-    	map.put("RightExchangeEE", Map.AUTON_EXCHANGE_FROM_RIGHT_SEQUENCES);
-    	System.out.println(map.get("Contingencies"));
-    	*/
     }
 
     /**
@@ -148,8 +103,6 @@ public class Robot extends RobotBase {
     protected void robotInit() {
     	_dashboard_task = new Thread(new Runnable() {
 			public void run() {
-
-				Pickup.update_grabber_state();
 				
 				_arduino.setPartyMode(PARTY_MODE.ON);
 				char edge_track = 0;
@@ -173,14 +126,9 @@ public class Robot extends RobotBase {
 				SmartDashboard.putData("Position Chooser", pos);
 				SmartDashboard.putData("Auton Mode Chooser", autoChooser1);
 				
-				//AnalogInput pressure_1 = new AnalogInput(0);
-				//AnalogInput pressure_2 = new AnalogInput(1);
-				Preferences prefs = Preferences.getInstance();
-				Map.ARM_UP_ANGLE = prefs.getInt("Arm Up Angle", 0);
-				Map.ARM_DOWN_ANGLE = prefs.getInt("Arm Down Angle", 0);
-				Map.ARM_MID_ANGLE = prefs.getInt("Arm Mid Angle", 0);
 				while(true)
 				{	
+
 					//SmartDashboard.putNumber("Robot Voltage", RobotController.getBatteryVoltage());
 					//SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
 					//SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
@@ -360,17 +308,6 @@ public class Robot extends RobotBase {
         // first and one-time initialization
         LiveWindow.setEnabled(false);
         robotInit();
-        //NetworkTable table;
-        //table = NetworkTableInstance.getDefault().getTable("GRIP/switch");
-        //double[] xRects = table.getEntry("centerX").getDoubleArray(new double[] {2, 3});
-        //double[] yRects = table.getEntry("centerY").getDoubleArray(new double[] {2, 3});
-        //if(xRects.length == 1)
-        //	xRects = new double[] {2, 3};
-        //if(yRects.length == 1)
-        //	yRects = new double[] {2, 3};
-        //double[] angles = _autonomous.switch_angles(xRects[0], xRects[1], 
-        //											yRects[0], yRects[1]);
-        //double[] arr = _drive.follow_angle(angles[0], .2);
         HAL.observeUserProgramStarting();
         while (true) {
             if (isDisabled()) {
@@ -384,92 +321,7 @@ public class Robot extends RobotBase {
                 m_ds.InAutonomous(true);
                 _logger.start("Auto");
                 autonomous();
-                System.out.println("hey now");
                 
-                String message = _ds.getGameSpecificMessage();
-                
-                char[] game_message = message.toCharArray();
-                /*
-                if(new_message.length == 3)
-                {
-                if (new_message[0] == 'L')
-                {
-                	if(vorc_state == v_or_c.VISIONCODE)
-                	{
-                	//left_x = xRects[0];
-                	//left_y = yRects[0];
-                	}
-                	if(vorc_state == v_or_c.CONTINGENCY)
-                	{
-                		//
-                	}
-                }
-                else if (new_message[0] == 'R')
-                {
-                	if(vorc_state == v_or_c.VISIONCODE)
-                	{
-                	//right_x = xRects[1];
-                	//right_y = yRects[1];
-                	}
-                	if(vorc_state == v_or_c.CONTINGENCY)
-                	{
-                		//
-                	}
-                }
-                else
-                {
-                	// We must be in the middle so don't do anything unless we are net setting what to run in auton somewhere else
-                }
-            }
-                */
-                
-                
-                String seq = pos.getSelected() +  "Switch" + game_message[0];
-                if (autoChooser1.getSelected().equals("SwitchScale"))
-                	seq += game_message[1];
-                
-                // double [][] path = _autonomous.build_auton(new double[][][]{map.get(seq)});
-                //System.out.println(seq);
-                
-                double[][] path;
-                System.out.println(pos.getSelected());
-                System.out.println(game_message[0]);
-                System.out.println(pos.getSelected() == "Left");
-                System.out.println(game_message[0] == 'L');
-                path = map.get(pos.getSelected() + "Switch" + game_message[0]);
-                //path = Map.FORWARD_SHOOT_SEQUENCES;
-                
-                path = map.get(seq);
-                
-                if(game_message[0] == 'L')
-                	Map.DIRECTIONAL_MULTIPLIER = -1.0;
-                else
-                	Map.DIRECTIONAL_MULTIPLIER = 1.0;
-          
-                //double [][] path = map.get(seq);
-                double [][] auton_delay = new double[][] {{0.0, 0.0, 0.0, 0, SmartDashboard.getNumber("Auton Delay", 0.0) * 1000}};
-                path = _autonomous.build_auton(auton_delay, path);
-                // double [][] path = {{0, (Map.AUTON_DEFAULT_SPEED), 0.0, 11, Map.AUTON_RUNTIME}};
-                	
-                System.out.println(autoChooser1.getSelected());
-                if (autoChooser1.getSelected().equals("Spot") || autoChooser1.getSelected().equals("Block"))
-                	path = _autonomous.build_auton(path, Map.get_return_to_spot_sequence(Map.DIRECTIONAL_MULTIPLIER));
-                if (autoChooser1.getSelected().equals("Block"))
-                	path = _autonomous.build_auton(path, Map.PICKUP_FROM_SPOT);
-                if (autoChooser1.getSelected().equals("GoForward"))
-                	path = Map.FORWARD_SEQUENCE;
-                
-                if ((autoChooser1.getSelected().equals("SideDelivery") && (game_message[0] == 'R') && pos.getSelected().equals("Right")) || ((autoChooser1.getSelected().equals("SideDelivery") && (game_message[0] == 'L') && pos.getSelected().equals("Left"))))
-                	path = _autonomous.build_auton(Map.FORWARD_SEQUENCE, Map.get_side_delivery_sequence(Map.DIRECTIONAL_MULTIPLIER));
-                else if ((autoChooser1.getSelected().equals("SideDelivery") && (pos.getSelected().equals("Right"))) || (autoChooser1.getSelected().equals("SideDelivery")) && (pos.getSelected().equals("Left")))
-                	path = Map.FORWARD_SEQUENCE;
-                //double [][] path = map.get(seq);
-                //double [][] auton_delay = new double[][] {{0.0, 0.0, 0.0, 0, SmartDashboard.getNumber("Auton Delay", 0.0)}};
-                // double [][] path = {{0, (Map.AUTON_DEFAULT_SPEED), 0.0, 11, Map.AUTON_RUNTIME}};
-                //_autonomous.setup_path(_autonomous.build_auton(new double[][][]{auton_delay, path}));
-                //_autonomous.setup_path(_autonomous.build_auton(auton_delay, path);
-                _autonomous.setup_path(path);
-                _autonomous.start();
                 while (isAutonomous() && !isDisabled()) {
                 	m_ds.waitForData(150);
                 	_semaphore.newData();
