@@ -8,7 +8,7 @@ import java.util.Timer;
 
 import java.lang.Math;
 
-
+import org.usfirst.frc.team1504.robot.Auto_Alignment.alignment_position;
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 import org.usfirst.frc.team1504.utils.LinearRegression;
 
@@ -232,6 +232,7 @@ public class Drive implements Updatable
 				}
 				if(Auto_Alignment.check_sensors() && IO.get_auto_alignment())
 				{
+					//Auto_Alignment.alignment_state = alignment_position.TRACKING;
 					input =  Auto_Alignment.auto_alignment();
 				}
 				//_groundtruth.getData();

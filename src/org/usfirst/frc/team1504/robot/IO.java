@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1504.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+
 public class IO
 {
 	private static Latch_Joystick _drive_forward = new Latch_Joystick(Map.DRIVE_CARTESIAN_JOYSTICK);
@@ -69,5 +71,11 @@ public class IO
 	public static boolean get_auto_alignment()
 	{
 		return _secondary.getRawButton(Map.AUTO_ALIGNMENT_BUTTON);
+	}
+	
+	static DigitalInput auto_grabber_switch = new DigitalInput(Map.AUTO_GRABBER_SWITCH);
+	public static boolean get_grabber_trigger() 
+	{
+		return auto_grabber_switch.get();
 	}
 }

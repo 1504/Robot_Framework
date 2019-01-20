@@ -208,6 +208,7 @@ public class Map {
  * Auton stuff	
  */
 	public static final int AUTO_ALIGNMENT_BUTTON = 1;
+	public static final int AUTO_GRABBER_SWITCH = 7;
 	
 	//norm/starting conditions arm down, lift down, facing alliance station
 	public static final double CRASH_DETECTION_THRESHOLD_MULTIPLIER = 1.1;

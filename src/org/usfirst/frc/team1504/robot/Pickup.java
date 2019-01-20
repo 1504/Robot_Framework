@@ -52,6 +52,10 @@ public class Pickup implements Updatable {
 			_grab_piston.set(DoubleSolenoid.Value.kForward);
 		}			
 	}
+	public static void open_grabber() 
+	{
+		_grab_piston.set(DoubleSolenoid.Value.kForward);
+	}
 	public void semaphore_update() //updates robot information
 	{
 		if(_ds.isOperatorControl() && !_ds.isDisabled()) //only runs in teleop

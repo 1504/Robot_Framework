@@ -9,6 +9,13 @@ public class Auto_Alignment {
 	static DigitalInput sensor4 = new DigitalInput(Map.sensor4);
 	static DigitalInput sensor5 = new DigitalInput(Map.sensor5);
 	static DigitalInput sensor6 = new DigitalInput(Map.sensor6);
+
+	static long recordedTime = 0;
+	
+	enum alignment_position {TRACKING, PICKUP, PLACEMENT, UNACTIVATED, REVERSE};
+	static alignment_position alignment_state = alignment_position.UNACTIVATED;
+	
+	static boolean triggered = false;
 	
 	public static boolean check_sensors() {
 		if(!sensor1.get() && !sensor3.get())
@@ -32,15 +39,42 @@ public class Auto_Alignment {
 		final double[] FORWARD_RIGHT = {alignment_values[0], alignment_values[1], 0.0};
 		final double[] FORWARD_LEFT = {alignment_values[0], -alignment_values[1], 0.0};
 		final double[] FORWARD = {alignment_values[0], 0.0, 0.0};
-		if(!sensor1.get()) {
-		  	if(!sensor5.get() || !sensor6.get()) {
-		  		return(FORWARD_CLOCKWISE);}
+		final double[] REVERSE = {-0.4, 0.0, 0.0};
+		if(!IO.get_grabber_trigger())
+		{
+			Pickup.open_grabber();
+			if(alignment_state == alignment_position.TRACKING) 
+			{
+				recordedTime = System.currentTimeMillis();
+				alignment_state = alignment_position.PICKUP;
+			}
+			if(System.currentTimeMillis()-recordedTime > 1900)
+			{
+				alignment_state = alignment_position.UNACTIVATED;
+				recordedTime = 0;
+				return NULL_RESPONSE;
+			}
+			if(alignment_state == alignment_position.PICKUP && (System.currentTimeMillis()-recordedTime) > 400) 
+			{
+				return REVERSE;
+			}
+			return FORWARD;
+		}
+		else 
+		{
+			alignment_state = alignment_position.TRACKING;
+		}
+		if(!sensor1.get()) 
+		{
+		  	if(!sensor5.get() || !sensor6.get()) 
+		  		return(FORWARD_CLOCKWISE);
 		  	else if(!sensor4.get())
 		  		return(FORWARD_LEFT);
 		  	else
 		  		return(FORWARD_LEFT);
 		}
-		if(!sensor3.get()){
+		if(!sensor3.get())
+		{
 		  	if(!sensor1.get() || !sensor4.get())
 		  		return(FORWARD_COUNTERCLOCK);
 		  	else if(!sensor6.get())
@@ -48,7 +82,8 @@ public class Auto_Alignment {
 		  	else
 		  		return(FORWARD_RIGHT);
 		}
-		if(!sensor2.get()){
+		if(!sensor2.get())
+		{
 		  	if(!sensor4.get())
 		  		return(FORWARD_COUNTERCLOCK);
 		  	else if(!sensor6.get())
