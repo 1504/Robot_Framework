@@ -72,10 +72,4 @@ public class IO
 	{
 		return _secondary.getRawButton(Map.AUTO_ALIGNMENT_BUTTON);
 	}
-	
-	static DigitalInput auto_grabber_switch = new DigitalInput(Map.AUTO_GRABBER_SWITCH);
-	public static boolean get_grabber_trigger() 
-	{
-		return auto_grabber_switch.get();
-	}
 }

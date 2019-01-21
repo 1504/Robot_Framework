@@ -39,22 +39,22 @@ public class Pickup implements Updatable {
 		_right_roller.set(-speed);
 	}
 	public static void update_grabber_state() {
-		if(_grab_piston.get() == DoubleSolenoid.Value.kOff)
+		if(_grab_piston.get() == DoubleSolenoid.Value.kOff || _grab_piston.get() == DoubleSolenoid.Value.kReverse) 
 		{
-			_grab_piston.set(DoubleSolenoid.Value.kForward);
+			open_grabber();
 		}
 		if(_grab_piston.get() == DoubleSolenoid.Value.kForward)
 		{
-			_grab_piston.set(DoubleSolenoid.Value.kReverse);
+			close_grabber();
 		}
-		if(_grab_piston.get() == DoubleSolenoid.Value.kReverse)
-		{
-			_grab_piston.set(DoubleSolenoid.Value.kForward);
-		}			
 	}
 	public static void open_grabber() 
 	{
 		_grab_piston.set(DoubleSolenoid.Value.kForward);
+	}
+	public static void close_grabber()
+	{
+		_grab_piston.set(DoubleSolenoid.Value.kReverse);
 	}
 	public void semaphore_update() //updates robot information
 	{

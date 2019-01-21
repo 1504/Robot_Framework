@@ -9,13 +9,19 @@ public class Auto_Alignment {
 	static DigitalInput sensor4 = new DigitalInput(Map.sensor4);
 	static DigitalInput sensor5 = new DigitalInput(Map.sensor5);
 	static DigitalInput sensor6 = new DigitalInput(Map.sensor6);
-
+	static DigitalInput auto_grabber_switch = new DigitalInput(Map.AUTO_GRABBER_SWITCH);
+	
 	static long recordedTime = 0;
 	
-	enum alignment_position {TRACKING, PICKUP, PLACEMENT, UNACTIVATED, REVERSE};
+	enum alignment_position {PICKUP_TRACKING, PICKUP, PLACEMENT_TRACKING, PLACEMENT, UNACTIVATED};
 	static alignment_position alignment_state = alignment_position.UNACTIVATED;
+
 	
-	static boolean triggered = false;
+	
+	public static boolean get_grabber_trigger() 
+	{
+		return auto_grabber_switch.get();
+	}
 	
 	public static boolean check_sensors() {
 		if(!sensor1.get() && !sensor3.get())
@@ -40,17 +46,18 @@ public class Auto_Alignment {
 		final double[] FORWARD_LEFT = {alignment_values[0], -alignment_values[1], 0.0};
 		final double[] FORWARD = {alignment_values[0], 0.0, 0.0};
 		final double[] REVERSE = {-0.4, 0.0, 0.0};
-		if(!IO.get_grabber_trigger())
+		if(!get_grabber_trigger())
 		{
-			Pickup.open_grabber();
-			if(alignment_state == alignment_position.TRACKING) 
+			//Auto-grabbing
+			if(alignment_state == alignment_position.UNACTIVATED) 
 			{
+				Pickup.open_grabber();
 				recordedTime = System.currentTimeMillis();
 				alignment_state = alignment_position.PICKUP;
 			}
-			if(System.currentTimeMillis()-recordedTime > 1900)
-			{
-				alignment_state = alignment_position.UNACTIVATED;
+			if(alignment_state == alignment_position.PICKUP && (System.currentTimeMillis()-recordedTime) > 1900)
+			{	
+				alignment_state = alignment_position.PLACEMENT_TRACKING;
 				recordedTime = 0;
 				return NULL_RESPONSE;
 			}
@@ -58,11 +65,32 @@ public class Auto_Alignment {
 			{
 				return REVERSE;
 			}
-			return FORWARD;
+			if(!(alignment_state == alignment_position.PLACEMENT_TRACKING)) 
+			{
+				return FORWARD;
+			}
+
+			//Auto-placement
+			else
+			{
+				alignment_state = alignment_position.PLACEMENT;
+				recordedTime = System.currentTimeMillis();
+			}
+			if(alignment_state == alignment_position.PLACEMENT && (System.currentTimeMillis()-recordedTime) > 3500)
+			{	
+				alignment_state = alignment_position.UNACTIVATED;
+				recordedTime = 0;
+				return NULL_RESPONSE;
+			}
+			if(alignment_state == alignment_position.PLACEMENT && (System.currentTimeMillis()-recordedTime) > 2000) 
+			{
+				Pickup.close_grabber();
+				return REVERSE;
+			}
 		}
 		else 
 		{
-			alignment_state = alignment_position.TRACKING;
+			alignment_state = alignment_position.UNACTIVATED;
 		}
 		if(!sensor1.get()) 
 		{
