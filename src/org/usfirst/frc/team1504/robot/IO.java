@@ -72,4 +72,9 @@ public class IO
 	{
 		return _secondary.getRawButton(Map.AUTO_ALIGNMENT_BUTTON);
 	}
+	public static boolean get_auto_placement() 
+	{
+		return _secondary.getRawButton(Map.AUTO_PLACEMENT_BUTTON);
+	}
+	
 }

@@ -59,38 +59,37 @@ public class Auto_Alignment {
 			{	
 				alignment_state = alignment_position.PLACEMENT_TRACKING;
 				recordedTime = 0;
-				return NULL_RESPONSE;
 			}
-			if(alignment_state == alignment_position.PICKUP && (System.currentTimeMillis()-recordedTime) > 400) 
+			if(alignment_state == alignment_position.PICKUP) 
 			{
-				return REVERSE;
+				if(System.currentTimeMillis()-recordedTime > 400)
+					return REVERSE;
+				else
+					return FORWARD;
 			}
-			if(!(alignment_state == alignment_position.PLACEMENT_TRACKING)) 
-			{
-				return FORWARD;
-			}
-
+			
 			//Auto-placement
-			else
-			{
-				alignment_state = alignment_position.PLACEMENT;
-				recordedTime = System.currentTimeMillis();
-			}
-			if(alignment_state == alignment_position.PLACEMENT && (System.currentTimeMillis()-recordedTime) > 3500)
-			{	
-				alignment_state = alignment_position.UNACTIVATED;
-				recordedTime = 0;
-				return NULL_RESPONSE;
-			}
-			if(alignment_state == alignment_position.PLACEMENT && (System.currentTimeMillis()-recordedTime) > 2000) 
+			if(alignment_state == alignment_position.PLACEMENT_TRACKING && IO.get_auto_placement())
 			{
 				Pickup.close_grabber();
-				return REVERSE;
+				recordedTime = System.currentTimeMillis();
+				alignment_state = alignment_position.PLACEMENT;
 			}
 		}
-		else 
+		else if(!(alignment_state == alignment_position.PLACEMENT))
 		{
 			alignment_state = alignment_position.UNACTIVATED;
+		}
+		if(alignment_state == alignment_position.PLACEMENT) 
+		{
+			if (System.currentTimeMillis()-recordedTime > 1900){
+				alignment_state = alignment_position.UNACTIVATED;
+				recordedTime = 0;
+			}
+			else if((System.currentTimeMillis()-recordedTime) > 400)
+				return REVERSE;
+			else
+				return FORWARD;
 		}
 		if(!sensor1.get()) 
 		{

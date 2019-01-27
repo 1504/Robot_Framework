@@ -1,4 +1,5 @@
 package org.usfirst.frc.team1504.robot;
+import org.usfirst.frc.team1504.robot.Auto_Alignment.alignment_position;
 import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
@@ -35,8 +36,8 @@ public class Pickup implements Updatable {
 	}
 	public void set_intake_speed(double speed) //sets both the right and left flipper speeds
 	{
-		_left_roller.set(speed);
-		_right_roller.set(-speed);
+		_left_roller.set(speed*Map.ROLLER_SPEED_MULTIPLIER);
+		_right_roller.set(-speed*Map.ROLLER_SPEED_MULTIPLIER);
 	}
 	public static void update_grabber_state() {
 		if(_grab_piston.get() == DoubleSolenoid.Value.kOff || _grab_piston.get() == DoubleSolenoid.Value.kReverse) 
@@ -61,7 +62,10 @@ public class Pickup implements Updatable {
 		if(_ds.isOperatorControl() && !_ds.isDisabled()) //only runs in teleop
 		{	
 			if(IO.get_grabber())
+			{
 				update_grabber_state();
+				Auto_Alignment.alignment_state = alignment_position.PLACEMENT_TRACKING;
+			}
 			set_intake_speed(IO.get_intake_speed());
 		}
 	}

@@ -232,7 +232,6 @@ public class Drive implements Updatable
 				}
 				if(Auto_Alignment.check_sensors() && IO.get_auto_alignment())
 				{
-					//Auto_Alignment.alignment_state = alignment_position.TRACKING;
 					input =  Auto_Alignment.auto_alignment();
 				}
 				//_groundtruth.getData();

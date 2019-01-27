@@ -14,22 +14,33 @@ public class Map {
 	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
 	
 	// Joystick inputs
-	public static final int SPIN_ROTORS_IN = 2; //left trigger axis
-	public static final int SPIN_ROTORS_OUT = 5; //LT1 -- LB
-	public static final int GRABBER = 2; //left joystick button
+	public static final int SPIN_ROTORS_IN = 1; //left joystick axis
+	public static final int GRABBER = 2; //B
 	public static final int CRASH_DETECTION = 7; //left joystick button	
+
+	public static final int AUTO_PLACEMENT_BUTTON = 3;
+	//1 : A
+	//2 : B
 	//3 : X
-	//6 : A
-	//9 : B
-	//4 : A
-	//2 : left trigger axis
-	//5 : LT1 -- LB
-	//3 : right trigger axis
-	//2 : left joystick button
-	//7 : left joystick button
+	//4 : Y
+	//5 : LB
+	//6 : RB
+	//7 : Back
+	//8 : Start
+	//9 : Press left joystick
+	//10 : Press right joystick
+	
+	//0 : X axis-left joystick
+	//1 : Y axis-left joystick
+	//2 : LT
+	//3 : RT
+	//4 : X axis-right joystick
+	//5 : Y axis-right joystick
 /**
  * Pickup stuff
  */
+		public static final double ROLLER_SPEED_MULTIPLIER = 0.5;
+		
 		public static final int INTAKE_POWER_AXIS = 1;
 		public static final int LIFT_AXIS = 5;
 		

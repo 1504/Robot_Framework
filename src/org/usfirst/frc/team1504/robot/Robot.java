@@ -126,6 +126,14 @@ public class Robot extends RobotBase {
 				SmartDashboard.putData("Position Chooser", pos);
 				SmartDashboard.putData("Auton Mode Chooser", autoChooser1);
 				
+				SmartDashboard.putBoolean("Sensor 1", Auto_Alignment.sensor1.get());
+				SmartDashboard.putBoolean("Sensor 2", Auto_Alignment.sensor2.get());
+				SmartDashboard.putBoolean("Sensor 3", Auto_Alignment.sensor3.get());
+				SmartDashboard.putBoolean("Sensor 4", Auto_Alignment.sensor4.get());
+				SmartDashboard.putBoolean("Sensor 5", Auto_Alignment.sensor5.get());
+				SmartDashboard.putBoolean("Sensor 6", Auto_Alignment.sensor6.get());
+				
+				SmartDashboard.putBoolean("Good Configuration", Auto_Alignment.check_sensors());
 				while(true)
 				{	
 
