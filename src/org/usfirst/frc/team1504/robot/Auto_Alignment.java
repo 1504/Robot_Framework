@@ -123,4 +123,25 @@ public class Auto_Alignment {
 		}
 		return NULL_RESPONSE;
 	}
+/*
+	//Didn't know if this would break the code so I commented it out, also need to set the serial ports for xcenter
+
+	public static double[] Ball_Alignment() {
+		double[] alignment_values = {0.24, 0.24, 0.32};
+		final double[] FORWARD_RIGHT = {alignment_values[0], alignment_values[1], 0.0};
+		final double[] FORWARD_LEFT = {alignment_values[0], -alignment_values[1], 0.0};
+		final double[] FORWARD = {alignment_values[0], 0.0, 0.0};
+
+		if(get_grabber_trigger()) {
+			if(Map.xcenter > 100) {
+				return(FORWARD_RIGHT);
+			}
+			else if(Map.xcenter < -100) {
+				return(FORWARD_LEFT);
+			} else {
+				return(FORWARD);
+			}
+		}
+	}
+*/
 }

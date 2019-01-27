@@ -176,6 +176,10 @@ public class Map {
 	public static final int sensor5 = 4;
 	public static final int sensor6 = 5;
 	
+	//for jevois ball detection
+	public static final double xcenter = 999; // shows how far away the ball is from center in (x)
+	public static final double ycenter = 998; // shows how far away the ball is from center in (x)
+	
 	public static final int VISION_INTERFACE_PORT1 = 0;
 	public static final int VISION_INTERFACE_PORT2 = 1;
 	public static final double VISION_INTERFACE_VIDEO_WIDTH = 600; //800; //480; // FOV UPDATE
