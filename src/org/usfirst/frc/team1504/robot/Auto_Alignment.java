@@ -38,7 +38,7 @@ public class Auto_Alignment {
 		// The code stops the moment the trigger is released, so the driver can switch back to manual if they need to
 		//
 		//double[] alignment_values = {SmartDashboard.getNumber("Forward", 0), SmartDashboard.getNumber("Track", 0), SmartDashboard.getNumber("Rotate", 0)};
-		double[] alignment_values = {0.24, 0.24, 0.32};
+		double[] alignment_values = {0.2, 0.24, 0.43};
 		final double[] FORWARD_CLOCKWISE = {0.0, 0.0, -alignment_values[2]};
 		//final double[] FORWARD_CLOCKWISE = {0.2, 0.0, -0.2};
 		final double[] FORWARD_COUNTERCLOCK = {0.0, 0.0, alignment_values[2]};
