@@ -1,5 +1,4 @@
 package org.usfirst.frc1504.Robot2019;
-import java.util.ArrayList;
 
 import java.nio.ByteBuffer;
 import java.util.TimerTask;
@@ -7,7 +6,6 @@ import java.util.Timer;
 
 import java.lang.Math;
 
-import org.usfirst.frc1504.Robot2019.Auto_Alignment.alignment_position;
 import org.usfirst.frc1504.Robot2019.Update_Semaphore.Updatable;
 
 //import com.kauailabs.navx.frc.AHRS;
@@ -16,7 +14,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 //import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.interfaces.*;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -52,8 +49,6 @@ public class Drive implements Updatable
 	private TimerTask _osc = new TimerTask(){public void run() { _dir++;}};
 	private Timer _timer = new Timer();
 	
-	private ArrayList<Integer> autonDistances = new ArrayList<Integer>();
-	private ArrayList<Long> autonTimes = new ArrayList<Long>();
 	/**
 	 * gets the instance of the drive.
 	 * @return the drive
@@ -112,9 +107,6 @@ public class Drive implements Updatable
 	
 	private DriverStation _ds = DriverStation.getInstance();
 	private Logger _log = Logger.getInstance();
-	private DriveGlide _glide = new DriveGlide();
-	private Groundtruth _groundtruth = Groundtruth.getInstance();
-	//private CameraInterface _camera = CameraInterface.getInstance();
 	
 	private volatile boolean _new_data = false;
 	private volatile int _loops_since_last_dump = 0;
@@ -142,17 +134,17 @@ public class Drive implements Updatable
 	 */
 	public void semaphore_update()
 	{
-		//if(!_ds.isAutonomous())
-		//{
-			//if(IO.drive_wiggle() != 0.0)
-			//{
-			//	drive_inputs(new double[] { 0.25 * (((_dir & 1) == 0) ? 1.0 : -1.0) , 0.31 * IO.drive_wiggle()});
-			//}
-			//else
-			//{
+		if(!_ds.isAutonomous())
+		{
+			if(IO.drive_wiggle() != 0.0)
+			{
+				drive_inputs(new double[] { 0.25 * (((_dir & 1) == 0) ? 1.0 : -1.0) , 0.31 * IO.drive_wiggle()});
+			}
+			else
+			{
 				drive_inputs(IO.drive_input());
-			//}
-		//}
+			}
+		}
 	}
 	
 	/**
@@ -258,7 +250,6 @@ public class Drive implements Updatable
 					Thread.sleep(25);
 				} catch (InterruptedException e)
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -338,78 +329,9 @@ public class Drive implements Updatable
 	{
 		_orbit_point = orbit_point;
 	}
-		
-	/**
-	 * Detented controller correction methods, and helper methods.
-	 */
-	private double[] detents(double[] input)
-	{
-		double y = input[0];
-		double x = input[1];
-		double w = input[2];
-		
-		double angle = Math.atan2(input[0], input[1]);
-		
-		double dx = fix_x(angle) * Utils.distance(y, x) * 0.25;
-		double dy = fix_y(angle) * Utils.distance(y, x);
-		
-		double[] fixed = new double[3];
-		
-		fixed[0] = y + dy;
-		fixed[1] = x + dx;
-		fixed[2] = w;
-		
-		return fixed;
-	}
-	private double fix_x(double theta) {
-		return -Math.sin(theta) * (-Math.sin(8 * theta) - 0.25 * Math.sin(4 * theta));
-	}
-	private double fix_y(double theta) {
-		return Math.cos(theta) * (-Math.sin(8 * theta) - 0.25 * Math.sin(4 * theta));
-	}
-
 	/**
 	 * Corrections based off of two onboard ADNS-2620 mouse sensors.
 	 */
-	private double[] groundtruth_correction(double[] input)
-	{
-		if(!_groundtruth.getDataGood())
-			return input;
-		
-		double[] normal_input = input;
-		double[] output = input;
-		double[] speeds = _groundtruth.getSpeed();
-		
-		// Normalize the inputs and actual speeds
-		if(groundtruth_normalize(speeds) == 0)
-			return input;
-		groundtruth_normalize(normal_input);
-		
-		// Apply P(ID) correction factor to the joystick values
-		// TODO: Determine gain constant and add to the Map
-		for(int i = 0; i < input.length; i++)
-			output[i] += (normal_input[i] - speeds[i]) * -0.01;
-		
-		return output;
-	}
-	/*-private double[] accelerometer_correction(double[] input)
-	{
-		if (Math.abs(input[2]) < 0.001){
-			//correct for amount off
-			double off = imu.getAngleX(); //get reading
-			double threshold = 5.0;//margin of error so it stops jittering.
-			if (Math.abs(off) > threshold){ //needs to be replaced with checking if the gyro is 0 yet.
-				 //get reading
-				input[2] = Math.signum(off)*.2; //.2 is turn speed
-				return input;
-			}
-		} else
-		{
-			imu.reset();
-		}
-		return input;
-	}*/
-
 	double initialSpike = 0.0;
 	double highestTravelingSpike = 0.0;
 	double accelSign = -1.0;
@@ -504,29 +426,6 @@ public class Drive implements Updatable
 			return sanic.getAverageValue();
 	}	
 	
-	/**
-	 * Normalization function for arrays to normalize full scale to +- 1 <br>
-	 * Note: THIS FUNCTION OPERATES ON THE REFERENCE INPUT ARRAY AND WILL CHANGE IT!
-	 * @param input - The array to normalize
-	 * @return Maximum value in the array
-	 */
-	private double groundtruth_normalize(double[] input)
-	{
-		double max = 0;
-		for(int i = 0; i < input.length; i++)
-			max = Math.max(Math.abs(input[1]), max);
-		
-		if(max == 0)
-			return 0;
-		
-		max = max == 0 ? 1 : max;
-		for(int i = 0; i < input.length; i++)
-			input[i] /= max;
-		
-		return max;
-	} 
-
-
 	/**
 	 * Convert the input array (forward, right, and anticlockwise) into a motor output array.
 	 */

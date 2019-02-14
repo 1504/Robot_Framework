@@ -1,7 +1,6 @@
 package org.usfirst.frc1504.Robot2019;
 
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.SerialPort.*;
 
 public class Serial {
 	
@@ -9,7 +8,7 @@ public class Serial {
 	
 	public byte[] read()
 	{
-		byte[] info = _serial.read(2); //TODO change byte number
+		byte[] info = _serial.read(2);
 		if(info.length == 0)
 		{
 			return new byte[] {0, 0};

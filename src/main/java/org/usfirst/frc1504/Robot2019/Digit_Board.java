@@ -1,11 +1,9 @@
 package org.usfirst.frc1504.Robot2019;
 
 import org.usfirst.frc1504.Robot2019.DigitBoard;
-import edu.wpi.first.wpilibj.DriverStation;
 
 public class Digit_Board
 {
-	private DriverStation _ds;	
 	private DigitBoard _board;
 	
 	private long _thread_sleep_delay = 100;
@@ -18,7 +16,6 @@ public class Digit_Board
 	private double _last_pot;
 	
 	private boolean _a;
-	private boolean _b;
 	
 	private static String[] _positions =  {"P  1", "P  2", "P  3"};
 	public int pos = 0;
@@ -49,7 +46,6 @@ public class Digit_Board
 		_task_thread = new Thread(new Board_Task(this), "1504_Display_Board");
 		_task_thread.setPriority((Thread.NORM_PRIORITY + Thread.MAX_PRIORITY) / 2);
 
-		_ds = DriverStation.getInstance(); 
 		_board = DigitBoard.getInstance();
 		
 		start();
@@ -84,9 +80,7 @@ public class Digit_Board
 	public void update()
 	{
 		_current_pot = _board.getPotentiometer();
-		_voltage = _ds.getBatteryVoltage();
 		_a = _board.getAOnRisingEdge();
-		_b = _board.getBOnRisingEdge();
 	}
 	
 	//Writes the values to the digit board.

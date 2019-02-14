@@ -1,14 +1,7 @@
 package org.usfirst.frc1504.Robot2019;
 //
-import java.util.Arrays;
-
-import org.usfirst.frc1504.Robot2019.Arduino.FRONTSIDE_MODE;
 import org.usfirst.frc1504.Robot2019.Arduino.GEAR_MODE;
-import org.usfirst.frc1504.Robot2019.Arduino.INTAKE_LIGHT_MODE;
 import org.usfirst.frc1504.Robot2019.Arduino.PARTY_MODE;
-import org.usfirst.frc1504.Robot2019.Arduino.SHOOTER_STATUS;
-import edu.wpi.first.networktables.*;
-import java.util.HashMap;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 //import java.io.BufferedReader;
@@ -18,27 +11,16 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 //import java.util.Base64;
 
 //-import com.ctre.CANTalon;
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 //-import edu.wpi.first.wpilibj.hal.HAL;
 //-import edu.wpi.first.wpilibj.hal.HALUtil;
 //-import edu.wpi.first.wpilibj.hal.FRCNetComm.tInstances;
 //-import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -53,19 +35,12 @@ public class Robot extends TimedRobot {
 	public static enum v_or_c {VISIONCODE, CONTINGENCY};
 	public static v_or_c vorc_state;
 	
-	private Digit_Board _db = Digit_Board.getInstance();
 	private DriverStation _ds = DriverStation.getInstance();
-	private Drive _drive = Drive.getInstance();
 	private Update_Semaphore _semaphore = Update_Semaphore.getInstance();
-	private Logger _logger = Logger.getInstance();
 	private Arduino _arduino = Arduino.getInstance();
-	private Pickup _pickup = Pickup.getInstance();
 	
-	private HashMap<String, double[][]> map = new HashMap<String, double[][]>();
 	private SendableChooser<String> pos = new SendableChooser<String>();
 	private SendableChooser<String> autoChooser1 = new SendableChooser<String>();
-	
-	private SendableChooser<Double> powers = new SendableChooser<Double>();
 	
 	
 	//private Lift _lift = Lift.getInstance();
@@ -106,23 +81,9 @@ public class Robot extends TimedRobot {
 			public void run() {
 				
 				_arduino.setPartyMode(PARTY_MODE.ON);
-				char edge_track = 0;
 				//PowerDistributionPanel pdp = new PowerDistributionPanel();
 				//Compressor c = new Compressor(0);
 				SmartDashboard.putNumber("Auton Delay", 0.0);
-				
-				pos.addDefault("Left", new String("Left"));
-				pos.addObject("Mid", new String("Mid"));
-				pos.addObject("Right", new String("Right"));
-				
-				
-				autoChooser1.addDefault("Switch", new String("Switch"));
-				autoChooser1.addObject("+ Spot", new String("Spot"));
-				autoChooser1.addObject("Switch & Block", new String("Block"));
-				autoChooser1.addObject("Go Forward", new String("GoForward"));
-				autoChooser1.addObject("Side Delivery", new String("SideDelivery"));
-				//autoChooser1.addObject("Switch & Scale", new String("SwitchScale"));
-				//autoChooser1.addObject("Switch & Exchange", new String("SwitchExchange"));
 								
 				SmartDashboard.putData("Position Chooser", pos);
 				SmartDashboard.putData("Auton Mode Chooser", autoChooser1);

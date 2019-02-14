@@ -2,14 +2,9 @@ package org.usfirst.frc1504.Robot2019;
 import org.usfirst.frc1504.Robot2019.Auto_Alignment.alignment_position;
 import org.usfirst.frc1504.Robot2019.Update_Semaphore.Updatable;
 
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Encoder;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class Pickup implements Updatable {
 	private WPI_TalonSRX _left_roller;

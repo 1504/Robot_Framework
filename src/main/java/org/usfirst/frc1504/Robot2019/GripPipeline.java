@@ -8,7 +8,6 @@ import java.util.List;
 //import java.util.Map;
 //import java.util.stream.Collectors;
 //import java.util.HashMap;
-import edu.wpi.first.wpilibj.vision.VisionPipeline;
 
 import org.opencv.core.*;
 //import org.opencv.core.Core.*;
@@ -24,7 +23,7 @@ import org.opencv.imgproc.Imgproc;
 *
 * @author GRIP
 */
-public class GripPipeline implements VisionPipeline{
+public class GripPipeline{
 
 	//Outputs
 	private Mat hsvThresholdOutput = new Mat();
@@ -113,7 +112,7 @@ public class GripPipeline implements VisionPipeline{
 			
 			//System.out.println("largest target is " + _target);
 			//_target = (2 * position[largest] / Map.VISION_INTERFACE_VIDEO_WIDTH) - 1; 
-			//_target *= Map.VISION_INTERFACE_VIDEO_FOV / -2.0; //TODO what is FOV of camera
+			//_target *= Map.VISION_INTERFACE_VIDEO_FOV / -2.0;
 			//_target = _output[0][largest];
 			
 			/*Mat[] array = new Mat[2];
@@ -144,7 +143,7 @@ public class GripPipeline implements VisionPipeline{
 	
 	public boolean checkAim()
 	{
-		if(offset_aim_factor() < 10)// TODO Map.VISION_INTERFACE_AIM_DEADZONE)
+		if(offset_aim_factor() < 10)
 		{
 			_state = AimState.AIMED;
 			System.out.println("camera interface checkAim = aimed");
@@ -167,7 +166,7 @@ public class GripPipeline implements VisionPipeline{
 		{
 			input[0] = 0.0;
 			input[1] = 0.0;
-			input[2] = offset_aim_factor() * .1; //TODO
+			input[2] = offset_aim_factor() * .1;
 			System.out.println("turn value = " + input[2]);
 		}
 		else
