@@ -51,7 +51,7 @@ public class Auto_Alignment {
 			//Auto-grabbing
 			if(alignment_state == alignment_position.UNACTIVATED) 
 			{
-				Pickup.open_grabber();
+				Hatch_Grabber.open_grabber();
 				recordedTime = System.currentTimeMillis();
 				alignment_state = alignment_position.PICKUP;
 			}
@@ -71,7 +71,7 @@ public class Auto_Alignment {
 			//Auto-placement
 			if(alignment_state == alignment_position.PLACEMENT_TRACKING && IO.get_auto_placement())
 			{
-				Pickup.close_grabber();
+				Hatch_Grabber.close_grabber();
 				recordedTime = System.currentTimeMillis();
 				alignment_state = alignment_position.PLACEMENT;
 			}
@@ -122,7 +122,7 @@ public class Auto_Alignment {
 		}
 		return NULL_RESPONSE;
 	}
-/*
+
 	//Didn't know if this would break the code so I commented it out, also need to set the serial ports for xcenter
 
 	public static double[] Ball_Alignment() {
@@ -130,17 +130,22 @@ public class Auto_Alignment {
 		final double[] FORWARD_RIGHT = {alignment_values[0], alignment_values[1], 0.0};
 		final double[] FORWARD_LEFT = {alignment_values[0], -alignment_values[1], 0.0};
 		final double[] FORWARD = {alignment_values[0], 0.0, 0.0};
-
-		if(!get_grabber_trigger()) {
-			if(Map.xcenter > 100) {
+		final double[] NULL_RESPONSE = {0.0,0.0,0.0};
+		if(!get_grabber_trigger()) 
+		{
+			if(Map.xcenter > 100) 
+			{
 				return(FORWARD_RIGHT);
 			}
-			else if(Map.xcenter < -100) {
+			else if(Map.xcenter < -100) 
+			{
 				return(FORWARD_LEFT);
-			} else {
+			} 
+			else 
+			{
 				return(FORWARD);
 			}
 		}
+		return NULL_RESPONSE;
 	}
-*/
 }

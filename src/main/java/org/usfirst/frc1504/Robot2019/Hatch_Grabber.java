@@ -5,16 +5,16 @@ import org.usfirst.frc1504.Robot2019.Update_Semaphore.Updatable;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 
-public class Pickup implements Updatable {
+public class Hatch_Grabber implements Updatable {
 	public static DoubleSolenoid _grab_piston; 
 	public DoubleSolenoid _grabber;
-	private static final Pickup instance = new Pickup();
+	private static final Hatch_Grabber instance = new Hatch_Grabber();
 	private DriverStation _ds = DriverStation.getInstance();
-	public static Pickup getInstance() // sets instance
+	public static Hatch_Grabber getInstance() // sets instance
 	{
 		return instance;
 	}
-	private Pickup() // pickup constructor
+	private Hatch_Grabber() // pickup constructor
 	{
 		_grab_piston = new DoubleSolenoid(Map.GRAB_PISTON_HIGHSIDE_PORT, Map.GRAB_PISTON_LOWSIDE_PORT); //0 and 1 are the ports, needs to be moved to the map
 		_grab_piston.set(DoubleSolenoid.Value.kOff);
