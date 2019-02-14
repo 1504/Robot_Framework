@@ -148,25 +148,6 @@ public class Map {
 	public static final byte INTAKE_LIGHTS_ADDRESS = 06;
 	public static final byte PARTY_MODE_ADDRESS = 07;
 	public static final byte PULSE_SPEED_ADDRESS = 11;
-		
-/**
- * Gear stuff
- */
-	public static final double GEAR_DISTANCE = .096;
-	public static final double GEAR_GAIN = .75;
-	public static final double GEAR_MAX_OUTPUT_POWER = .25;
-	
-/**
- * Ground truth sensor
- */
-	public static final byte GROUNDTRUTH_QUALITY_MINIMUM = 40;
-	public static final double GROUNDTRUTH_DISTANCE_PER_COUNT = 1.0;
-	public static final double GROUNDTRUTH_TURN_CIRCUMFERENCE = 3.1416 * 1.25;
-	public static final int GROUNDTRUTH_SPEED_AVERAGING_SAMPLES = 4;
-	
-	// Maximum (empirically determined) speed the robot can go in its three directions. 
-	public static final double[] GROUNDTRUTH_MAX_SPEEDS = {12.0, 5.0, 7.0};
-	
 	
 /**
  * IO stuff

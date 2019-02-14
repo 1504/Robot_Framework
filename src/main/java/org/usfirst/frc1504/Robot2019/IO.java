@@ -7,11 +7,7 @@ public class IO
 	private static Latch_Joystick _secondary = new Latch_Joystick(Map.DRIVE_SECONDARY_JOYSTICK);
 
 	public static final long ROBOT_START_TIME = System.currentTimeMillis();
-	
-	/**
-	 * Drive stuff
-	 */
-	
+		
 	/**
 	 * Handle getting joystick values
 	 * @return

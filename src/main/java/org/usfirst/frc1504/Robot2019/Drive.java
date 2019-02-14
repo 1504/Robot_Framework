@@ -8,10 +8,8 @@ import java.lang.Math;
 
 import org.usfirst.frc1504.Robot2019.Update_Semaphore.Updatable;
 
-//import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-//import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.interfaces.*;
@@ -203,7 +201,6 @@ public class Drive implements Updatable
 				{
 					if(_ds.isOperatorControl())
 					{
-						//input = detents(input);
 						if(IO.reset_front_side())
 						{
 							fSideAngleDegrees(0.0);
@@ -213,7 +210,6 @@ public class Drive implements Updatable
 						{
 							input = orbit_point(input);
 						}
-//						input = _glide.gain_adjust(input);
 					}
 					_new_data = false;
 					_dump = true;
@@ -221,13 +217,8 @@ public class Drive implements Updatable
 				}
 				if(Auto_Alignment.check_sensors() && IO.get_auto_alignment())
 				{
-					//input =  Auto_Alignment.auto_alignment();
+					input =  Auto_Alignment.auto_alignment();
 				}
-				//double driveinputsblah[] = {0.5,0.0,0.0};
-				//input = driveinputsblah;
-				//_groundtruth.getData();
-				//input = groundtruth_correction(input);
-				//input = accelerometer_correction(input);
 				output = outputCompute(input);
 				motorOutput(output);
 				
@@ -356,7 +347,6 @@ public class Drive implements Updatable
 		double spikeSign = Math.signum(initialSpike);
 		SmartDashboard.putNumber("Crash Detection Initial Spike", initialSpike);
 		SmartDashboard.putNumber("Last Accel", robot_accel);
-		//System.out.println("Initial Spike: " +  + " RobotAccel: " + robot_accel + " highestTravelingSpike: " + highestTravelingSpike);
 		if(time > Map.DETECTION_DELAY)
 		{
 			if(robot_accel > Math.pow(Math.pow(initialSpike,2),0.5))
@@ -388,36 +378,6 @@ public class Drive implements Updatable
 		}
 		return input;
 	}
-	/*public double[] roborio_crash_bandicoot_check(double[] input, long time, int mode) {
-		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
-		autonDistances.add(sanic_value());
-		autonTimes.add(time);		
-		double[] autonDistancesDouble = new double[autonDistances.size()];
-		double[] autonTimesDouble = new double[autonTimes.size()];
-		for(int i = 0; i < autonDistances.size(); i++)
-		{
-			autonDistancesDouble[i] = autonDistances.get(i);
-			autonTimesDouble[i] = (double)autonTimes.get(i);
-		}
-		LinearRegression regression = new LinearRegression(autonTimesDouble, autonDistancesDouble);
-		if(sanic.getAverageValue() + regression.slope()*Map.GET_AVERAGE_TIME_DELAY < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
-		{
-			System.out.println("slope: " + regression.slope() + " dist: " + sanic.getAverageValue());
-			autonDistances = new ArrayList<Integer>();
-			autonTimes = new ArrayList<Long>();
-			return null_response;
-		}
-		return input;
-	}*/
-	/*public double[] roborio_crash_bandicoot_check(double[] input, long time, int mode) {
-		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
-		if (sanic.getAverageValue() < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
-		{
-			return null_response;
-		}
-		return input;
-	} //simple crash detection, no lin reg
-	 */
 	public void spike_reset() {
 		initialSpike = 0.0;
 		highestTravelingSpike = 0.0;
@@ -489,8 +449,5 @@ public class Drive implements Updatable
         
         double[] speeds = new double[] {forward_speed, tracking_direction};
         return speeds;
-        //System.out.println("Forward speed: " + forward_speed);
-        //System.out.println("Tracking speed: " + tracking_direction);
 	}
-	
 }
