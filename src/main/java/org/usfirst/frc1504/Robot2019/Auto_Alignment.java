@@ -15,15 +15,14 @@ public class Auto_Alignment {
 	
 	enum alignment_position {PICKUP_TRACKING, PICKUP, PLACEMENT_TRACKING, PLACEMENT, UNACTIVATED};
 	static alignment_position alignment_state = alignment_position.UNACTIVATED;
-
-	
 	
 	public static boolean get_grabber_trigger() 
 	{
-		return auto_grabber_switch.get();
+		return !auto_grabber_switch.get();
 	}
 	
-	public static boolean check_sensors() {
+	public static boolean check_sensors() 
+	{
 		if(!sensor1.get() && !sensor3.get())
 			return false;
 		else if(sensor1.get() && sensor2.get() && sensor3.get())
@@ -32,7 +31,8 @@ public class Auto_Alignment {
 			return true;
 	}
 	
-	public static double[] auto_alignment() {
+	public static double[] auto_alignment() 
+	{
 		double[] NULL_RESPONSE = {0.0,0.0,0.0};
 		//Code to correct course of robot once vision tape is contacted (by two sensors)
 		// The code stops the moment the trigger is released, so the driver can switch back to manual if they need to
@@ -46,7 +46,7 @@ public class Auto_Alignment {
 		final double[] FORWARD_LEFT = {alignment_values[0], -alignment_values[1], 0.0};
 		final double[] FORWARD = {alignment_values[0], 0.0, 0.0};
 		final double[] REVERSE = {-0.4, 0.0, 0.0};
-		if(!get_grabber_trigger())
+		if(get_grabber_trigger())
 		{
 			//Auto-grabbing
 			if(alignment_state == alignment_position.UNACTIVATED) 
@@ -131,7 +131,7 @@ public class Auto_Alignment {
 		final double[] FORWARD_LEFT = {alignment_values[0], -alignment_values[1], 0.0};
 		final double[] FORWARD = {alignment_values[0], 0.0, 0.0};
 
-		if(get_grabber_trigger()) {
+		if(!get_grabber_trigger()) {
 			if(Map.xcenter > 100) {
 				return(FORWARD_RIGHT);
 			}

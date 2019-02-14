@@ -33,6 +33,10 @@ public class IO
 	{		
 		return Math.pow(_secondary.getRawAxis(Map.SPIN_ROTORS_IN), 3.0);
 	}
+	public static boolean extend_arm()
+	{
+		return _secondary.getRawButtonOnRisingEdge(Map.ARM_EXTEND);
+	}
 	public static boolean get_grabber()
 	{
 		return _secondary.getRawButtonOnRisingEdge(Map.GRABBER);
