@@ -10,6 +10,7 @@ public class Hatch_Grabber implements Updatable {
 	public DoubleSolenoid _grabber;
 	private static final Hatch_Grabber instance = new Hatch_Grabber();
 	private DriverStation _ds = DriverStation.getInstance();
+	public static boolean lastButtonState = false;
 	public static Hatch_Grabber getInstance() // sets instance
 	{
 		return instance;
@@ -46,11 +47,12 @@ public class Hatch_Grabber implements Updatable {
 	{
 		if(_ds.isOperatorControl() && !_ds.isDisabled()) //only runs in teleop
 		{	
-			if(IO.get_grabber())
+			if(IO.get_grabber() && IO.get_grabber() != lastButtonState)
 			{
 				update_grabber_state();
 				Auto_Alignment.alignment_state = alignment_position.PLACEMENT_TRACKING;
 			}
+			lastButtonState = IO.get_grabber();
 		}
 	}
 }
