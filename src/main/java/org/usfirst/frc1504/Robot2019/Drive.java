@@ -211,6 +211,8 @@ public class Drive implements Updatable
 							input = orbit_point(input);
 						}
 					}
+					double[] testingValues = {0.4,0.0,0.0};
+					input = testingValues;
 					_new_data = false;
 					_dump = true;
 					_input = input;

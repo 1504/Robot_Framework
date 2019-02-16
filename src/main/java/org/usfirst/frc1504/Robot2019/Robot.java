@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -202,5 +203,65 @@ public class Robot extends TimedRobot {
 			_semaphore.newData();
 			//Timer.delay(0.01);
 		}
-    }
+	}
+
+	/*
+	public void startCompetition() 
+	{
+        //HAL.report(tResourceType.kResourceType_Framework,tInstances.kFramework_Simple);
+        // first and one-time initialization
+       // LiveWindow.setEnabled(false);
+        robotInit();
+        //HAL.observeUserProgramStarting();
+        while (true) {
+            if (isDisabled()) {
+                m_ds.InDisabled(true);
+                disabled();
+                while (isDisabled())
+                    Timer.delay(0.01);
+                m_ds.InDisabled(false);
+            } else if (isAutonomous()) {
+            	
+                m_ds.InAutonomous(true);
+                //_logger.start("Auto");
+                autonomous();
+                
+                while (isAutonomous() && !isDisabled()) {
+                	m_ds.waitForData(150);
+                	_semaphore.newData();
+                }
+                
+                //_logger.stop();
+                m_ds.InAutonomous(false);
+            
+            } else if (isTest()) {
+                //LiveWindow.setEnabled(true);
+                m_ds.InTest(true);
+                
+                test();
+                
+                while (isTest() && isEnabled())
+                    Timer.delay(0.01);
+                
+                m_ds.InTest(false);
+                //LiveWindow.setEnabled(false);
+            
+            } else {
+                m_ds.InOperatorControl(true);
+                //_logger.start("Tele");
+                
+                operatorControl();
+                
+                while (isOperatorControl() && !isDisabled()) {
+                	m_ds.waitForData(150); // Blocks until we get new data or 150ms elapse
+                	_semaphore.newData();
+                    //Timer.delay(0.01);
+                }
+                
+                //_logger.stop();
+                //Timer.delay(1);
+                m_ds.InOperatorControl(false);
+            }
+        } //while loop 
+    }*/
 }

@@ -1,13 +1,15 @@
-package org.usfirst.frc1504.Robot2019;
+/*package org.usfirst.frc1504.Robot2019;
 import org.usfirst.frc1504.Robot2019.Update_Semaphore.Updatable;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Parallel_Arms implements Updatable {
 	private WPI_TalonSRX firstActuator;
     private WPI_TalonSRX secondActuator;
+	//private DoubleSolenoid lift;
 
     private static final Parallel_Arms instance = new Parallel_Arms();
 	private DriverStation _ds = DriverStation.getInstance();
@@ -17,6 +19,7 @@ public class Parallel_Arms implements Updatable {
 	}
 	private Parallel_Arms() // arms constructor
 	{
+		//lift = new DoubleSolenoid();
 		firstActuator = new WPI_TalonSRX(Map.FIRST_ACTUATOR);
         secondActuator = new WPI_TalonSRX(Map.SECOND_ACTUATOR);
 	}
@@ -38,3 +41,4 @@ public class Parallel_Arms implements Updatable {
 		}
 	}
 }
+*/

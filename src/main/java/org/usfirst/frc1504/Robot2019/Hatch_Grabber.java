@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 public class Hatch_Grabber implements Updatable {
 	public static DoubleSolenoid _grab_piston; 
-	public DoubleSolenoid _grabber;
 	private static final Hatch_Grabber instance = new Hatch_Grabber();
 	private DriverStation _ds = DriverStation.getInstance();
 	public static boolean lastButtonState = false;
