@@ -25,7 +25,7 @@ public class Map {
 	//1 : A
 	//2 : B  - Grabber
 	//3 : X  - Auto_placement_button
-	//4 : Y
+	//4 : Y  - extend/retract arms
 	//5 : LB
 	//6 : RB
 	//7 : Back
@@ -34,7 +34,7 @@ public class Map {
 	//10 : Press right joystick
 	
 	//0 : X axis-left joystick
-	//1 : Y axis-left joystick
+	//1 : Y axis-left joystick - spinning rotors
 	//2 : LT
 	//3 : RT
 	//4 : X axis-right joystick
