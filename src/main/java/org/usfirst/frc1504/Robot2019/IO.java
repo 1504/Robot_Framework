@@ -41,6 +41,23 @@ public class IO
 	{
 		return _secondary.getRawButtonOnRisingEdge(Map.GRABBER);
 	}
+
+	/**
+	 * Parallel Arms IO 
+	 */
+
+	 public static boolean firstHeight() //change the joystick based on driver preference
+	 {
+		 return _drive_rotation.getRawButtonOnRisingEdge(Map.FIRST_HEIGHT_BUTTON);
+	 }
+	 public static boolean secondHeight() 
+	 {
+		 return _drive_rotation.getRawButtonOnRisingEdge(Map.SECOND_HEIGHT_BUTTON);
+	 }
+	 public static boolean thirdHeight() 
+	 {
+		 return _drive_rotation.getRawButtonOnRisingEdge(Map.THIRD_HEIGHT_BUTTON);
+	 }
 	
 	/**
 	 * Drive stuff

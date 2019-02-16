@@ -19,7 +19,9 @@ public class Map {
 	public static final int ARM_EXTEND = 4;
 	
 	public static final int SPIN_ROTORS_IN = 1; //left joystick axis
-	public static final int CRASH_DETECTION = 7; //left joystick button	
+	public static final int CRASH_DETECTION = 7; //left joystick button
+	
+	 
 	//1 : A
 	//2 : B  - Grabber
 	//3 : X  - Auto_placement_button
@@ -55,7 +57,12 @@ public class Map {
 /**
  * Elevator / Lift Stuff
  */
-		
+		public static final int FIRST_ACTUATOR = 22; //actuator ports
+		public static final int SECOND_ACTUATOR = 23; 	
+		public static final int FIRST_HEIGHT_BUTTON = 2; //parallel arms height buttons
+	    public static final int SECOND_HEIGHT_BUTTON = 3; 
+	    public static final int THIRD_HEIGHT_BUTTON = 4;
+ 
 /**
  * Drive class things
  */
