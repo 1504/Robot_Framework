@@ -15,6 +15,7 @@ public class Arduino
 	public enum INTAKE_LIGHT_MODE {OFF, ON};
 	
 	public enum PARTY_MODE {OFF, ON};
+	private Pickup _pickup = Pickup.getInstance();
 	
 	private static Arduino instance = new Arduino();
 	

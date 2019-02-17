@@ -14,18 +14,15 @@ public class Map {
 	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
 	
 	// Joystick inputs
-	public static final int GRABBER = 2; //B
-	public static final int AUTO_PLACEMENT_BUTTON = 3;
-	public static final int ARM_EXTEND = 4;
-	
 	public static final int SPIN_ROTORS_IN = 1; //left joystick axis
-	public static final int CRASH_DETECTION = 7; //left joystick button
-	
-	 
+	public static final int GRABBER = 2; //B
+	public static final int CRASH_DETECTION = 7; //left joystick button	
+
+	public static final int AUTO_PLACEMENT_BUTTON = 3;
 	//1 : A
-	//2 : B  - Grabber
-	//3 : X  - Auto_placement_button
-	//4 : Y  - extend/retract arms
+	//2 : B
+	//3 : X
+	//4 : Y
 	//5 : LB
 	//6 : RB
 	//7 : Back
@@ -34,7 +31,7 @@ public class Map {
 	//10 : Press right joystick
 	
 	//0 : X axis-left joystick
-	//1 : Y axis-left joystick - spinning rotors
+	//1 : Y axis-left joystick
 	//2 : LT
 	//3 : RT
 	//4 : X axis-right joystick
@@ -45,24 +42,29 @@ public class Map {
 		public static final double ROLLER_SPEED_MULTIPLIER = 0.5;
 		
 		public static final int INTAKE_POWER_AXIS = 1;
+		public static final int LIFT_AXIS = 5;
 		
 		public static final int ROLLER_TALON_PORT_LEFT = 20;
 		public static final int ROLLER_TALON_PORT_RIGHT = 21;
-
-		public static final int GRAB_PISTON_HIGHSIDE_PORT = 0;
-		public static final int GRAB_PISTON_LOWSIDE_PORT = 1;
-
-		public static final int ARM_EXTENSION_HIGHSIDE_PORT = 2;
-		public static final int ARM_EXTENSION_LOWSIDE_PORT = 3;
+		
+		public static final double PICKUP_GAIN = 0.03;
+		public static final double ROTATION_SPEED = 1;
 /**
  * Elevator / Lift Stuff
  */
-		public static final int FIRST_ACTUATOR = 22; //actuator ports
-		public static final int SECOND_ACTUATOR = 23; 	
-		public static final int FIRST_HEIGHT_BUTTON = 2; //parallel arms height buttons
-	    public static final int SECOND_HEIGHT_BUTTON = 3; 
-	    public static final int THIRD_HEIGHT_BUTTON = 4;
- 
+		
+		public static final int LIFT_TALON_PORT = 30;
+		
+		public static final double LIFT_MOTOR_SPEED = 0.5;
+		
+		public static final double LIFT_MAX_HEIGHT = 10; 
+		public static final double LIFT_MIN_HEIGHT = 0; 
+		
+		public static final double LIFT_GAIN = 0.3;
+		public static final double LIFT_SAFETY_THRESHOLD = 5;
+		public static final double LIFT_LOCK_RELEASE_RANGE = 0.7;
+		public static final boolean LIMIT_SWITCH_EXISTS = false; 
+		
 /**
  * Drive class things
  */
@@ -123,7 +125,16 @@ public class Map {
 /**
  * Buttons
  */
-	public static final int VISION_INTERFACE_CAMERA_PORT_BUTTON = 5;	
+	public static final int VISION_INTERFACE_CAMERA_PORT_BUTTON = 5;
+	public static final int MASTER_OVERRIDE = 6; //RT1 -- RB
+	
+	
+/**
+ * Camera
+ */
+	public static final long CAMERA_X = 180;
+	public static final long CAMERA_Y = 160;
+	
 	
 /**
  * Arduino addresses
@@ -137,6 +148,25 @@ public class Map {
 	public static final byte INTAKE_LIGHTS_ADDRESS = 06;
 	public static final byte PARTY_MODE_ADDRESS = 07;
 	public static final byte PULSE_SPEED_ADDRESS = 11;
+		
+/**
+ * Gear stuff
+ */
+	public static final double GEAR_DISTANCE = .096;
+	public static final double GEAR_GAIN = .75;
+	public static final double GEAR_MAX_OUTPUT_POWER = .25;
+	
+/**
+ * Ground truth sensor
+ */
+	public static final byte GROUNDTRUTH_QUALITY_MINIMUM = 40;
+	public static final double GROUNDTRUTH_DISTANCE_PER_COUNT = 1.0;
+	public static final double GROUNDTRUTH_TURN_CIRCUMFERENCE = 3.1416 * 1.25;
+	public static final int GROUNDTRUTH_SPEED_AVERAGING_SAMPLES = 4;
+	
+	// Maximum (empirically determined) speed the robot can go in its three directions. 
+	public static final double[] GROUNDTRUTH_MAX_SPEEDS = {12.0, 5.0, 7.0};
+	
 	
 /**
  * IO stuff
@@ -145,6 +175,7 @@ public class Map {
 	// Joystick raw axes
 	public static final int JOYSTICK_Y_AXIS = 1;
 	public static final int JOYSTICK_X_AXIS = 0;
+	public static final int LIFT_DROP_BUTTON = 10;
 	
 /**
  * Vision Interface stuff
@@ -157,8 +188,8 @@ public class Map {
 	public static final int sensor6 = 5;
 	
 	//for jevois ball detection
-	public static double xcenter = 999; // shows how far away the ball is from center in (x)
-	public static double ycenter = 998; // shows how far away the ball is from center in (x)
+	public static final double xcenter = 999; // shows how far away the ball is from center in (x)
+	public static final double ycenter = 998; // shows how far away the ball is from center in (x)
 	
 	public static final int VISION_INTERFACE_PORT1 = 0;
 	public static final int VISION_INTERFACE_PORT2 = 1;
@@ -180,6 +211,13 @@ public class Map {
 
 	public static final double CRASH_DETECTION_PORT = 3;
 	public static final double GET_AVERAGE_TIME_DELAY = 500;
+/**
+ * Pneumatics stuff
+ */
+	public static final int GRAB_PISTON_HIGHSIDE_PORT = 0;
+	public static final int GRAB_PISTON_LOWSIDE_PORT = 1;
+	
+	public static final int LIFT_PLATE_SOLENOID_PORT = 2; 
 	
 /**
  * Auton stuff	
@@ -187,6 +225,7 @@ public class Map {
 	public static final int AUTO_ALIGNMENT_BUTTON = 1;
 	public static final int AUTO_GRABBER_SWITCH = 7;
 	
+	//norm/starting conditions arm down, lift down, facing alliance station
 	public static final double CRASH_DETECTION_THRESHOLD_MULTIPLIER = 1.1;
 	public static final int CRASH_DETECTION_DISTANCE_THRESHOLD = 700;
 	public static final int CRASH_DETECTION_MODE = 0;

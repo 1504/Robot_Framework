@@ -7,7 +7,11 @@ public class IO
 	private static Latch_Joystick _secondary = new Latch_Joystick(Map.DRIVE_SECONDARY_JOYSTICK);
 
 	public static final long ROBOT_START_TIME = System.currentTimeMillis();
-		
+	
+	/**
+	 * Drive stuff
+	 */
+	
 	/**
 	 * Handle getting joystick values
 	 * @return
@@ -33,31 +37,10 @@ public class IO
 	{		
 		return Math.pow(_secondary.getRawAxis(Map.SPIN_ROTORS_IN), 3.0);
 	}
-	public static boolean extend_arm()
-	{
-		return _secondary.getRawButtonOnRisingEdge(Map.ARM_EXTEND);
-	}
 	public static boolean get_grabber()
 	{
 		return _secondary.getRawButtonOnRisingEdge(Map.GRABBER);
 	}
-
-	/**
-	 * Parallel Arms IO 
-	 */
-
-	 public static boolean firstHeight() //change the joystick based on driver preference
-	 {
-		 return _drive_rotation.getRawButtonOnRisingEdge(Map.FIRST_HEIGHT_BUTTON);
-	 }
-	 public static boolean secondHeight() 
-	 {
-		 return _drive_rotation.getRawButtonOnRisingEdge(Map.SECOND_HEIGHT_BUTTON);
-	 }
-	 public static boolean thirdHeight() 
-	 {
-		 return _drive_rotation.getRawButtonOnRisingEdge(Map.THIRD_HEIGHT_BUTTON);
-	 }
 	
 	/**
 	 * Drive stuff

@@ -1,4 +1,5 @@
 package org.usfirst.frc1504.Robot2019;
+import java.util.ArrayList;
 
 import java.nio.ByteBuffer;
 import java.util.TimerTask;
@@ -6,12 +7,16 @@ import java.util.Timer;
 
 import java.lang.Math;
 
+import org.usfirst.frc1504.Robot2019.Auto_Alignment.alignment_position;
 import org.usfirst.frc1504.Robot2019.Update_Semaphore.Updatable;
 
+//import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+//import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.interfaces.*;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -47,6 +52,8 @@ public class Drive implements Updatable
 	private TimerTask _osc = new TimerTask(){public void run() { _dir++;}};
 	private Timer _timer = new Timer();
 	
+	private ArrayList<Integer> autonDistances = new ArrayList<Integer>();
+	private ArrayList<Long> autonTimes = new ArrayList<Long>();
 	/**
 	 * gets the instance of the drive.
 	 * @return the drive
@@ -105,6 +112,9 @@ public class Drive implements Updatable
 	
 	private DriverStation _ds = DriverStation.getInstance();
 	private Logger _log = Logger.getInstance();
+	private DriveGlide _glide = new DriveGlide();
+	private Groundtruth _groundtruth = Groundtruth.getInstance();
+	//private CameraInterface _camera = CameraInterface.getInstance();
 	
 	private volatile boolean _new_data = false;
 	private volatile int _loops_since_last_dump = 0;
@@ -132,17 +142,17 @@ public class Drive implements Updatable
 	 */
 	public void semaphore_update()
 	{
-		if(!_ds.isAutonomous())
-		{
-			if(IO.drive_wiggle() != 0.0)
-			{
-				drive_inputs(new double[] { 0.25 * (((_dir & 1) == 0) ? 1.0 : -1.0) , 0.31 * IO.drive_wiggle()});
-			}
-			else
-			{
+		//if(!_ds.isAutonomous())
+		//{
+			//if(IO.drive_wiggle() != 0.0)
+			//{
+			//	drive_inputs(new double[] { 0.25 * (((_dir & 1) == 0) ? 1.0 : -1.0) , 0.31 * IO.drive_wiggle()});
+			//}
+			//else
+			//{
 				drive_inputs(IO.drive_input());
-			}
-		}
+			//}
+		//}
 	}
 	
 	/**
@@ -201,6 +211,7 @@ public class Drive implements Updatable
 				{
 					if(_ds.isOperatorControl())
 					{
+						//input = detents(input);
 						if(IO.reset_front_side())
 						{
 							fSideAngleDegrees(0.0);
@@ -210,17 +221,21 @@ public class Drive implements Updatable
 						{
 							input = orbit_point(input);
 						}
+//						input = _glide.gain_adjust(input);
 					}
-					double[] testingValues = {0.4,0.0,0.0};
-					input = testingValues;
 					_new_data = false;
 					_dump = true;
 					_input = input;
 				}
 				if(Auto_Alignment.check_sensors() && IO.get_auto_alignment())
 				{
-					input =  Auto_Alignment.auto_alignment();
+					//input =  Auto_Alignment.auto_alignment();
 				}
+				//double driveinputsblah[] = {0.5,0.0,0.0};
+				//input = driveinputsblah;
+				//_groundtruth.getData();
+				//input = groundtruth_correction(input);
+				//input = accelerometer_correction(input);
 				output = outputCompute(input);
 				motorOutput(output);
 				
@@ -243,6 +258,7 @@ public class Drive implements Updatable
 					Thread.sleep(25);
 				} catch (InterruptedException e)
 				{
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -322,9 +338,78 @@ public class Drive implements Updatable
 	{
 		_orbit_point = orbit_point;
 	}
+		
+	/**
+	 * Detented controller correction methods, and helper methods.
+	 */
+	private double[] detents(double[] input)
+	{
+		double y = input[0];
+		double x = input[1];
+		double w = input[2];
+		
+		double angle = Math.atan2(input[0], input[1]);
+		
+		double dx = fix_x(angle) * Utils.distance(y, x) * 0.25;
+		double dy = fix_y(angle) * Utils.distance(y, x);
+		
+		double[] fixed = new double[3];
+		
+		fixed[0] = y + dy;
+		fixed[1] = x + dx;
+		fixed[2] = w;
+		
+		return fixed;
+	}
+	private double fix_x(double theta) {
+		return -Math.sin(theta) * (-Math.sin(8 * theta) - 0.25 * Math.sin(4 * theta));
+	}
+	private double fix_y(double theta) {
+		return Math.cos(theta) * (-Math.sin(8 * theta) - 0.25 * Math.sin(4 * theta));
+	}
+
 	/**
 	 * Corrections based off of two onboard ADNS-2620 mouse sensors.
 	 */
+	private double[] groundtruth_correction(double[] input)
+	{
+		if(!_groundtruth.getDataGood())
+			return input;
+		
+		double[] normal_input = input;
+		double[] output = input;
+		double[] speeds = _groundtruth.getSpeed();
+		
+		// Normalize the inputs and actual speeds
+		if(groundtruth_normalize(speeds) == 0)
+			return input;
+		groundtruth_normalize(normal_input);
+		
+		// Apply P(ID) correction factor to the joystick values
+		// TODO: Determine gain constant and add to the Map
+		for(int i = 0; i < input.length; i++)
+			output[i] += (normal_input[i] - speeds[i]) * -0.01;
+		
+		return output;
+	}
+	/*-private double[] accelerometer_correction(double[] input)
+	{
+		if (Math.abs(input[2]) < 0.001){
+			//correct for amount off
+			double off = imu.getAngleX(); //get reading
+			double threshold = 5.0;//margin of error so it stops jittering.
+			if (Math.abs(off) > threshold){ //needs to be replaced with checking if the gyro is 0 yet.
+				 //get reading
+				input[2] = Math.signum(off)*.2; //.2 is turn speed
+				return input;
+			}
+		} else
+		{
+			imu.reset();
+		}
+		return input;
+	}*/
+
 	double initialSpike = 0.0;
 	double highestTravelingSpike = 0.0;
 	double accelSign = -1.0;
@@ -349,6 +434,7 @@ public class Drive implements Updatable
 		double spikeSign = Math.signum(initialSpike);
 		SmartDashboard.putNumber("Crash Detection Initial Spike", initialSpike);
 		SmartDashboard.putNumber("Last Accel", robot_accel);
+		//System.out.println("Initial Spike: " +  + " RobotAccel: " + robot_accel + " highestTravelingSpike: " + highestTravelingSpike);
 		if(time > Map.DETECTION_DELAY)
 		{
 			if(robot_accel > Math.pow(Math.pow(initialSpike,2),0.5))
@@ -380,6 +466,36 @@ public class Drive implements Updatable
 		}
 		return input;
 	}
+	/*public double[] roborio_crash_bandicoot_check(double[] input, long time, int mode) {
+		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
+		autonDistances.add(sanic_value());
+		autonTimes.add(time);		
+		double[] autonDistancesDouble = new double[autonDistances.size()];
+		double[] autonTimesDouble = new double[autonTimes.size()];
+		for(int i = 0; i < autonDistances.size(); i++)
+		{
+			autonDistancesDouble[i] = autonDistances.get(i);
+			autonTimesDouble[i] = (double)autonTimes.get(i);
+		}
+		LinearRegression regression = new LinearRegression(autonTimesDouble, autonDistancesDouble);
+		if(sanic.getAverageValue() + regression.slope()*Map.GET_AVERAGE_TIME_DELAY < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
+		{
+			System.out.println("slope: " + regression.slope() + " dist: " + sanic.getAverageValue());
+			autonDistances = new ArrayList<Integer>();
+			autonTimes = new ArrayList<Long>();
+			return null_response;
+		}
+		return input;
+	}*/
+	/*public double[] roborio_crash_bandicoot_check(double[] input, long time, int mode) {
+		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
+		if (sanic.getAverageValue() < Map.CRASH_DETECTION_DISTANCE_THRESHOLD)
+		{
+			return null_response;
+		}
+		return input;
+	} //simple crash detection, no lin reg
+	 */
 	public void spike_reset() {
 		initialSpike = 0.0;
 		highestTravelingSpike = 0.0;
@@ -388,6 +504,29 @@ public class Drive implements Updatable
 			return sanic.getAverageValue();
 	}	
 	
+	/**
+	 * Normalization function for arrays to normalize full scale to +- 1 <br>
+	 * Note: THIS FUNCTION OPERATES ON THE REFERENCE INPUT ARRAY AND WILL CHANGE IT!
+	 * @param input - The array to normalize
+	 * @return Maximum value in the array
+	 */
+	private double groundtruth_normalize(double[] input)
+	{
+		double max = 0;
+		for(int i = 0; i < input.length; i++)
+			max = Math.max(Math.abs(input[1]), max);
+		
+		if(max == 0)
+			return 0;
+		
+		max = max == 0 ? 1 : max;
+		for(int i = 0; i < input.length; i++)
+			input[i] /= max;
+		
+		return max;
+	} 
+
+
 	/**
 	 * Convert the input array (forward, right, and anticlockwise) into a motor output array.
 	 */
@@ -451,5 +590,8 @@ public class Drive implements Updatable
         
         double[] speeds = new double[] {forward_speed, tracking_direction};
         return speeds;
+        //System.out.println("Forward speed: " + forward_speed);
+        //System.out.println("Tracking speed: " + tracking_direction);
 	}
+	
 }
