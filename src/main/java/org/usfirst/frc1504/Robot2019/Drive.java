@@ -150,7 +150,7 @@ public class Drive implements Updatable
 			//}
 			//else
 			//{
-				drive_inputs(IO.drive_input());
+				//drive_inputs(IO.drive_input());
 			//}
 		//}
 	}

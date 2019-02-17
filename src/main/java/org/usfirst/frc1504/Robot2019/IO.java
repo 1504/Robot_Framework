@@ -35,7 +35,7 @@ public class IO
 	}
 	public static double get_intake_speed()
 	{		
-		return Math.pow(_secondary.getRawAxis(Map.SPIN_ROTORS_IN), 3.0);
+		return Math.pow(_drive_forward.getRawAxis(Map.JOYSTICK_Y_AXIS), 3.0);
 	}
 	public static boolean get_grabber()
 	{

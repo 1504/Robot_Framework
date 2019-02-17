@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class Pickup implements Updatable {
 	private WPI_TalonSRX _left_roller;
 	private WPI_TalonSRX _right_roller;
+	private WPI_TalonSRX _lift;
 	public static DoubleSolenoid _grab_piston; 
 	public DoubleSolenoid _grabber;
 	private static final Pickup instance = new Pickup();
@@ -26,6 +27,7 @@ public class Pickup implements Updatable {
 	{
 		_left_roller = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_LEFT);
 		_right_roller = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_RIGHT);
+		_lift = new WPI_TalonSRX(30);
 		_grab_piston = new DoubleSolenoid(0, 1); //0 and 1 are the ports, needs to be moved to the map
 		_grab_piston.set(DoubleSolenoid.Value.kOff);
 		Update_Semaphore.getInstance().register(this);
@@ -38,6 +40,10 @@ public class Pickup implements Updatable {
 	{
 		_left_roller.set(speed*Map.ROLLER_SPEED_MULTIPLIER);
 		_right_roller.set(-speed*Map.ROLLER_SPEED_MULTIPLIER);
+	}
+	public void set_lift_speed(double speed) //sets both the right and left flipper speeds
+	{
+		_lift.set(speed);
 	}
 	public static void update_grabber_state() {
 		if(_grab_piston.get() == DoubleSolenoid.Value.kOff || _grab_piston.get() == DoubleSolenoid.Value.kReverse) 
@@ -66,7 +72,7 @@ public class Pickup implements Updatable {
 				update_grabber_state();
 				Auto_Alignment.alignment_state = alignment_position.PLACEMENT_TRACKING;
 			}
-			set_intake_speed(IO.get_intake_speed());
+			set_lift_speed(IO.get_intake_speed());
 		}
 	}
 }
