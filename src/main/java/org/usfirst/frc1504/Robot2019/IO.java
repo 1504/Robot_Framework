@@ -33,13 +33,21 @@ public class IO
 	{
 		return _secondary.getRawButton(Map.CRASH_DETECTION);
 	}
-	public static double get_intake_speed()
+	public static double get_actuator_2_speed()
+	{
+		return Math.pow(_secondary.getRawAxis(Map.LIFT_ACTUATOR_2), 3.0);
+	}
+	public static boolean extend_arm()
+	{
+		return _secondary.getRawButton(Map.ARM_EXTEND);
+	}
+	public static double get_actuator_1_speed()
 	{		
-		return Math.pow(_drive_forward.getRawAxis(Map.JOYSTICK_Y_AXIS), 3.0);
+		return Math.pow(_secondary.getRawAxis(Map.LIFT_ACTUATOR_1), 3.0);
 	}
 	public static boolean get_grabber()
 	{
-		return _secondary.getRawButtonOnRisingEdge(Map.GRABBER);
+		return _secondary.getRawButton(Map.GRABBER);
 	}
 	
 	/**
@@ -75,4 +83,20 @@ public class IO
 		return _secondary.getRawButton(Map.AUTO_PLACEMENT_BUTTON);
 	}
 	
+	public static boolean get_home_height_button()
+	{
+		return _drive_rotation.getRawButton(Map.HOME_HEIGHT_BUTTON);
+	}
+	public static boolean get_first_height_button()
+	{
+		return _drive_rotation.getRawButton(Map.FIRST_HEIGHT_BUTTON);
+	}
+	public static boolean get_second_height_button()
+	{
+		return _drive_rotation.getRawButton(Map.SECOND_HEIGHT_BUTTON);
+	}
+	public static boolean get_third_height_button()
+	{
+		return _drive_rotation.getRawButton(Map.THIRD_HEIGHT_BUTTON);
+	}
 }

@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import org.opencv.core.Mat;
 
 import edu.wpi.cscore.*;
-import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.cameraserver.CameraServer;
 
 public class Vision implements VisionRunner.Listener<GripPipeline>{
 	

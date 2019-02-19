@@ -14,15 +14,22 @@ public class Map {
 	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
 	
 	// Joystick inputs
-	public static final int SPIN_ROTORS_IN = 1; //left joystick axis
+	//public static final int SPIN_ROTORS_IN = 1; //left joystick axis
 	public static final int GRABBER = 2; //B
 	public static final int CRASH_DETECTION = 7; //left joystick button	
 
 	public static final int AUTO_PLACEMENT_BUTTON = 3;
-	//1 : A
-	//2 : B
-	//3 : X
-	//4 : Y
+	public static final int ARM_EXTEND = 4;
+
+	public static final int AUTO_ALIGNMENT_BUTTON = 1;
+	public static final int AUTO_GRABBER_SWITCH = 7;
+	public static final int AUTO_LIFT_SWITCH = 0;
+	
+
+	//1 : A  - Auto_alignment_button
+	//2 : B  - Grabber
+	//3 : X  - Auto_placement_button
+	//4 : Y  - extend/retract arms
 	//5 : LB
 	//6 : RB
 	//7 : Back
@@ -31,11 +38,27 @@ public class Map {
 	//10 : Press right joystick
 	
 	//0 : X axis-left joystick
-	//1 : Y axis-left joystick
+	//1 : Y axis-left joystick - spinning rotors
 	//2 : LT
 	//3 : RT
 	//4 : X axis-right joystick
 	//5 : Y axis-right joystick
+
+	public static final int LIFT_ACTUATOR_2 = 1;
+	public static final int LIFT_ACTUATOR_1 = 5;
+
+	public static final double FIRST_HEIGHT = 60;
+	public static final double SECOND_HEIGHT = 180;
+	public static final double THIRD_HEIGHT = 300;
+
+	public static final double POTENTIOMETER_LIMIT = 5;
+	//Joystick-rotation buttons
+
+	public static final int HOME_HEIGHT_BUTTON = 2;
+	public static final int FIRST_HEIGHT_BUTTON = 3; //parallel arms height buttons
+	public static final int SECOND_HEIGHT_BUTTON = 4; 
+	public static final int THIRD_HEIGHT_BUTTON = 5;
+
 /**
  * Pickup stuff
  */
@@ -49,11 +72,26 @@ public class Map {
 		
 		public static final double PICKUP_GAIN = 0.03;
 		public static final double ROTATION_SPEED = 1;
+
+		public static final int GRAB_PISTON_HIGHSIDE_PORT = 0;
+		public static final int GRAB_PISTON_LOWSIDE_PORT = 1;
+
+		public static final int END_LIFT_HIGHSIDE_PORT = 4;
+		public static final int END_LIFT_LOWSIDE_PORT = 5;
+
+
+		public static final int ARM_EXTENSION_HIGHSIDE_PORT = 2;
+		public static final int ARM_EXTENSION_LOWSIDE_PORT = 3;
 /**
  * Elevator / Lift Stuff
  */
-		
-		public static final int LIFT_TALON_PORT = 30;
+		public static final double ACTUATOR_MULTIPLIER = 0.75;
+
+		public static final int FIRST_ACTUATOR_PORT = 30; //actuator ports
+		public static final int SECOND_ACTUATOR_PORT = 31; 	
+
+		public static final int FIRST_POTENTIOMETER_PORT = 0;
+		public static final int SECOND_POTENTIOMETER_PORT = 1;
 		
 		public static final double LIFT_MOTOR_SPEED = 0.5;
 		
@@ -99,7 +137,7 @@ public class Map {
 
 	
 	// Drive Input magic numbers
-	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { -1.0, 1.0, 0.6 };
+	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { 1.0, -1.0, 0.6 };
 	public static final double DRIVE_INPUT_TURN_FACTOR = 0.2;
 	
 	public static final double DRIVE_INPUT_VISION_SPEED = 0.75;
@@ -214,16 +252,8 @@ public class Map {
 /**
  * Pneumatics stuff
  */
-	public static final int GRAB_PISTON_HIGHSIDE_PORT = 0;
-	public static final int GRAB_PISTON_LOWSIDE_PORT = 1;
 	
 	public static final int LIFT_PLATE_SOLENOID_PORT = 2; 
-	
-/**
- * Auton stuff	
- */
-	public static final int AUTO_ALIGNMENT_BUTTON = 1;
-	public static final int AUTO_GRABBER_SWITCH = 7;
 	
 	//norm/starting conditions arm down, lift down, facing alliance station
 	public static final double CRASH_DETECTION_THRESHOLD_MULTIPLIER = 1.1;

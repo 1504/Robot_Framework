@@ -4,7 +4,7 @@ import org.usfirst.frc1504.utils.VisionThreadSingleFrame;
 
 import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.vision.VisionRunner;
 import org.usfirst.frc1504.Robot2019.Update_Semaphore.Updatable;
 

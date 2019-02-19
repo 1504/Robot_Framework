@@ -23,7 +23,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -80,8 +80,6 @@ public class Robot extends TimedRobot {
      */
     public Robot() {
     	super();
-    	CameraServer.getInstance().startAutomaticCapture();
-		CameraServer.getInstance();
     	Drive.initialize();
     	DigitBoard.initialize();
     	Digit_Board.initialize();
@@ -102,6 +100,7 @@ public class Robot extends TimedRobot {
      * Called exactly 1 time when the competition starts.
      */
     public void robotInit() {
+		CameraServer.getInstance().startAutomaticCapture();
     	_dashboard_task = new Thread(new Runnable() {
 			public void run() {
 				
@@ -137,7 +136,8 @@ public class Robot extends TimedRobot {
 				SmartDashboard.putBoolean("Good Configuration", Auto_Alignment.check_sensors());
 				while(true)
 				{	
-
+					System.out.println("firstPotentiometer: " + Pickup.firstPotentiometer.get());
+					System.out.println("secondPotentiometer: " + Pickup.secondPotentiometer.get());
 					//SmartDashboard.putNumber("Robot Voltage", RobotController.getBatteryVoltage());
 					//SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
 					//SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
@@ -182,7 +182,7 @@ public class Robot extends TimedRobot {
     	_dashboard_task.start();
     	
     	//System.out.println(new String(Base64.getDecoder().decode(Map.ROBOT_BANNER)));
-        System.out.println("Babbage Initialized ( robotInit() ) @ " + IO.ROBOT_START_TIME);
+        System.out.println("Opportunity Initialized ( robotInit() ) @ " + IO.ROBOT_START_TIME);
     }
 
     /**

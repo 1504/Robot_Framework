@@ -142,17 +142,17 @@ public class Drive implements Updatable
 	 */
 	public void semaphore_update()
 	{
-		//if(!_ds.isAutonomous())
-		//{
+		if(_ds.isEnabled())
+		{
 			//if(IO.drive_wiggle() != 0.0)
 			//{
 			//	drive_inputs(new double[] { 0.25 * (((_dir & 1) == 0) ? 1.0 : -1.0) , 0.31 * IO.drive_wiggle()});
 			//}
 			//else
 			//{
-				//drive_inputs(IO.drive_input());
+				drive_inputs(IO.drive_input());
 			//}
-		//}
+		}
 	}
 	
 	/**
@@ -229,7 +229,7 @@ public class Drive implements Updatable
 				}
 				if(Auto_Alignment.check_sensors() && IO.get_auto_alignment())
 				{
-					//input =  Auto_Alignment.auto_alignment();
+					input =  Auto_Alignment.auto_alignment();
 				}
 				//double driveinputsblah[] = {0.5,0.0,0.0};
 				//input = driveinputsblah;
