@@ -24,6 +24,10 @@ public class Map {
 	public static final int AUTO_ALIGNMENT_BUTTON = 1;
 	public static final int AUTO_GRABBER_SWITCH = 7;
 	public static final int AUTO_LIFT_SWITCH = 0;
+
+	//Axes
+	public static final int REVERSE_ROTORS = 3;
+	public static final int FORWARD_ROTORS = 2;
 	
 
 	//1 : A  - Auto_alignment_button
@@ -62,7 +66,7 @@ public class Map {
 /**
  * Pickup stuff
  */
-		public static final double ROLLER_SPEED_MULTIPLIER = 0.5;
+		public static final double ROLLER_SPEED_MULTIPLIER = 0.75;
 		
 		public static final int INTAKE_POWER_AXIS = 1;
 		public static final int LIFT_AXIS = 5;

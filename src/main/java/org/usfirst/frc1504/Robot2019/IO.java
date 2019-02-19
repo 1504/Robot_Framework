@@ -49,6 +49,10 @@ public class IO
 	{
 		return _secondary.getRawButton(Map.GRABBER);
 	}
+	public static double get_intake_speed()
+	{
+		return _secondary.getRawAxis(Map.FORWARD_ROTORS) - _secondary.getRawAxis(Map.REVERSE_ROTORS);
+	}
 	public static boolean up_elevator_level()
 	{
 		return _secondary.getRawButton(5); // don't know what this button should be yet

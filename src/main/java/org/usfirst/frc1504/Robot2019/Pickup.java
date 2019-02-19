@@ -80,8 +80,8 @@ public class Pickup implements Updatable {
 
 	public void elevator_levels(){
 
-		int[] first_potentiometer_levels = {};
-		int[] second_potentiometer_levels = {};
+		int[] front_potentiometer_levels = {};
+		int[] back_potentiometer_levels = {};
 		int current_level = 0;
 
 		if(IO.elevator_go_home())
@@ -105,8 +105,8 @@ public class Pickup implements Updatable {
 
 		try
 		{
-			_first_actuator.set(first_potentiometer_levels[current_level]-firstPotentiometer.get());
-			_second_actuator.set(second_potentiometer_levels[current_level]-secondPotentiometer.get());
+			_first_actuator.set(front_potentiometer_levels[current_level]-firstPotentiometer.get());
+			_second_actuator.set(back_potentiometer_levels[current_level]-secondPotentiometer.get());
 		}
 		catch(Exception e)
 		{
@@ -220,7 +220,7 @@ public class Pickup implements Updatable {
 			//set_lift_speed(IO.get_lift_speed());
 			_first_actuator.set(IO.get_actuator_2_speed()*-1*Map.ACTUATOR_MULTIPLIER);
 			_second_actuator.set(IO.get_actuator_1_speed()*-1*Map.ACTUATOR_MULTIPLIER);
-			//set_intake_speed(IO.get_intake_speed());
+			set_intake_speed(IO.get_intake_speed());
 			
 		}
 	}
