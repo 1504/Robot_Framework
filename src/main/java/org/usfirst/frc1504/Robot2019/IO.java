@@ -53,18 +53,44 @@ public class IO
 	{
 		return _secondary.getRawAxis(Map.FORWARD_ROTORS) - _secondary.getRawAxis(Map.REVERSE_ROTORS);
 	}
-	public static boolean up_elevator_level()
+	/** Hid Stuff
+	 * 
+	 */
+	public static int hid()
 	{
-		return _secondary.getRawButton(5); // don't know what this button should be yet
+		return _secondary.getPOV();
 	}
-	public static boolean down_elevator_level()
+	public static boolean hid_up()
 	{
-		return _secondary.getRawButton(6); // don't know what this button should be yet
+		if(hid() == 0)
+		{
+			return true;
+		}
+		else 
+			return false;
 	}
-	public static boolean elevator_go_home()
+	public static boolean hid_home()
 	{
-		return _secondary.getRawButton(8);
+		if(hid() == 90 || hid() == 270)
+		{
+			return true;
+		}
+		else 
+			return false;
 	}
+	public static boolean hid_down()
+	{
+		if(hid() == 180)
+		{
+			return true;
+		}
+		else 
+			return false;
+	}
+
+
+
+
 
 	/**
 	 * Drive stuff
