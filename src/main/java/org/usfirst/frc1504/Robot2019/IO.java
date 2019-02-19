@@ -49,7 +49,19 @@ public class IO
 	{
 		return _secondary.getRawButton(Map.GRABBER);
 	}
-	
+	public static boolean up_elevator_level()
+	{
+		return _secondary.getRawButton(5); // don't know what this button should be yet
+	}
+	public static boolean down_elevator_level()
+	{
+		return _secondary.getRawButton(6); // don't know what this button should be yet
+	}
+	public static boolean elevator_go_home()
+	{
+		return _secondary.getRawButton(8);
+	}
+
 	/**
 	 * Drive stuff
 	 */

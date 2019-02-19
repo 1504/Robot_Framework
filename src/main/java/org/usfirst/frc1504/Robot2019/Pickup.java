@@ -26,6 +26,7 @@ public class Pickup implements Updatable {
 
 	public boolean lastGrabberButtonState = false;
 	public boolean lastArmButtonState = false;
+	public boolean lastLiftButtonState = false;
 
 	private static final Pickup instance = new Pickup();
 	private DriverStation _ds = DriverStation.getInstance();
@@ -40,10 +41,10 @@ public class Pickup implements Updatable {
 	private Pickup() // pickup constructor
 	{
 		AnalogInput a = new AnalogInput(Map.FIRST_POTENTIOMETER_PORT);
-		firstPotentiometer = new AnalogPotentiometer(a, 360, 30);
+		firstPotentiometer = new AnalogPotentiometer(a, 100, 0);
 
 		AnalogInput b = new AnalogInput(Map.SECOND_POTENTIOMETER_PORT);
-		secondPotentiometer = new AnalogPotentiometer(b, 360, 30);
+		secondPotentiometer = new AnalogPotentiometer(b, 100, 0);
 
 		_arm_extension = new DoubleSolenoid(Map.ARM_EXTENSION_HIGHSIDE_PORT, Map.ARM_EXTENSION_LOWSIDE_PORT);
 		_arm_extension.set(DoubleSolenoid.Value.kOff);
@@ -75,6 +76,44 @@ public class Pickup implements Updatable {
 	{
 		_first_actuator.set(speed);
 		_second_actuator.set(speed);
+	}
+
+	public void elevator_levels(){
+
+		int[] first_potentiometer_levels = {};
+		int[] second_potentiometer_levels = {};
+		int current_level = 0;
+
+		if(IO.elevator_go_home())
+		{
+			current_level = 0;
+		}
+		else if(IO.up_elevator_level() && IO.up_elevator_level() != lastLiftButtonState)
+		{
+			if(current_level < 2)
+			{
+				current_level = current_level + 1;
+			}			
+		}
+		else if (IO.down_elevator_level() && IO.down_elevator_level() != lastLiftButtonState)
+		{
+			if(current_level > 0)
+			{
+				current_level = current_level - 1;
+			}
+		}
+
+		try
+		{
+			_first_actuator.set(first_potentiometer_levels[current_level]-firstPotentiometer.get());
+			_second_actuator.set(second_potentiometer_levels[current_level]-secondPotentiometer.get());
+		}
+		catch(Exception e)
+		{
+			System.out.println("Potentiometer array out of bounds");
+		}
+
+		lastLiftButtonState = IO.up_elevator_level() || IO.down_elevator_level();
 	}
 
 	public static void update_grabber_state() {
