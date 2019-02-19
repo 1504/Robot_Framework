@@ -78,43 +78,41 @@ public class Pickup implements Updatable {
 		_second_actuator.set(speed);
 	}
 
-	public void elevator_levels(){
+	public void auto_hatch_elevator_levels(){
 
-		int[] first_potentiometer_levels = {};
-		int[] second_potentiometer_levels = {};
 		int current_level = 0;
-
-		if(IO.elevator_go_home())
+		if(IO.hid_home())
 		{
 			current_level = 0;
 		}
-		else if(IO.up_elevator_level() && IO.up_elevator_level() != lastLiftButtonState)
+		else if(IO.hid_up() && IO.hid_up() != lastLiftButtonState)
 		{
 			if(current_level < 2)
 			{
-				current_level = current_level + 1;
+				current_level += 1;
 			}			
 		}
-		else if (IO.down_elevator_level() && IO.down_elevator_level() != lastLiftButtonState)
+		else if (IO.hid_down() && IO.hid_down() != lastLiftButtonState)
 		{
 			if(current_level > 0)
 			{
-				current_level = current_level - 1;
+				current_level+= 1;
 			}
 		}
 
 		try
 		{
-			_first_actuator.set(first_potentiometer_levels[current_level]-firstPotentiometer.get());
-			_second_actuator.set(second_potentiometer_levels[current_level]-secondPotentiometer.get());
+			_first_actuator.set(Map.first_pm_ball_levels[current_level]-firstPotentiometer.get());
+			_second_actuator.set(Map.second_pm_ball_levels[current_level]-secondPotentiometer.get());
 		}
 		catch(Exception e)
 		{
-			System.out.println("Potentiometer array out of bounds");
+			System.out.println("EXCEPTION: Potentiometer array out of bounds");
 		}
 
-		lastLiftButtonState = IO.up_elevator_level() || IO.down_elevator_level();
+		lastLiftButtonState = IO.hid_up() || IO.hid_down() || IO.hid_home();
 	}
+	
 
 	public static void update_grabber_state() {
 		if(_grab_piston.get() == DoubleSolenoid.Value.kOff || _grab_piston.get() == DoubleSolenoid.Value.kReverse) 

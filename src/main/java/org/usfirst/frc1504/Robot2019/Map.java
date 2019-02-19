@@ -102,6 +102,33 @@ public class Map {
 		public static final double LIFT_SAFETY_THRESHOLD = 5;
 		public static final double LIFT_LOCK_RELEASE_RANGE = 0.7;
 		public static final boolean LIMIT_SWITCH_EXISTS = false; 
+
+		/**
+		 * Potentiometer Values
+		 * 
+		 * These are the hard coded values returned from the potentiometers 
+		 * for the positions we set the linear actuators to when delivering balls and hatch panels.
+		 * First/Front/Lower Linear Actuator
+		 * Second/Back/Higher Linear Actuator
+		 */
+
+		/**
+		 * Arm Delivery Settings for Hatch Panels
+		 * 
+		 * Linear Actuator = {Home, Low, Medium, High}
+		 */
+		public static final double[] first_pm_hatch_levels = {18.4, 10.6, 10.6, 80.0};
+		public static final double[] second_pm_hatch_levels = {12.0, 24.5, 72.4, 71.0};
+
+		/**
+		 * Arm Delivery Settings for Balls
+		 * 
+		 * Linear Actuator = {Home, Low, Medium, High, Human Pickup}
+		 */
+		public static final double[] first_pm_ball_levels = {10.4, 12.5, 30.9, 74.3, 16.1};
+		public static final double[] second_pm_ball_levels = {13.8, 40.3, 63.9, 72.5, 58.8};
+
+
 		
 /**
  * Drive class things
