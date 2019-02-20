@@ -212,7 +212,7 @@ public class Pickup implements Updatable {
 			// set_lift_speed(IO.get_lift_speed());
 			_first_actuator.set(IO.get_actuator_2_speed() * -1 * Map.ACTUATOR_MULTIPLIER);
 			_second_actuator.set(IO.get_actuator_1_speed() * -1 * Map.ACTUATOR_MULTIPLIER);
-			// set_intake_speed(IO.get_intake_speed());
+			set_intake_speed(IO.get_intake_speed());
 
 		}
 	}

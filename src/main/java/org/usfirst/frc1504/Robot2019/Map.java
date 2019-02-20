@@ -28,23 +28,28 @@ public class Map {
 	public static final int AUTO_GRABBER_SWITCH = 7;
 	public static final int AUTO_LIFT_SWITCH = 0;
 
-	// 1 : A - Auto_alignment_button
-	// 2 : B - Grabber
-	// 3 : X - Auto_placement_button
-	// 4 : Y - extend/retract arms
-	// 5 : LB
-	// 6 : RB
-	// 7 : Back
-	// 8 : Start
-	// 9 : Press left joystick
-	// 10 : Press right joystick
+	//Axes
+	public static final int REVERSE_ROTORS = 3;
+	public static final int FORWARD_ROTORS = 2;
+	
 
-	// 0 : X axis-left joystick
-	// 1 : Y axis-left joystick - spinning rotors
-	// 2 : LT
-	// 3 : RT
-	// 4 : X axis-right joystick
-	// 5 : Y axis-right joystick
+	//1 : A  - Auto_alignment_button
+	//2 : B  - Grabber
+	//3 : X  - Auto_placement_button
+	//4 : Y  - extend/retract arms
+	//5 : LB
+	//6 : RB
+	//7 : Back
+	//8 : Start
+	//9 : Press left joystick
+	//10 : Press right joystick
+	
+	//0 : X axis-left joystick
+	//1 : Y axis-left joystick - spinning rotors
+	//2 : LT
+	//3 : RT
+	//4 : X axis-right joystick
+	//5 : Y axis-right joystick
 
 	public static final int LIFT_ACTUATOR_2 = 1;
 	public static final int LIFT_ACTUATOR_1 = 5;
@@ -61,80 +66,84 @@ public class Map {
 	public static final int SECOND_HEIGHT_BUTTON = 4;
 	public static final int THIRD_HEIGHT_BUTTON = 5;
 
-	/**
-	 * Pickup stuff
-	 */
-	public static final double ROLLER_SPEED_MULTIPLIER = 0.5;
+/**
+ * Pickup stuff
+ */
+		public static final double ROLLER_SPEED_MULTIPLIER = 0.75;
+		
+		public static final int INTAKE_POWER_AXIS = 1;
+		public static final int LIFT_AXIS = 5;
+		
+		public static final int ROLLER_TALON_PORT_LEFT = 20;
+		public static final int ROLLER_TALON_PORT_RIGHT = 21;
+		
+		public static final double PICKUP_GAIN = 0.03;
+		public static final double ROTATION_SPEED = 1;
 
-	public static final int INTAKE_POWER_AXIS = 1;
-	public static final int LIFT_AXIS = 5;
+		public static final int GRAB_PISTON_HIGHSIDE_PORT = 0;
+		public static final int GRAB_PISTON_LOWSIDE_PORT = 1;
 
-	public static final int ROLLER_TALON_PORT_LEFT = 20;
-	public static final int ROLLER_TALON_PORT_RIGHT = 21;
+		public static final int END_LIFT_FRONT_HIGHSIDE_PORT = 4;
+		public static final int END_LIFT_FRONT_LOWSIDE_PORT = 5;
+	
+		public static final int END_LIFT_BACK_HIGHSIDE_PORT = 6;
+		public static final int END_LIFT_BACK_LOWSIDE_PORT = 7;
 
-	public static final double PICKUP_GAIN = 0.03;
-	public static final double ROTATION_SPEED = 1;
 
-	public static final int GRAB_PISTON_HIGHSIDE_PORT = 0;
-	public static final int GRAB_PISTON_LOWSIDE_PORT = 1;
+		public static final int ARM_EXTENSION_HIGHSIDE_PORT = 2;
+		public static final int ARM_EXTENSION_LOWSIDE_PORT = 3;
+/**
+ * Elevator / Lift Stuff
+ */
+		public static final double ACTUATOR_MULTIPLIER = 0.75;
 
-	public static final int END_LIFT_FRONT_HIGHSIDE_PORT = 4;
-	public static final int END_LIFT_FRONT_LOWSIDE_PORT = 5;
+		public static final int FIRST_ACTUATOR_PORT = 30; //actuator ports
+		public static final int SECOND_ACTUATOR_PORT = 31; 	
 
-	public static final int END_LIFT_BACK_HIGHSIDE_PORT = 6;
-	public static final int END_LIFT_BACK_LOWSIDE_PORT = 7;
+		public static final int FIRST_POTENTIOMETER_PORT = 0;
+		public static final int SECOND_POTENTIOMETER_PORT = 1;
+		
+		public static final double LIFT_MOTOR_SPEED = 0.5;
+		
+		public static final double LIFT_MAX_HEIGHT = 10; 
+		public static final double LIFT_MIN_HEIGHT = 0; 
+		
+		public static final double LIFT_GAIN = 0.3;
+		public static final double LIFT_SAFETY_THRESHOLD = 5;
+		public static final double LIFT_LOCK_RELEASE_RANGE = 0.7;
+		public static final boolean LIMIT_SWITCH_EXISTS = false; 
 
-	public static final int ARM_EXTENSION_HIGHSIDE_PORT = 2;
-	public static final int ARM_EXTENSION_LOWSIDE_PORT = 3;
-	/**
-	 * Elevator / Lift Stuff
-	 */
-	public static final double ACTUATOR_MULTIPLIER = 0.75;
+		/**
+		 * Potentiometer Values
+		 * 
+		 * These are the hard coded values returned from the potentiometers 
+		 * for the positions we set the linear actuators to when delivering balls and hatch panels.
+		 * First/Front/Lower Linear Actuator
+		 * Second/Back/Higher Linear Actuator
+		 */
 
-	public static final int FIRST_ACTUATOR_PORT = 30; // actuator ports
-	public static final int SECOND_ACTUATOR_PORT = 31;
+		/**
+		 * Arm Delivery Settings for Hatch Panels
+		 * 
+		 * Linear Actuator = {Home, Low, Medium, High}
+		 */
+		public static final double[] first_pm_hatch_levels = {18.4, 10.6, 10.6, 80.0};
+		public static final double[] second_pm_hatch_levels = {12.0, 24.5, 72.4, 71.0};
 
-	public static final int FIRST_POTENTIOMETER_PORT = 0;
-	public static final int SECOND_POTENTIOMETER_PORT = 1;
+		/**
+		 * Arm Delivery Settings for Balls
+		 * 
+		 * Linear Actuator = {Home, Low, Medium, High, Human Pickup}
+		 */
+		public static final double[] first_pm_ball_levels = {10.4, 12.5, 30.9, 74.3, 16.1};
+		public static final double[] second_pm_ball_levels = {13.8, 40.3, 63.9, 72.5, 58.8};
 
-	public static final double LIFT_MOTOR_SPEED = 0.5;
 
-	public static final double LIFT_MAX_HEIGHT = 10;
-	public static final double LIFT_MIN_HEIGHT = 0;
-
-	public static final double LIFT_GAIN = 0.3;
-	public static final double LIFT_SAFETY_THRESHOLD = 5;
-	public static final double LIFT_LOCK_RELEASE_RANGE = 0.7;
-	public static final boolean LIMIT_SWITCH_EXISTS = false;
-
-	/**
-	 * Potentiometer Values
-	 * 
-	 * These are the hard coded values returned from the potentiometers for the
-	 * positions we set the linear actuators to when delivering balls and hatch
-	 * panels. First/Front/Lower Linear Actuator Second/Back/Higher Linear Actuator
-	 */
-
-	/**
-	 * Arm Delivery Settings for Hatch Panels
-	 * 
-	 * Linear Actuator = {Home, Low, Medium, High}
-	 */
-	public static final double[] first_pm_hatch_levels = { 18.4, 10.6, 10.6, 80.0 };
-	public static final double[] second_pm_hatch_levels = { 12.0, 24.5, 72.4, 71.0 };
-
-	/**
-	 * Arm Delivery Settings for Balls
-	 * 
-	 * Linear Actuator = {Home, Low, Medium, High, Human Pickup}
-	 */
-	public static final double[] first_pm_ball_levels = { 10.4, 12.5, 30.9, 74.3, 16.1 };
-	public static final double[] second_pm_ball_levels = { 13.8, 40.3, 63.9, 72.5, 58.8 };
-
-	/**
-	 * Drive class things
-	 */
-
+		
+/**
+ * Drive class things
+ */
+	
 	// Drive Motor enumeration
 	public static enum DRIVE_MOTOR {
 		FRONT_LEFT, BACK_LEFT, BACK_RIGHT, FRONT_RIGHT

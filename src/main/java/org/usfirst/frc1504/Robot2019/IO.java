@@ -58,6 +58,10 @@ public class IO
 		return _secondary.getRawButton(Map.END_LIFT_FRONT);
 	}
 
+	public static double get_intake_speed()
+	{
+		return _secondary.getRawAxis(Map.FORWARD_ROTORS) - _secondary.getRawAxis(Map.REVERSE_ROTORS);
+	}
 	/** Hid Stuff
 	 * 
 	 */
