@@ -49,6 +49,14 @@ public class IO
 	{
 		return _secondary.getRawButton(Map.GRABBER);
 	}
+	public static boolean get_endlift_back()
+	{
+		return _secondary.getRawButton(Map.END_LIFT_BACK);
+	}
+	public static boolean get_endlift_front()
+	{
+		return _secondary.getRawButton(Map.END_LIFT_FRONT);
+	}
 
 	/** Hid Stuff
 	 * 
