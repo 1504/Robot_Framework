@@ -28,8 +28,8 @@ public class Pickup implements Updatable {
 	public static DoubleSolenoid _end_lift_back;
 
 	public boolean lastGrabberButtonState = false;
-	public boolean lastGrabberEndLiftFrontState = false;
-	public boolean lastGrabberEndLiftBackState = false;
+	public boolean lastEndLiftFrontState = false;
+	public boolean lastEndLiftBackState = false;
 	public boolean lastEndLiftButtonState = false;
 	public boolean lastArmButtonState = false;
 	public boolean lastLiftButtonState = false;
@@ -192,15 +192,15 @@ public class Pickup implements Updatable {
 			}
 			lastGrabberButtonState = IO.get_grabber();
 
-			if (IO.get_endlift_front() && IO.get_endlift_front() != lastEndLiftFrontButtonState) {
+			if (IO.get_endlift_front() && IO.get_endlift_front() != lastEndLiftFrontState) {
 				update_end_lift_front_state();
 			}
-			lastGrabberEndLiftFrontState = IO.get_endlift_front();
+			lastEndLiftFrontState = IO.get_endlift_front();
 
-			if (IO.get_endlift_back() && IO.get_endlift_back() != lastEndLiftButtonBackState) {
+			if (IO.get_endlift_back() && IO.get_endlift_back() != lastEndLiftBackState) {
 				update_end_lift_back_state();
 			}
-			lastGrabberEndLiftBackState = IO.get_endlift_back();
+			lastEndLiftBackState = IO.get_endlift_back();
 			/*
 			 * if(IO.extend_arm() && !Auto_Alignment.get_grabber_trigger() &&
 			 * IO.extend_arm() != lastArmButtonState) { update_arm_state(); } else if
