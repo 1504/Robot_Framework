@@ -51,8 +51,8 @@ public class Map {
 	//4 : X axis-right joystick
 	//5 : Y axis-right joystick
 
-	public static final int LIFT_ACTUATOR_2 = 1;
-	public static final int LIFT_ACTUATOR_1 = 5;
+	public static final int ELEVATOR_ACTUATOR_2 = 1;
+	public static final int ELEVATOR_ACTUATOR_1 = 5;
 
 	public static final double FIRST_HEIGHT = 60;
 	public static final double SECOND_HEIGHT = 180;

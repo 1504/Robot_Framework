@@ -35,7 +35,7 @@ public class IO
 	}
 	public static double get_actuator_2_speed()
 	{
-		return Math.pow(_secondary.getRawAxis(Map.LIFT_ACTUATOR_2), 3.0);
+		return Math.pow(_secondary.getRawAxis(Map.ELEVATOR_ACTUATOR_2), 3.0);
 	}
 	public static boolean extend_arm()
 	{
@@ -43,7 +43,7 @@ public class IO
 	}
 	public static double get_actuator_1_speed()
 	{		
-		return Math.pow(_secondary.getRawAxis(Map.LIFT_ACTUATOR_1), 3.0);
+		return Math.pow(_secondary.getRawAxis(Map.ELEVATOR_ACTUATOR_1), 3.0);
 	}
 	public static boolean get_grabber()
 	{

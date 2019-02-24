@@ -1,12 +1,12 @@
 package org.usfirst.frc1504.Robot2019;
-//
-import java.util.Arrays;
 
+// Arduino
 import org.usfirst.frc1504.Robot2019.Arduino.FRONTSIDE_MODE;
 import org.usfirst.frc1504.Robot2019.Arduino.GEAR_MODE;
 import org.usfirst.frc1504.Robot2019.Arduino.INTAKE_LIGHT_MODE;
 import org.usfirst.frc1504.Robot2019.Arduino.PARTY_MODE;
 import org.usfirst.frc1504.Robot2019.Arduino.SHOOTER_STATUS;
+
 import edu.wpi.first.networktables.*;
 import java.util.HashMap;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -50,23 +50,17 @@ public class Robot extends TimedRobot {
 	public static double right_x;
 	public static double right_y;
 	
-	public static enum v_or_c {VISIONCODE, CONTINGENCY};
-	public static v_or_c vorc_state;
-	
 	private Digit_Board _db = Digit_Board.getInstance();
 	private DriverStation _ds = DriverStation.getInstance();
 	private Drive _drive = Drive.getInstance();
 	private Update_Semaphore _semaphore = Update_Semaphore.getInstance();
 	private Logger _logger = Logger.getInstance();
 	private Arduino _arduino = Arduino.getInstance();
-	private Pickup _pickup = Pickup.getInstance();
+	private Elevator _elevator = Elevator.getInstance();
 	
 	private HashMap<String, double[][]> map = new HashMap<String, double[][]>();
 	private SendableChooser<String> pos = new SendableChooser<String>();
 	private SendableChooser<String> autoChooser1 = new SendableChooser<String>();
-	
-	private SendableChooser<Double> powers = new SendableChooser<Double>();
-	
 	
 	//private Lift _lift = Lift.getInstance();
 	//private Navx _navx = Navx.getInstance();
@@ -83,10 +77,10 @@ public class Robot extends TimedRobot {
     	Drive.initialize();
     	DigitBoard.initialize();
     	Digit_Board.initialize();
-    	//Pickup.initialize();
+    	//Elevator.initialize();
     	//Lift.initialize();
  //   	//CameraServer.getInstance().startAutomaticCapture();
-    	System.out.println("game specific message:"+_ds.getGameSpecificMessage()); 
+    	System.out.println("Game specific message: "+_ds.getGameSpecificMessage()); 
     	//RRL - Right side switch (closer), Right side scale, Left side switch (farther)
     	//System.out.println(new String(Base64.getDecoder().decode(Map.TEAM_BANNER)));
     }
@@ -103,7 +97,6 @@ public class Robot extends TimedRobot {
 		CameraServer.getInstance().startAutomaticCapture();
     	_dashboard_task = new Thread(new Runnable() {
 			public void run() {
-				
 				_arduino.setPartyMode(PARTY_MODE.ON);
 				char edge_track = 0;
 				//PowerDistributionPanel pdp = new PowerDistributionPanel();
@@ -113,7 +106,6 @@ public class Robot extends TimedRobot {
 				pos.addDefault("Left", new String("Left"));
 				pos.addObject("Mid", new String("Mid"));
 				pos.addObject("Right", new String("Right"));
-				
 				
 				autoChooser1.addDefault("Switch", new String("Switch"));
 				autoChooser1.addObject("+ Spot", new String("Spot"));
@@ -136,33 +128,14 @@ public class Robot extends TimedRobot {
 				SmartDashboard.putBoolean("Good Configuration", Auto_Alignment.check_sensors());
 				while(true)
 				{	
-					System.out.println("firstPotentiometer: " + Pickup.firstPotentiometer.get());
-					System.out.println("secondPotentiometer: " + Pickup.secondPotentiometer.get());
+					System.out.println("firstPotentiometer: " + Elevator.firstPotentiometer.get());
+					System.out.println("secondPotentiometer: " + Elevator.secondPotentiometer.get());
 					//SmartDashboard.putNumber("Robot Voltage", RobotController.getBatteryVoltage());
 					//SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
 					//SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					//SmartDashboard.putNumber("Arm Power", _pickup.getPower());
 					//SmartDashboard.putNumber("Pressure High", pressure_1.getAverageVoltage()*50 - 25);
 					//SmartDashboard.putNumber("Pressure Low", pressure_2.getAverageVoltage()*50 - 25);
-					
-					
-					
-					/*
-					SmartDashboard.putNumber("PDP Current: Channel 0", pdp.getCurrent(0));
-					SmartDashboard.putNumber("PDP Current: Channel 1", pdp.getCurrent(1));
-					SmartDashboard.putNumber("PDP Current: Channel 2", pdp.getCurrent(2));
-					SmartDashboard.putNumber("PDP Current: Channel 3", pdp.getCurrent(3));
-					
-					SmartDashboard.putNumber("PDP Current: Channel 10", pdp.getCurrent(10));
-					SmartDashboard.putNumber("PDP Current: Channel 11", pdp.getCurrent(11));
-					SmartDashboard.putNumber("PDP Current: Channel 12", pdp.getCurrent(12));
-					SmartDashboard.putNumber("PDP Current: Channel 13", pdp.getCurrent(13));
-					SmartDashboard.putNumber("PDP Current: Channel 14", pdp.getCurrent(14));
-					SmartDashboard.putNumber("PDP Current: Channel 15", pdp.getCurrent(15));
-					*/
-					
-					//SmartDashboard.putBoolean("Pressure", c.getPressureSwitchValue());
-					//SmartDashboard.putNumber("Pressure", c.getCompressorCurrent());
 					
 					//SmartDashbaord.putNumber("", );
 					
@@ -235,11 +208,8 @@ public class Robot extends TimedRobot {
      * Test code should go here.
      * Users should add test code to this method that should run while the robot is in test mode.
      */
-    
-    
     public void test() {
     	System.out.println("Test Mode!");
-    	//ADIS16448_IMU imu = new ADIS16448_IMU();
     	/*DoubleSolenoid _piston1 = new DoubleSolenoid(0, 1);
     	WPI_TalonSRX _motor = new WPI_TalonSRX(Map.ARM_TALON_PORT);
 		Latch_Joystick control = new Latch_Joystick(0);
@@ -259,21 +229,6 @@ public class Robot extends TimedRobot {
     		_grab_left.set(speed);
     		_grab_right.set(-speed);
     		
-    		//System.out.println("Gyro-X"+accel.getX());
-    		/*System.out.println("Gyro-X"+imu.getAngleX());
-    	    System.out.println("Gyro-Y"+imu.getAngleY());
-    	    System.out.println("Gyro-Z"+imu.getAngleZ());
-    	    
-    	    System.out.println("Accel-X"+imu.getAccelX());
-    	    System.out.println("Accel-Y"+imu.getAccelY());
-    	    System.out.println("Accel-Z"+imu.getAccelZ());
-    	    
-    	    System.out.println("Pitch"+imu.getPitch());
-    	    System.out.println("Roll"+imu.getRoll());
-    	    System.out.println("Yaw"+imu.getYaw());
-    	    
-    	    System.out.println("Pressure: "+imu.getBarometricPressure());
-    	    System.out.println("Temperature: "+imu.getTemperature()); */
     	    //Timer.delay(1000);
     		//System.out.println("Test Mode!");
     		/*if(control.getRawButton(1)) {

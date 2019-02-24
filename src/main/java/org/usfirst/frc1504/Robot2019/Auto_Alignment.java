@@ -16,8 +16,6 @@ public class Auto_Alignment {
 	enum alignment_position {PICKUP_TRACKING, PICKUP, PLACEMENT_TRACKING, PLACEMENT, UNACTIVATED};
 	static alignment_position alignment_state = alignment_position.UNACTIVATED;
 
-	
-	
 	public static boolean get_grabber_trigger() 
 	{
 		return auto_grabber_switch.get();
@@ -51,7 +49,7 @@ public class Auto_Alignment {
 			//Auto-grabbing
 			if(alignment_state == alignment_position.UNACTIVATED) 
 			{
-				Pickup.open_grabber();
+				Arms.open_grabber();
 				recordedTime = System.currentTimeMillis();
 				alignment_state = alignment_position.PICKUP;
 			}
@@ -71,7 +69,7 @@ public class Auto_Alignment {
 			//Auto-placement
 			if(alignment_state == alignment_position.PLACEMENT_TRACKING && IO.get_auto_placement())
 			{
-				Pickup.close_grabber();
+				Arms.close_grabber();
 				recordedTime = System.currentTimeMillis();
 				alignment_state = alignment_position.PLACEMENT;
 			}
