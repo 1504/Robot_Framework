@@ -113,7 +113,6 @@ public class Drive implements Updatable
 	private DriverStation _ds = DriverStation.getInstance();
 	private Logger _log = Logger.getInstance();
 	private DriveGlide _glide = new DriveGlide();
-	private Groundtruth _groundtruth = Groundtruth.getInstance();
 	//private CameraInterface _camera = CameraInterface.getInstance();
 	
 	private volatile boolean _new_data = false;
@@ -231,11 +230,7 @@ public class Drive implements Updatable
 				{
 					input =  Auto_Alignment.auto_alignment();
 				}
-				//double driveinputsblah[] = {0.5,0.0,0.0};
-				//input = driveinputsblah;
-				//_groundtruth.getData();
-				//input = groundtruth_correction(input);
-				//input = accelerometer_correction(input);
+
 				output = outputCompute(input);
 				motorOutput(output);
 				
@@ -368,48 +363,6 @@ public class Drive implements Updatable
 		return Math.cos(theta) * (-Math.sin(8 * theta) - 0.25 * Math.sin(4 * theta));
 	}
 
-	/**
-	 * Corrections based off of two onboard ADNS-2620 mouse sensors.
-	 */
-	private double[] groundtruth_correction(double[] input)
-	{
-		if(!_groundtruth.getDataGood())
-			return input;
-		
-		double[] normal_input = input;
-		double[] output = input;
-		double[] speeds = _groundtruth.getSpeed();
-		
-		// Normalize the inputs and actual speeds
-		if(groundtruth_normalize(speeds) == 0)
-			return input;
-		groundtruth_normalize(normal_input);
-		
-		// Apply P(ID) correction factor to the joystick values
-		// TODO: Determine gain constant and add to the Map
-		for(int i = 0; i < input.length; i++)
-			output[i] += (normal_input[i] - speeds[i]) * -0.01;
-		
-		return output;
-	}
-	/*-private double[] accelerometer_correction(double[] input)
-	{
-		if (Math.abs(input[2]) < 0.001){
-			//correct for amount off
-			double off = imu.getAngleX(); //get reading
-			double threshold = 5.0;//margin of error so it stops jittering.
-			if (Math.abs(off) > threshold){ //needs to be replaced with checking if the gyro is 0 yet.
-				 //get reading
-				input[2] = Math.signum(off)*.2; //.2 is turn speed
-				return input;
-			}
-		} else
-		{
-			imu.reset();
-		}
-		return input;
-	}*/
-
 	double initialSpike = 0.0;
 	double highestTravelingSpike = 0.0;
 	double accelSign = -1.0;
@@ -503,29 +456,6 @@ public class Drive implements Updatable
 	public int sanic_value() {
 			return sanic.getAverageValue();
 	}	
-	
-	/**
-	 * Normalization function for arrays to normalize full scale to +- 1 <br>
-	 * Note: THIS FUNCTION OPERATES ON THE REFERENCE INPUT ARRAY AND WILL CHANGE IT!
-	 * @param input - The array to normalize
-	 * @return Maximum value in the array
-	 */
-	private double groundtruth_normalize(double[] input)
-	{
-		double max = 0;
-		for(int i = 0; i < input.length; i++)
-			max = Math.max(Math.abs(input[1]), max);
-		
-		if(max == 0)
-			return 0;
-		
-		max = max == 0 ? 1 : max;
-		for(int i = 0; i < input.length; i++)
-			input[i] /= max;
-		
-		return max;
-	} 
-
 
 	/**
 	 * Convert the input array (forward, right, and anticlockwise) into a motor output array.

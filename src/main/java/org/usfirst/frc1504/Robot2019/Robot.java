@@ -138,17 +138,7 @@ public class Robot extends TimedRobot {
 					//SmartDashboard.putNumber("Pressure Low", pressure_2.getAverageVoltage()*50 - 25);
 					
 					//SmartDashbaord.putNumber("", );
-					
-					
-					/*
-					 * Borrowed from Mike
-					 */	
-					//-edge_track = (char)( ( (edge_track << 1) + (HALUtil.getFPGAButton() ? 1 : 0) ) & 3);
-					//-if(edge_track == 1) // Get image from groundtruth sensors, output it to the DS
-					//-{
-					//-	SmartDashboard.putString("Groundtruth raw image", new String(_arduino.getSensorImage()));
-					//-}
-						Timer.delay(0.5);
+					Timer.delay(0.5);
 				}
 			}
 		});
