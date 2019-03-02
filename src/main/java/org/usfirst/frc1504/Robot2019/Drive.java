@@ -186,7 +186,7 @@ public class Drive implements Updatable
 		}
 		
 		// So we stay off the CAN bus as much as possible here
-		update_dash(new byte[] {output[1], output[4], output[7], output[10]});
+		//update_dash(new byte[] {output[1], output[4], output[7], output[10]});
 	}
 	
 	/**
@@ -270,7 +270,7 @@ public class Drive implements Updatable
 			}
 			else //when disabled:
 			{
-				update_dash();
+				//update_dash();
 				try
 				{
 					Thread.sleep(25);
@@ -584,10 +584,10 @@ public class Drive implements Updatable
 	 */
 	private void update_dash()
 	{
-		byte[] currents = new byte[Map.DRIVE_MOTOR.values().length];
-		for(int i = 0; i < Map.DRIVE_MOTOR.values().length; i++)
-			currents[i] = (byte) _motors[i].getOutputCurrent();
-		update_dash(currents);
+		//byte[] currents = new byte[Map.DRIVE_MOTOR.values().length];
+		//for(int i = 0; i < Map.DRIVE_MOTOR.values().length; i++)
+		//	currents[i] = (byte) _motors[i].getOutputCurrent();
+		//update_dash(currents);
 	}	
 	private void update_dash(byte[] currents)
 	{

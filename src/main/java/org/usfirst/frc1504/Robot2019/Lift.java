@@ -16,6 +16,7 @@ public class Lift implements Updatable
 
     public boolean lastEndLiftFrontState = false;
 	public boolean lastEndLiftBackState = false;
+	public boolean lastEndLiftState = false;
     public static int lastEndLiftClimbState = 0;
     
     public static Lift getInstance() // sets instance
@@ -59,22 +60,18 @@ public class Lift implements Updatable
 	
 	public void update_climb_state_sequence()
 	{
-		if(IO.get_lift_activation())
-		{
-
-			if(lastEndLiftClimbState == 0) {
-				switch_end_lift_front_state();
-				switch_end_lift_back_state();
-				lastEndLiftClimbState = 1;
-			} else if((lastEndLiftClimbState == 1)) {
-				switch_end_lift_front_state();
-				lastEndLiftClimbState = 2;
-			} else if(lastEndLiftClimbState == 2) {
-				switch_end_lift_back_state();
-				lastEndLiftClimbState = 0;
-			} else {
-				lastEndLiftClimbState = 0;
-			}
+		if(lastEndLiftClimbState == 0) {
+			switch_end_lift_front_state();
+			switch_end_lift_back_state();
+			lastEndLiftClimbState = 1;
+		} else if((lastEndLiftClimbState == 1)) {
+			switch_end_lift_front_state();
+			lastEndLiftClimbState = 2;
+		} else if(lastEndLiftClimbState == 2) {
+			switch_end_lift_back_state();
+			lastEndLiftClimbState = 0;
+		} else {
+			lastEndLiftClimbState = 0;
 		}
 	}
     
@@ -82,15 +79,18 @@ public class Lift implements Updatable
 	{
 		if (_ds.isOperatorControl() && !_ds.isDisabled()) // only runs in teleop
 		{
-			if (IO.get_endlift_front() && IO.get_endlift_front() != lastEndLiftFrontState) {
-				switch_end_lift_front_state();
-			}
-			lastEndLiftFrontState = IO.get_endlift_front();
+			//if (IO.get_endlift_front() && IO.get_endlift_front() != lastEndLiftFrontState) {
+			//	switch_end_lift_front_state();
+			//}
+			//lastEndLiftFrontState = IO.get_endlift_front();
 
-			if (IO.get_endlift_back() && IO.get_endlift_back() != lastEndLiftBackState) {
-				switch_end_lift_back_state();
-			}
-            lastEndLiftBackState = IO.get_endlift_back();
-        }		
+			//if (IO.get_endlift_back() && IO.get_endlift_back() != lastEndLiftBackState) {
+			//	switch_end_lift_back_state();
+			//}
+			//lastEndLiftBackState = IO.get_endlift_back();
+			if(IO.get_lift_activation() && IO.get_lift_activation() != lastEndLiftState)
+				update_climb_state_sequence();
+			lastEndLiftState = IO.get_lift_activation();
+		}		
 	}
 }

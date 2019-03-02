@@ -38,6 +38,8 @@ public class Arms implements Updatable
         
         _grab_piston = new DoubleSolenoid(Map.GRAB_PISTON_HIGHSIDE_PORT, Map.GRAB_PISTON_LOWSIDE_PORT);
 		_grab_piston.set(DoubleSolenoid.Value.kOff);
+
+        Update_Semaphore.getInstance().register(this);
     }
 
     public static void initialize() // initialize

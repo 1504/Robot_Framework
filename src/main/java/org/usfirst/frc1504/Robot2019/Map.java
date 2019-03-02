@@ -18,11 +18,11 @@ public class Map {
 
 	// Joystick inputs
 	// public static final int SPIN_ROTORS_IN = 1; //left joystick axis
-	public static final int GRABBER = 2; // B
+	public static final int GRABBER = 6; // RB (used to be 2 = B)
 	public static final int CRASH_DETECTION = 7; // left joystick button
 
-	public static final int END_LIFT_FRONT = 6; //LB We're in the endgame now
-	public static final int END_LIFT_BACK = 5; //RB
+	public static final int END_LIFT_FRONT = 9; // (used to be 6 - RB We're in the endgame now
+	public static final int END_LIFT_BACK = 5; //LB
 
 	public static final int AUTO_PLACEMENT_BUTTON = 3;
 	public static final int ARM_EXTEND = 4;
@@ -174,7 +174,7 @@ public class Map {
 			DRIVE_RIGHT_TOP };
 
 	// Drive Input magic numbers
-	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { 1.0, -1.0, 0.6 };
+	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { -1.0, 1.0, -0.6 };
 	public static final double DRIVE_INPUT_TURN_FACTOR = 0.2;
 
 	public static final double DRIVE_INPUT_VISION_SPEED = 0.75;
@@ -188,7 +188,7 @@ public class Map {
 
 	// Drive Output magic numbers - for getting everything spinning the correct
 	// direction
-	public static final double[] DRIVE_OUTPUT_MAGIC_NUMBERS = { -1.0, -1.0, 1.0, 1.0 };
+	public static final double[] DRIVE_OUTPUT_MAGIC_NUMBERS = { 1.0, 1.0, -1.0, -1.0 };
 
 	public static final int DRIVE_MAX_UNLOGGED_LOOPS = 15;
 

@@ -77,9 +77,10 @@ public class Robot extends TimedRobot {
     	Drive.initialize();
     	DigitBoard.initialize();
     	Digit_Board.initialize();
-    	//Elevator.initialize();
-    	//Lift.initialize();
- //   	//CameraServer.getInstance().startAutomaticCapture();
+    	Elevator.initialize();
+		Lift.initialize();
+		Arms.initialize();
+		 //   	//CameraServer.getInstance().startAutomaticCapture();
     	System.out.println("Game specific message: "+_ds.getGameSpecificMessage()); 
     	//RRL - Right side switch (closer), Right side scale, Left side switch (farther)
     	//System.out.println(new String(Base64.getDecoder().decode(Map.TEAM_BANNER)));
@@ -123,9 +124,9 @@ public class Robot extends TimedRobot {
 				SmartDashboard.putBoolean("Good Configuration", Auto_Alignment.check_sensors());
 				while(true)
 				{	
-					System.out.println("firstPotentiometer: " + Elevator.firstPotentiometer.get());
-					System.out.println("secondPotentiometer: " + Elevator.secondPotentiometer.get());
-					System.out.println("Distance From Ball: " + Auto_Alignment.ai.getValue());
+					//System.out.println("firstPotentiometer: " + Elevator.firstPotentiometer.get());
+					//System.out.println("secondPotentiometer: " + Elevator.secondPotentiometer.get());
+					//System.out.println("Distance From Ball: " + Auto_Alignment.ai.getValue());
 
 					//SmartDashboard.putNumber("Robot Voltage", RobotController.getBatteryVoltage());
 					//SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
