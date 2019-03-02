@@ -127,12 +127,8 @@ public class Drive implements Updatable
 	private volatile double[] _orbit_point = {0.0, -1.15}; //{0.0, 1.15};
 
 	private WPI_TalonSRX[] _motors = new WPI_TalonSRX[Map.DRIVE_MOTOR_PORTS.length];
-<<<<<<< HEAD
 	private WPI_TalonSRX lift_motor = new WPI_TalonSRX(Map.END_LIFT_WHEELS_PORT);
-	public static AnalogInput sanic = new AnalogInput(3);
-=======
 	//public static AnalogInput sanic = new AnalogInput(3);
->>>>>>> 7f115883e135f75b825eaf874533ffe8deb826ab
 
 	/**
 	 * set up motors
@@ -250,11 +246,12 @@ public class Drive implements Updatable
 				{
 					double[] inputs = IO.drive_input();
 					double[] front = front_output(outputCompute(input));
-					double[] back = {inputs[0]};
+					double back = inputs[0];
 					output[0] = front[0];
 					output[1] = front[1];
-					output[2] = back[0];
-					output[3] = back[1];
+					output[2] = 0.0;
+					output[3] = 0.0;
+					lift_motor.set(back);
 				} else {
 					output = outputCompute(input);
 					motorOutput(output);
@@ -568,11 +565,6 @@ public class Drive implements Updatable
 	{
 		double[] x = {input[0], input[1]};
 		return x;
-	}
-	private double[] back_output(double[] input)
-	{
-		double[] y = {input[2], input[3]};
-		return y;
 	}
 	
 	/**
