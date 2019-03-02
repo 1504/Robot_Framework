@@ -40,9 +40,9 @@ public class Map {
 	//2 : B  - Grabber
 	//3 : X  - Auto_placement_button
 	//4 : Y  - extend/retract arms
-	//5 : LB
-	//6 : RB
-	//7 : Back
+	//5 : LB - Endgame Lift Front
+	//6 : RB - Endgame Lift Back
+	//7 : Back 
 	//8 : Start
 	//9 : Press left joystick
 	//10 : Press right joystick

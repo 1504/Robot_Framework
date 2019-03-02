@@ -246,7 +246,7 @@ public class Drive implements Updatable
 				{
 					double[] inputs = IO.drive_input();
 					double[] front = front_output(outputCompute(input));
-					double[] back = {inputs[0]};
+					double back = inputs[0];
 					output[0] = front[0];
 					output[1] = front[1];
 					output[2] = back[0];
