@@ -13,8 +13,8 @@ public class Map {
 	public static final int DRIVE_POLAR_JOYSTICK = 1;
 	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
 
-	public static final int LIFT_SEQUENCE_BUTTON = 11;
-	public static final int LIFT_SEQUENCE_SECOND_BUTTON = 13;
+	public static final int LIFT_SEQUENCE_BUTTON = 10;
+	public static final int LIFT_SEQUENCE_SECOND_BUTTON = 11;
 
 	// Joystick inputs
 	// public static final int SPIN_ROTORS_IN = 1; //left joystick axis
