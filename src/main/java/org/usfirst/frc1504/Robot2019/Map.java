@@ -13,6 +13,9 @@ public class Map {
 	public static final int DRIVE_POLAR_JOYSTICK = 1;
 	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
 
+	public static final int LIFT_SEQUENCE_BUTTON = 11;
+	public static final int LIFT_SEQUENCE_SECOND_BUTTON = 13;
+
 	// Joystick inputs
 	// public static final int SPIN_ROTORS_IN = 1; //left joystick axis
 	public static final int GRABBER = 2; // B
@@ -89,6 +92,7 @@ public class Map {
 		public static final int END_LIFT_BACK_HIGHSIDE_PORT = 6;
 		public static final int END_LIFT_BACK_LOWSIDE_PORT = 7;
 
+		
 
 		public static final int ARM_EXTENSION_HIGHSIDE_PORT = 2;
 		public static final int ARM_EXTENSION_LOWSIDE_PORT = 3;
@@ -156,6 +160,8 @@ public class Map {
 	public static final int FRONT_RIGHT_TALON_PORT = 13;
 	public static final int[] DRIVE_MOTOR_PORTS = { FRONT_LEFT_TALON_PORT, BACK_LEFT_TALON_PORT, BACK_RIGHT_TALON_PORT,
 			FRONT_RIGHT_TALON_PORT };
+
+	public static final int END_LIFT_WHEELS_PORT = 9999;
 
 	// Drive disable orbit point buttons
 

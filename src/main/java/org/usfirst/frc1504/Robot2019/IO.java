@@ -57,6 +57,10 @@ public class IO
 	{
 		return _secondary.getRawButton(Map.END_LIFT_FRONT);
 	}
+	public static boolean get_lift_activation()
+	{
+		return _drive_rotation.getRawButtonLatch(Map.LIFT_SEQUENCE_BUTTON) && _drive_rotation.getRawButtonLatch(Map.LIFT_SEQUENCE_SECOND_BUTTON);
+	}
 
 	public static double get_intake_speed()
 	{

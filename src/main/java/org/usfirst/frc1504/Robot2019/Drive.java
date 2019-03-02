@@ -9,6 +9,7 @@ import java.lang.Math;
 
 import org.usfirst.frc1504.Robot2019.Auto_Alignment.alignment_position;
 import org.usfirst.frc1504.Robot2019.Update_Semaphore.Updatable;
+import org.usfirst.frc1504.Robot2019.Lift;
 
 //import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -45,6 +46,8 @@ public class Drive implements Updatable
 	private Thread _dumptruck;//BEEP BEEP BEEP BEEP BEEP BEEP BEEP
 	private Object _dumplock;
 	private boolean _dump = false;
+
+	private Lift _lift = Lift.getInstance();
 	
 	private volatile boolean _thread_alive = true;
 	
@@ -60,7 +63,7 @@ public class Drive implements Updatable
 	 */
 	public static Drive getInstance()
 	{
-		return Drive.instance;
+		return Drive.instance; 
 	}
 	public static void initialize()
 	{
@@ -124,6 +127,7 @@ public class Drive implements Updatable
 	private volatile double[] _orbit_point = {0.0, -1.15}; //{0.0, 1.15};
 
 	private WPI_TalonSRX[] _motors = new WPI_TalonSRX[Map.DRIVE_MOTOR_PORTS.length];
+	private WPI_TalonSRX lift_motor = new WPI_TalonSRX(Map.END_LIFT_WHEELS_PORT);
 	public static AnalogInput sanic = new AnalogInput(3);
 
 	/**
@@ -190,8 +194,8 @@ public class Drive implements Updatable
 	 */
 	private void mainTask()
 	{
-		double[] input;
-		double[] output;
+		double[] input = new double[4];
+		double[] output = new double[4];
 		while(_thread_alive)
 		{
 			input = _input;
@@ -221,7 +225,7 @@ public class Drive implements Updatable
 						{
 							input = orbit_point(input);
 						}
-//						input = _glide.gain_adjust(input);
+					// input = _glide.gain_adjust(input);
 					}
 					_new_data = false;
 					_dump = true;
@@ -236,8 +240,21 @@ public class Drive implements Updatable
 				//_groundtruth.getData();
 				//input = groundtruth_correction(input);
 				//input = accelerometer_correction(input);
-				output = outputCompute(input);
-				motorOutput(output);
+
+				// Check if we are in a climb state and set input to only the lift wheels
+				if(Lift.lastEndLiftClimbState == 1 || Lift.lastEndLiftClimbState == 2)
+				{
+					double[] inputs = IO.drive_input();
+					double[] front = front_output(outputCompute(input));
+					double[] back = {inputs[0]};
+					output[0] = front[0];
+					output[1] = front[1];
+					output[2] = back[0];
+					output[3] = back[1];
+				} else {
+					output = outputCompute(input);
+					motorOutput(output);
+				}
 				
 				_loops_since_last_dump++;
 				
@@ -247,7 +264,7 @@ public class Drive implements Updatable
 					{
 						//_dumplock.notifyAll();
 					}
-//					_dump = false;
+				// _dump = false;
 				}
 			}
 			else //when disabled:
@@ -542,6 +559,17 @@ public class Drive implements Updatable
 		
 		return output; 
 	}
+
+	private double[] front_output(double[] input)
+	{
+		double[] x = {input[0], input[1]};
+		return x;
+	}
+	private double[] back_output(double[] input)
+	{
+		double[] y = {input[2], input[3]};
+		return y;
+	}
 	
 	/**
 	 * Sends the output array to the four drive motors.
@@ -552,6 +580,7 @@ public class Drive implements Updatable
 		{
 			_motors[i].set(values[i] * Map.DRIVE_OUTPUT_MAGIC_NUMBERS[i]);
 		}
+		
 	}
 	
 	/**

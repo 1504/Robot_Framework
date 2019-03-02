@@ -13,7 +13,7 @@ public class Elevator implements Updatable {
 	private WPI_TalonSRX _first_actuator;
 	private WPI_TalonSRX _second_actuator;
 
-	public boolean lastLiftButtonState = false;
+	public boolean lastElevatorButtonState = false;
 
 	private static final Elevator instance = new Elevator();
 	private DriverStation _ds = DriverStation.getInstance();
@@ -56,11 +56,11 @@ public class Elevator implements Updatable {
 		int current_level = 0;
 		if (IO.hid_home()) {
 			current_level = 0;
-		} else if (IO.hid_up() && IO.hid_up() != lastLiftButtonState) {
+		} else if (IO.hid_up() && IO.hid_up() != lastElevatorButtonState) {
 			if (current_level < 2) {
 				current_level += 1;
 			}
-		} else if (IO.hid_down() && IO.hid_down() != lastLiftButtonState) {
+		} else if (IO.hid_down() && IO.hid_down() != lastElevatorButtonState) {
 			if (current_level > 0) {
 				current_level += 1;
 			}
@@ -73,7 +73,7 @@ public class Elevator implements Updatable {
 			System.out.println("EXCEPTION: Potentiometer array out of bounds");
 		}
 
-		lastLiftButtonState = IO.hid_up() || IO.hid_down() || IO.hid_home();
+		lastElevatorButtonState = IO.hid_up() || IO.hid_down() || IO.hid_home();
 	}
 
 	public void update_actuator_speed() {
