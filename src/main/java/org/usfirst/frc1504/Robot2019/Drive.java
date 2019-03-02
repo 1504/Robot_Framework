@@ -242,7 +242,15 @@ public class Drive implements Updatable
 				//input = accelerometer_correction(input);
 
 				// Check if we are in a climb state and set input to only the lift wheels
-				if(Lift.lastEndLiftClimbState == 1 || Lift.lastEndLiftClimbState == 2)
+				if(Lift.lastEndLiftClimbState == 1) {
+					double[] nomove = {0, 0, 0, 0}
+					motorOutput(nomove);
+
+					double[] inputs = IO.drive_input();
+					double back = inputs[0];
+					lift_motor.set(-back);
+
+				} else if(Lift.lastEndLiftClimbState == 2)
 				{
 					double[] inputs = IO.drive_input();
 					double[] front = front_output(outputCompute(input));
@@ -251,7 +259,8 @@ public class Drive implements Updatable
 					output[1] = front[1];
 					output[2] = 0.0;
 					output[3] = 0.0;
-					lift_motor.set(back);
+					lift_motor.set(-back);
+					motorOutput(output);
 				} else {
 					output = outputCompute(input);
 					motorOutput(output);
