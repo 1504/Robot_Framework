@@ -1,6 +1,8 @@
 package org.usfirst.frc1504.Robot2019;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.AnalogInput;
+
 
 public class Auto_Alignment {
 	static DigitalInput sensor1 = new DigitalInput(Map.sensor1);
@@ -10,6 +12,9 @@ public class Auto_Alignment {
 	static DigitalInput sensor5 = new DigitalInput(Map.sensor5);
 	static DigitalInput sensor6 = new DigitalInput(Map.sensor6);
 	static DigitalInput auto_grabber_switch = new DigitalInput(Map.AUTO_GRABBER_SWITCH);
+
+	public static AnalogInput ai = new AnalogInput(3);
+	public static int xcenter = ai.getValue();
 	
 	static long recordedTime = 0;
 	
@@ -124,19 +129,22 @@ public class Auto_Alignment {
 	//Didn't know if this would break the code so I commented it out, also need to set the serial ports for xcenter
 
 	public static double[] Ball_Alignment() {
+		int xcenter = ai.getValue();
+		System.out.println(xcenter);
 		double[] alignment_values = {0.24, 0.24, 0.32};
 		final double[] FORWARD_RIGHT = {alignment_values[0], alignment_values[1], 0.0};
 		final double[] FORWARD_LEFT = {alignment_values[0], -alignment_values[1], 0.0};
 		final double[] FORWARD = {alignment_values[0], 0.0, 0.0};
 
 		if(get_grabber_trigger()) {
-			if(Map.xcenter > 100) {
-				return(FORWARD_RIGHT);
+			if(xcenter == 0){
+				break;
 			}
-			else if(Map.xcenter < -100) {
+			else if(xcenter > 100) {
 				return(FORWARD_LEFT);
-			} else {
-				return(FORWARD);
+			}
+			else if(xcenter < -100) {
+				return(FORWARD_RIGHT);
 			}
 		}
 	}

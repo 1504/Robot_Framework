@@ -124,7 +124,7 @@ public class Drive implements Updatable
 	private volatile double[] _orbit_point = {0.0, -1.15}; //{0.0, 1.15};
 
 	private WPI_TalonSRX[] _motors = new WPI_TalonSRX[Map.DRIVE_MOTOR_PORTS.length];
-	public static AnalogInput sanic = new AnalogInput(3);
+	//public static AnalogInput sanic = new AnalogInput(3);
 
 	/**
 	 * set up motors
@@ -501,7 +501,7 @@ public class Drive implements Updatable
 		highestTravelingSpike = 0.0;
 	}
 	public int sanic_value() {
-			return sanic.getAverageValue();
+			return 1;
 	}	
 	
 	/**

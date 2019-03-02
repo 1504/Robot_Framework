@@ -118,24 +118,45 @@ public class Robot extends TimedRobot {
 				SmartDashboard.putData("Position Chooser", pos);
 				SmartDashboard.putData("Auton Mode Chooser", autoChooser1);
 				
-				SmartDashboard.putBoolean("Sensor 1", Auto_Alignment.sensor1.get());
-				SmartDashboard.putBoolean("Sensor 2", Auto_Alignment.sensor2.get());
-				SmartDashboard.putBoolean("Sensor 3", Auto_Alignment.sensor3.get());
-				SmartDashboard.putBoolean("Sensor 4", Auto_Alignment.sensor4.get());
-				SmartDashboard.putBoolean("Sensor 5", Auto_Alignment.sensor5.get());
-				SmartDashboard.putBoolean("Sensor 6", Auto_Alignment.sensor6.get());
+				
 				
 				SmartDashboard.putBoolean("Good Configuration", Auto_Alignment.check_sensors());
 				while(true)
 				{	
 					System.out.println("firstPotentiometer: " + Elevator.firstPotentiometer.get());
 					System.out.println("secondPotentiometer: " + Elevator.secondPotentiometer.get());
+					System.out.println("Distance From Ball: " + Auto_Alignment.ai.getValue());
+
 					//SmartDashboard.putNumber("Robot Voltage", RobotController.getBatteryVoltage());
 					//SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
 					//SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					//SmartDashboard.putNumber("Arm Power", _pickup.getPower());
 					//SmartDashboard.putNumber("Pressure High", pressure_1.getAverageVoltage()*50 - 25);
 					//SmartDashboard.putNumber("Pressure Low", pressure_2.getAverageVoltage()*50 - 25);
+					
+					
+					SmartDashboard.putBoolean("Sensor 1", Auto_Alignment.sensor1.get());
+					SmartDashboard.putBoolean("Sensor 2", Auto_Alignment.sensor2.get());
+					SmartDashboard.putBoolean("Sensor 3", Auto_Alignment.sensor3.get());
+					SmartDashboard.putBoolean("Sensor 4", Auto_Alignment.sensor4.get());
+					SmartDashboard.putBoolean("Sensor 5", Auto_Alignment.sensor5.get());
+					SmartDashboard.putBoolean("Sensor 6", Auto_Alignment.sensor6.get());
+					/*
+					SmartDashboard.putNumber("PDP Current: Channel 0", pdp.getCurrent(0));
+					SmartDashboard.putNumber("PDP Current: Channel 1", pdp.getCurrent(1));
+					SmartDashboard.putNumber("PDP Current: Channel 2", pdp.getCurrent(2));
+					SmartDashboard.putNumber("PDP Current: Channel 3", pdp.getCurrent(3));
+					
+					SmartDashboard.putNumber("PDP Current: Channel 10", pdp.getCurrent(10));
+					SmartDashboard.putNumber("PDP Current: Channel 11", pdp.getCurrent(11));
+					SmartDashboard.putNumber("PDP Current: Channel 12", pdp.getCurrent(12));
+					SmartDashboard.putNumber("PDP Current: Channel 13", pdp.getCurrent(13));
+					SmartDashboard.putNumber("PDP Current: Channel 14", pdp.getCurrent(14));
+					SmartDashboard.putNumber("PDP Current: Channel 15", pdp.getCurrent(15));
+					*/
+					
+					//SmartDashboard.putBoolean("Pressure", c.getPressureSwitchValue());
+					//SmartDashboard.putNumber("Pressure", c.getCompressorCurrent());
 					
 					//SmartDashbaord.putNumber("", );
 					
@@ -148,7 +169,7 @@ public class Robot extends TimedRobot {
 					//-{
 					//-	SmartDashboard.putString("Groundtruth raw image", new String(_arduino.getSensorImage()));
 					//-}
-						Timer.delay(0.5);
+						Timer.delay(0.02);
 				}
 			}
 		});
