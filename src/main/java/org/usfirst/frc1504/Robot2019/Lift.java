@@ -17,7 +17,10 @@ public class Lift implements Updatable
     public boolean lastEndLiftFrontState = false;
 	public boolean lastEndLiftBackState = false;
 	public boolean lastEndLiftState = false;
-    public static int lastEndLiftClimbState = 0;
+	public boolean currentLiftActivationState = false;
+	public static int lastEndLiftClimbState = 0;
+	
+	static double recordedTime = 0;
     
     public static Lift getInstance() // sets instance
 	{
@@ -60,18 +63,16 @@ public class Lift implements Updatable
 	
 	public void update_climb_state_sequence()
 	{
-		if(lastEndLiftClimbState == 0) {
-			switch_end_lift_front_state();
-			switch_end_lift_back_state();
-			lastEndLiftClimbState = 1;
-		} else if((lastEndLiftClimbState == 1)) {
-			switch_end_lift_front_state();
-			lastEndLiftClimbState = 2;
-		} else if(lastEndLiftClimbState == 2) {
-			switch_end_lift_back_state();
-			lastEndLiftClimbState = 0;
-		} else {
-			lastEndLiftClimbState = 0;
+		if(lastEndLiftClimbState == 1) {
+			if(System.currentTimeMillis() - recordedTime > 400)
+			{
+			_end_lift_back.set(DoubleSolenoid.Value.kForward);
+			}
+			_end_lift_front.set(DoubleSolenoid.Value.kForward);
+		} else if((lastEndLiftClimbState == 2)) {
+			_end_lift_front.set(DoubleSolenoid.Value.kReverse);
+		} else if(lastEndLiftClimbState == 3) {
+			_end_lift_back.set(DoubleSolenoid.Value.kReverse);
 		}
 	}
     
@@ -89,7 +90,17 @@ public class Lift implements Updatable
 			//}
 			//lastEndLiftBackState = IO.get_endlift_back();
 			if(IO.get_lift_activation() && IO.get_lift_activation() != lastEndLiftState)
-				update_climb_state_sequence();
+			{
+				recordedTime = System.currentTimeMillis();
+				if(lastEndLiftClimbState < 3){
+					lastEndLiftClimbState++;
+				}
+				else
+				{
+					lastEndLiftClimbState = 1;
+				}
+			}
+			update_climb_state_sequence();
 			lastEndLiftState = IO.get_lift_activation();
 		}		
 	}
