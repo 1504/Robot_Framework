@@ -161,7 +161,7 @@ public class Map {
 	public static final int[] DRIVE_MOTOR_PORTS = { FRONT_LEFT_TALON_PORT, BACK_LEFT_TALON_PORT, BACK_RIGHT_TALON_PORT,
 			FRONT_RIGHT_TALON_PORT };
 
-	public static final int END_LIFT_WHEELS_PORT = 9999;
+	public static final int END_LIFT_WHEELS_PORT = 40;
 
 	// Drive disable orbit point buttons
 
