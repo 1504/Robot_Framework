@@ -45,12 +45,6 @@ public class Elevator implements Updatable {
 		getInstance();
 	}
 
-	public void set_lift_speed(double speed) // sets both the front and back actuators
-	{
-		_bottom_actuator.set(speed);
-		_top_actuator.set(speed);
-	}
-
 	public void auto_hatch_elevator_levels() {
 
 		int current_level = 0;
@@ -67,7 +61,9 @@ public class Elevator implements Updatable {
 		}
 
 		try {
-			_bottom_actuator.set(Map.BOTTOM_PM_HATCH_LEVELS[current_level] - bottomPotentiometer.get());
+			if(!(bottomPotentiometer.get() > Map.SWING_BOTTOM_ACTUATOR_LIMIT - Map.SWING_TOLERANCE && topPotentiometer.get() < Map.SWING_TOP_ACTUATOR_LIMIT)){
+				_bottom_actuator.set(Map.BOTTOM_PM_HATCH_LEVELS[current_level] - bottomPotentiometer.get());
+			}
 			_top_actuator.set(Map.TOP_PM_HATCH_LEVELS[current_level] - topPotentiometer.get());
 		} catch (Exception e) {
 			System.out.println("EXCEPTION: Potentiometer array out of bounds");
@@ -79,13 +75,19 @@ public class Elevator implements Updatable {
 	public void update_actuator_speed() {
 		if (potentiometer_check()) {
 			if (IO.get_first_height_button()) {
-				_bottom_actuator.set(Map.FIRST_HEIGHT - bottomPotentiometer.get());
+				if(!(bottomPotentiometer.get() > Map.SWING_BOTTOM_ACTUATOR_LIMIT - Map.SWING_TOLERANCE && topPotentiometer.get() < Map.SWING_TOP_ACTUATOR_LIMIT)){
+					_bottom_actuator.set(Map.FIRST_HEIGHT - bottomPotentiometer.get());
+				}
 				_top_actuator.set(Map.FIRST_HEIGHT - topPotentiometer.get());
 			} else if (IO.get_second_height_button()) {
-				_bottom_actuator.set(Map.SECOND_HEIGHT - bottomPotentiometer.get());
+				if(!(bottomPotentiometer.get() > Map.SWING_BOTTOM_ACTUATOR_LIMIT - Map.SWING_TOLERANCE && topPotentiometer.get() < Map.SWING_TOP_ACTUATOR_LIMIT)){
+					_bottom_actuator.set(Map.SECOND_HEIGHT - bottomPotentiometer.get());
+				}
 				_top_actuator.set(Map.SECOND_HEIGHT - topPotentiometer.get());
 			} else if (IO.get_third_height_button()) {
-				_bottom_actuator.set(Map.THIRD_HEIGHT - bottomPotentiometer.get());
+				if(!(bottomPotentiometer.get() > Map.SWING_BOTTOM_ACTUATOR_LIMIT - Map.SWING_TOLERANCE && topPotentiometer.get() < Map.SWING_TOP_ACTUATOR_LIMIT)){
+					_bottom_actuator.set(Map.THIRD_HEIGHT - bottomPotentiometer.get());
+				}
 				_top_actuator.set(Map.THIRD_HEIGHT - topPotentiometer.get());
 			}
 		}
