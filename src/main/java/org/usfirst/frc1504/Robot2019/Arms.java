@@ -21,7 +21,8 @@ public class Arms implements Updatable
 	public static DoubleSolenoid _grab_piston;
 
 	public boolean lastGrabberButtonState = false;
-    public boolean lastArmButtonState = false;
+	public boolean lastArmButtonState = false;
+	public static boolean grabstate = false;
     
     public static Arms getInstance() // sets instance
 	{
@@ -63,10 +64,12 @@ public class Arms implements Updatable
     
     public static void open_grabber() {
 		_grab_piston.set(DoubleSolenoid.Value.kForward);
+		grabstate = true;
 	}
 
 	public static void close_grabber() {
 		_grab_piston.set(DoubleSolenoid.Value.kReverse);
+		grabstate = false;
     }
     
     public static void update_arm_state() {
@@ -100,9 +103,4 @@ public class Arms implements Updatable
 
 		}
 	}
-    
-
-
-
-
 }

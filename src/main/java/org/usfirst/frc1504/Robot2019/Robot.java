@@ -121,7 +121,7 @@ public class Robot extends TimedRobot {
 				
 				
 				
-				SmartDashboard.putBoolean("Good Configuration", Auto_Alignment.check_sensors());
+				
 				while(true)
 				{	
 					//System.out.println("firstPotentiometer: " + Elevator.firstPotentiometer.get());
@@ -135,13 +135,15 @@ public class Robot extends TimedRobot {
 					//SmartDashboard.putNumber("Pressure High", pressure_1.getAverageVoltage()*50 - 25);
 					//SmartDashboard.putNumber("Pressure Low", pressure_2.getAverageVoltage()*50 - 25);
 					
-					
+					SmartDashboard.putBoolean("Good Configuration", Auto_Alignment.check_sensors());
 					SmartDashboard.putBoolean("Sensor 1", Auto_Alignment.sensor1.get());
 					SmartDashboard.putBoolean("Sensor 2", Auto_Alignment.sensor2.get());
 					SmartDashboard.putBoolean("Sensor 3", Auto_Alignment.sensor3.get());
 					SmartDashboard.putBoolean("Sensor 4", Auto_Alignment.sensor4.get());
 					SmartDashboard.putBoolean("Sensor 5", Auto_Alignment.sensor5.get());
 					SmartDashboard.putBoolean("Sensor 6", Auto_Alignment.sensor6.get());
+					SmartDashboard.putBoolean("Hatch Indicator", Arms.grabstate);
+
 					/*
 					SmartDashboard.putNumber("PDP Current: Channel 0", pdp.getCurrent(0));
 					SmartDashboard.putNumber("PDP Current: Channel 1", pdp.getCurrent(1));
