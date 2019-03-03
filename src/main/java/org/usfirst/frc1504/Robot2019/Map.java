@@ -101,11 +101,11 @@ public class Map {
  */
 		public static final double ACTUATOR_MULTIPLIER = 0.75;
 
-		public static final int FIRST_ACTUATOR_PORT = 30; //actuator ports
-		public static final int SECOND_ACTUATOR_PORT = 31; 	
+		public static final int BOTTOM_ACTUATOR_PORT = 30; //actuator ports
+		public static final int TOP_ACTUATOR_PORT = 31; 	
 
-		public static final int FIRST_POTENTIOMETER_PORT = 0;
-		public static final int SECOND_POTENTIOMETER_PORT = 1;
+		public static final int BOTTOM_POTENTIOMETER_PORT = 0;
+		public static final int TOP_POTENTIOMETER_PORT = 1;
 		
 		public static final double LIFT_MOTOR_SPEED = 0.5;
 		
@@ -116,6 +116,10 @@ public class Map {
 		public static final double LIFT_SAFETY_THRESHOLD = 5;
 		public static final double LIFT_LOCK_RELEASE_RANGE = 0.7;
 		public static final boolean LIMIT_SWITCH_EXISTS = false; 
+
+		public static final double SWING_BOTTOM_ACTUATOR_LIMIT = 18.4;
+		public static final double SWING_TOP_ACTUATOR_LIMIT = 17;
+		public static final double SWING_TOLERANCE = 0.7;
 
 		/**
 		 * Potentiometer Values
@@ -131,7 +135,7 @@ public class Map {
 		 * 
 		 * Linear Actuator = {Home, Low, Medium, High}
 		 */
-		public static final double[] BOTTON_PM_HATCH_LEVELS = {18.4, 10.6, 10.6, 80.0};
+		public static final double[] BOTTOM_PM_HATCH_LEVELS = {18.4, 10.6, 10.6, 80.0};
 		public static final double[] TOP_PM_HATCH_LEVELS = {12.0, 24.5, 72.4, 71.0};
 
 		/**
@@ -229,7 +233,7 @@ public class Map {
 	/**
 	 * Gear stuff
 	 */
-	public static final double GEAR_DISTANCE = .0ele6;
+	public static final double GEAR_DISTANCE = .06;
 	public static final double GEAR_GAIN = .75;
 	public static final double GEAR_MAX_OUTPUT_POWER = .25;
 

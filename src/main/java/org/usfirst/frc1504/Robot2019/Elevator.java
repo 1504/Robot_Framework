@@ -10,16 +10,16 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Elevator implements Updatable {
 	// Elevator
-	private WPI_TalonSRX _first_actuator;
-	private WPI_TalonSRX _second_actuator;
+	private WPI_TalonSRX _bottom_actuator;
+	private WPI_TalonSRX _top_actuator;
 
 	public boolean lastElevatorButtonState = false;
 
 	private static final Elevator instance = new Elevator();
 	private DriverStation _ds = DriverStation.getInstance();
 
-	static Potentiometer firstPotentiometer;
-	static Potentiometer secondPotentiometer;
+	static Potentiometer bottomPotentiometer;
+	static Potentiometer topPotentiometer;
 
 	public static Elevator getInstance() // sets instance
 	{
@@ -28,14 +28,14 @@ public class Elevator implements Updatable {
 
 	private Elevator() // Elevator constructor
 	{
-		AnalogInput a = new AnalogInput(Map.FIRST_POTENTIOMETER_PORT);
-		firstPotentiometer = new AnalogPotentiometer(a, 100, 0);
+		AnalogInput a = new AnalogInput(Map.BOTTOM_POTENTIOMETER_PORT);
+		bottomPotentiometer = new AnalogPotentiometer(a, 100, 0);
 
-		AnalogInput b = new AnalogInput(Map.SECOND_POTENTIOMETER_PORT);
-		secondPotentiometer = new AnalogPotentiometer(b, 100, 0);
+		AnalogInput b = new AnalogInput(Map.TOP_POTENTIOMETER_PORT);
+		topPotentiometer = new AnalogPotentiometer(b, 100, 0);
 
-		_first_actuator = new WPI_TalonSRX(Map.FIRST_ACTUATOR_PORT);
-		_second_actuator = new WPI_TalonSRX(Map.SECOND_ACTUATOR_PORT);
+		_bottom_actuator = new WPI_TalonSRX(Map.BOTTOM_ACTUATOR_PORT);
+		_top_actuator = new WPI_TalonSRX(Map.TOP_ACTUATOR_PORT);
 
 		Update_Semaphore.getInstance().register(this);
 	}
@@ -47,8 +47,8 @@ public class Elevator implements Updatable {
 
 	public void set_lift_speed(double speed) // sets both the front and back actuators
 	{
-		_first_actuator.set(speed);
-		_second_actuator.set(speed);
+		_bottom_actuator.set(speed);
+		_top_actuator.set(speed);
 	}
 
 	public void auto_hatch_elevator_levels() {
@@ -67,8 +67,8 @@ public class Elevator implements Updatable {
 		}
 
 		try {
-			_first_actuator.set(Map.first_pm_ball_levels[current_level] - firstPotentiometer.get());
-			_second_actuator.set(Map.second_pm_ball_levels[current_level] - secondPotentiometer.get());
+			_bottom_actuator.set(Map.BOTTOM_PM_HATCH_LEVELS[current_level] - bottomPotentiometer.get());
+			_top_actuator.set(Map.TOP_PM_HATCH_LEVELS[current_level] - topPotentiometer.get());
 		} catch (Exception e) {
 			System.out.println("EXCEPTION: Potentiometer array out of bounds");
 		}
@@ -79,20 +79,20 @@ public class Elevator implements Updatable {
 	public void update_actuator_speed() {
 		if (potentiometer_check()) {
 			if (IO.get_first_height_button()) {
-				_first_actuator.set(Map.FIRST_HEIGHT - firstPotentiometer.get());
-				_second_actuator.set(Map.FIRST_HEIGHT - secondPotentiometer.get());
+				_bottom_actuator.set(Map.FIRST_HEIGHT - bottomPotentiometer.get());
+				_top_actuator.set(Map.FIRST_HEIGHT - topPotentiometer.get());
 			} else if (IO.get_second_height_button()) {
-				_first_actuator.set(Map.SECOND_HEIGHT - firstPotentiometer.get());
-				_second_actuator.set(Map.SECOND_HEIGHT - secondPotentiometer.get());
+				_bottom_actuator.set(Map.SECOND_HEIGHT - bottomPotentiometer.get());
+				_top_actuator.set(Map.SECOND_HEIGHT - topPotentiometer.get());
 			} else if (IO.get_third_height_button()) {
-				_first_actuator.set(Map.THIRD_HEIGHT - firstPotentiometer.get());
-				_second_actuator.set(Map.THIRD_HEIGHT - secondPotentiometer.get());
+				_bottom_actuator.set(Map.THIRD_HEIGHT - bottomPotentiometer.get());
+				_top_actuator.set(Map.THIRD_HEIGHT - topPotentiometer.get());
 			}
 		}
 	}
 
 	public boolean potentiometer_check() {
-		if (Math.abs(firstPotentiometer.get() - secondPotentiometer.get()) < Map.POTENTIOMETER_LIMIT) {
+		if (Math.abs(bottomPotentiometer.get() - topPotentiometer.get()) < Map.POTENTIOMETER_LIMIT) {
 			return true;
 		} else {
 			return false;
@@ -112,8 +112,10 @@ public class Elevator implements Updatable {
 			 * lastArmButtonState = IO.get_grabber();
 			 */
 			// set_lift_speed(IO.get_lift_speed());
-			_first_actuator.set(IO.get_actuator_2_speed() * -1 * Map.ACTUATOR_MULTIPLIER);
-			_second_actuator.set(IO.get_actuator_1_speed() * -1 * Map.ACTUATOR_MULTIPLIER);
+			_top_actuator.set(IO.get_actuator_1_speed() * -1 * Map.ACTUATOR_MULTIPLIER);
+			if(!(bottomPotentiometer.get() > Map.SWING_BOTTOM_ACTUATOR_LIMIT - Map.SWING_TOLERANCE && topPotentiometer.get() < Map.SWING_TOP_ACTUATOR_LIMIT)){
+				_bottom_actuator.set(IO.get_actuator_2_speed() * -1 * Map.ACTUATOR_MULTIPLIER);
+			}
 
 		}
 	}
