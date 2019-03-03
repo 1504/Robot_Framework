@@ -229,7 +229,7 @@ public class Map {
 	/**
 	 * Gear stuff
 	 */
-	public static final double GEAR_DISTANCE = .0ele6;
+	public static final double GEAR_DISTANCE = .06;
 	public static final double GEAR_GAIN = .75;
 	public static final double GEAR_MAX_OUTPUT_POWER = .25;
 

@@ -67,8 +67,8 @@ public class Elevator implements Updatable {
 		}
 
 		try {
-			_first_actuator.set(Map.first_pm_ball_levels[current_level] - firstPotentiometer.get());
-			_second_actuator.set(Map.second_pm_ball_levels[current_level] - secondPotentiometer.get());
+			_first_actuator.set(Map.BOTTOM_PM_BALL_LEVELS[current_level] - firstPotentiometer.get());
+			_second_actuator.set(Map.TOP_PM_BALL_LEVELS[current_level] - secondPotentiometer.get());
 		} catch (Exception e) {
 			System.out.println("EXCEPTION: Potentiometer array out of bounds");
 		}
