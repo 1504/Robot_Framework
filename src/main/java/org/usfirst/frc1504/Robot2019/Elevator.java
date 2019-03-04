@@ -78,17 +78,17 @@ public class Elevator implements Updatable {
 				if(!(bottomPotentiometer.get() > Map.SWING_BOTTOM_ACTUATOR_LIMIT - Map.SWING_TOLERANCE && topPotentiometer.get() < Map.SWING_TOP_ACTUATOR_LIMIT)){
 					_bottom_actuator.set(Map.FIRST_HEIGHT - bottomPotentiometer.get());
 				}
-				_top_actuator.set(Map.FIRST_HEIGHT - topPotentiometer.get());
+				_top_actuator.set((Map.FIRST_HEIGHT - topPotentiometer.get()) * Map.ELEVATOR_SPEED_MAGIC_NUMBER);
 			} else if (IO.get_second_height_button()) {
 				if(!(bottomPotentiometer.get() > Map.SWING_BOTTOM_ACTUATOR_LIMIT - Map.SWING_TOLERANCE && topPotentiometer.get() < Map.SWING_TOP_ACTUATOR_LIMIT)){
 					_bottom_actuator.set(Map.SECOND_HEIGHT - bottomPotentiometer.get());
 				}
-				_top_actuator.set(Map.SECOND_HEIGHT - topPotentiometer.get());
+				_top_actuator.set((Map.SECOND_HEIGHT - topPotentiometer.get()) * Map.ELEVATOR_SPEED_MAGIC_NUMBER);
 			} else if (IO.get_third_height_button()) {
 				if(!(bottomPotentiometer.get() > Map.SWING_BOTTOM_ACTUATOR_LIMIT - Map.SWING_TOLERANCE && topPotentiometer.get() < Map.SWING_TOP_ACTUATOR_LIMIT)){
 					_bottom_actuator.set(Map.THIRD_HEIGHT - bottomPotentiometer.get());
 				}
-				_top_actuator.set(Map.THIRD_HEIGHT - topPotentiometer.get());
+				_top_actuator.set((Map.THIRD_HEIGHT - topPotentiometer.get()) * Map.ELEVATOR_SPEED_MAGIC_NUMBER);
 			}
 		}
 	}
