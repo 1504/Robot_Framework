@@ -25,7 +25,7 @@ public class Map {
 	public static final int END_LIFT_BACK = 5; //LB
 
 	public static final int AUTO_PLACEMENT_BUTTON = 3;
-	public static final int ARM_EXTEND = 4;
+	public static final int ARM_EXTEND = 4; //Y
 
 	public static final int AUTO_ALIGNMENT_BUTTON = 1;
 	public static final int AUTO_GRABBER_SWITCH = 7;
@@ -85,17 +85,15 @@ public class Map {
 
 		public static final int GRAB_PISTON_HIGHSIDE_PORT = 0;
 		public static final int GRAB_PISTON_LOWSIDE_PORT = 1;
+		
+		public static final int ARM_EXTENSION_HIGHSIDE_PORT = 2;
+		public static final int ARM_EXTENSION_LOWSIDE_PORT = 3;
 
 		public static final int END_LIFT_FRONT_HIGHSIDE_PORT = 4;
 		public static final int END_LIFT_FRONT_LOWSIDE_PORT = 5;
 	
 		public static final int END_LIFT_BACK_HIGHSIDE_PORT = 6;
 		public static final int END_LIFT_BACK_LOWSIDE_PORT = 7;
-
-		
-
-		public static final int ARM_EXTENSION_HIGHSIDE_PORT = 2;
-		public static final int ARM_EXTENSION_LOWSIDE_PORT = 3;
 /**
  * Elevator / Lift Stuff
  */
@@ -120,6 +118,15 @@ public class Map {
 		public static final double SWING_BOTTOM_ACTUATOR_LIMIT = 18.4;
 		public static final double SWING_TOP_ACTUATOR_LIMIT = 17;
 		public static final double SWING_TOLERANCE = 0.7;
+
+		public static final int LEFT_SERVO_PORT = 105;
+		public static final int RIGHT_SERVO_PORT = 106;
+
+		public static final double OPEN_SERVO = 0.0;
+		public static final double SEMI_OPEN_SERVO = 45.0;
+		public static final double CLOSED_SERVO = 180.0;
+
+		public static final double SERVO_GAIN_VALUE = 0.5;
 
 		/**
 		 * Potentiometer Values

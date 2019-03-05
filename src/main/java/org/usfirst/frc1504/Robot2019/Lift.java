@@ -2,8 +2,10 @@ package org.usfirst.frc1504.Robot2019;
 
 import org.usfirst.frc1504.Robot2019.Update_Semaphore.Updatable;
 import edu.wpi.first.wpilibj.DriverStation;
-
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer;
+import edu.wpi.first.wpilibj.Servo;
 
 public class Lift implements Updatable
 {
@@ -21,7 +23,11 @@ public class Lift implements Updatable
 	public static int lastEndLiftClimbState = 0;
 	
 	static double recordedTime = 0;
-    
+
+	private BuiltInAccelerometer accel = new BuiltInAccelerometer(Accelerometer.Range.k8G);
+	public Servo _left_servo;
+	public Servo _right_servo;
+	
     public static Lift getInstance() // sets instance
 	{
 		return instance;
@@ -33,7 +39,12 @@ public class Lift implements Updatable
 		_end_lift_front.set(DoubleSolenoid.Value.kOff);
 
 		_end_lift_back = new DoubleSolenoid(Map.END_LIFT_BACK_HIGHSIDE_PORT, Map.END_LIFT_BACK_LOWSIDE_PORT);
-        _end_lift_back.set(DoubleSolenoid.Value.kOff);
+		_end_lift_back.set(DoubleSolenoid.Value.kOff);
+		
+		_left_servo = new Servo(Map.LEFT_SERVO_PORT);
+		_left_servo.set(Map.OPEN_SERVO);
+		_right_servo = new Servo(Map.RIGHT_SERVO_PORT);
+		_right_servo.set(Map.CLOSED_SERVO);
         
         Update_Semaphore.getInstance().register(this);
     }
@@ -75,7 +86,13 @@ public class Lift implements Updatable
 			_end_lift_back.set(DoubleSolenoid.Value.kReverse);
 		}
 	}
-    
+	
+	public void servo_adjustment()
+	{
+		_left_servo.set(accel.getX()/accel.getY()*-1*Map.SERVO_GAIN_VALUE);
+		_right_servo.set(accel.getX()/accel.getY()*Map.SERVO_GAIN_VALUE);
+	}	
+
     public void semaphore_update() // updates robot information
 	{
 		if (_ds.isOperatorControl() && !_ds.isDisabled()) // only runs in teleop
