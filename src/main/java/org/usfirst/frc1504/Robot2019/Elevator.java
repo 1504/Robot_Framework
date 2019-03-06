@@ -14,6 +14,8 @@ public class Elevator implements Updatable {
 	private WPI_TalonSRX _top_actuator;
 
 	public boolean lastElevatorButtonState = false;
+	public boolean elevator_mode_state = false;
+	public boolean elevator_mode = true;
 
 	private static final Elevator instance = new Elevator();
 	private DriverStation _ds = DriverStation.getInstance();
@@ -45,9 +47,12 @@ public class Elevator implements Updatable {
 		getInstance();
 	}
 
+
+
 	public void auto_hatch_elevator_levels() {
 
 		int current_level = 0;
+
 		if (IO.hid_home()) {
 			current_level = 0;
 		} else if (IO.hid_up() && IO.hid_up() != lastElevatorButtonState) {
@@ -65,6 +70,35 @@ public class Elevator implements Updatable {
 				_bottom_actuator.set(Map.BOTTOM_PM_HATCH_LEVELS[current_level] - bottomPotentiometer.get());
 			}
 			_top_actuator.set(Map.TOP_PM_HATCH_LEVELS[current_level] - topPotentiometer.get());
+		} catch (Exception e) {
+			System.out.println("EXCEPTION: Potentiometer array out of bounds");
+		}
+
+		lastElevatorButtonState = IO.hid_up() || IO.hid_down() || IO.hid_home();
+	
+	}
+
+	public void auto_ball_elevator_levels() {
+
+		int current_level = 0;
+
+		if (IO.hid_home()) {
+			current_level = 0;
+		} else if (IO.hid_up() && IO.hid_up() != lastElevatorButtonState) {
+			if (current_level < 2) {
+				current_level += 1;
+			}
+		} else if (IO.hid_down() && IO.hid_down() != lastElevatorButtonState) {
+			if (current_level > 0) {
+				current_level += 1;
+			}
+		}
+
+		try {
+			if(!(bottomPotentiometer.get() > Map.SWING_BOTTOM_ACTUATOR_LIMIT - Map.SWING_TOLERANCE && topPotentiometer.get() < Map.SWING_TOP_ACTUATOR_LIMIT)){
+				_bottom_actuator.set(Map.BOTTOM_PM_HATCH_LEVELS[current_level] - bottomPotentiometer.get());
+			}
+			_top_actuator.set(Map.TOP_PM_BALL_LEVELS[current_level] - topPotentiometer.get());
 		} catch (Exception e) {
 			System.out.println("EXCEPTION: Potentiometer array out of bounds");
 		}
@@ -101,6 +135,20 @@ public class Elevator implements Updatable {
 		}
 	}
 
+	public void change_elevator_state()
+	{
+		if(IO.get_elevator_mode() && IO.get_elevator_mode() != elevator_mode_state)
+		{
+			elevator_mode = !elevator_mode;
+		}
+
+		if(elevator_mode)
+			auto_hatch_elevator_levels();
+		else
+			auto_ball_elevator_levels();
+			
+		elevator_mode_state = IO.get_elevator_mode();
+	}
 	public void semaphore_update() // updates robot information
 	{
 		if (_ds.isOperatorControl() && !_ds.isDisabled()) // only runs in teleop
@@ -118,6 +166,7 @@ public class Elevator implements Updatable {
 			if(!(bottomPotentiometer.get() > Map.SWING_BOTTOM_ACTUATOR_LIMIT - Map.SWING_TOLERANCE && topPotentiometer.get() < Map.SWING_TOP_ACTUATOR_LIMIT)){
 				_bottom_actuator.set(IO.get_actuator_2_speed() * -1 * Map.ACTUATOR_MULTIPLIER);
 			}
+			change_elevator_state();			
 
 		}
 	}

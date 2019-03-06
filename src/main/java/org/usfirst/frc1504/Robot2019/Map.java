@@ -42,7 +42,7 @@ public class Map {
 	//4 : Y  - extend/retract arms
 	//5 : LB - Endgame Lift Front
 	//6 : RB - Endgame Lift Back
-	//7 : Back 
+	//7 : Back - Switch Elevator Modes
 	//8 : Start
 	//9 : Press left joystick
 	//10 : Press right joystick
@@ -53,6 +53,8 @@ public class Map {
 	//3 : RT
 	//4 : X axis-right joystick
 	//5 : Y axis-right joystick
+
+	public static final int SWITCH_ELEVATOR_MODES= 7;
 
 	public static final int ELEVATOR_ACTUATOR_2 = 1;
 	public static final int ELEVATOR_ACTUATOR_1 = 5;

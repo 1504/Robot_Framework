@@ -66,6 +66,10 @@ public class IO
 	{
 		return _secondary.getRawAxis(Map.FORWARD_ROTORS) - _secondary.getRawAxis(Map.REVERSE_ROTORS);
 	}
+	public static boolean get_elevator_mode()
+	{
+		return _secondary.getRawButton(Map.SWITCH_ELEVATOR_MODES);
+	}
 	/** Hid Stuff
 	 * 
 	 */
