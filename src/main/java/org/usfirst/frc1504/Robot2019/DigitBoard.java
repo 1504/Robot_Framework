@@ -255,6 +255,19 @@ public class DigitBoard
 		}
 		
 	}
+
+	public void writeRaw(byte[][] buffer)
+	{
+		byte[] temp_buffer = new byte[10];
+		temp_buffer[0] = (byte)(0b0000111100001111);
+		for(int i = 0; i < buffer.length; i++)
+		{
+			//
+			temp_buffer[(3-i)*2+2] = buffer[i][0];
+			temp_buffer[(3-i)*2+3] = buffer[i][1];
+		}
+		_output_buffer = temp_buffer;
+	}
 	
 	
 	/**

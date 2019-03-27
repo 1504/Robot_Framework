@@ -11,6 +11,9 @@ import edu.wpi.first.networktables.*;
 import java.util.HashMap;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
+import edu.wpi.first.hal.HAL;
+import edu.wpi.first.hal.HALUtil;
+
 //import java.io.BufferedReader;
 //import java.io.IOException;
 //import java.io.InputStreamReader;
@@ -20,6 +23,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 //-import com.ctre.CANTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
@@ -42,7 +46,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Robot extends TimedRobot {
+public class Robot extends RobotBase {
 	
 	public static double left_x;
 	public static double left_y;
@@ -79,9 +83,11 @@ public class Robot extends TimedRobot {
     	Digit_Board.initialize();
     	Elevator.initialize();
 		Lift.initialize();
-		Arms.initialize();
+		//Arms.initialize();
+		Hatch.initialize();
+		Cargo.initialize();
 		 //   	//CameraServer.getInstance().startAutomaticCapture();
-    	System.out.println("Game specific message: "+_ds.getGameSpecificMessage()); 
+    	//System.out.println("Game specific message: "+_ds.getGameSpecificMessage()); 
     	//RRL - Right side switch (closer), Right side scale, Left side switch (farther)
     	//System.out.println(new String(Base64.getDecoder().decode(Map.TEAM_BANNER)));
     }
@@ -100,9 +106,13 @@ public class Robot extends TimedRobot {
 			public void run() {
 				_arduino.setPartyMode(PARTY_MODE.ON);
 				char edge_track = 0;
-				//PowerDistributionPanel pdp = new PowerDistributionPanel();
+				PowerDistributionPanel pdp = new PowerDistributionPanel();
+
+				AnalogInput pressure_1 = new AnalogInput(2);
+				AnalogInput pressure_2 = new AnalogInput(3);
 				//Compressor c = new Compressor(0);
-				SmartDashboard.putNumber("Auton Delay", 0.0);
+				
+				/*SmartDashboard.putNumber("Auton Delay", 0.0);
 				
 				pos.addDefault("Left", new String("Left"));
 				pos.addObject("Mid", new String("Mid"));
@@ -117,7 +127,7 @@ public class Robot extends TimedRobot {
 				//autoChooser1.addObject("Switch & Exchange", new String("SwitchExchange"));
 								
 				SmartDashboard.putData("Position Chooser", pos);
-				SmartDashboard.putData("Auton Mode Chooser", autoChooser1);
+				SmartDashboard.putData("Auton Mode Chooser", autoChooser1);*/
 				
 				
 				
@@ -132,17 +142,17 @@ public class Robot extends TimedRobot {
 					//SmartDashboard.putNumber("Robot Time", m_ds.getMatchTime());
 					//SmartDashboard.putNumber("Robot Current", pdp.getTotalCurrent());
 					//SmartDashboard.putNumber("Arm Power", _pickup.getPower());
-					//SmartDashboard.putNumber("Pressure High", pressure_1.getAverageVoltage()*50 - 25);
-					//SmartDashboard.putNumber("Pressure Low", pressure_2.getAverageVoltage()*50 - 25);
+					SmartDashboard.putNumber("Pressure High", pressure_1.getAverageVoltage()*50 - 25);
+					SmartDashboard.putNumber("Pressure Low", pressure_2.getAverageVoltage()*50 - 25);
 					
-					SmartDashboard.putBoolean("Good Configuration", Auto_Alignment.check_sensors());
-					SmartDashboard.putBoolean("Sensor 1", Auto_Alignment.sensor1.get());
-					SmartDashboard.putBoolean("Sensor 2", Auto_Alignment.sensor2.get());
-					SmartDashboard.putBoolean("Sensor 3", Auto_Alignment.sensor3.get());
-					SmartDashboard.putBoolean("Sensor 4", Auto_Alignment.sensor4.get());
-					SmartDashboard.putBoolean("Sensor 5", Auto_Alignment.sensor5.get());
-					SmartDashboard.putBoolean("Sensor 6", Auto_Alignment.sensor6.get());
-					SmartDashboard.putBoolean("Hatch Indicator", Arms.grabstate);
+					/*SmartDashboard.putBoolean("Alignment Good Configuration", Auto_Alignment.check_sensors());
+					SmartDashboard.putBoolean("Alignment Sensor 1", !Auto_Alignment.sensor1.get());
+					SmartDashboard.putBoolean("Alignment Sensor 2", !Auto_Alignment.sensor2.get());
+					SmartDashboard.putBoolean("Alignment Sensor 3", !Auto_Alignment.sensor3.get());
+					SmartDashboard.putBoolean("Alignment Sensor 4", !Auto_Alignment.sensor4.get());
+					SmartDashboard.putBoolean("Alignment Sensor 5", !Auto_Alignment.sensor5.get());
+					SmartDashboard.putBoolean("Alignment Sensor 6", !Auto_Alignment.sensor6.get());*/
+					//SmartDashboard.putBoolean("Hatch Indicator", Arms.grabstate);
 
 					/*
 					SmartDashboard.putNumber("PDP Current: Channel 0", pdp.getCurrent(0));
@@ -179,7 +189,7 @@ public class Robot extends TimedRobot {
     	_dashboard_task.start();
     	
     	//System.out.println(new String(Base64.getDecoder().decode(Map.ROBOT_BANNER)));
-        System.out.println("Opportunity Initialized ( robotInit() ) @ " + IO.ROBOT_START_TIME);
+        System.out.println("Pathfinder Initialized ( robotInit() ) @ " + IO.ROBOT_START_TIME);
     }
 
     /**
@@ -217,7 +227,7 @@ public class Robot extends TimedRobot {
      */
     public void operatorControl() {
     	System.out.println("Operator Control");
-    	_arduino.setPulseSpeed(4);
+    	/*_arduino.setPulseSpeed(4);
         _arduino.setPartyMode(PARTY_MODE.OFF);
         if (_ds.getAlliance() == DriverStation.Alliance.Blue)
         	_arduino.setMainLightsColor(0, 255, 0);
@@ -225,7 +235,7 @@ public class Robot extends TimedRobot {
         	_arduino.setMainLightsColor(0, 0, 255);
         else
         	_arduino.setMainLightsColor(255, 0, 0);
-    	_arduino.setGearLights(GEAR_MODE.INDIVIDUAL_INTENSITY, 0.5, 0.5);
+    	_arduino.setGearLights(GEAR_MODE.INDIVIDUAL_INTENSITY, 0.5, 0.5);*/
     }
 
     /**
@@ -233,53 +243,14 @@ public class Robot extends TimedRobot {
      * Users should add test code to this method that should run while the robot is in test mode.
      */
     public void test() {
-    	System.out.println("Test Mode!");
-    	/*DoubleSolenoid _piston1 = new DoubleSolenoid(0, 1);
-    	WPI_TalonSRX _motor = new WPI_TalonSRX(Map.ARM_TALON_PORT);
-		Latch_Joystick control = new Latch_Joystick(0);
-		double magic = 1.0;*/
-//    	CameraInterface ci = CameraInterface.getInstance();
-    	//ci.set_mode(CameraInterface.CAMERA_MODE.MULTI);
-    	//ci.set_mode(CameraInterface.CAMERA_MODE.SINGLE); 4 or 5
-    	//BuiltInAccelerometer accel = new BuiltInAccelerometer();
-    	WPI_TalonSRX _grab_left;
-		WPI_TalonSRX _grab_right;
-		_grab_left = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_LEFT);
-		_grab_right = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_RIGHT);
-		Latch_Joystick _secondary = new Latch_Joystick(Map.DRIVE_SECONDARY_JOYSTICK);
+		System.out.println("Test Mode!");
+
     	while (isTest() && isEnabled())
     	{
-    		double speed = _secondary.getRawAxis(Map.INTAKE_POWER_AXIS);
-    		_grab_left.set(speed);
-    		_grab_right.set(-speed);
-    		
-    	    //Timer.delay(1000);
-    		//System.out.println("Test Mode!");
-    		/*if(control.getRawButton(1)) {
-    			_piston1.set(DoubleSolenoid.Value.kForward);
-    		} else if (control.getRawButton(2)) {
-    			_piston1.set(DoubleSolenoid.Value.kReverse);
-    		}
-    		
-    		if(control.getRawButton(1)){
-    			magic = 1.0;
-    		} else{
-    			magic = 2.0;
-    		}
-    		if (control.getRawButton(4)){
-    			_motor.set(control.getRawAxis(1)/magic*-1.0);
-    		}
-    		else if (control.getRawButton(5)){
-    			_motor.set(control.getRawAxis(1)/magic);
-    		}
-    		else{
-        		_motor.set(control.getRawAxis(1)/magic);
-    		}*/
-    		
-    		// Switch camera views every 5 seconds like a pro
-//    		ci.set_active_camera(ci.get_active_camera() == CameraInterface.CAMERAS.GEARSIDE ? CameraInterface.CAMERAS.INTAKESIDE : CameraInterface.CAMERAS.GEARSIDE);
-//            System.out.println("Switching active camera to " + ci.get_active_camera().toString());
-//            Timer.delay(5);
+			Elevator.getInstance().set(Elevator.ELEVATOR_MODE.HATCH, 0, true);
+			m_ds.waitForData(.150); // Blocks until we get new data or 150ms elapse
+            _semaphore.newData();
+			// ?!?!
     	}
     }
 
@@ -293,18 +264,17 @@ public class Robot extends TimedRobot {
      */
 	
     @Override
-    public void teleopPeriodic() {
-		Scheduler.getInstance().run();
-		if (isOperatorControl() && !isDisabled()) {
-			m_ds.waitForData(150); // Blocks until we get new data or 150ms elapse
-			_semaphore.newData();
-			//Timer.delay(0.01);
-		}
-    }
+    //public void teleopPeriodic() {
+	//	Scheduler.getInstance().run();
+	//	if (isOperatorControl() && !isDisabled()) {
+	//		m_ds.waitForData(150); // Blocks until we get new data or 150ms elapse
+	//		_semaphore.newData();
+	//		//Timer.delay(0.01);
+	//	}
+    //}
 
-	/*
     public void startCompetition() {
-        HAL.report(tResourceType.kResourceType_Framework,tInstances.kFramework_Simple);
+        //HAL.report(tResourceType.kResourceType_Framework,tInstances.kFramework_Simple);
         // first and one-time initialization
         LiveWindow.setEnabled(false);
         robotInit();
@@ -313,22 +283,13 @@ public class Robot extends TimedRobot {
             if (isDisabled()) {
                 m_ds.InDisabled(true);
                 disabled();
-                while (isDisabled())
-                    Timer.delay(0.01);
-                m_ds.InDisabled(false);
-            } else if (isAutonomous()) {
-            	
-                m_ds.InAutonomous(true);
-                _logger.start("Auto");
-                autonomous();
-                
-                while (isAutonomous() && !isDisabled()) {
-                	m_ds.waitForData(150);
+				while (isDisabled())
+				{
+					m_ds.waitForData(0.15); // Blocks until we get new data or 150ms elapse
                 	_semaphore.newData();
-                }
-                
-                _logger.stop();
-                m_ds.InAutonomous(false);
+				}
+                    //Timer.delay(0.01);
+                m_ds.InDisabled(false);
             
             } else if (isTest()) {
                 //LiveWindow.setEnabled(true);
@@ -348,8 +309,8 @@ public class Robot extends TimedRobot {
                 
                 operatorControl();
                 
-                while (isOperatorControl() && !isDisabled()) {
-                	m_ds.waitForData(150); // Blocks until we get new data or 150ms elapse
+                while (!isDisabled()) {
+                	m_ds.waitForData(0.15); // Blocks until we get new data or 150ms elapse
                 	_semaphore.newData();
                     //Timer.delay(0.01);
                 }
@@ -359,5 +320,5 @@ public class Robot extends TimedRobot {
                 m_ds.InOperatorControl(false);
             }
         } /* while loop */
-    //-}
+    }
 }

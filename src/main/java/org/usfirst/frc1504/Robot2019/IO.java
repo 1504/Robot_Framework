@@ -1,5 +1,9 @@
 package org.usfirst.frc1504.Robot2019;
 
+import javax.lang.model.element.ElementKind;
+
+import org.usfirst.frc1504.Robot2019.Elevator.ELEVATOR_MODE;
+
 public class IO
 {
 	private static Latch_Joystick _drive_forward = new Latch_Joystick(Map.DRIVE_CARTESIAN_JOYSTICK);
@@ -8,6 +12,11 @@ public class IO
 
 	public static final long ROBOT_START_TIME = System.currentTimeMillis();
 	
+	public static boolean override()
+	{
+		return _secondary.getRawButton(Map.OVERRIDE_BUTTON);
+	}
+
 	/**
 	 * Drive stuff
 	 */
@@ -33,42 +42,39 @@ public class IO
 	{
 		return _secondary.getRawButton(Map.CRASH_DETECTION);
 	}
-	public static double get_actuator_2_speed()
+	public static double get_top_actuator_speed()
 	{
-		return Math.pow(_secondary.getRawAxis(Map.ELEVATOR_ACTUATOR_2), 3.0);
+		return Math.pow(-_secondary.getRawAxis(Map.ELEVATOR_ACTUATOR_2), 3.0);
 	}
-	public static boolean extend_arm()
+	public static boolean toggle_elevator_mode()
 	{
-		return _secondary.getRawButton(Map.ARM_EXTEND);
+		return _secondary.getRawButton(Map.TOGGLE_MODE);
 	}
-	public static double get_actuator_1_speed()
+	public static Elevator.ELEVATOR_MODE elevator_mode()
+	{
+		if(_secondary.getRawButton(Map.HATCH_MODE_BUTTON))
+			return Elevator.ELEVATOR_MODE.HATCH;
+		if(_secondary.getRawButton(Map.CARGO_MODE_BUTTON))
+			return Elevator.ELEVATOR_MODE.CARGO;
+		return null;
+	}
+	public static double get_bottom_actuator_speed()
 	{		
-		return Math.pow(_secondary.getRawAxis(Map.ELEVATOR_ACTUATOR_1), 3.0);
+		return Math.pow(-_secondary.getRawAxis(Map.ELEVATOR_ACTUATOR_1), 3.0);
 	}
 	public static boolean get_grabber()
 	{
 		return _secondary.getRawButton(Map.GRABBER);
 	}
-	public static boolean get_endlift_back()
+	public static int get_lift_activation()
 	{
-		return _secondary.getRawButton(Map.END_LIFT_BACK);
-	}
-	public static boolean get_endlift_front()
-	{
-		return _secondary.getRawButton(Map.END_LIFT_FRONT);
-	}
-	public static boolean get_lift_activation()
-	{
-		return _drive_rotation.getRawButton(Map.LIFT_SEQUENCE_BUTTON) && _drive_rotation.getRawButton(Map.LIFT_SEQUENCE_SECOND_BUTTON);
+		return (_drive_rotation.getRawButton(Map.LIFT_SEQUENCE_BUTTON) ? 1 : 0) +
+		 (_drive_rotation.getRawButton(Map.LIFT_SEQUENCE_SECOND_BUTTON) ? 2 : 0);
 	}
 
 	public static double get_intake_speed()
 	{
 		return _secondary.getRawAxis(Map.FORWARD_ROTORS) - _secondary.getRawAxis(Map.REVERSE_ROTORS);
-	}
-	public static boolean get_elevator_mode()
-	{
-		return _secondary.getRawButton(Map.SWITCH_ELEVATOR_MODES);
 	}
 	/** Hid Stuff
 	 * 

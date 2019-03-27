@@ -37,7 +37,8 @@ public class Logger {
 	 * @param prefix - The filename prefix to log under (Format: Prefix-Time.log)
 	 */
 	public void start(String prefix) {
-		Calendar cal = new GregorianCalendar();
+		return;
+		/*Calendar cal = new GregorianCalendar();
 		String filetime = Long.toString(cal.getTimeInMillis());
 		_outfile = new File("/home/lvuser/log/" + prefix + "-" + filetime + ".log");
 
@@ -61,6 +62,7 @@ public class Logger {
 		}
 		
 		System.out.println("Big Brother started watching you @ " + _start_time + " using \"~/log/" + prefix + "-" + filetime + ".log\"");
+		*/
 	}
 	
 	/**

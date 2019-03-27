@@ -2,15 +2,16 @@ package org.usfirst.frc1504.Robot2019;
 
 import org.usfirst.frc1504.Robot2019.DigitBoard;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 
 public class Digit_Board
 {
 	private DriverStation _ds;	
 	private DigitBoard _board;
+	private Alignmentator _alignmentator;
 	
 	private long _thread_sleep_delay = 100;
 	private int _thread_sleep_counter;
-	String mode = "p";
 	
 	private double _voltage;
 	
@@ -19,9 +20,6 @@ public class Digit_Board
 	
 	private boolean _a;
 	private boolean _b;
-	
-	private static String[] _positions =  {"P  1", "P  2", "P  3"};
-	public int pos = 0;
 
 	
 	//Setting up a separate thread for the Digit Board
@@ -51,6 +49,7 @@ public class Digit_Board
 
 		_ds = DriverStation.getInstance(); 
 		_board = DigitBoard.getInstance();
+		_alignmentator = Alignmentator.getInstance();
 		
 		start();
 
@@ -84,7 +83,7 @@ public class Digit_Board
 	public void update()
 	{
 		_current_pot = _board.getPotentiometer();
-		_voltage = _ds.getBatteryVoltage();
+		_voltage = RobotController.getBatteryVoltage();
 		_a = _board.getAOnRisingEdge();
 		_b = _board.getBOnRisingEdge();
 	}
@@ -92,34 +91,42 @@ public class Digit_Board
 	//Writes the values to the digit board.
 	public void write()
 	{
-		if (_current_pot != _last_pot)
+		if(_current_pot < 0.5)
 		{
-			_board.writeDigits("  " + Double.toString(_current_pot));
-			mode = "pot";
-			_thread_sleep_counter = 0;
-		}
-		if(_a)
-		{
-			_board.writeDigits(_positions[pos%3]);
-			mode = "pos";
-			_thread_sleep_counter = 0;
-			pos++;
+			_board.writeDigits(Double.toString(_voltage).substring(0, 4) + "V");
 		}
 		else
 		{
-			if (_thread_sleep_counter < 7)
+			byte[][] buffer = {{0,0},{0,0},{0,0},{(byte)0b00111111, (byte)0b00100100}};
+			boolean[] alignment_state = _alignmentator.get_sensor_array();
+
+			//  _
+			// \ /
+			// /_\
+			// First three shows sensor states
+			for(int i  = 0; i < 3; i++)
 			{
-				if(mode == "pot")
-					_board.writeDigits("  " + Double.toString(_current_pot));
-				else if (mode == "pos")
-					_board.writeDigits(_positions[pos%3]);
-				_thread_sleep_counter++;
+				if(alignment_state[i])
+				{
+					buffer[i][0] |= (byte)0b00000001;
+					buffer[i][1] |= (byte)0b00000101;
+				}
+
+				if(alignment_state[i+3])
+				{
+					buffer[i][0] |= (byte)0b00001000;
+					buffer[i][1] |= (byte)0b00101000;
+				}
 			}
-			else
+			
+			// Last digit 0 or 1, indicating sensor good configuration
+			if(_alignmentator.get_sensor_good())
 			{
-				_board.writeDigits(Double.toString(_voltage).substring(0, 4) + "V");
-				//_thread_sleep_delay = 750;
+				buffer[3][0] = (byte)0b00000110;
+				buffer[3][1] = (byte)0b00000000;
 			}
+
+			_board.writeRaw(buffer);
 		}
 		_last_pot = _current_pot;
 	}

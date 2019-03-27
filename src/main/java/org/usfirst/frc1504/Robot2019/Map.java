@@ -13,6 +13,8 @@ public class Map {
 	public static final int DRIVE_POLAR_JOYSTICK = 1;
 	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
 
+	public static final int OVERRIDE_BUTTON = 5;
+
 	public static final int LIFT_SEQUENCE_BUTTON = 10;
 	public static final int LIFT_SEQUENCE_SECOND_BUTTON = 11;
 
@@ -25,7 +27,10 @@ public class Map {
 	public static final int END_LIFT_BACK = 5; //LB
 
 	public static final int AUTO_PLACEMENT_BUTTON = 3;
-	public static final int ARM_EXTEND = 4; //Y
+	public static final int TOGGLE_MODE = 4; //Y
+
+	public static final int HATCH_MODE_BUTTON = 4;
+	public static final int CARGO_MODE_BUTTON = 2;
 
 	public static final int AUTO_ALIGNMENT_BUTTON = 1;
 	public static final int AUTO_GRABBER_SWITCH = 7;
@@ -42,7 +47,7 @@ public class Map {
 	//4 : Y  - extend/retract arms
 	//5 : LB - Endgame Lift Front
 	//6 : RB - Endgame Lift Back
-	//7 : Back - Switch Elevator Modes
+	//7 : Back 
 	//8 : Start
 	//9 : Press left joystick
 	//10 : Press right joystick
@@ -53,8 +58,6 @@ public class Map {
 	//3 : RT
 	//4 : X axis-right joystick
 	//5 : Y axis-right joystick
-
-	public static final int SWITCH_ELEVATOR_MODES= 7;
 
 	public static final int ELEVATOR_ACTUATOR_2 = 1;
 	public static final int ELEVATOR_ACTUATOR_1 = 5;
@@ -117,18 +120,18 @@ public class Map {
 		public static final double LIFT_LOCK_RELEASE_RANGE = 0.7;
 		public static final boolean LIMIT_SWITCH_EXISTS = false; 
 
-		public static final double SWING_BOTTOM_ACTUATOR_LIMIT = 18.4;
-		public static final double SWING_TOP_ACTUATOR_LIMIT = 17;
-		public static final double SWING_TOLERANCE = 0.7;
+		public static final double SWING_BOTTOM_SAFEZONE = 18.4;
+		public static final double SWING_TOP_SAFEZONE = 17.0;
+		public static final double SWING_SAFEZONE_TOLERANCE = 0.7;
 
-		public static final int LEFT_SERVO_PORT = 105;
-		public static final int RIGHT_SERVO_PORT = 106;
+		public static final int LEFT_SERVO_PORT = 0;
+		public static final int RIGHT_SERVO_PORT = 1;
 
 		public static final double OPEN_SERVO = 0.0;
 		public static final double SEMI_OPEN_SERVO = 45.0;
 		public static final double CLOSED_SERVO = 180.0;
 
-		public static final double SERVO_GAIN_VALUE = 0.5;
+		public static final double SERVO_GAIN_VALUE = 1.0/10.0;
 
 		/**
 		 * Potentiometer Values
@@ -156,7 +159,7 @@ public class Map {
 		public static final double[] TOP_PM_BALL_LEVELS = {13.8, 40.3, 63.9, 72.5, 58.8};
 
 		// Elevator 
-		public static final double ELEVATOR_SPEED_MAGIC_NUMBER = 0.2;
+		public static final double ELEVATOR_GAIN = 0.2;
 
 
 		
@@ -270,6 +273,7 @@ public class Map {
 	/**
 	 * Vision Interface stuff
 	 */
+	public static final int[] ALIGNMENT_SENSOR_MAP = {0,1,2,3,4,5};
 	public static final int sensor1 = 0;
 	public static final int sensor2 = 1;
 	public static final int sensor3 = 2;
