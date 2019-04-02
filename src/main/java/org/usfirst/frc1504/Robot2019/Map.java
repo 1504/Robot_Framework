@@ -233,13 +233,12 @@ public class Map {
 	 * Arduino addresses
 	 */
 	public static final byte ARDUINO_ADDRESS = 64;
-	public static final byte GROUNDTRUTH_ADDRESS = 01;
-	public static final byte MAIN_LIGHTS_ADDRESS = 02;
-	public static final byte FRONTSIDE_LIGHTS_ADDRESS = 03;
-	public static final byte GEAR_LIGHTS_ADDRESS = 04;
-	public static final byte SHOOTER_LIGHTS_ADDRESS = 05;
-	public static final byte INTAKE_LIGHTS_ADDRESS = 06;
-	public static final byte PARTY_MODE_ADDRESS = 07;
+	public static final byte GROUNDTRUTH_ADDRESS = 1;
+	public static final byte ARM_LIGHTS_ADDRESS = 2;
+	public static final byte ARM_MODE_ADDRESS = 3;
+	public static final byte POST_LIGHTS_ADDRESS = 4;
+	public static final byte POST_MODE_ADDRESS = 5;
+	public static final byte PARTY_MODE_ADDRESS = 8;
 	public static final byte PULSE_SPEED_ADDRESS = 11;
 
 	/**

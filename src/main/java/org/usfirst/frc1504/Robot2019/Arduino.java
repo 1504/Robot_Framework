@@ -1,28 +1,102 @@
 package org.usfirst.frc1504.Robot2019;
 
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Timer;
 
 public class Arduino
 {
 	private I2C _bus = new I2C(I2C.Port.kOnboard, Map.ARDUINO_ADDRESS);//B-U+S using ascii decimal values
+
+	private static final Arduino instance = new Arduino();
+	private Lights_Thread _lights;
+	private Thread _task_thread;
 	
-	public enum SHOOTER_STATUS {OFF, AIMING, AIM_LOCK};
-	
-	public enum FRONTSIDE_MODE {DEFAULT, REVERSE, OFF};
-	
-	public enum GEAR_MODE {OFF, PULSE, INDIVIDUAL_INTENSITY};
-	
-	public enum INTAKE_LIGHT_MODE {OFF, ON};
-	
-	public enum PARTY_MODE {OFF, ON};
-	
-	private static Arduino instance = new Arduino();
-	
+	private Arduino()
+	{
+		_lights = new Lights_Thread();
+		_task_thread = new Thread(_lights, "1504_Arduino Lights Task Thread");
+		_task_thread.start();
+
+		System.out.println("Arduino initialized");
+	}
+
 	public static Arduino getInstance()
 	{
-		return Arduino.instance;
+		return instance;
+	}
+
+	public static void initialize()
+	{
+		getInstance();
 	}
 	
+
+	private class Lights_Thread implements Runnable
+	{
+		private int[][] _arm_colors = {{255,115,0}, {255,255,0}, {255,105,180}, {255,0,255}, {64,224,208}};
+		private int[][] _post_colors = {{103,255,0}, {255,15,2}, {255,0,230}, {160,255,141}};
+
+		private Arduino _arduino;
+		private Hatch _hatch;
+		private Elevator _elevator;
+		private Drive _drive;
+
+		private Hatch.HATCH_STATE _last_hatch = null;
+		private Elevator.ELEVATOR_MODE _last_elevator_mode = null;
+		private int _last_elevator_setpoint = -1;
+		private boolean _last_elevator_moving;
+		private boolean _last_drive;
+
+		Lights_Thread()
+		{
+			_arduino = Arduino.getInstance();
+			_hatch = Hatch.getInstance();
+			_elevator = Elevator.getInstance();
+			_drive = Drive.getInstance();
+		}
+		
+		public void run()
+		{
+			System.out.println("Lights task thread initialized");
+			while(true)
+			{
+				// Set post color
+				if(_hatch.getState() != _last_hatch || _last_elevator_mode != _elevator.getMode())
+				{
+					if(_elevator.getMode() == Elevator.ELEVATOR_MODE.CARGO)
+						_arduino.setPostLightsColor(_post_colors[3][0], _post_colors[3][1], _post_colors[3][2]);
+					else
+					{
+						int mode = _hatch.getState().ordinal();
+						_arduino.setPostLightsColor(_post_colors[mode][0], _post_colors[mode][1], _post_colors[mode][2]);
+					}
+				}
+
+				// Set arm color
+				if(_last_elevator_setpoint != _elevator.getSetpoint())
+				{
+					int mode = _elevator.getSetpoint();
+					_arduino.setArmLightsColor(_arm_colors[mode][0] , _arm_colors[mode][1], _arm_colors[mode][2]);
+				}
+
+				// Blink if arms are in motion
+				if(_last_elevator_moving != _elevator.getMoving())
+					_arduino.setArmLightsState(!_elevator.getMoving());
+
+				// Blink if we're auto-aligning
+				if(_last_drive != _drive.line_tracking())
+					_arduino.setPostLightsState(_drive.line_tracking());
+
+				_last_hatch = _hatch.getState();
+				_last_elevator_mode = _elevator.getMode();
+				_last_elevator_setpoint = _elevator.getSetpoint();
+				_last_elevator_moving = _elevator.getMoving();
+				_last_drive = _drive.line_tracking();
+
+				Timer.delay(.02);
+			}
+		}
+	}
 
 /** 
  * Requests for groundtruth data from the sensors.
@@ -38,62 +112,6 @@ public class Arduino
 		
 		_bus.transaction(buffer, buffer.length, sensor_data, sensor_data.length);
 		return sensor_data;
-	}
-	
-	public void flash_colors() 
-	{
-		//flashes current colors
-	}
-	/*
-	public double[] lift_gradient() 
-	{
-		double[] RGB = {0, 0, 0};
-		int returnval;
-		double margins = Map.LIFT_MAX_HEIGHT/3;
-		if((0 < _lift.get_lift_height()) && (_lift.get_lift_height() < margins))
-		{
-			returnval = (int) ((_lift.get_lift_height() / margins) * 255);
-			RGB[0] = 0;
-			RGB[1] = returnval;
-			RGB[2] = 0;
-		}
-		else if((margins < _lift.get_lift_height()) && (_lift.get_lift_height() < (2 * margins))) 
-		{
-			returnval = (int) ((_lift.get_lift_height() / (2 *margins)) * 255);
-			RGB[0] = returnval;
-			RGB[1] = returnval;
-			RGB[2] = 0;
-		}
-		else if(((2 *margins) < _lift.get_lift_height()) && (_lift.get_lift_height() < (3 * margins))) 
-		{
-			returnval = (int) ((_lift.get_lift_height() / (3 *margins)) * 255);
-			RGB[0] = 0;
-			RGB[1] = 0;
-			RGB[2] = returnval;
-		}
-		
-		return RGB;
-	}
-	*/
-	
-	public double[] return_colors() 
-	{
-		double[] RGB = {0,128,0};
-		
-		/*if(Pickup.intake_state == Pickup.intake.IN)
-		{
-			RGB[0] = 255;
-			RGB[1] = 255;
-			RGB[2] = 0;
-		}
-		else if(Pickup.intake_state == Pickup.intake.OUT)
-		{
-			RGB[0] = 0;
-			RGB[1] = 0;
-			RGB[2] = 255;
-		}*/
-		
-		return RGB;
 	}
 
 /**
@@ -135,110 +153,77 @@ public class Arduino
 	}
 
 /**
- * Sets the color of the main robot lights
+ * Sets the color of the arm lights
  * @param R: integer from 0-255 indicating amount of red in the color
  * @param G: integer from 0-255 indicating amount of green in the color
  * @param B: integer from 0-255 indicating amount of blue in the color
  */
-	public void setMainLightsColor(int R, int G, int B)
+	public void setArmLightsColor(int R, int G, int B)
 	{
 		byte[] data = new byte[4];
 		
-		data[0] = Map.MAIN_LIGHTS_ADDRESS;
+		data[0] = Map.ARM_LIGHTS_ADDRESS;
 		data[1] = (byte) R;
 		data[2] = (byte) G;
 		data[3] = (byte) B;
 		
 		_bus.writeBulk(data);
 	}
-	
-/**
- * Changes the lights to indicate which side is the FRONT of the robot.
- * @param mode: an int, either 0, 1, or 2: 0 for default frontside, 1 for reverse lights, and 2 for both lights off
- */
-	public void setFrontsideLights(FRONTSIDE_MODE mode)
-	{
-		byte[] data = new byte[2];
-		
-		data[0] = Map.FRONTSIDE_LIGHTS_ADDRESS;
-		data[1] = (byte) mode.ordinal();
-		
-		_bus.writeBulk(data);
-	}
-	
-/**
- * Sets the intensity of the left and right gearholder lignts.
- * @param mode: either OFF, PULSE, or INDIVIDUAL INTENSITY mode. In PULSE mode, both lights pulse on and 
- * off and any other input is ignored. In INDIVIDUAL INTENSITY mode, l_intensity and r_intensity control 
- * the intensity level of the LEFT and RIGHT gearholder lights, respectively.
- * @param l_intensity: double from 0-1 indicating intensity of the left gearholder light, as a percentage.
- * @param r_intensity: double from 0-1 indicating intensity of the right gearholder light, as a percentage.
- */
-	public void setGearLights(GEAR_MODE mode)
-	{
-		byte[] data = new byte[2];
-		data[0] = Map.GEAR_LIGHTS_ADDRESS;
-		data[1] = (byte) mode.ordinal();
 
-		_bus.writeBulk(data);
-	}
-	public void setGearLights(GEAR_MODE mode, double l_intensity, double r_intensity)
+/**
+ * Sets the color of the post lights
+ * @param R: integer from 0-255 indicating amount of red in the color
+ * @param G: integer from 0-255 indicating amount of green in the color
+ * @param B: integer from 0-255 indicating amount of blue in the color
+ */
+	public void setPostLightsColor(int R, int G, int B)
 	{
 		byte[] data = new byte[4];
-		data[0] = Map.GEAR_LIGHTS_ADDRESS;
-		data[1] = (byte) mode.ordinal();
 		
-		l_intensity = Utils.snap(l_intensity, 0.0, 1.0);
-		r_intensity = Utils.snap(r_intensity, 0.0, 1.0);
-		
-		byte l = (byte)(l_intensity * 255.0);
-		byte r = (byte)(r_intensity * 255.0);
-		
-		data[2] = l;
-		data[3] = r;
+		data[0] = Map.POST_LIGHTS_ADDRESS;
+		data[1] = (byte) R;
+		data[2] = (byte) G;
+		data[3] = (byte) B;
 		
 		_bus.writeBulk(data);
 	}
 
-	
 /**
- * Changes the shooter lights to indicate what the robot is doing.
- * @param mode: the mode the shooter is in, either OFF, AIMING, or AIM_LOCK
+ * Sets the blink mode of the arm lights
  */
-	public void setShooterLightStatus(SHOOTER_STATUS mode)
+	public void setArmLightsState(boolean blink)
 	{
 		byte[] data = new byte[2];
 		
-		data[0] = Map.SHOOTER_LIGHTS_ADDRESS;
-		data[1] = (byte) mode.ordinal();
+		data[0] = Map.ARM_MODE_ADDRESS;
+		data[1] = (byte) (blink ? 1 : 0);
 		
 		_bus.writeBulk(data);
 	}
-	
+
 /**
- * Turns the lights on to indicate the intake is running.
- * @param mode either OFF or ON
+ * Sets the blink mode of the post lights
  */
-	public void setIntakeLights(INTAKE_LIGHT_MODE mode)
+	public void setPostLightsState(boolean blink)
 	{
 		byte[] data = new byte[2];
 		
-		data[0] = Map.INTAKE_LIGHTS_ADDRESS;
-		data[1] = (byte) mode.ordinal();
+		data[0] = Map.POST_MODE_ADDRESS;
+		data[1] = (byte) (blink ? 1 : 0);
 		
 		_bus.writeBulk(data);
 	}
 
 /**
  * Enables/Disables Party Mode.
- * @param mode: either OFF or ON.
+ * @param mode: either TRUE or FALSE for OFF or ON.
  */
-	public void setPartyMode(PARTY_MODE mode)
+	public void setPartyMode(boolean mode)
 	{
 		byte[] data = new byte[2];
 		
 		data[0] = Map.PARTY_MODE_ADDRESS;
-		data[1] = (byte) mode.ordinal();
+		data[1] = (byte) (mode ? 1 : 0);
 		
 		_bus.writeBulk(data);
 	}

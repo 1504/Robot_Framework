@@ -1,12 +1,5 @@
 package org.usfirst.frc1504.Robot2019;
 
-// Arduino
-import org.usfirst.frc1504.Robot2019.Arduino.FRONTSIDE_MODE;
-import org.usfirst.frc1504.Robot2019.Arduino.GEAR_MODE;
-import org.usfirst.frc1504.Robot2019.Arduino.INTAKE_LIGHT_MODE;
-import org.usfirst.frc1504.Robot2019.Arduino.PARTY_MODE;
-import org.usfirst.frc1504.Robot2019.Arduino.SHOOTER_STATUS;
-
 import edu.wpi.first.networktables.*;
 import java.util.HashMap;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -83,9 +76,9 @@ public class Robot extends RobotBase {
     	Digit_Board.initialize();
     	Elevator.initialize();
 		Lift.initialize();
-		//Arms.initialize();
 		Hatch.initialize();
 		Cargo.initialize();
+		Arduino.initialize();
 		 //   	//CameraServer.getInstance().startAutomaticCapture();
     	//System.out.println("Game specific message: "+_ds.getGameSpecificMessage()); 
     	//RRL - Right side switch (closer), Right side scale, Left side switch (farther)
@@ -104,7 +97,7 @@ public class Robot extends RobotBase {
 		CameraServer.getInstance().startAutomaticCapture();
     	_dashboard_task = new Thread(new Runnable() {
 			public void run() {
-				_arduino.setPartyMode(PARTY_MODE.ON);
+				_arduino.setPartyMode(true);
 				char edge_track = 0;
 				PowerDistributionPanel pdp = new PowerDistributionPanel();
 
@@ -201,21 +194,8 @@ public class Robot extends RobotBase {
      */
     protected void disabled() {
         System.out.println("Robot Disabled");
-        _arduino.setPartyMode(PARTY_MODE.ON);
-        _arduino.setGearLights(GEAR_MODE.PULSE);
+        _arduino.setPartyMode(true);
         _arduino.setPulseSpeed(1);
-    }
-
-    /**
-     * Autonomous should go here.
-     * Users should add autonomous code to this method that should run while the field is
-     * in the autonomous period.
-     *
-     * Called once each time the robot enters the autonomous state.
-     */
-    public void autonomous() {
-    	System.out.println("Autonomous mode");
-    	System.out.println("hey now you're ");
     }
 
     /**
@@ -227,9 +207,9 @@ public class Robot extends RobotBase {
      */
     public void operatorControl() {
     	System.out.println("Operator Control");
-    	/*_arduino.setPulseSpeed(4);
-        _arduino.setPartyMode(PARTY_MODE.OFF);
-        if (_ds.getAlliance() == DriverStation.Alliance.Blue)
+    	_arduino.setPulseSpeed(20);
+        _arduino.setPartyMode(false);
+        /*if (_ds.getAlliance() == DriverStation.Alliance.Blue)
         	_arduino.setMainLightsColor(0, 255, 0);
         else if (_ds.getAlliance() == DriverStation.Alliance.Red)
         	_arduino.setMainLightsColor(0, 0, 255);

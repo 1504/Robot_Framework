@@ -11,8 +11,8 @@ public class Cargo implements Updatable
     private static final Cargo instance = new Cargo();
     private DriverStation _ds = DriverStation.getInstance();
 
-    private WPI_TalonSRX _left_roller;
-	private WPI_TalonSRX _right_roller;
+    private WPI_TalonSRX _left_slurp;
+	private WPI_TalonSRX _right_slurp;
     private DoubleSolenoid _arm_extension;
     private boolean _arms_out_override;
     private boolean _last_toggle;
@@ -27,8 +27,8 @@ public class Cargo implements Updatable
     {
         _arm_extension = new DoubleSolenoid(Map.ARM_EXTENSION_HIGHSIDE_PORT, Map.ARM_EXTENSION_LOWSIDE_PORT);
 
-		_left_roller = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_LEFT);
-        _right_roller = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_RIGHT);
+		_left_slurp = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_LEFT);
+        _right_slurp = new WPI_TalonSRX(Map.ROLLER_TALON_PORT_RIGHT);
         
         Update_Semaphore.getInstance().register(this);
         System.out.println("Cargo initialized");
@@ -44,8 +44,8 @@ public class Cargo implements Updatable
         if(Elevator.getInstance().getMode() != Elevator.ELEVATOR_MODE.CARGO)
         {
             _arm_extension.set(DoubleSolenoid.Value.kReverse);
-            _left_roller.set(0.0);
-            _right_roller.set(0.0);
+            _left_slurp.set(0.0);
+            _right_slurp.set(0.0);
 
             _arms_out_override = false;
             _last_toggle = false;
@@ -58,8 +58,8 @@ public class Cargo implements Updatable
 
 
             _arm_extension.set(_arms_out_override ? DoubleSolenoid.Value.kReverse : DoubleSolenoid.Value.kForward);
-            _left_roller.set(IO.get_intake_speed() * Map.ROLLER_SPEED_MULTIPLIER);
-            _right_roller.set(-IO.get_intake_speed() * Map.ROLLER_SPEED_MULTIPLIER);
+            _left_slurp.set(IO.get_intake_speed() * Map.ROLLER_SPEED_MULTIPLIER);
+            _right_slurp.set(-IO.get_intake_speed() * Map.ROLLER_SPEED_MULTIPLIER);
         }
 	}
 
