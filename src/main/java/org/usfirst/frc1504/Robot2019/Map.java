@@ -131,7 +131,7 @@ public class Map {
 		public static final double SEMI_OPEN_SERVO = 45.0;
 		public static final double CLOSED_SERVO = 180.0;
 
-		public static final double SERVO_GAIN_VALUE = 1.0/10.0;
+		public static final double SERVO_GAIN_VALUE = 1.0/2.5;
 
 		/**
 		 * Potentiometer Values
@@ -173,12 +173,12 @@ public class Map {
 	}
 
 	// Drive Motor ports
-	public static final int FRONT_LEFT_TALON_PORT = 10;
-	public static final int BACK_LEFT_TALON_PORT = 11;
-	public static final int BACK_RIGHT_TALON_PORT = 12;
-	public static final int FRONT_RIGHT_TALON_PORT = 13;
-	public static final int[] DRIVE_MOTOR_PORTS = { FRONT_LEFT_TALON_PORT, BACK_LEFT_TALON_PORT, BACK_RIGHT_TALON_PORT,
-			FRONT_RIGHT_TALON_PORT };
+	public static final int FRONT_LEFT_TALON_PORT = 11;
+	public static final int BACK_LEFT_TALON_PORT = 12;
+	public static final int BACK_RIGHT_TALON_PORT = 13;
+	public static final int FRONT_RIGHT_TALON_PORT = 10;
+	//public static final int[] DRIVE_MOTOR_PORTS = { FRONT_LEFT_TALON_PORT, BACK_LEFT_TALON_PORT, BACK_RIGHT_TALON_PORT, FRONT_RIGHT_TALON_PORT };
+	public static final int[] DRIVE_MOTOR_PORTS = { 11, 12, 13, 10 };
 
 	public static final int END_LIFT_WHEELS_PORT = 40;
 

@@ -226,7 +226,7 @@ public class Drive implements Updatable
 				{
 					//if(_ds.isOperatorControl())
 					{
-						input = detents(input);
+						//input = detents(input);
 						if(IO.reset_front_side())
 						{
 							fSideAngleDegrees(0.0);
@@ -252,8 +252,8 @@ public class Drive implements Updatable
 				if((IO.get_auto_alignment() || IO.get_auto_placement()) || _alignmentator.pickplace_status() == PICKPLACE_STATE.MANIPULATOR)
 				{
 					if(
-						(IO.get_auto_alignment() && !_alignmentator.get_sensor_good()) || 
-						(IO.get_auto_placement() && _alignmentator.pickplace_status() == PICKPLACE_STATE.DISABLED)
+						(IO.get_auto_alignment() && !_alignmentator.get_sensor_good() && _alignmentator.pickplace_status() == PICKPLACE_STATE.DISABLED) || 
+						((IO.get_auto_placement()) && _alignmentator.pickplace_status() == PICKPLACE_STATE.DISABLED)
 					  )
 					{
 						//nuttin

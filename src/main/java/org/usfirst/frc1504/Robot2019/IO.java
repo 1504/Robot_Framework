@@ -1,9 +1,5 @@
 package org.usfirst.frc1504.Robot2019;
 
-import javax.lang.model.element.ElementKind;
-
-import org.usfirst.frc1504.Robot2019.Elevator.ELEVATOR_MODE;
-
 public class IO
 {
 	private static Latch_Joystick _drive_forward = new Latch_Joystick(Map.DRIVE_CARTESIAN_JOYSTICK);
@@ -70,6 +66,11 @@ public class IO
 	{
 		return (_drive_rotation.getRawButton(Map.LIFT_SEQUENCE_BUTTON) ? 1 : 0) +
 		 (_drive_rotation.getRawButton(Map.LIFT_SEQUENCE_SECOND_BUTTON) ? 2 : 0);
+	}
+
+	public static boolean lift_level_3()
+	{
+		return _drive_rotation.getThrottle() > 0.75;
 	}
 
 	public static double get_intake_speed()

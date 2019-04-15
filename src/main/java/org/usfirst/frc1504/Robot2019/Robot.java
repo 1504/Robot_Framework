@@ -101,8 +101,8 @@ public class Robot extends RobotBase {
 				char edge_track = 0;
 				PowerDistributionPanel pdp = new PowerDistributionPanel();
 
-				AnalogInput pressure_1 = new AnalogInput(2);
-				AnalogInput pressure_2 = new AnalogInput(3);
+				AnalogInput pressure_1 = new AnalogInput(4);
+				AnalogInput pressure_2 = new AnalogInput(5);
 				//Compressor c = new Compressor(0);
 				
 				/*SmartDashboard.putNumber("Auton Delay", 0.0);
@@ -163,19 +163,20 @@ public class Robot extends RobotBase {
 					
 					//SmartDashboard.putBoolean("Pressure", c.getPressureSwitchValue());
 					//SmartDashboard.putNumber("Pressure", c.getCompressorCurrent());
-					
-					//SmartDashbaord.putNumber("", );
-					
+										
 					
 					/*
 					 * Borrowed from Mike
 					 */	
-					//-edge_track = (char)( ( (edge_track << 1) + (HALUtil.getFPGAButton() ? 1 : 0) ) & 3);
-					//-if(edge_track == 1) // Get image from groundtruth sensors, output it to the DS
-					//-{
-					//-	SmartDashboard.putString("Groundtruth raw image", new String(_arduino.getSensorImage()));
-					//-}
-						Timer.delay(0.02);
+					edge_track = (char)( ( (edge_track << 1) + (HALUtil.getFPGAButton() ? 1 : 0) ) & 3);
+					if(edge_track == 1) // Get image from groundtruth sensors, output it to the DS
+					{
+						//SmartDashboard.putString("Groundtruth raw image", new String(_arduino.getSensorImage()));
+						
+						_arduino.diagnostic(!_arduino.diagnostic());
+					}
+					
+					Timer.delay(0.02);
 				}
 			}
 		});
@@ -195,7 +196,7 @@ public class Robot extends RobotBase {
     protected void disabled() {
         System.out.println("Robot Disabled");
         _arduino.setPartyMode(true);
-        _arduino.setPulseSpeed(1);
+		_arduino.setPulseSpeed(1);
     }
 
     /**
@@ -206,16 +207,11 @@ public class Robot extends RobotBase {
      * Called once each time the robot enters the operator-controlled state.
      */
     public void operatorControl() {
-    	System.out.println("Operator Control");
+		System.out.println("Operator Control");
+		_arduino.diagnostic(false);
+		_arduino.update(true);
     	_arduino.setPulseSpeed(20);
         _arduino.setPartyMode(false);
-        /*if (_ds.getAlliance() == DriverStation.Alliance.Blue)
-        	_arduino.setMainLightsColor(0, 255, 0);
-        else if (_ds.getAlliance() == DriverStation.Alliance.Red)
-        	_arduino.setMainLightsColor(0, 0, 255);
-        else
-        	_arduino.setMainLightsColor(255, 0, 0);
-    	_arduino.setGearLights(GEAR_MODE.INDIVIDUAL_INTENSITY, 0.5, 0.5);*/
     }
 
     /**
@@ -230,7 +226,6 @@ public class Robot extends RobotBase {
 			Elevator.getInstance().set(Elevator.ELEVATOR_MODE.HATCH, 0, true);
 			m_ds.waitForData(.150); // Blocks until we get new data or 150ms elapse
             _semaphore.newData();
-			// ?!?!
     	}
     }
 
@@ -242,16 +237,6 @@ public class Robot extends RobotBase {
      * either the other mode starts or the robot is disabled. Then go back and wait for the robot
      * to be enabled again.
      */
-	
-    @Override
-    //public void teleopPeriodic() {
-	//	Scheduler.getInstance().run();
-	//	if (isOperatorControl() && !isDisabled()) {
-	//		m_ds.waitForData(150); // Blocks until we get new data or 150ms elapse
-	//		_semaphore.newData();
-	//		//Timer.delay(0.01);
-	//	}
-    //}
 
     public void startCompetition() {
         //HAL.report(tResourceType.kResourceType_Framework,tInstances.kFramework_Simple);

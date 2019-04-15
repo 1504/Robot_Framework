@@ -1,5 +1,6 @@
 package org.usfirst.frc1504.Robot2019;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -13,7 +14,7 @@ public class Arduino
 	
 	private Arduino()
 	{
-		_lights = new Lights_Thread();
+		_lights = new Lights_Thread(this);
 		_task_thread = new Thread(_lights, "1504_Arduino Lights Task Thread");
 		_task_thread.start();
 
@@ -33,13 +34,16 @@ public class Arduino
 
 	private class Lights_Thread implements Runnable
 	{
-		private int[][] _arm_colors = {{255,115,0}, {255,255,0}, {255,105,180}, {255,0,255}, {64,224,208}};
+		private int[][] _arm_colors = {{255,180,0}, {255,80,0}, {255,90,120}, {255,0,255}, {64,224,208}};
 		private int[][] _post_colors = {{103,255,0}, {255,15,2}, {255,0,230}, {160,255,141}};
 
-		private Arduino _arduino;
-		private Hatch _hatch;
-		private Elevator _elevator;
-		private Drive _drive;
+		private Arduino _arduino;// = Arduino.getInstance();
+		private Hatch _hatch;// = Hatch.getInstance();
+		private Elevator _elevator;// = Elevator.getInstance();
+		private Drive _drive;// = Drive.getInstance();
+		private Digit_Board _digit;
+		private DigitBoard _board;
+		private Lift _lift;
 
 		private Hatch.HATCH_STATE _last_hatch = null;
 		private Elevator.ELEVATOR_MODE _last_elevator_mode = null;
@@ -47,21 +51,145 @@ public class Arduino
 		private boolean _last_elevator_moving;
 		private boolean _last_drive;
 
-		Lights_Thread()
+		private boolean _update = true;
+		private boolean _diagnostic = false;
+		private boolean _initialize = true;
+
+		Lights_Thread(Arduino arduino)
 		{
-			_arduino = Arduino.getInstance();
-			_hatch = Hatch.getInstance();
-			_elevator = Elevator.getInstance();
-			_drive = Drive.getInstance();
+			_arduino = arduino;
+		}
+
+		public void update(boolean update)
+		{
+			_update = update;
+		}
+
+		public boolean update()
+		{
+			return _update;
+		}
+
+		public void diagnostic(boolean diagnostic)
+		{
+			_diagnostic = diagnostic;
+		}
+
+		public boolean diagnostic()
+		{
+			return _diagnostic;
 		}
 		
+		private void run_diagnostic()
+		{
+			_arduino.setPartyMode(false);
+			_arduino.setArmLightsState(false);
+			_arduino.setPostLightsState(false);
+
+			int R, G, B;
+			R = G = B = 0;
+
+			boolean flash = _board.getPotentiometer() < .5;
+
+			while(_diagnostic)
+			{
+				if(flash)
+				{
+					_arduino.setArmLightsColor(255, 0, 0);
+					_arduino.setPostLightsColor(255, 0, 0);
+					Timer.delay(1.0);
+					_arduino.setArmLightsColor(0, 255, 0);
+					_arduino.setPostLightsColor(0, 255, 0);
+					Timer.delay(1.0);
+					_arduino.setArmLightsColor(0, 0, 255);
+					_arduino.setPostLightsColor(0, 0, 255);
+					Timer.delay(1.0);
+				}
+				else
+				{
+					_digit.stop();
+					if(_board.getA())
+					{
+						G = (int)(_board.getPotentiometer() * 255);
+						_digit.write("G" + (G >= 100 ? "" : " ") + (G >= 10 ? "" : " ") + G);
+					}
+					else if(_board.getB())
+					{
+						B = (int)(_board.getPotentiometer() * 255);
+						_digit.write("B" + (B >= 100 ? "" : " ") + (B >= 10 ? "" : " ") + B);
+					}
+					else
+					{
+						R = (int)(_board.getPotentiometer() * 255);
+						_digit.write("R" + (R >= 100 ? "" : " ") + (R >= 10 ? "" : " ") + R);
+					}
+					//int R = (int)((IO.drive_input()[0] + 1.0) * 127);
+					//int G = (int)((IO.drive_input()[1] + 1.0) * 127);
+					//int B = (int)((IO.drive_input()[2] + 1.0) * 127);
+					_arduino.setArmLightsColor(R, G, B);
+					_arduino.setPostLightsColor(R, G, B);
+					System.out.println("(" + R + ", " + G + ", " + B + ")");
+					Timer.delay(.2);
+				}
+			}
+			_initialize = true;
+			_digit.start();
+		}
+
+		private void lift_sequence()
+		{
+			_arduino.setPartyMode(false);
+			_arduino.setArmLightsState(false);
+			_arduino.setPostLightsState(false);
+
+			int R = DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Red ? 255 : 0;
+			int B = (R == 255) ? 0 : 255;
+			_arduino.setArmLightsColor(R, 0, B);
+			_arduino.setPostLightsColor(R, 0, B);
+
+			while(_lift.getState() != Lift.LIFT_STATE.RETRACT)
+			{
+				_arduino.setArmLightsState(_lift.get_moving());
+				_arduino.setPostLightsState(_lift.get_moving());
+				Timer.delay(.1);
+			}
+
+			_arduino.setPartyMode(true);
+
+			_initialize = true;
+		}
+
 		public void run()
 		{
+			while(_hatch == null || _elevator == null || _drive == null || _digit == null || _board == null || _lift == null)
+			{
+				_hatch = Hatch.getInstance();
+				_elevator = Elevator.getInstance();
+				_drive = Drive.getInstance();
+				_digit = Digit_Board.getInstance();
+				_board = DigitBoard.getInstance();
+				_lift = Lift.getInstance();
+				Timer.delay(.08);
+			}
+
 			System.out.println("Lights task thread initialized");
+
 			while(true)
 			{
+				if(!_update)
+				{
+					Timer.delay(.3);
+					continue;
+				}
+
+				if(_diagnostic)
+					run_diagnostic();
+
+				if(_lift.getState() != Lift.LIFT_STATE.RETRACT)
+					lift_sequence();
+				
 				// Set post color
-				if(_hatch.getState() != _last_hatch || _last_elevator_mode != _elevator.getMode())
+				if(_hatch.getState() != _last_hatch || _last_elevator_mode != _elevator.getMode() || _initialize)
 				{
 					if(_elevator.getMode() == Elevator.ELEVATOR_MODE.CARGO)
 						_arduino.setPostLightsColor(_post_colors[3][0], _post_colors[3][1], _post_colors[3][2]);
@@ -73,18 +201,18 @@ public class Arduino
 				}
 
 				// Set arm color
-				if(_last_elevator_setpoint != _elevator.getSetpoint())
+				if(_last_elevator_setpoint != _elevator.getSetpoint() || _initialize)
 				{
 					int mode = _elevator.getSetpoint();
 					_arduino.setArmLightsColor(_arm_colors[mode][0] , _arm_colors[mode][1], _arm_colors[mode][2]);
 				}
 
 				// Blink if arms are in motion
-				if(_last_elevator_moving != _elevator.getMoving())
-					_arduino.setArmLightsState(!_elevator.getMoving());
+				if(_last_elevator_moving != _elevator.getMoving() || _initialize)
+					_arduino.setArmLightsState(_elevator.getMoving());
 
 				// Blink if we're auto-aligning
-				if(_last_drive != _drive.line_tracking())
+				if(_last_drive != _drive.line_tracking() || _initialize)
 					_arduino.setPostLightsState(_drive.line_tracking());
 
 				_last_hatch = _hatch.getState();
@@ -92,6 +220,7 @@ public class Arduino
 				_last_elevator_setpoint = _elevator.getSetpoint();
 				_last_elevator_moving = _elevator.getMoving();
 				_last_drive = _drive.line_tracking();
+				_initialize = false;
 
 				Timer.delay(.02);
 			}
@@ -153,6 +282,34 @@ public class Arduino
 	}
 
 /**
+ * Sets the automatic update state
+ * @param update: automatic update of lights
+ */
+	public void update(boolean update)
+	{
+		_lights.update(update);
+	}
+
+	public boolean update()
+	{
+		return _lights.update();
+	}
+
+/**
+ * Puts lights into or out of diagnostic mode
+ * @param update: automatic update of lights
+ */
+	public void diagnostic(boolean diagnostic)
+	{
+		_lights.diagnostic(diagnostic);
+	}
+
+	public boolean diagnostic()
+	{
+		return _lights.diagnostic();
+	}
+
+/**
  * Sets the color of the arm lights
  * @param R: integer from 0-255 indicating amount of red in the color
  * @param G: integer from 0-255 indicating amount of green in the color
@@ -163,9 +320,9 @@ public class Arduino
 		byte[] data = new byte[4];
 		
 		data[0] = Map.ARM_LIGHTS_ADDRESS;
-		data[1] = (byte) R;
-		data[2] = (byte) G;
-		data[3] = (byte) B;
+		data[3] = (byte) R;
+		data[1] = (byte) G;
+		data[2] = (byte) B;
 		
 		_bus.writeBulk(data);
 	}
@@ -181,8 +338,8 @@ public class Arduino
 		byte[] data = new byte[4];
 		
 		data[0] = Map.POST_LIGHTS_ADDRESS;
-		data[1] = (byte) R;
-		data[2] = (byte) G;
+		data[2] = (byte) R;
+		data[1] = (byte) G;
 		data[3] = (byte) B;
 		
 		_bus.writeBulk(data);

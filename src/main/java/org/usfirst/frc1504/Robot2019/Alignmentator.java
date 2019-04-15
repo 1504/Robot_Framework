@@ -223,7 +223,7 @@ public class Alignmentator
 
 		if(_state == ALIGNMENTATOR_STATUS.PLACEMENT_TRACKING) // prioritize forward motion w/ minimal side jitter when placing
 		{
-			moves[0] *= 2.0;
+			moves[0] *= 1.4;
 			moves[1] *= 0.8;
 			moves[2] *= 0.7;
 		}
