@@ -178,7 +178,7 @@ public class Map {
 	public static final int BACK_RIGHT_TALON_PORT = 13;
 	public static final int FRONT_RIGHT_TALON_PORT = 10;
 	//public static final int[] DRIVE_MOTOR_PORTS = { FRONT_LEFT_TALON_PORT, BACK_LEFT_TALON_PORT, BACK_RIGHT_TALON_PORT, FRONT_RIGHT_TALON_PORT };
-	public static final int[] DRIVE_MOTOR_PORTS = { 11, 12, 13, 10 };
+	public static final int[] DRIVE_MOTOR_PORTS = { 10, 11, 12, 13 };
 
 	public static final int END_LIFT_WHEELS_PORT = 40;
 
@@ -193,7 +193,7 @@ public class Map {
 			DRIVE_RIGHT_TOP };
 
 	// Drive Input magic numbers
-	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { -1.0, 1.0, -0.6 };
+	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { -1.0, -1.0, -0.6 };
 	public static final double DRIVE_INPUT_TURN_FACTOR = 0.2;
 
 	public static final double DRIVE_INPUT_VISION_SPEED = 0.75;

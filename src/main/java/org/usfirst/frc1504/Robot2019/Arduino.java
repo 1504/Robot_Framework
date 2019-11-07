@@ -212,14 +212,12 @@ public class Arduino
 					_arduino.setArmLightsState(_elevator.getMoving());
 
 				// Blink if we're auto-aligning
-				if(_last_drive != _drive.line_tracking() || _initialize)
-					_arduino.setPostLightsState(_drive.line_tracking());
+				
 
 				_last_hatch = _hatch.getState();
 				_last_elevator_mode = _elevator.getMode();
 				_last_elevator_setpoint = _elevator.getSetpoint();
 				_last_elevator_moving = _elevator.getMoving();
-				_last_drive = _drive.line_tracking();
 				_initialize = false;
 
 				Timer.delay(.02);

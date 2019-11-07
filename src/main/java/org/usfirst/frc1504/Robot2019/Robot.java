@@ -223,7 +223,7 @@ public class Robot extends RobotBase {
 
     	while (isTest() && isEnabled())
     	{
-			Elevator.getInstance().set(Elevator.ELEVATOR_MODE.HATCH, 0, true);
+			Drive.getInstance().drive_inputs(0.6, 0, 0);
 			m_ds.waitForData(.150); // Blocks until we get new data or 150ms elapse
             _semaphore.newData();
     	}

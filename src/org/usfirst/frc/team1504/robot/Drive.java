@@ -1,5 +1,6 @@
-package org.usfirst.frc1504.Robot2019;
-//import java.util.ArrayList;
+package org.usfirst.frc.team1504.robot;
+import com.analog.adis16448.frc.ADIS16448_IMU;
+import java.util.ArrayList;
 
 import java.nio.ByteBuffer;
 import java.util.TimerTask;
@@ -7,21 +8,23 @@ import java.util.Timer;
 
 import java.lang.Math;
 
-import org.usfirst.frc1504.Robot2019.Update_Semaphore.Updatable;
+
+import org.usfirst.frc.team1504.robot.Update_Semaphore.Updatable;
+import org.usfirst.frc.team1504.utils.LinearRegression;
 
 //import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
-
-//import com.ctre.phoenix.motorcontrol.NeutralMode;
-//import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 //import edu.wpi.first.wpilibj.Timer;
-//import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.interfaces.*;
 
-//import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.AnalogInput;
 public class Drive implements Updatable
 {
+	private BuiltInAccelerometer accel = new BuiltInAccelerometer(Accelerometer.Range.k8G);
 	private static class DTask implements Runnable
 	{
 		private Drive _d;
@@ -36,8 +39,9 @@ public class Drive implements Updatable
 			_d.mainTask();
 		}
 	}
-	boolean tst1, tst2, tst3, tst4, tst5, tst6 = false;
+	
 	private static final Drive instance = new Drive();
+	 public static final ADIS16448_IMU imu = new ADIS16448_IMU();
 	 
 	private Thread _main_thread;
 	
@@ -46,23 +50,20 @@ public class Drive implements Updatable
 	private boolean _dump = false;
 	
 	private volatile boolean _thread_alive = true;
-	private volatile boolean _initialized = false;
 	
-	private TimerTask _osc = new TimerTask() {
-		public void run() {
-		}
-	};
+	private char _dir = 0;
+	private TimerTask _osc = new TimerTask(){public void run() { _dir++;}};
 	private Timer _timer = new Timer();
-
-	private double[] _orbit_magic_numbers = new double[6];
 	
+	private ArrayList<Integer> autonDistances = new ArrayList<Integer>();
+	private ArrayList<Long> autonTimes = new ArrayList<Long>();
 	/**
 	 * gets the instance of the drive.
 	 * @return the drive
 	 */
 	public static Drive getInstance()
 	{
-		return Drive.instance; 
+		return Drive.instance;
 	}
 	public static void initialize()
 	{
@@ -105,7 +106,7 @@ public class Drive implements Updatable
 		_timer.schedule(_osc,  0, 250);
 		
 		System.out.println("Drive is here to kick ass and chew bubblegum, but doesn't want to muck up the transmission with bubble gum.");
-		_initialized = true;
+		
 	}
 	public void release()
 	{
@@ -114,6 +115,8 @@ public class Drive implements Updatable
 	
 	private DriverStation _ds = DriverStation.getInstance();
 	private Logger _log = Logger.getInstance();
+	private DriveGlide _glide = new DriveGlide();
+	private Groundtruth _groundtruth = Groundtruth.getInstance();
 	//private CameraInterface _camera = CameraInterface.getInstance();
 	
 	private volatile boolean _new_data = false;
@@ -121,11 +124,10 @@ public class Drive implements Updatable
 	
 	private volatile double[] _input = {0.0, 0.0, 0.0};
 	private volatile double _rot_offset = 0.0;
-	private volatile double[] _orbit_point = {0.0, 0.8}; //-1.15}; //{0.0, 1.15};
+	private volatile double[] _orbit_point = {0.0, -1.15}; //{0.0, 1.15};
 
-	//private WPI_TalonSRX[] _motors = new WPI_TalonSRX[Map.DRIVE_MOTOR_PORTS.length];
 	private WPI_TalonSRX[] _motors = new WPI_TalonSRX[Map.DRIVE_MOTOR_PORTS.length];
-	//public static AnalogInput sanic = new AnalogInput(3);
+	public static AnalogInput sanic = new AnalogInput(3);
 
 	/**
 	 * set up motors
@@ -134,13 +136,8 @@ public class Drive implements Updatable
 	{
 		for(int i = 0; i < Map.DRIVE_MOTOR_PORTS.length; i++)
 		{
-			//_motors[i] = new WPI_TalonSRX(Map.DRIVE_MOTOR_PORTS[i]);
-			//_motors[i].setNeutralMode(NeutralMode.Brake);
-
 			_motors[i] = new WPI_TalonSRX(Map.DRIVE_MOTOR_PORTS[i]);
-		}
-
-		set_orbit_point(_orbit_point);
+		}		
 	}
 	
 	/**
@@ -148,14 +145,17 @@ public class Drive implements Updatable
 	 */
 	public void semaphore_update()
 	{
-		if(!_initialized)
-			return;
-		
-		if(_ds.isEnabled())
+		if(!_ds.isAutonomous())
 		{
-			drive_inputs(IO.drive_input());
+			if(IO.drive_wiggle() != 0.0 && !IO.get_auto_alignment())
+			{
+				drive_inputs(new double[] { 0.25 * (((_dir & 1) == 0) ? 1.0 : -1.0) , 0.31 * IO.drive_wiggle()});
+			}
+			else
+			{
+				drive_inputs(IO.drive_input());
+			}
 		}
-		update_dash();
 	}
 	
 	/**
@@ -185,7 +185,7 @@ public class Drive implements Updatable
 		}
 		
 		// So we stay off the CAN bus as much as possible here
-		//update_dash(new byte[] {output[1], output[4], output[7], output[10]});
+		update_dash(new byte[] {output[1], output[4], output[7], output[10]});
 	}
 	
 	/**
@@ -193,8 +193,8 @@ public class Drive implements Updatable
 	 */
 	private void mainTask()
 	{
-		double[] input = new double[4];
-		double[] output = new double[4];
+		double[] input;
+		double[] output;
 		while(_thread_alive)
 		{
 			input = _input;
@@ -203,6 +203,7 @@ public class Drive implements Updatable
 				System.out.print("WARNING: Input out of sync in mainTask function: ");
 				for(int i = 0; i < input.length; i++){
 					System.out.print(input[i] + " ");
+					
 				}
 				System.out.print("\n");
 				input = new double[3];
@@ -212,30 +213,40 @@ public class Drive implements Updatable
 			{
 				if (_new_data)
 				{
-					//if(_ds.isOperatorControl())
+					if(_ds.isOperatorControl())
 					{
 						//input = detents(input);
-						/*if(IO.reset_front_side())
+						if(IO.reset_front_side())
 						{
 							fSideAngleDegrees(0.0);
 						}
-						input = frontside(input);*/
-						//if (!IO.get_drive_op_toggle())
+						input = frontside(input);
+						if (!IO.get_drive_op_toggle())
 						{
 							input = orbit_point(input);
 						}
-					// input = _glide.gain_adjust(input);
+//						input = _glide.gain_adjust(input);
 					}
 					_new_data = false;
 					_dump = true;
 					_input = input;
 				}
-				//double driveinputsblah[] = {0.5,0.0,0.0};
-				//input = driveinputsblah;
+				if(IO.get_auto_alignment())
+				{
+					auto_alignment();
+				}
+				
 				//_groundtruth.getData();
 				//input = groundtruth_correction(input);
-				//input = accelerometer_correction(input);
-
+				input = accelerometer_correction(input);
+				//if(IO.gear_input())
+					//input = _gear.setDriveInput();
+				//if(IO.camera_shooter_input())
+					//input = _camera.set_drive_input(); 
+				
+				output = outputCompute(input);
+//				System.out.println("output computed, input: " + input[0] + " " + input[1] + " " + input[2] + "|||| output: " + output[0] + " " + output[1] + " " + output[2] + " " + output[3]);
+				motorOutput(output);
 				
 				_loops_since_last_dump++;
 				
@@ -245,23 +256,22 @@ public class Drive implements Updatable
 					{
 						//_dumplock.notifyAll();
 					}
-				// _dump = false;
+//					_dump = false;
 				}
-				output = outputCompute(input);
-				motorOutput(output);
 			}
-			else //when disabled:
+			//when disabled:
+			else
 			{
-				//update_dash();
+				update_dash();
 				try
 				{
 					Thread.sleep(25);
 				} catch (InterruptedException e)
 				{
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			update_dash();
 		}
 	}
 	
@@ -297,8 +307,6 @@ public class Drive implements Updatable
 	}
 	private double[] frontside(double[] input)
 	{
-		if(_rot_offset == 0.0)
-			return input;
 		if(input.length < 2)
 		{
 			System.out.println("MASSIVE WARNING");
@@ -321,7 +329,6 @@ public class Drive implements Updatable
 	 */
 	private double[] orbit_point(double[] input)
 	{
-		/*
 		double x = _orbit_point[0];
 		double y = _orbit_point[1];
 		
@@ -330,11 +337,6 @@ public class Drive implements Updatable
 		double p = Math.sqrt((k[0] * k[0] + k[2] * k[2]) / 2) * Math.cos((Math.PI / 4) + Math.atan2(k[0], k[2]));
 		double r = Math.sqrt((k[1] * k[1] + k[2] * k[2]) / 2) * Math.cos(-(Math.PI / 4) + Math.atan2(k[1], k[2]));
 		double q = -Math.sqrt((k[1] * k[1] + k[3] * k[3]) / 2) * Math.cos((Math.PI / 4) + Math.atan2(k[1], k[3]));
-		*/
-
-		double p = _orbit_magic_numbers[3];
-		double r = _orbit_magic_numbers[4];
-		double q = _orbit_magic_numbers[5];
 
 		double[] corrected = new double[3];
 		corrected[0] = (input[2] * r + (input[0] - input[2]) * q + input[0] * p) / (q + p);
@@ -345,35 +347,62 @@ public class Drive implements Updatable
 	public void set_orbit_point(double[] orbit_point)
 	{
 		_orbit_point = orbit_point;
-
-		double x = _orbit_point[0];
-		double y = _orbit_point[1] * -1.0;
-		
-		double[] k = { y - 1, y + 1, 1 - x, -1 - x };
-
-		double p = Math.sqrt((k[0] * k[0] + k[2] * k[2]) / 2) * Math.cos((Math.PI / 4) + Math.atan2(k[0], k[2]));
-		double r = Math.sqrt((k[1] * k[1] + k[2] * k[2]) / 2) * Math.cos(-(Math.PI / 4) + Math.atan2(k[1], k[2]));
-		double q = -Math.sqrt((k[1] * k[1] + k[3] * k[3]) / 2) * Math.cos((Math.PI / 4) + Math.atan2(k[1], k[3]));
-
-		_orbit_magic_numbers[0] = k[0];
-		_orbit_magic_numbers[1] = k[1];
-		_orbit_magic_numbers[2] = k[2];
-		_orbit_magic_numbers[3] = p;
-		_orbit_magic_numbers[4] = r;
-		_orbit_magic_numbers[5] = q;
 	}
 		
 	/**
 	 * Detented controller correction methods, and helper methods.
 	 */
-	
-	
+	private double[] detents(double[] input)
+	{
+		double y = input[0];
+		double x = input[1];
+		double w = input[2];
+		
+		double angle = Math.atan2(input[0], input[1]);
+		
+		double dx = fix_x(angle) * Utils.distance(y, x) * 0.25;
+		double dy = fix_y(angle) * Utils.distance(y, x);
+		
+		double[] fixed = new double[3];
+		
+		fixed[0] = y + dy;
+		fixed[1] = x + dx;
+		fixed[2] = w;
+		
+		return fixed;
+	}
+	private double fix_x(double theta) {
+		return -Math.sin(theta) * (-Math.sin(8 * theta) - 0.25 * Math.sin(4 * theta));
+	}
+	private double fix_y(double theta) {
+		return Math.cos(theta) * (-Math.sin(8 * theta) - 0.25 * Math.sin(4 * theta));
+	}
 
 	/**
 	 * Corrections based off of two onboard ADNS-2620 mouse sensors.
 	 */
-	
-	/*-private double[] accelerometer_correction(double[] input)
+	private double[] groundtruth_correction(double[] input)
+	{
+		if(!_groundtruth.getDataGood())
+			return input;
+		
+		double[] normal_input = input;
+		double[] output = input;
+		double[] speeds = _groundtruth.getSpeed();
+		
+		// Normalize the inputs and actual speeds
+		if(groundtruth_normalize(speeds) == 0)
+			return input;
+		groundtruth_normalize(normal_input);
+		
+		// Apply P(ID) correction factor to the joystick values
+		// TODO: Determine gain constant and add to the Map
+		for(int i = 0; i < input.length; i++)
+			output[i] += (normal_input[i] - speeds[i]) * -0.01;
+		
+		return output;
+	}
+	private double[] accelerometer_correction(double[] input)
 	{
 		if (Math.abs(input[2]) < 0.001){
 			//correct for amount off
@@ -389,12 +418,64 @@ public class Drive implements Updatable
 			imu.reset();
 		}
 		return input;
-	}*/
+	}
 
 	double initialSpike = 0.0;
 	double highestTravelingSpike = 0.0;
 	double accelSign = -1.0;
-	
+	public double[] roborio_crash_bandicoot_check(double[] input, long time, int type) {//uses roborio built in accelerometer
+		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
+		double robot_accel = 0;
+		if(type == 1)
+		{
+			accelSign = Math.signum((accel.getX()*accel.getX()));
+			robot_accel = (accel.getX()*accel.getX());
+		}
+		else if(type == 2)
+		{
+			accelSign = Math.signum((accel.getZ()*accel.getZ()));
+			robot_accel = (accel.getZ()*accel.getZ());
+		}
+		else
+		{
+			accelSign = Math.signum((accel.getX()*accel.getX()+accel.getZ()*accel.getZ()));
+			robot_accel = Math.pow((Math.pow(accel.getX()*accel.getX()+accel.getZ()*accel.getZ(),2)),0.5);
+		}
+		double spikeSign = Math.signum(initialSpike);
+		SmartDashboard.putNumber("Crash Detection Initial Spike", initialSpike);
+		SmartDashboard.putNumber("Last Accel", robot_accel);
+		//System.out.println("Initial Spike: " +  + " RobotAccel: " + robot_accel + " highestTravelingSpike: " + highestTravelingSpike);
+		if(time > Map.DETECTION_DELAY)
+		{
+			if(robot_accel > Math.pow(Math.pow(initialSpike,2),0.5))
+			{
+				highestTravelingSpike = robot_accel*accelSign;
+			}
+			if(spikeSign > 0)
+			{
+				if(robot_accel*accelSign > Map.CRASH_DETECTION_THRESHOLD_MULTIPLIER*initialSpike)
+				{
+					System.out.println("Null returned");
+					spike_reset();
+					return null_response;
+				}
+			}
+			else if (spikeSign < 0)
+			{
+				if(robot_accel*accelSign < Map.CRASH_DETECTION_THRESHOLD_MULTIPLIER*initialSpike)
+				{
+					System.out.println("Null returned");
+					spike_reset();
+					return null_response;
+				}
+			}
+		}
+		else if(robot_accel > Math.pow(Math.pow(initialSpike,2),0.5))
+		{
+			initialSpike = robot_accel*accelSign;
+		}
+		return input;
+	}
 	/*public double[] roborio_crash_bandicoot_check(double[] input, long time, int mode) {
 		double[] null_response = {0.0, 0.0, 0.0, 0, 0};
 		autonDistances.add(sanic_value());
@@ -425,8 +506,55 @@ public class Drive implements Updatable
 		return input;
 	} //simple crash detection, no lin reg
 	 */
+	public void spike_reset() {
+		initialSpike = 0.0;
+		highestTravelingSpike = 0.0;
+	}
+	public int sanic_value() {
+			return sanic.getAverageValue();
+	}
 	
-		
+	DigitalInput sensor1 = new DigitalInput(Map.sensor1);
+	DigitalInput sensor2 = new DigitalInput(Map.sensor2);
+	DigitalInput sensor3 = new DigitalInput(Map.sensor3);
+	DigitalInput sensor4 = new DigitalInput(Map.sensor4);
+	DigitalInput sensor5 = new DigitalInput(Map.sensor5);
+	DigitalInput sensor6 = new DigitalInput(Map.sensor6);
+	
+	public void auto_alignment() {
+		/*Code to correct course of robot once vision tape is contacted (by two sensors)
+		 * The code stops the moment the trigger is released, so the driver can switch back to manual if they need to
+		*/
+		while(IO.get_auto_alignment()) //checks trigger
+		{
+			if(sensor2.get()){
+				if(sensor5.get())
+			  		drive_inputs(Map.FORWARD);
+			  	else if(sensor4.get())
+			  		drive_inputs(Map.FORWARD_COUNTERCLOCK);
+			  	else if(sensor6.get())
+			  		drive_inputs(Map.FORWARD_CLOCKWISE);
+			  	else 
+			  		drive_inputs(Map.FORWARD);
+			}
+			else if(sensor1.get()){
+			  	if(sensor4.get())
+			  		drive_inputs(Map.FORWARD_LEFT);
+			  	else if(sensor5.get() || sensor6.get())
+			  		drive_inputs(Map.FORWARD_CLOCKWISE);
+			  	else
+			  		drive_inputs(Map.FORWARD);
+			}
+			else if(sensor3.get()){
+			  	if(sensor6.get())
+			  		drive_inputs(Map.FORWARD_RIGHT);
+			  	else if(sensor1.get() || sensor4.get())
+			  		drive_inputs(Map.FORWARD_COUNTERCLOCK);
+			  	else
+			  		drive_inputs(Map.FORWARD);
+			}
+		}
+	}
 	
 	/**
 	 * Normalization function for arrays to normalize full scale to +- 1 <br>
@@ -434,7 +562,21 @@ public class Drive implements Updatable
 	 * @param input - The array to normalize
 	 * @return Maximum value in the array
 	 */
-	
+	private double groundtruth_normalize(double[] input)
+	{
+		double max = 0;
+		for(int i = 0; i < input.length; i++)
+			max = Math.max(Math.abs(input[1]), max);
+		
+		if(max == 0)
+			return 0;
+		
+		max = max == 0 ? 1 : max;
+		for(int i = 0; i < input.length; i++)
+			input[i] /= max;
+		
+		return max;
+	} 
 
 
 	/**
@@ -452,8 +594,6 @@ public class Drive implements Updatable
 		
 		return output; 
 	}
-
-	
 	
 	/**
 	 * Sends the output array to the four drive motors.
@@ -471,21 +611,39 @@ public class Drive implements Updatable
 	 */
 	private void update_dash()
 	{
-		//byte[] currents = new byte[Map.DRIVE_MOTOR.values().length];
-		//for(int i = 0; i < Map.DRIVE_MOTOR.values().length; i++)
-		//	currents[i] = (byte) _motors[i].getOutputCurrent();
-		//update_dash(currents);
-
-		/*double[] computed = computed_inputs();
-		SmartDashboard.putNumber("Drive Computed FWD", computed[0]);
-		SmartDashboard.putNumber("Drive Computed RGT", computed[1]);
-		SmartDashboard.putNumber("Drive Computed CCW", computed[2]);
-		SmartDashboard.putNumber("Drive Error FWD", _input[0] - computed[0]);
-		SmartDashboard.putNumber("Drive Error RGT", _input[1] - computed[1]);
-		SmartDashboard.putNumber("Drive Error CCW", _input[2] - computed[2]);*/
+		byte[] currents = new byte[Map.DRIVE_MOTOR.values().length];
+		for(int i = 0; i < Map.DRIVE_MOTOR.values().length; i++)
+			currents[i] = (byte) _motors[i].getOutputCurrent();
+		update_dash(currents);
 	}	
+	private void update_dash(byte[] currents)
+	{
+		SmartDashboard.putNumber("Drive input forward", _input[0]);
+		SmartDashboard.putNumber("Drive input right", _input[1]);
+		SmartDashboard.putNumber("Drive input anticlockwise", _input[2]);
+		
+		SmartDashboard.putNumber("Drive rotation offset", _rot_offset);
+		
+		SmartDashboard.putNumber("Drive FL current", currents[0]);
+		SmartDashboard.putNumber("Drive BL current", currents[1]);
+		SmartDashboard.putNumber("Drive BR current", currents[2]);
+		SmartDashboard.putNumber("Drive FR current", currents[3]);
+		SmartDashboard.putNumber("Distance (ft)", sanic_value());
+	}
 	
-
-	
+	public double[] follow_angle(double angle, double speed)
+	{
+		
+        double angle_a = Math.toRadians(angle);
+        double speed_a = speed;
+        
+        double forward_speed = speed_a * Math.cos(angle_a);
+        double tracking_direction = speed_a * Math.sin(angle_a);
+        
+        double[] speeds = new double[] {forward_speed, tracking_direction};
+        return speeds;
+        //System.out.println("Forward speed: " + forward_speed);
+        //System.out.println("Tracking speed: " + tracking_direction);
+	}
 	
 }
