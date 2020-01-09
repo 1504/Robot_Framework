@@ -16,8 +16,10 @@ import edu.wpi.first.wpilibj.DriverStation;
 //import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
 //import edu.wpi.first.wpilibj.Timer;
 //import edu.wpi.first.wpilibj.DigitalInput;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 //import edu.wpi.first.wpilibj.AnalogInput;
 public class Drive implements Updatable
@@ -124,7 +126,7 @@ public class Drive implements Updatable
 	private volatile double[] _orbit_point = {0.0, 0.8}; //-1.15}; //{0.0, 1.15};
 
 	//private WPI_TalonSRX[] _motors = new WPI_TalonSRX[Map.DRIVE_MOTOR_PORTS.length];
-	private WPI_TalonSRX[] _motors = new WPI_TalonSRX[Map.DRIVE_MOTOR_PORTS.length];
+	private CANSparkMax[] _motors = new CANSparkMax[Map.DRIVE_MOTOR_PORTS.length];
 	//public static AnalogInput sanic = new AnalogInput(3);
 
 	/**
@@ -137,7 +139,7 @@ public class Drive implements Updatable
 			//_motors[i] = new WPI_TalonSRX(Map.DRIVE_MOTOR_PORTS[i]);
 			//_motors[i].setNeutralMode(NeutralMode.Brake);
 
-			_motors[i] = new WPI_TalonSRX(Map.DRIVE_MOTOR_PORTS[i]);
+			_motors[i] = new CANSparkMax(Map.DRIVE_MOTOR_PORTS[i], MotorType.kBrushless);
 		}
 
 		set_orbit_point(_orbit_point);

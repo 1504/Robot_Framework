@@ -7,10 +7,9 @@
     "**/CVS": true,
     "**/.DS_Store": true,
     "bin/": true,
-    ".classpath": true,
-    ".project": true,
-    "**/*~": true
-  },
-  "powermode.enableShake": false,
-  "powermode.explosionDuration": 3000
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
+  }
 }

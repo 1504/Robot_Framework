@@ -286,4 +286,10 @@ public class Robot extends RobotBase {
             }
         } /* while loop */
     }
+
+	@Override
+	public void endCompetition() {
+		// TODO Auto-generated method stub
+		
+	}
 }
