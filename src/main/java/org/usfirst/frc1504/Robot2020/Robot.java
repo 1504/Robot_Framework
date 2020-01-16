@@ -13,6 +13,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends RobotBase {
 
@@ -26,7 +27,8 @@ public class Robot extends RobotBase {
      */
     public Robot() {
     	super();
-    	Drive.initialize();
+        Drive.initialize();
+        Proton_Cannon.initialize();
     	DigitBoard.initialize();
     	Digit_Board.initialize();
 		Arduino.initialize();
@@ -52,6 +54,8 @@ public class Robot extends RobotBase {
 					/*
 					 * Borrowed from Mike
 					 */	
+                    SmartDashboard.putString("Spew Speed", (Proton_Cannon.put_on_speedo()*100) + "%");
+                    SmartDashboard.putString("Spew Spin Speed", (Proton_Cannon.put_on_tspeedo()*100) + "%");
 					edge_track = (char)( ( (edge_track << 1) + (HALUtil.getFPGAButton() ? 1 : 0) ) & 3);
 					if(edge_track == 1) // Get image from groundtruth sensors, output it to the DS
 					{

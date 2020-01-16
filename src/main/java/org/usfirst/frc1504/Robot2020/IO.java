@@ -44,36 +44,39 @@ public class IO
 	{
 		return _secondary.getPOV();
 	}
-	public static boolean hid_up()
+	public static boolean hid_N()
 	{
 		if(hid() == 0)
-		{
 			return true;
-		}
 		else 
 			return false;
 	}
-	public static boolean hid_home()
+	public static boolean hid_E()
 	{
-		if(hid() == 90 || hid() == 270)
-		{
+		if(hid() == 90)
 			return true;
-		}
 		else 
 			return false;
 	}
-	public static boolean hid_down()
+	public static boolean hid_S()
 	{
 		if(hid() == 180)
-		{
 			return true;
-		}
 		else 
 			return false;
 	}
+	public static boolean hid_W()
+	{
+		if(hid() == 270)
+			return true;
+		else
+			return false;
+	}
 
-
-
+	public static boolean get_enabler()
+	{
+		return _secondary.getRawButton(Map.ENABLER);
+	}
 
 
 	/**

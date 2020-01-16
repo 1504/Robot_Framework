@@ -67,6 +67,10 @@ public class Map {
 	//public static final int[] DRIVE_MOTOR_PORTS = { FRONT_LEFT_TALON_PORT, BACK_LEFT_TALON_PORT, BACK_RIGHT_TALON_PORT, FRONT_RIGHT_TALON_PORT };
 	public static final int[] DRIVE_MOTOR_PORTS = { 10, 11, 12, 13 };
 
+    //Mechanism Motor Ports
+    public static final int PROTON_CANNON_TOP = 20;
+		public static final int PROTON_CANNON_BOTTOM = 21;
+
     // Drive disable orbit point buttons
 	public static final int DRIVE_LEFT_BOTTOM = 7;
 	public static final int DRIVE_LEFT_TOP = 6;
@@ -100,7 +104,7 @@ public class Map {
 
     public static final int OVERRIDE_BUTTON = 5;
     public static final int MASTER_OVERRIDE = 6; // RT1 -- RB
-
+    public static final int ENABLER = 8;
 	public static final int LIFT_SEQUENCE_BUTTON = 10;
 	public static final int LIFT_SEQUENCE_SECOND_BUTTON = 11;
 
