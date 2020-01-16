@@ -36,7 +36,7 @@ public class Lightsaber implements Updatable
         _lightsaber_bottom = new CANSparkMax(Map.LIGHTSABER_BOTTOM, MotorType.kBrushless);
 
         Update_Semaphore.getInstance().register(this);
-        System.out.println("Lightsaber is generating plasma");
+        System.out.println("Lightsaber is on");
     }
 
     private void update()
