@@ -2,10 +2,6 @@ package org.usfirst.frc1504.Robot2020;
 
 import org.usfirst.frc1504.Robot2020.Update_Semaphore.Updatable;
 import edu.wpi.first.wpilibj.DriverStation;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import edu.wpi.first.wpilibj.Servo;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
