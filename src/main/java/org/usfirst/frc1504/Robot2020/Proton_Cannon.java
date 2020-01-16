@@ -47,18 +47,11 @@ public class Proton_Cannon implements Updatable
         _bottom_shoot = new CANSparkMax(Map.PROTON_CANNON_BOTTOM, MotorType.kBrushless);
         
         Update_Semaphore.getInstance().register(this);
-        System.out.println("Wheels initialized");
+        System.out.println("Proton Cannon charged");
     }
 
     private void update()
     {
-        if(IO.hid_E())
-        {
-            speedo = speedo + 0.005;
-        } else if(IO.hid_W())
-        {
-            speedo = speedo - 0.005;
-        }
         if(IO.hid_N())
         {
             tspeedo = tspeedo + 0.005;
@@ -66,6 +59,8 @@ public class Proton_Cannon implements Updatable
         {
             tspeedo = tspeedo - 0.005;
         }
+
+        speedo = IO.get_proton_speed();
 
 		if(speedo > max_speed)
 		{
@@ -75,10 +70,10 @@ public class Proton_Cannon implements Updatable
 			speedo = 0;
 		}
         
-        if(IO.get_enabler())
+        if(IO.get_proton_speed() > 0)
         {
             _top_shoot.set(-speedo - tspeedo);
-            _bottom_shoot.set(speedo);
+            _bottom_shoot.set(speedo - tspeedo);
         } else {
             _top_shoot.set(0);
             _bottom_shoot.set(0);

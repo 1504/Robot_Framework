@@ -14,10 +14,7 @@ public class IO
 
 	public static final long ROBOT_START_TIME = System.currentTimeMillis();
 	
-	public static boolean override()
-	{
-		return _secondary.getRawButton(Map.OVERRIDE_BUTTON);
-	}
+	
 
 	/**
 	 * Drive stuff
@@ -32,10 +29,7 @@ public class IO
 		return _secondary.getRawButton(Map.VISION_INTERFACE_CAMERA_PORT_BUTTON);
 	}
 	
-	public static boolean get_crash_detection()
-	{
-		return _secondary.getRawButton(Map.CRASH_DETECTION);
-	}
+	
 
 	/** Hid Stuff
 	 * 
@@ -73,10 +67,7 @@ public class IO
 			return false;
 	}
 
-	public static boolean get_enabler()
-	{
-		return _secondary.getRawButton(Map.ENABLER);
-	}
+	
 
 
 	/**
@@ -103,8 +94,20 @@ public class IO
 	{
 		return (_drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[0]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[1]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[2]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[3]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[0]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[1]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[2]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[3]));
 	}	
-	public static boolean get_auto_alignment()
+	public static boolean get_lightsaber_button()
 	{
-		return _secondary.getRawButton(Map.AUTO_ALIGNMENT_BUTTON);
+		return _secondary.getRawButton(Map.LIGHTSABER_BUTTON);
+	}
+	public static boolean get_lightsaber_inverter()
+	{
+		return _secondary.getRawButton(Map.LIGHTSABER_INVERTER);
+	}
+	public static double get_tractor_speed()
+	{
+		return _secondary.getRawAxis(Map.TRACTOR_SPEED);
+	}
+	public static double get_proton_speed()
+	{
+		return _secondary.getRawAxis(Map.PROTON_SPEED);
 	}
 }

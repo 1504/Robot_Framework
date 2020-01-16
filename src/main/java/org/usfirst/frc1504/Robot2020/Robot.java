@@ -29,6 +29,9 @@ public class Robot extends RobotBase {
     	super();
         Drive.initialize();
         Proton_Cannon.initialize();
+        Tractor_Beam.initialize();
+        Tokamak.initialize();
+        Lightsaber.initialize();
     	DigitBoard.initialize();
     	Digit_Board.initialize();
 		Arduino.initialize();

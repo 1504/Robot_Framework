@@ -68,8 +68,21 @@ public class Map {
 	public static final int[] DRIVE_MOTOR_PORTS = { 10, 11, 12, 13 };
 
     //Mechanism Motor Ports
+    // Talons
     public static final int PROTON_CANNON_TOP = 20;
-		public static final int PROTON_CANNON_BOTTOM = 21;
+    public static final int PROTON_CANNON_BOTTOM = 21;
+    public static final int TRACTOR_BEAM = 22;
+    public static final int SERIALIZER_TOP = 23;
+    public static final int SERIALIZER_BOTTOM = 24;
+    public static final int TOKAMAK_TOP = 25;
+    public static final int TOKAMAK_BOTTOM = 26;
+    // Spark
+    public static final int LIGHTSABER_TOP = 27;
+    public static final int LIGHTSABER_BOTTOM = 28;
+
+    //Piston Ports
+    public static final int EF_ENGAGER_HIGHSIDE_PORT = 2;
+	public static final int EF_ENGAGER_LOWSIDE_PORT = 3;
 
     // Drive disable orbit point buttons
 	public static final int DRIVE_LEFT_BOTTOM = 7;
@@ -102,30 +115,27 @@ public class Map {
 	public static final int DRIVE_POLAR_JOYSTICK = 1;
 	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
 
-    public static final int OVERRIDE_BUTTON = 5;
-    public static final int MASTER_OVERRIDE = 6; // RT1 -- RB
-    public static final int ENABLER = 8;
-	public static final int LIFT_SEQUENCE_BUTTON = 10;
-	public static final int LIFT_SEQUENCE_SECOND_BUTTON = 11;
-
-	public static final int CRASH_DETECTION = 7; // left joystick button
+    public static final int PROTON_SPEED = 3;
+    public static final int TRACTOR_SPEED = 2;
+    public static final int LIGHTSABER_BUTTON = 1;
+    public static final int LIGHTSABER_INVERTER = 1;
 
     /** Controler Mappings */
-    //1  : A                      - Auto_alignment_button
-	//2  : B                      - Grabber
-	//3  : X                      - Auto_placement_button
-	//4  : Y                      - extend/retract arms
-	//5  : LB                     - Endgame Lift Front
-	//6  : RB                     - Endgame Lift Back
+    //1  : A                      - Lightsaber
+	//2  : B                      - Lightsaber inverter
+	//3  : X                      - 
+	//4  : Y                      - 
+	//5  : LB                     - 
+	//6  : RB                     - 
 	//7  : Back                   - 
 	//8  : Start                  - 
 	//9  : Press left joystick    - 
 	//10 : Press right joystick   - 
 	
 	//0  : X axis-left joystick   - 
-	//1  : Y axis-left joystick   - spinning rotors
-	//2  : LT                     -
-	//3  : RT                     - 
+	//1  : Y axis-left joystick   - 
+	//2  : LT                     - Tractor Beam
+	//3  : RT                     - Proton Cannon
 	//4  : X axis-right joystick  - 
 	//5  : Y axis-right joystick  - 
 
@@ -145,7 +155,7 @@ public class Map {
 
         /** Important Numbers */
 
-        public static final int AUTO_ALIGNMENT_BUTTON = 100;
+        
 	
         //norm/starting conditions arm down, lift down, facing alliance station
         public static final double HORIZONTAL_MULTIPLIER = 1.4;
