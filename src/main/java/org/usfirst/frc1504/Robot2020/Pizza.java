@@ -71,6 +71,8 @@ public class Pizza implements Updatable {
         SmartDashboard.putNumber("Confidence", match.confidence);
         SmartDashboard.putString("Detected Color", colorString);
 
+        System.out.println(colorString);
+
     }
 
     public void semaphore_update() // updates robot information

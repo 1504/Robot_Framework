@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANEncoder;
 
 public class Lightsaber implements Updatable
 {
@@ -40,16 +41,25 @@ public class Lightsaber implements Updatable
         if(IO.get_lightsaber_button() && !IO.get_lightsaber_inverter())
         {
             _lightsaber_top.set(1);
-            _lightsaber_bottom.follow(_lightsaber_top, true);
+            if(_lightsaber_top.getEncoder().getPosition() > _lightsaber_bottom.getEncoder().getPosition())
+            {
+                _lightsaber_bottom.set(1);
+            } else if(_lightsaber_top.getEncoder().getPosition() > _lightsaber_bottom.getEncoder().getPosition()) {
+                _lightsaber_bottom.set(-1);
+            } else {
+               _lightsaber_bottom.set(0);
+            }
 
-        } else if(IO.get_lightsaber_button() && IO.get_lightsaber_inverter()) 
-        {
+        } else if(IO.get_lightsaber_button() && IO.get_lightsaber_inverter()) {
             _lightsaber_top.set(-1);
-            _lightsaber_bottom.follow(_lightsaber_top, true);
-        } else 
-        {
-            _lightsaber_top.set(0);
-            _lightsaber_bottom.follow(_lightsaber_top, true);
+            if(_lightsaber_top.getEncoder().getPosition() > _lightsaber_bottom.getEncoder().getPosition())
+            {
+                _lightsaber_bottom.set(1);
+            } else if(_lightsaber_top.getEncoder().getPosition() > _lightsaber_bottom.getEncoder().getPosition()) {
+                _lightsaber_bottom.set(-1);
+            } else {
+               _lightsaber_bottom.set(0);
+            }
         }
 
         
