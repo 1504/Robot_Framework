@@ -79,11 +79,13 @@ public class Map {
     // Spark
     public static final int LIGHTSABER_TOP = 27;
     public static final int LIGHTSABER_BOTTOM = 28;
-
+    public static final int PIZZA_SLICER = 29;
     //Piston Ports
     public static final int EF_ENGAGER_HIGHSIDE_PORT = 2;
 	public static final int EF_ENGAGER_LOWSIDE_PORT = 3;
 
+    public static final int SCOMP_LINK_HIGHSIDE_PORT = 4;
+	public static final int SCOMP_LINK_LOWSIDE_PORT = 5;
     // Drive disable orbit point buttons
 	public static final int DRIVE_LEFT_BOTTOM = 7;
 	public static final int DRIVE_LEFT_TOP = 6;
@@ -120,15 +122,19 @@ public class Map {
     public static final int LIGHTSABER_BUTTON = 1;
     public static final int LIGHTSABER_INVERTER = 1;
 
+    public static final int PIZZA_SLICER_BUTTON = 5;
+    public static final int ROTATION_CONTROL_BUTTON = 6;
+    
+    public static final int GOD_MODE = 8;
     /** Controler Mappings */
     //1  : A                      - Lightsaber
 	//2  : B                      - Lightsaber inverter
 	//3  : X                      - 
 	//4  : Y                      - 
-	//5  : LB                     - 
-	//6  : RB                     - 
+	//5  : LB                     - Manual
+	//6  : RB                     - Rotation Control
 	//7  : Back                   - 
-	//8  : Start                  - 
+	//8  : Start                  - God Mode
 	//9  : Press left joystick    - 
 	//10 : Press right joystick   - 
 	

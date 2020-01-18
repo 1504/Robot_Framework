@@ -110,4 +110,16 @@ public class IO
 	{
 		return _secondary.getRawAxis(Map.PROTON_SPEED);
 	}
+	public static boolean get_pizza_cutter_button()
+	{
+		return _secondary.getRawButton(Map.PIZZA_SLICER_BUTTON);
+	}
+	public static boolean get_rotation_control_button()
+	{
+		return _secondary.getRawButton(Map.ROTATION_CONTROL_BUTTON);
+	}
+	public static boolean get_god_button()
+	{
+		return _secondary.getRawButton(Map.GOD_MODE);
+	}
 }
