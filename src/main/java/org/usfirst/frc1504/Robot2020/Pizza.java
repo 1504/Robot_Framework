@@ -111,16 +111,17 @@ public class Pizza implements Updatable {
         char colorChar;
         ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
+        // color is switched because color sensor is moved  on the field
         if (match.color == kBlueTarget) {
-            colorChar = 'B';
-        } else if (match.color == kRedTarget) {
             colorChar = 'R';
+        } else if (match.color == kRedTarget) {
+            colorChar = 'B';
         } else if (match.color == kGreenTarget) {
-            colorChar = 'G';
-        } else if (match.color == kYellowTarget) {
             colorChar = 'Y';
+        } else if (match.color == kYellowTarget) {
+            colorChar = 'G';
         } else {
-            colorChar = 'X';
+            colorChar = 'U';
         }
 
         SmartDashboard.putNumber("Red", detectedColor.red);
