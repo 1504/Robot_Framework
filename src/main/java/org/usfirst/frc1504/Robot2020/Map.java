@@ -72,8 +72,6 @@ public class Map {
     public static final int PROTON_CANNON_TOP = 20;
     public static final int PROTON_CANNON_BOTTOM = 21;
     public static final int TRACTOR_BEAM = 22;
-    public static final int SERIALIZER_TOP = 23;
-    public static final int SERIALIZER_BOTTOM = 24;
     public static final int TOKAMAK_TOP = 25;
     public static final int TOKAMAK_BOTTOM = 26;
     // Spark
