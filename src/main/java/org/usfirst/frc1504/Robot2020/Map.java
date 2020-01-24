@@ -77,6 +77,8 @@ public class Map {
     // Spark
     public static final int LIGHTSABER_TOP = 27;
     public static final int LIGHTSABER_BOTTOM = 28;
+    public static final int LIGHTSABER_CORRECTION = (1/40);
+    
     public static final int PIZZA_SLICER = 29;
     //Piston Ports
     public static final int EF_ENGAGER_HIGHSIDE_PORT = 2;

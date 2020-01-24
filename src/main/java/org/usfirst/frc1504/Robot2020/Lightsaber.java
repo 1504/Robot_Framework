@@ -16,7 +16,7 @@ public class Lightsaber implements Updatable {
     private CANSparkMax _lightsaber_bottom;
     private CANEncoder _top_encoder = new CANEncoder(_lightsaber_top);
     private CANEncoder _bottom_encoder = new CANEncoder(_lightsaber_bottom);
-
+    private double lightsaber_correction = 0;
     public static Lightsaber getInstance() // sets instance
     {
         return instance;
@@ -37,16 +37,9 @@ public class Lightsaber implements Updatable {
 
     private void update() {
 
-        _lightsaber_top.set(IO.get_lightsaber_height());
-        if (_top_encoder.getPosition() > _bottom_encoder.getPosition()) {
-            _lightsaber_bottom.set(IO.get_lightsaber_height());
-        } else if (_top_encoder.getPosition() > _bottom_encoder.getPosition()) {
-            _lightsaber_bottom.set(-IO.get_lightsaber_height());
-        } else {
-            _lightsaber_bottom.set(0);
-        }
-        
-
+        _lightsaber_top.set(IO.get_lightsaber_height() + lightsaber_correction);
+        _lightsaber_bottom.set(IO.get_lightsaber_height() - lightsaber_correction);
+        lightsaber_correction = _bottom_encoder.getPosition() - _top_encoder.getPosition();
     }
 
     public void semaphore_update() // updates robot information
