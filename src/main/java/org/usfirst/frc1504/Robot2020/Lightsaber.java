@@ -15,6 +15,8 @@ public class Lightsaber implements Updatable
 
     private CANSparkMax _lightsaber_top;
     private CANSparkMax _lightsaber_bottom;
+    private CANEncoder _top_encoder = new CANEncoder(_lightsaber_top);
+    private CANEncoder _bottom_encoder = new CANEncoder(_lightsaber_bottom);
 
     public static Lightsaber getInstance() // sets instance
 	{
@@ -41,10 +43,10 @@ public class Lightsaber implements Updatable
         if(IO.get_lightsaber_button() && !IO.get_lightsaber_inverter())
         {
             _lightsaber_top.set(1);
-            if(_lightsaber_top.getEncoder().getPosition() > _lightsaber_bottom.getEncoder().getPosition())
+            if(_top_encoder.getPosition() > _bottom_encoder.getPosition())
             {
                 _lightsaber_bottom.set(1);
-            } else if(_lightsaber_top.getEncoder().getPosition() > _lightsaber_bottom.getEncoder().getPosition()) {
+            } else if(_top_encoder.getPosition() > _bottom_encoder.getPosition()) {
                 _lightsaber_bottom.set(-1);
             } else {
                _lightsaber_bottom.set(0);
@@ -52,10 +54,10 @@ public class Lightsaber implements Updatable
 
         } else if(IO.get_lightsaber_button() && IO.get_lightsaber_inverter()) {
             _lightsaber_top.set(-1);
-            if(_lightsaber_top.getEncoder().getPosition() > _lightsaber_bottom.getEncoder().getPosition())
+            if(_top_encoder.getPosition() > _bottom_encoder.getPosition())
             {
                 _lightsaber_bottom.set(1);
-            } else if(_lightsaber_top.getEncoder().getPosition() > _lightsaber_bottom.getEncoder().getPosition()) {
+            } else if(_top_encoder.getPosition() > _bottom_encoder.getPosition()) {
                 _lightsaber_bottom.set(-1);
             } else {
                _lightsaber_bottom.set(0);
