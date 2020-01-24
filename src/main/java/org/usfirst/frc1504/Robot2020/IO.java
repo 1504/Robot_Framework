@@ -122,4 +122,8 @@ public class IO
 	{
 		return _secondary.getRawButton(Map.GOD_MODE);
 	}
+	public static double get_lightsaber_height()
+	{
+		return _secondary.getRawAxis(Map.LIGHTSABER_CONTROL);
+	}
 }

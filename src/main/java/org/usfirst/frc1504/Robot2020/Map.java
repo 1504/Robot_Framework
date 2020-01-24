@@ -117,8 +117,10 @@ public class Map {
 
     public static final int PROTON_SPEED = 3;
     public static final int TRACTOR_SPEED = 2;
+    
     public static final int LIGHTSABER_BUTTON = 1;
     public static final int LIGHTSABER_INVERTER = 1;
+    public static final int LIGHTSABER_CONTROL = 10;
 
     public static final int PIZZA_SLICER_BUTTON = 5;
     public static final int ROTATION_CONTROL_BUTTON = 6;
@@ -134,7 +136,7 @@ public class Map {
 	//7  : Back                   - 
 	//8  : Start                  - God Mode
 	//9  : Press left joystick    - 
-	//10 : Press right joystick   - 
+	//10 : Press right joystick   - Lightsaber Control
 	
 	//0  : X axis-left joystick   - 
 	//1  : Y axis-left joystick   - 

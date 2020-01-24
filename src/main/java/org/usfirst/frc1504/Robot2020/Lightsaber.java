@@ -8,8 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANEncoder;
 
-public class Lightsaber implements Updatable
-{
+public class Lightsaber implements Updatable {
     private static final Lightsaber instance = new Lightsaber();
     private DriverStation _ds = DriverStation.getInstance();
 
@@ -19,8 +18,8 @@ public class Lightsaber implements Updatable
     private CANEncoder _bottom_encoder = new CANEncoder(_lightsaber_bottom);
 
     public static Lightsaber getInstance() // sets instance
-	{
-		return instance;
+    {
+        return instance;
     }
 
     public static void initialize() // initialize
@@ -28,50 +27,33 @@ public class Lightsaber implements Updatable
         getInstance();
     }
 
-
-    private Lightsaber()
-    {
-        _lightsaber_top = new CANSparkMax(Map.LIGHTSABER_TOP, MotorType.kBrushless); // serializer 
+    private Lightsaber() {
+        _lightsaber_top = new CANSparkMax(Map.LIGHTSABER_TOP, MotorType.kBrushless); // serializer
         _lightsaber_bottom = new CANSparkMax(Map.LIGHTSABER_BOTTOM, MotorType.kBrushless);
 
         Update_Semaphore.getInstance().register(this);
         System.out.println("Lightsaber is on");
     }
 
-    private void update()
-    {
-        if(IO.get_lightsaber_button() && !IO.get_lightsaber_inverter())
-        {
-            _lightsaber_top.set(1);
-            if(_top_encoder.getPosition() > _bottom_encoder.getPosition())
-            {
-                _lightsaber_bottom.set(1);
-            } else if(_top_encoder.getPosition() > _bottom_encoder.getPosition()) {
-                _lightsaber_bottom.set(-1);
-            } else {
-               _lightsaber_bottom.set(0);
-            }
+    private void update() {
 
-        } else if(IO.get_lightsaber_button() && IO.get_lightsaber_inverter()) {
-            _lightsaber_top.set(-1);
-            if(_top_encoder.getPosition() > _bottom_encoder.getPosition())
-            {
-                _lightsaber_bottom.set(1);
-            } else if(_top_encoder.getPosition() > _bottom_encoder.getPosition()) {
-                _lightsaber_bottom.set(-1);
-            } else {
-               _lightsaber_bottom.set(0);
-            }
+        _lightsaber_top.set(IO.get_lightsaber_height());
+        if (_top_encoder.getPosition() > _bottom_encoder.getPosition()) {
+            _lightsaber_bottom.set(IO.get_lightsaber_height());
+        } else if (_top_encoder.getPosition() > _bottom_encoder.getPosition()) {
+            _lightsaber_bottom.set(-IO.get_lightsaber_height());
+        } else {
+            _lightsaber_bottom.set(0);
         }
-
         
+
     }
 
     public void semaphore_update() // updates robot information
-	{		
-		if (_ds.isDisabled()) // only runs in teleop
-			return;
+    {
+        if (_ds.isDisabled()) // only runs in teleop
+            return;
 
-		update();
+        update();
     }
 }
