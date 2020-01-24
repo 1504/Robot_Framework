@@ -102,9 +102,9 @@ public class IO
 	{
 		return _secondary.getRawButton(Map.LIGHTSABER_INVERTER);
 	}
-	public static double get_tractor_speed()
+	public static boolean get_tractor_beam_activation()
 	{
-		return _secondary.getRawAxis(Map.TRACTOR_SPEED);
+		return _secondary.getRawButton(Map.TRACTOR_BEAM_BUTTON);
 	}
 	public static double get_proton_speed()
 	{

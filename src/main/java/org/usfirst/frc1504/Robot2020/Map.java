@@ -118,8 +118,7 @@ public class Map {
 	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
 
     public static final int PROTON_SPEED = 3;
-    public static final int TRACTOR_SPEED = 2;
-    
+    public static final int TRACTOR_BEAM_BUTTON = 4;
     public static final int LIGHTSABER_BUTTON = 1;
     public static final int LIGHTSABER_INVERTER = 1;
     public static final int LIGHTSABER_CONTROL = 10;
@@ -131,8 +130,8 @@ public class Map {
     /** Controler Mappings */
     //1  : A                      - Lightsaber
 	//2  : B                      - Lightsaber inverter
-	//3  : X                      - 
-	//4  : Y                      - 
+	//3  : X                      - Proton cannon shoot
+	//4  : Y                      - Tractor Beam
 	//5  : LB                     - Manual
 	//6  : RB                     - Rotation Control
 	//7  : Back                   - 
@@ -155,6 +154,7 @@ public class Map {
      */
 
         /** Class Section */
+        public static final double TRACTOR_BEAM_SPEED = 1;
 
 
     /**

@@ -14,6 +14,8 @@ public class Tractor_Beam implements Updatable
     private WPI_TalonSRX _beam;
     private DoubleSolenoid _ef_engager;
 
+    private boolean _ef_engager_active = false;
+
     public static Tractor_Beam getInstance() // sets instance
 	{
 		return instance;
@@ -24,7 +26,6 @@ public class Tractor_Beam implements Updatable
         getInstance();
     }
 
-
     private Tractor_Beam()
     {
         _beam = new WPI_TalonSRX(Map.TRACTOR_BEAM);
@@ -33,16 +34,20 @@ public class Tractor_Beam implements Updatable
         System.out.println("Tractor Beam Engaged");
     }
 
+    private boolean activated() {
+        return (IO.get_tractor_beam_activation() ? !_ef_engager_active : _ef_engager_active);
+    }
+
     private void update()
     {
-        if(IO.get_tractor_speed() > 0)
+        if (activated())
         {
-            _beam.set(IO.get_tractor_speed());
+            _beam.set(Map.TRACTOR_BEAM_SPEED);
             _ef_engager.set(DoubleSolenoid.Value.kForward);
         } else {
+            _beam.set(0.0);
             _ef_engager.set(DoubleSolenoid.Value.kReverse);
         }
-        
     }
 
     public void semaphore_update() // updates robot information
