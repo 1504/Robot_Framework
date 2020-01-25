@@ -58,8 +58,7 @@ public class Robot extends RobotBase {
 					/*
 					 * Borrowed from Mike
 					 */	
-                    SmartDashboard.putString("Spew Speed", (Proton_Cannon.put_on_speedo()*100) + "%");
-                    SmartDashboard.putString("Spew Spin Speed", (Proton_Cannon.put_on_tspeedo()*100) + "%");
+                    
 					edge_track = (char)( ( (edge_track << 1) + (HALUtil.getFPGAButton() ? 1 : 0) ) & 3);
 					if(edge_track == 1) // Get image from groundtruth sensors, output it to the DS
 					{

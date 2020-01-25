@@ -2,7 +2,9 @@ package org.usfirst.frc1504.Robot2020;
 
 import org.usfirst.frc1504.Robot2020.Update_Semaphore.Updatable;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -12,10 +14,15 @@ public class Proton_Cannon implements Updatable
     private DriverStation _ds = DriverStation.getInstance();
 
     private CANSparkMax _top_shoot;
-	private CANSparkMax _bottom_shoot;
+    private CANSparkMax _bottom_shoot;
+    private CANEncoder _top_encoder = new CANEncoder(_top_shoot);
+    private CANEncoder _bottom_encoder = new CANEncoder(_bottom_shoot);
+
     private static double speedo = 0.32;
+    private static double _gain = (1/5676);
     private static double tspeedo = 0;
     private static final double max_speed = 1;
+    private double cannon_spin = 0;
 
     public static Proton_Cannon getInstance() // sets instance
 	{
@@ -27,15 +34,6 @@ public class Proton_Cannon implements Updatable
         getInstance();
     }
 
-    public static double put_on_speedo()
-    {
-        return speedo;
-    }
-
-    public static double put_on_tspeedo()
-    {
-        return tspeedo;
-    }
 
     private Proton_Cannon()
     {
@@ -50,10 +48,10 @@ public class Proton_Cannon implements Updatable
     {
         if(IO.hid_N())
         {
-            tspeedo = tspeedo + 0.005;
+            tspeedo = tspeedo + 500;
         } else if(IO.hid_S())
         {
-            tspeedo = tspeedo - 0.005;
+            tspeedo = tspeedo - 500;
         }
 
         speedo = IO.get_proton_speed();
@@ -65,16 +63,24 @@ public class Proton_Cannon implements Updatable
 		{
 			speedo = 0;
 		}
-        
         if(IO.get_proton_speed() > 0)
         {
-            _top_shoot.set(-speedo - tspeedo);
-            _bottom_shoot.set(speedo - tspeedo);
+            _top_shoot.set(speedo + cannon_spin);
+            _bottom_shoot.set(speedo - cannon_spin);
+            cannon_spin = (_bottom_encoder.getVelocity() - _top_encoder.getVelocity() + tspeedo) * _gain;
         } else {
             _top_shoot.set(0);
             _bottom_shoot.set(0);
         }
-        System.out.println(speedo);
+        
+
+        SmartDashboard.putString("Spew Top Speed", (_top_encoder.getVelocity() + "RPM"));
+        SmartDashboard.putString("Spew Bottom Speed", (_bottom_encoder.getVelocity() + "RPM"));
+        SmartDashboard.putString("Spin Diff", (tspeedo + "RPM"));
+
+        System.out.println("Bottom Speed: " + _bottom_encoder.getVelocity());
+        System.out.println("Top Speed: " + _top_encoder.getVelocity());
+        System.out.println(tspeedo);
     }
 
     public void semaphore_update() // updates robot information
