@@ -130,4 +130,8 @@ public class IO
 	{
 		return _secondary.getRawButton(Map.PROTON_SETPOINT);
 	}
+	public static double get_tokamak_override()
+	{
+		return _secondary.getRawAxis(Map.TOKAMAK_OVERRIDE);
+	}
 }

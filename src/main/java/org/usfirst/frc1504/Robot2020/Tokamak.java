@@ -41,6 +41,10 @@ public class Tokamak implements Updatable
             _tokamak_top.set(1);
             _tokamak_bottom.set(-1);
 
+        } else if(IO.get_tokamak_override() > 0 && IO.get_god_button()){
+
+            _tokamak_top.set(IO.get_tokamak_override());
+            _tokamak_bottom.set(IO.get_tokamak_override());
         } else {
             _tokamak_top.set(0);
             _tokamak_bottom.set(0);

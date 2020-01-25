@@ -125,6 +125,8 @@ public class Map {
     public static final int LIGHTSABER_INVERTER = 1;
     public static final int LIGHTSABER_CONTROL = 10;
 
+    public static final int TOKAMAK_OVERRIDE = 1;
+
     public static final int PIZZA_SLICER_BUTTON = 5;
     public static final int ROTATION_CONTROL_BUTTON = 6;
     
@@ -141,7 +143,7 @@ public class Map {
 	//9  : Press left joystick    - 
 	//10 : Press right joystick   - Lightsaber Control
 	
-	//0  : X axis-left joystick   - 
+	//0  : X axis-left joystick   - Tokamak Override
 	//1  : Y axis-left joystick   - 
 	//2  : LT                     - Tractor Beam
 	//3  : RT                     - Proton Cannon
