@@ -45,7 +45,7 @@ public class Tokamak implements Updatable
 
             _tokamak_top.set(IO.get_tokamak_override());
             _tokamak_bottom.set(IO.get_tokamak_override());
-        } else if(Tractor_Beam.activated())
+        } else if(Tractor_Beam.activated() && (System.currentTimeMillis() - Tractor_Beam.timer > 1000))
         {
             _tokamak_top.set(Map.TOKAMAK_SPEED);
             _tokamak_bottom.set(-Map.TOKAMAK_SPEED);

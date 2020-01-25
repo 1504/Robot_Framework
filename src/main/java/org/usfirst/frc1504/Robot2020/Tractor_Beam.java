@@ -13,6 +13,7 @@ public class Tractor_Beam implements Updatable
 
     private WPI_TalonSRX _beam;
     private DoubleSolenoid _ef_engager;
+    public static double timer;
 
     private static boolean _ef_engager_active = false;
 
@@ -43,6 +44,7 @@ public class Tractor_Beam implements Updatable
         if (activated())
         {
             _beam.set(Map.TRACTOR_BEAM_SPEED);
+            timer = System.currentTimeMillis();
             _ef_engager.set(DoubleSolenoid.Value.kForward);
         } else {
             _beam.set(0.0);
