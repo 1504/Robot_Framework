@@ -38,17 +38,16 @@ public class Tokamak implements Updatable
     {
         if(IO.get_proton_speed() > 0)
         {
-            _tokamak_top.set(1);
-            _tokamak_bottom.set(-1);
+            _tokamak_top.set(-Map.TOKAMAK_SPEED);
+            _tokamak_bottom.set(Map.TOKAMAK_SPEED);
 
         } else if(IO.get_tokamak_override() > 0 && IO.get_god_button()){
 
-            _tokamak_top.set(IO.get_tokamak_override());
+            _tokamak_top.set(-IO.get_tokamak_override());
             _tokamak_bottom.set(IO.get_tokamak_override());
         } else if(Tractor_Beam.activated() && (System.currentTimeMillis() - Tractor_Beam.timer > 1000))
         {
-            _tokamak_top.set(Map.TOKAMAK_SPEED);
-            _tokamak_bottom.set(-Map.TOKAMAK_SPEED);
+            _tokamak_bottom.set(Map.TOKAMAK_SPEED);
         } else {
             _tokamak_top.set(0);
             _tokamak_bottom.set(0);
