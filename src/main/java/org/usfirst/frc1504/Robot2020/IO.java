@@ -126,4 +126,8 @@ public class IO
 	{
 		return _secondary.getRawAxis(Map.LIGHTSABER_CONTROL);
 	}
+	public static boolean get_proton_setpoint()
+	{
+		return _secondary.getRawButton(Map.PROTON_SETPOINT);
+	}
 }

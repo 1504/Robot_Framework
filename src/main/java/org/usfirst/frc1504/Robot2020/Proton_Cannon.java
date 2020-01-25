@@ -24,6 +24,10 @@ public class Proton_Cannon implements Updatable
     private static final double max_speed = 1;
     private double cannon_spin = 0;
 
+    private int i = 0;
+    private static final double[] _setpoints = {0, 0.33, 0.5, 0.67, 1};
+    private double setpoint;
+
     public static Proton_Cannon getInstance() // sets instance
 	{
 		return instance;
@@ -56,6 +60,13 @@ public class Proton_Cannon implements Updatable
 
         speedo = IO.get_proton_speed();
 
+        if(IO.get_proton_setpoint())
+        {
+            i = i++;
+            setpoint = _setpoints[i % _setpoints.length];
+        }
+
+
 		if(speedo > max_speed)
 		{
 			speedo = max_speed;
@@ -68,6 +79,10 @@ public class Proton_Cannon implements Updatable
             _top_shoot.set(speedo + cannon_spin);
             _bottom_shoot.set(speedo - cannon_spin);
             cannon_spin = (_bottom_encoder.getVelocity() - _top_encoder.getVelocity() + tspeedo) * _gain;
+        } else if(IO.get_proton_speed() > 0 && IO.get_proton_setpoint())
+        {
+            _top_shoot.set(setpoint);
+            _bottom_shoot.set(setpoint);
         } else {
             _top_shoot.set(0);
             _bottom_shoot.set(0);
@@ -77,6 +92,7 @@ public class Proton_Cannon implements Updatable
         SmartDashboard.putString("Spew Top Speed", (_top_encoder.getVelocity() + "RPM"));
         SmartDashboard.putString("Spew Bottom Speed", (_bottom_encoder.getVelocity() + "RPM"));
         SmartDashboard.putString("Spin Diff", (tspeedo + "RPM"));
+        SmartDashboard.putNumber("Setpoint Number", setpoint);
 
         System.out.println("Bottom Speed: " + _bottom_encoder.getVelocity());
         System.out.println("Top Speed: " + _top_encoder.getVelocity());

@@ -118,6 +118,8 @@ public class Map {
 	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
 
     public static final int PROTON_SPEED = 3;
+    public static final int PROTON_SETPOINT = 7;
+
     public static final int TRACTOR_BEAM_BUTTON = 4;
     public static final int LIGHTSABER_BUTTON = 1;
     public static final int LIGHTSABER_INVERTER = 1;
@@ -134,7 +136,7 @@ public class Map {
 	//4  : Y                      - Tractor Beam
 	//5  : LB                     - Manual
 	//6  : RB                     - Rotation Control
-	//7  : Back                   - 
+	//7  : Back                   - Proton Cannon Setpoint
 	//8  : Start                  - God Mode
 	//9  : Press left joystick    - 
 	//10 : Press right joystick   - Lightsaber Control
