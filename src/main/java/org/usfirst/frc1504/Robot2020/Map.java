@@ -159,6 +159,7 @@ public class Map {
 
         /** Class Section */
         public static final double TRACTOR_BEAM_SPEED = 1;
+        public static final double TOKAMAK_SPEED = 1;
 
 
     /**

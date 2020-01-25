@@ -14,7 +14,7 @@ public class Tractor_Beam implements Updatable
     private WPI_TalonSRX _beam;
     private DoubleSolenoid _ef_engager;
 
-    private boolean _ef_engager_active = false;
+    private static boolean _ef_engager_active = false;
 
     public static Tractor_Beam getInstance() // sets instance
 	{
@@ -34,7 +34,7 @@ public class Tractor_Beam implements Updatable
         System.out.println("Tractor Beam Engaged");
     }
 
-    private boolean activated() {
+    public static boolean activated() {
         return (IO.get_tractor_beam_activation() ? !_ef_engager_active : _ef_engager_active);
     }
 
