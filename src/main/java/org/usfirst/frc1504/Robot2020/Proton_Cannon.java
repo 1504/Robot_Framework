@@ -79,7 +79,7 @@ public class Proton_Cannon implements Updatable
             _top_shoot.set(speedo + cannon_spin);
             _bottom_shoot.set(speedo - cannon_spin);
             cannon_spin = (_bottom_encoder.getVelocity() - _top_encoder.getVelocity() + tspeedo) * _gain;
-        } else if(IO.get_proton_speed() > 0 && IO.get_proton_setpoint())
+        } else if(IO.get_proton_speed() > 0 && setpoint != 0)
         {
             _top_shoot.set(setpoint);
             _bottom_shoot.set(setpoint);
