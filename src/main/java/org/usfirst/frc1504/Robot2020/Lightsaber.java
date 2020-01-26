@@ -17,7 +17,9 @@ public class Lightsaber implements Updatable {
     private CANEncoder _top_encoder = new CANEncoder(_lightsaber_top);
     private CANEncoder _bottom_encoder = new CANEncoder(_lightsaber_bottom);
     private double lightsaber_correction = 0;
-    private double _gain = (1/40);
+    private boolean _inverted = false;
+    private boolean _manual = false;
+
     public static Lightsaber getInstance() // sets instance
     {
         return instance;
@@ -33,14 +35,35 @@ public class Lightsaber implements Updatable {
         _lightsaber_bottom = new CANSparkMax(Map.LIGHTSABER_BOTTOM, MotorType.kBrushless);
 
         Update_Semaphore.getInstance().register(this);
-        System.out.println("Lightsaber is on");
+        System.out.println("Lightsaber is on. Vrrrrnnnnnnnnnn~...");
     }
 
+    private boolean toggle_manual_control() {
+            return (IO.get_god_button() ? !_manual : _manual);
+    }
+    private boolean toggled_lightsaber_direction() {
+        return (IO.ls_retract_toggle() ? !_inverted : _inverted);
+    }
+    private void set_lightsaber(double speed) {
+        _lightsaber_top.set(speed + lightsaber_correction);
+        _lightsaber_bottom.set(speed - lightsaber_correction);
+    }
+    
     private void update() {
 
-        _lightsaber_top.set(IO.get_lightsaber_height() + lightsaber_correction);
-        _lightsaber_bottom.set(IO.get_lightsaber_height() - lightsaber_correction);
-        lightsaber_correction = (_bottom_encoder.getPosition() - _top_encoder.getPosition()) * _gain;
+        if (toggle_manual_control()) {
+            set_lightsaber(IO.ls_manual_target_speed());
+        } else {
+            if (IO.ls_extend_button() && toggled_lightsaber_direction()) {
+                set_lightsaber(-Map.LS_TARGET_SPEED);
+            } else if (IO.ls_extend_button() && !toggled_lightsaber_direction()) {
+                set_lightsaber(Map.LS_TARGET_SPEED);
+            } else {
+                set_lightsaber(0);
+            }
+        }
+
+        lightsaber_correction = (_bottom_encoder.getPosition() - _top_encoder.getPosition()) * Map.LS_CORRECTIONAL_GAIN;
     }
 
     public void semaphore_update() // updates robot information

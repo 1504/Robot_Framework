@@ -13,7 +13,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends RobotBase {
 
@@ -28,7 +28,7 @@ public class Robot extends RobotBase {
     public Robot() {
     	super();
         Drive.initialize();
-        Proton_Cannon.initialize();
+        Ion_Cannon.initialize();
         Tractor_Beam.initialize();
         Tokamak.initialize();
         Pizza.initialize();

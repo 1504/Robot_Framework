@@ -67,25 +67,6 @@ public class Map {
 	//public static final int[] DRIVE_MOTOR_PORTS = { FRONT_LEFT_TALON_PORT, BACK_LEFT_TALON_PORT, BACK_RIGHT_TALON_PORT, FRONT_RIGHT_TALON_PORT };
 	public static final int[] DRIVE_MOTOR_PORTS = { 10, 11, 12, 13 };
 
-    //Mechanism Motor Ports
-    // Talons
-    public static final int PROTON_CANNON_TOP = 20;
-    public static final int PROTON_CANNON_BOTTOM = 21;
-    public static final int TRACTOR_BEAM = 22;
-    public static final int TOKAMAK_TOP = 25;
-    public static final int TOKAMAK_BOTTOM = 26;
-    // Spark
-    public static final int LIGHTSABER_TOP = 27;
-    public static final int LIGHTSABER_BOTTOM = 28;
-    public static final int LIGHTSABER_CORRECTION = (1/40);
-    
-    public static final int PIZZA_SLICER = 29;
-    //Piston Ports
-    public static final int EF_ENGAGER_HIGHSIDE_PORT = 2;
-	public static final int EF_ENGAGER_LOWSIDE_PORT = 3;
-
-    public static final int SCOMP_LINK_HIGHSIDE_PORT = 4;
-	public static final int SCOMP_LINK_LOWSIDE_PORT = 5;
     // Drive disable orbit point buttons
 	public static final int DRIVE_LEFT_BOTTOM = 7;
 	public static final int DRIVE_LEFT_TOP = 6;
@@ -98,7 +79,7 @@ public class Map {
     // Drive Input magic numbers
 	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { -1.0, -1.0, -0.6 };
 	public static final double DRIVE_INPUT_TURN_FACTOR = 0.2;
-	public static final double DRIVE_INPUT_VISION_SPEED = 0.75;
+	public static final double DRIVE_INPUT_VISmanual_ion_speed = 0.75;
 	// Drive Front Side changing
 	public static final int DRIVE_FRONTSIDE_FRONT = 1;
 	public static final int DRIVE_FRONTSIDE_BACK = 1;
@@ -117,49 +98,92 @@ public class Map {
 	public static final int DRIVE_POLAR_JOYSTICK = 1;
 	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
 
-    public static final int PROTON_SPEED = 3;
-    public static final int PROTON_SETPOINT = 7;
-
-    public static final int TRACTOR_BEAM_BUTTON = 4;
-    public static final int LIGHTSABER_BUTTON = 1;
-    public static final int LIGHTSABER_INVERTER = 1;
-    public static final int LIGHTSABER_CONTROL = 10;
-
-    public static final int TOKAMAK_OVERRIDE = 1;
-
-    public static final int PIZZA_SLICER_BUTTON = 5;
-    public static final int ROTATION_CONTROL_BUTTON = 6;
-    
-    public static final int GOD_MODE = 8;
     /** Controler Mappings */
-    //1  : A                      - Lightsaber
-	//2  : B                      - Lightsaber inverter
-	//3  : X                      - Proton cannon shoot
-	//4  : Y                      - Tractor Beam
-	//5  : LB                     - Manual
-	//6  : RB                     - Rotation Control
-	//7  : Back                   - Proton Cannon Setpoint
-	//8  : Start                  - God Mode
-	//9  : Press left joystick    - 
-	//10 : Press right joystick   - Lightsaber Control
+    // 1  : A                      - Lightsaber extend
+	// 2  : B                      - Lightsaber toggle retract
+	// 3  : X                      - Ion cannon shoot
+	// 4  : Y                      - Tractor Beam toggle
+	// 5  : Left Shoulder Button   - Manual
+	// 6  : Right Shoulder Button  - Rotation Control
+	// 7  : Back                   - Ion Cannon Setpoint
+	// 8  : Start                  - God Mode
+	// 9  : Press left joystick    - 
+	// 10 : Press right joystick   - 
 	
-	//0  : X axis-left joystick   - Tokamak Override
-	//1  : Y axis-left joystick   - 
-	//2  : LT                     - Tractor Beam
-	//3  : RT                     - Proton Cannon
-	//4  : X axis-right joystick  - 
-	//5  : Y axis-right joystick  - 
+	// 0  : X axis-left joystick   - Tokamak Override
+	// 1  : Y axis-left joystick   - 
+	// 2  : LT                     - Tractor Beam
+	// 3  : RT                     - Ion Cannon
+	// 4  : X axis-right joystick  - Lightsaber Manual Control
+	// 5  : Y axis-right joystick  - 
 
     /** Controler Map Assignment */
 
+        // Ion Cannon
+        public static final int MANUAL_ION_SPEED = 3;
+        public static final int ION_SETPOINT_BUTTON = 7;
+
+        // Lightsaber
+        public static final int LIGHTSABER_BUTTON = 1;
+        public static final int LIGHTSABER_INVERTER = 2;
+        public static final int LS_SPEED_CTRL_JOYSTICK = 4;
+
+        // Pizza
+        public static final int PIZZA_SLICER_BUTTON = 5;
+        public static final int ROTATION_CONTROL_BUTTON = 6;
+
+        // Tokamak
+        public static final int TOKAMAK_OVERRIDE = 2; // trigger
+
+        // Tractor Beam
+        public static final int ACTIVATE_TRACTOR_BEAM_BUTTON = 4;
+
+
+        /** Overrides */
+        public static final int GOD_MODE = 8;
 
     /**
-     * Unique Game Stuff Goes Here
+     * Unique Game Values Go Here
      */
 
-        /** Class Section */
-        public static final double TRACTOR_BEAM_SPEED = 1;
+        /** 
+         * Ports: Talons, Sparks and Pistons
+         */
+
+            /** Ion Cannon */
+            public static final int ION_CANNON_TOP = 20;          // Talon
+            public static final int ION_CANNON_BOTTOM = 21;       // Talon
+            /** Lightsaber */
+            public static final int LIGHTSABER_TOP = 27;          // Spark
+            public static final int LIGHTSABER_BOTTOM = 28;       // Spark
+            /** Pizza */
+            public static final int PIZZA_SLICER = 29;            // UNKNOWN
+            public static final int SCOMP_LINK_HIGHSIDE_PORT = 4; // Piston
+            public static final int SCOMP_LINK_LOWSIDE_PORT = 5;  // ''
+            /** Tokamak */
+            public static final int TOKAMAK_TOP = 25;             // Talon
+            public static final int TOKAMAK_BOTTOM = 26;          // Talon
+            /** Tractor Beam */
+            public static final int TRACTOR_BEAM = 22;            // Talon
+            public static final int EF_ENGAGER_HIGHSIDE_PORT = 2; // Piston
+            public static final int EF_ENGAGER_LOWSIDE_PORT = 3;  // ''
+
+
+        /** Ion Cannon */
+        public static final double ION_CORRECTIONAL_GAIN = (1/5676);
+
+        /** Lightsaber */
+        public static final double LS_CORRECTIONAL_GAIN = (1/40);
+        public static final double LS_TARGET_SPEED = 0.33;
+
+        /** Pizza */
+
+        /** Tokamak */
         public static final double TOKAMAK_SPEED = 1;
+
+        /** Tractor Beam */
+        public static final double TRACTOR_BEAM_SPEED = 1;
+
 
 
     /**

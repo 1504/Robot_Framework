@@ -14,6 +14,8 @@ public class Tokamak implements Updatable
     private WPI_TalonSRX _tokamak_top;
     private WPI_TalonSRX _tokamak_bottom;
 
+    private boolean _manual = false;
+
     public static Tokamak getInstance() // sets instance
 	{
 		return instance;
@@ -24,7 +26,6 @@ public class Tokamak implements Updatable
         getInstance();
     }
 
-
     private Tokamak()
     {
         _tokamak_top = new WPI_TalonSRX(Map.TOKAMAK_TOP); // serializer 
@@ -34,15 +35,18 @@ public class Tokamak implements Updatable
         System.out.println("Tokamak is generating plasma");
     }
 
+    private boolean toggle_manual_control() {
+        return (IO.get_god_button() ? !_manual : _manual);
+    }
+
     private void update()
     {
-        if(IO.get_proton_speed() > 0)
+        if(IO.manual_ion_speed() > 0)
         {
             _tokamak_top.set(-Map.TOKAMAK_SPEED);
             _tokamak_bottom.set(Map.TOKAMAK_SPEED);
-
-        } else if(IO.get_tokamak_override() > 0 && IO.get_god_button()){
-
+        } else if(IO.get_tokamak_override() > 0 && toggle_manual_control())
+        {
             _tokamak_top.set(-IO.get_tokamak_override());
             _tokamak_bottom.set(IO.get_tokamak_override());
         } else if(Tractor_Beam.activated() && (System.currentTimeMillis() - Tractor_Beam.timer > 1000))

@@ -3,20 +3,20 @@ package org.usfirst.frc1504.Robot2020;
 import org.usfirst.frc1504.Robot2020.Update_Semaphore.Updatable;
 
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+//import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 import com.revrobotics.ColorSensorV3;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+//import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ColorMatchResult;
 
 import java.util.ArrayList;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.revrobotics.CANSparkMax;
+//import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorMatch;
 
 public class Pizza implements Updatable {

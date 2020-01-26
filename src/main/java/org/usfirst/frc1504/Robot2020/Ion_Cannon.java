@@ -8,9 +8,9 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-public class Proton_Cannon implements Updatable
+public class Ion_Cannon implements Updatable
 {
-    private static final Proton_Cannon instance = new Proton_Cannon();
+    private static final Ion_Cannon instance = new Ion_Cannon();
     private DriverStation _ds = DriverStation.getInstance();
 
     private CANSparkMax _top_shoot;
@@ -19,16 +19,15 @@ public class Proton_Cannon implements Updatable
     private CANEncoder _bottom_encoder = new CANEncoder(_bottom_shoot);
 
     private static double speedo = 0.32;
-    private static double _gain = (1/5676);
-    private static double tspeedo = 0;
+    private static double speed_offset = 0;
     private static final double max_speed = 1;
     private double cannon_spin = 0;
 
     private int i = 0;
     private static final double[] _setpoints = {0, 0.33, 0.5, 0.67, 1};
-    private double setpoint;
+    private double setpoint_val;
 
-    public static Proton_Cannon getInstance() // sets instance
+    public static Ion_Cannon getInstance() // sets instance
 	{
 		return instance;
     }
@@ -38,34 +37,33 @@ public class Proton_Cannon implements Updatable
         getInstance();
     }
 
-
-    private Proton_Cannon()
+    private Ion_Cannon()
     {
-		_top_shoot = new CANSparkMax(Map.PROTON_CANNON_TOP, MotorType.kBrushless);
-        _bottom_shoot = new CANSparkMax(Map.PROTON_CANNON_BOTTOM, MotorType.kBrushless);
+		_top_shoot = new CANSparkMax(Map.ION_CANNON_TOP, MotorType.kBrushless);
+        _bottom_shoot = new CANSparkMax(Map.ION_CANNON_BOTTOM, MotorType.kBrushless);
         
         Update_Semaphore.getInstance().register(this);
-        System.out.println("Proton Cannon charged");
+        System.out.println("Ion Cannon charged");
     }
 
     private void update()
     {
+        // Broken Logic
         if(IO.hid_N())
         {
-            tspeedo = tspeedo + 500;
+            speed_offset += 500;
         } else if(IO.hid_S())
         {
-            tspeedo = tspeedo - 500;
+            speed_offset += 500;
         }
 
-        speedo = IO.get_proton_speed();
+        speedo = IO.manual_ion_speed();
 
-        if(IO.get_proton_setpoint())
+        if(IO.cycle_ion_setpoint())
         {
-            i = i++;
-            setpoint = _setpoints[i % _setpoints.length];
+            i += 1;
+            setpoint_val = _setpoints[i % _setpoints.length];
         }
-
 
 		if(speedo > max_speed)
 		{
@@ -73,16 +71,17 @@ public class Proton_Cannon implements Updatable
 		} else if(speedo < 0)
 		{
 			speedo = 0;
-		}
-        if(IO.get_proton_speed() > 0 && setpoint == 0) 
+        }
+        
+        if(IO.manual_ion_speed() > 0 && setpoint_val == 0) 
         {
             _top_shoot.set(speedo + cannon_spin);
             _bottom_shoot.set(speedo - cannon_spin);
-            cannon_spin = (_bottom_encoder.getVelocity() - _top_encoder.getVelocity() + tspeedo) * _gain;
-        } else if(IO.get_proton_speed() > 0 && setpoint != 0)
+            cannon_spin = (_bottom_encoder.getVelocity() - _top_encoder.getVelocity() + speed_offset) * Map.ION_CORRECTIONAL_GAIN;
+        } else if(IO.manual_ion_speed() > 0 && setpoint_val != 0)
         {
-            _top_shoot.set(setpoint);
-            _bottom_shoot.set(setpoint);
+            _top_shoot.set(setpoint_val);
+            _bottom_shoot.set(setpoint_val);
         } else {
             _top_shoot.set(0);
             _bottom_shoot.set(0);
@@ -91,12 +90,12 @@ public class Proton_Cannon implements Updatable
 
         SmartDashboard.putString("Spew Top Speed", (_top_encoder.getVelocity() + "RPM"));
         SmartDashboard.putString("Spew Bottom Speed", (_bottom_encoder.getVelocity() + "RPM"));
-        SmartDashboard.putString("Spin Diff", (tspeedo + "RPM"));
-        SmartDashboard.putNumber("Setpoint Number", setpoint);
+        SmartDashboard.putString("Spin Diff", (speed_offset + "RPM"));
+        SmartDashboard.putNumber("Setpoint Number", setpoint_val);
 
         System.out.println("Bottom Speed: " + _bottom_encoder.getVelocity());
         System.out.println("Top Speed: " + _top_encoder.getVelocity());
-        System.out.println(tspeedo);
+        System.out.println(speed_offset);
     }
 
     public void semaphore_update() // updates robot information

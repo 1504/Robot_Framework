@@ -93,45 +93,60 @@ public class IO
 	public static boolean get_drive_op_toggle()
 	{
 		return (_drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[0]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[1]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[2]) || _drive_rotation.getRawButton(Map.DRIVE_OP_BUTTONS[3]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[0]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[1]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[2]) || _drive_forward.getRawButton(Map.DRIVE_OP_BUTTONS[3]));
-	}	
-	public static boolean get_lightsaber_button()
-	{
-		return _secondary.getRawButton(Map.LIGHTSABER_BUTTON);
 	}
-	public static boolean get_lightsaber_inverter()
-	{
-		return _secondary.getRawButton(Map.LIGHTSABER_INVERTER);
-	}
-	public static boolean get_tractor_beam_activation()
-	{
-		return _secondary.getRawButton(Map.TRACTOR_BEAM_BUTTON);
-	}
-	public static double get_proton_speed()
-	{
-		return _secondary.getRawAxis(Map.PROTON_SPEED);
-	}
-	public static boolean get_pizza_cutter_button()
-	{
-		return _secondary.getRawButton(Map.PIZZA_SLICER_BUTTON);
-	}
-	public static boolean get_rotation_control_button()
-	{
-		return _secondary.getRawButton(Map.ROTATION_CONTROL_BUTTON);
-	}
-	public static boolean get_god_button()
-	{
-		return _secondary.getRawButton(Map.GOD_MODE);
-	}
-	public static double get_lightsaber_height()
-	{
-		return _secondary.getRawAxis(Map.LIGHTSABER_CONTROL);
-	}
-	public static boolean get_proton_setpoint()
-	{
-		return _secondary.getRawButton(Map.PROTON_SETPOINT);
-	}
-	public static double get_tokamak_override()
-	{
-		return _secondary.getRawAxis(Map.TOKAMAK_OVERRIDE);
-	}
+
+	/**
+	 * Yearly Components
+	 */
+		/** Ion Cannon */
+		public static double manual_ion_speed()
+		{
+			return _secondary.getRawAxis(Map.MANUAL_ION_SPEED);
+		}
+		public static boolean cycle_ion_setpoint() 
+		{
+			return _secondary.getRawButton(Map.ION_SETPOINT_BUTTON);
+		}
+
+		/** Lightsaber */
+		public static boolean ls_extend_button()
+		{
+			return _secondary.getRawButton(Map.LIGHTSABER_BUTTON);
+		}
+		public static boolean ls_retract_toggle()
+		{
+			return _secondary.getRawButton(Map.LIGHTSABER_INVERTER);
+		}
+		public static double ls_manual_target_speed()
+		{
+			return _secondary.getRawAxis(Map.LS_SPEED_CTRL_JOYSTICK);
+		}
+
+		/** Pizza */
+		public static boolean get_pizza_cutter_button()
+		{
+			return _secondary.getRawButton(Map.PIZZA_SLICER_BUTTON);
+		}
+		public static boolean get_rotation_control_button()
+		{
+			return _secondary.getRawButton(Map.ROTATION_CONTROL_BUTTON);
+		}
+
+		/** Tokamak */
+		public static double get_tokamak_override()
+		{
+			return _secondary.getRawAxis(Map.TOKAMAK_OVERRIDE);
+		}
+
+		/** Tractor Beam */
+		public static boolean get_tractor_beam_activation()
+		{
+			return _secondary.getRawButton(Map.ACTIVATE_TRACTOR_BEAM_BUTTON);
+		}
+
+		// Override button
+		public static boolean get_god_button()
+		{
+			return _secondary.getRawButton(Map.GOD_MODE);
+		}
 }
