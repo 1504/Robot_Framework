@@ -151,22 +151,22 @@ public class Map {
          */
 
             /** Ion Cannon */
-            public static final int ION_CANNON_TOP = 20;          // Talon
-            public static final int ION_CANNON_BOTTOM = 21;       // Talon
+            public static final int ION_CANNON_TOP = 20;           // Talon
+            public static final int ION_CANNON_BOTTOM = 21;        // Talon
             /** Lightsaber */
-            public static final int LIGHTSABER_TOP = 27;          // Spark
-            public static final int LIGHTSABER_BOTTOM = 28;       // Spark
+            public static final int LIGHTSABER_TOP = 30;           // Spark
+            public static final int LIGHTSABER_BOTTOM = 31;        // Spark
             /** Pizza */
-            public static final int PIZZA_SLICER = 29;            // UNKNOWN
-            public static final int SCOMP_LINK_HIGHSIDE_PORT = 4; // Piston
-            public static final int SCOMP_LINK_LOWSIDE_PORT = 5;  // ''
+            public static final int PIZZA_SLICER = 40;             // UNKNOWN
+            public static final int SCOMP_LINK_HIGHSIDE_PORT = 41; // Piston
+            public static final int SCOMP_LINK_LOWSIDE_PORT = 42;  // ''
             /** Tokamak */
-            public static final int TOKAMAK_TOP = 25;             // Talon
-            public static final int TOKAMAK_BOTTOM = 26;          // Talon
+            public static final int TOKAMAK_TOP = 50;              // Talon
+            public static final int TOKAMAK_BOTTOM = 51;           // Talon
             /** Tractor Beam */
-            public static final int TRACTOR_BEAM = 22;            // Talon
-            public static final int EF_ENGAGER_HIGHSIDE_PORT = 2; // Piston
-            public static final int EF_ENGAGER_LOWSIDE_PORT = 3;  // ''
+            public static final int TRACTOR_BEAM = 60;             // Talon
+            public static final int EF_ENGAGER_HIGHSIDE_PORT = 61; // Piston
+            public static final int EF_ENGAGER_LOWSIDE_PORT = 62;  // ''
 
 
         /** Ion Cannon */
