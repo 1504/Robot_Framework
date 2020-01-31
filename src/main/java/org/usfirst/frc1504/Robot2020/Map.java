@@ -156,16 +156,17 @@ public class Map {
             /** Lightsaber */
             public static final int LIGHTSABER_TOP = 30;           // Spark
             public static final int LIGHTSABER_BOTTOM = 31;        // Spark
+            public static final int LOCKING_ACTIVATOR_PORT = 32;   // Solenoid
             /** Pizza */
             public static final int PIZZA_SLICER = 40;             // UNKNOWN
-            public static final int SCOMP_LINK_HIGHSIDE_PORT = 41; // Piston
+            public static final int SCOMP_LINK_HIGHSIDE_PORT = 41; // Double Solenoid
             public static final int SCOMP_LINK_LOWSIDE_PORT = 42;  // ''
             /** Tokamak */
             public static final int TOKAMAK_TOP = 50;              // Talon
             public static final int TOKAMAK_BOTTOM = 51;           // Talon
             /** Tractor Beam */
             public static final int TRACTOR_BEAM = 60;             // Talon
-            public static final int EF_ENGAGER_HIGHSIDE_PORT = 61; // Piston
+            public static final int EF_ENGAGER_HIGHSIDE_PORT = 61; // Double Solenoid
             public static final int EF_ENGAGER_LOWSIDE_PORT = 62;  // ''
 
 
