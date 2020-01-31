@@ -16,8 +16,8 @@ public class Lightsaber implements Updatable {
 
     private CANSparkMax _lightsaber_top;
     private CANSparkMax _lightsaber_bottom;
-    private CANEncoder _top_encoder = new CANEncoder(_lightsaber_top);
-    private CANEncoder _bottom_encoder = new CANEncoder(_lightsaber_bottom);
+    private CANEncoder _top_encoder;
+    private CANEncoder _bottom_encoder;
     private double lightsaber_correction = 0;
     private boolean _inverted = false;
     private boolean _manual = false;
@@ -36,6 +36,9 @@ public class Lightsaber implements Updatable {
     private Lightsaber() {
         _lightsaber_top = new CANSparkMax(Map.LIGHTSABER_TOP, MotorType.kBrushless); // serializer
         _lightsaber_bottom = new CANSparkMax(Map.LIGHTSABER_BOTTOM, MotorType.kBrushless);
+
+        _top_encoder = _lightsaber_top.getEncoder();
+        _bottom_encoder = _lightsaber_bottom.getEncoder();
 
         _locking_activator = new Solenoid(Map.LOCKING_ACTIVATOR_PORT);
 

@@ -5,7 +5,9 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Ion_Cannon implements Updatable
@@ -15,8 +17,11 @@ public class Ion_Cannon implements Updatable
 
     private CANSparkMax _top_shoot;
     private CANSparkMax _bottom_shoot;
-    private CANEncoder _top_encoder = new CANEncoder(_top_shoot);
-    private CANEncoder _bottom_encoder = new CANEncoder(_bottom_shoot);
+    private CANEncoder _top_encoder;
+    private CANEncoder _bottom_encoder;
+
+    private CANPIDController _top_pid;
+    private CANPIDController _bottom_pid = new CANPIDController(_bottom_shoot);
 
     private static double speedo = 0.32;
     private static double speed_offset = 0;
@@ -41,6 +46,21 @@ public class Ion_Cannon implements Updatable
     {
 		_top_shoot = new CANSparkMax(Map.ION_CANNON_TOP, MotorType.kBrushless);
         _bottom_shoot = new CANSparkMax(Map.ION_CANNON_BOTTOM, MotorType.kBrushless);
+
+        _top_encoder = _top_shoot.getEncoder();
+        _bottom_encoder = _bottom_shoot.getEncoder();
+
+        _top_pid = new CANPIDController(_top_shoot);
+        _bottom_pid = new CANPIDController(_bottom_shoot);
+
+
+        _top_pid.setP(0.00014);
+        _top_pid.setFF(0.00017);
+
+        _bottom_pid.setP(0.00014);
+        _bottom_pid.setFF(0.00017);
+
+        
         
         Update_Semaphore.getInstance().register(this);
         System.out.println("Ion Cannon charged");
@@ -51,13 +71,21 @@ public class Ion_Cannon implements Updatable
         // Broken Logic
         if(IO.hid_N())
         {
-            speed_offset += 500;
+            speed_offset += 10;
         } else if(IO.hid_S())
         {
-            speed_offset += 500;
+            speed_offset -= 10;
         }
 
-        speedo = IO.manual_ion_speed();
+        if(IO.hid_E())
+        {
+            speedo += 10;
+        } else if(IO.hid_W())
+        {
+            speedo -= 10;
+        }
+
+        //speedo = IO.manual_ion_speed() * 6000;
 
         if(IO.cycle_ion_setpoint())
         {
@@ -75,9 +103,13 @@ public class Ion_Cannon implements Updatable
         
         if(IO.manual_ion_speed() > 0 && setpoint_val == 0) 
         {
-            _top_shoot.set(speedo + cannon_spin);
-            _bottom_shoot.set(speedo - cannon_spin);
-            cannon_spin = (_bottom_encoder.getVelocity() - _top_encoder.getVelocity() + speed_offset) * Map.ION_CORRECTIONAL_GAIN;
+            //_top_shoot.set(speedo + cannon_spin);
+            //_bottom_shoot.set(speedo - cannon_spin);
+
+            _top_pid.setReference(speedo + speed_offset, ControlType.kVelocity);
+            _bottom_pid.setReference(speedo - speed_offset, ControlType.kVelocity);
+            //cannon_spin = (_bottom_encoder.getVelocity() - _top_encoder.getVelocity() + speed_offset) * Map.ION_CORRECTIONAL_GAIN;
+
         } else if(IO.manual_ion_speed() > 0 && setpoint_val != 0)
         {
             _top_shoot.set(setpoint_val);
