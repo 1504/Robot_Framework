@@ -99,9 +99,9 @@ public class IO
 	 * Yearly Components
 	 */
 		/** Ion Cannon */
-		public static double manual_ion_speed()
+		public static boolean manual_ion_speed()
 		{
-			return _secondary.getRawAxis(Map.MANUAL_ION_SPEED);
+			return _secondary.getRawButton(Map.MANUAL_ION_SPEED);
 		}
 		public static boolean cycle_ion_setpoint() 
 		{

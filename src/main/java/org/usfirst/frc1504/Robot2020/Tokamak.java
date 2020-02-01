@@ -41,7 +41,7 @@ public class Tokamak implements Updatable
 
     private void update()
     {
-        if(IO.manual_ion_speed() > 0)
+        if(IO.manual_ion_speed())
         {
             _tokamak_top.set(-Map.TOKAMAK_SPEED);
             _tokamak_bottom.set(Map.TOKAMAK_SPEED);

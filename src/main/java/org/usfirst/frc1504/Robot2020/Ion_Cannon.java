@@ -93,26 +93,20 @@ public class Ion_Cannon implements Updatable
             setpoint_val = _setpoints[i % _setpoints.length];
         }
 
-		if(speedo > max_speed)
-		{
-			speedo = max_speed;
-		} else if(speedo < 0)
-		{
-			speedo = 0;
-        }
+		
         
-        if(IO.manual_ion_speed() > 0 && setpoint_val == 0) 
+        if(IO.manual_ion_speed() && setpoint_val == 0) 
         {
             //_top_shoot.set(speedo + cannon_spin);
             //_bottom_shoot.set(speedo - cannon_spin);
 
-            _top_pid.setReference(speedo + speed_offset, ControlType.kVelocity);
+            _top_pid.setReference(-1.0 * (speedo + speed_offset), ControlType.kVelocity);
             _bottom_pid.setReference(speedo - speed_offset, ControlType.kVelocity);
             //cannon_spin = (_bottom_encoder.getVelocity() - _top_encoder.getVelocity() + speed_offset) * Map.ION_CORRECTIONAL_GAIN;
 
-        } else if(IO.manual_ion_speed() > 0 && setpoint_val != 0)
+        } else if(IO.manual_ion_speed() && setpoint_val != 0)
         {
-            _top_shoot.set(setpoint_val);
+            _top_shoot.set(-setpoint_val);
             _bottom_shoot.set(setpoint_val);
         } else {
             _top_shoot.set(0);
@@ -122,8 +116,9 @@ public class Ion_Cannon implements Updatable
 
         SmartDashboard.putString("Spew Top Speed", (_top_encoder.getVelocity() + "RPM"));
         SmartDashboard.putString("Spew Bottom Speed", (_bottom_encoder.getVelocity() + "RPM"));
-        SmartDashboard.putString("Spin Diff", (speed_offset + "RPM"));
+        SmartDashboard.putString("Spin Diff", (speed_offset + " RPM"));
         SmartDashboard.putNumber("Setpoint Number", setpoint_val);
+        SmartDashboard.putString("Speed", (speedo + " RPM"));
 
         System.out.println("Bottom Speed: " + _bottom_encoder.getVelocity());
         System.out.println("Top Speed: " + _top_encoder.getVelocity());

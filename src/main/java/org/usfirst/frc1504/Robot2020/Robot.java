@@ -29,6 +29,7 @@ public class Robot extends RobotBase {
     	super();
         Drive.initialize();
         Ion_Cannon.initialize();
+        //Optical_Sensor.initialize();
         //Tractor_Beam.initialize();
         //Tokamak.initialize();
         //Pizza.initialize();
