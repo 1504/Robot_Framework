@@ -21,7 +21,7 @@ public class Ion_Cannon implements Updatable
     private CANEncoder _bottom_encoder;
 
     private CANPIDController _top_pid;
-    private CANPIDController _bottom_pid = new CANPIDController(_bottom_shoot);
+    private CANPIDController _bottom_pid;
 
     private static double speedo = 0.32;
     private static double speed_offset = 0;
@@ -50,8 +50,8 @@ public class Ion_Cannon implements Updatable
         _top_encoder = _top_shoot.getEncoder();
         _bottom_encoder = _bottom_shoot.getEncoder();
 
-        _top_pid = new CANPIDController(_top_shoot);
-        _bottom_pid = new CANPIDController(_bottom_shoot);
+        _top_pid = _top_shoot.getPIDController();
+        _bottom_pid = _bottom_shoot.getPIDController();
 
 
         _top_pid.setP(0.00014);
