@@ -8,6 +8,7 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Ion_Cannon implements Updatable
@@ -46,6 +47,9 @@ public class Ion_Cannon implements Updatable
     {
 		_top_shoot = new CANSparkMax(Map.ION_CANNON_TOP, MotorType.kBrushless);
         _bottom_shoot = new CANSparkMax(Map.ION_CANNON_BOTTOM, MotorType.kBrushless);
+
+        _top_shoot.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        _bottom_shoot.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
         _top_encoder = _top_shoot.getEncoder();
         _bottom_encoder = _bottom_shoot.getEncoder();
