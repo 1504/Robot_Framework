@@ -9,6 +9,8 @@ package org.usfirst.frc1504.Robot2020;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.hal.HALUtil;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
@@ -110,11 +112,20 @@ public class Robot extends RobotBase {
     public void test() {
 		System.out.println("Test Mode!");
 
+        WPI_TalonSRX _testing1;
+        WPI_TalonSRX _testing2;
+        
+        _testing1 = new WPI_TalonSRX(Map.testing1talon);
+        _testing2 = new WPI_TalonSRX(Map.testing2talon);
+
     	while (isTest() && isEnabled())
     	{
 			Drive.getInstance().drive_inputs(0.6, 0, 0);
 			m_ds.waitForData(.150); // Blocks until we get new data or 150ms elapse
             _semaphore.newData();
+            
+            _testing1.set(-IO.get_testing1()/1.5);
+            _testing2.set(IO.get_testing2()/1.5);
     	}
     }
 

@@ -200,7 +200,7 @@ public class Drive implements Updatable
 				input = new double[3];
 				continue;
 			}
-			if(_ds.isEnabled())
+			if(_ds.isEnabled() && !_ds.isTest())
 			{
 				if (_new_data)
 				{

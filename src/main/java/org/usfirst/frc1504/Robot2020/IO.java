@@ -149,4 +149,15 @@ public class IO
 		{
 			return _secondary.getRawButton(Map.GOD_MODE);
 		}
+		public static double get_testing1()
+		{
+			return Math.pow(_drive_rotation.getRawAxis(Map.JOYSTICK_Y_AXIS), 1);
+		}
+		public static double get_testing2()
+		{
+			return Math.pow(_drive_forward.getRawAxis(Map.JOYSTICK_Y_AXIS), 1);
+		}
+
+
+		
 }

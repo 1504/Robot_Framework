@@ -149,6 +149,9 @@ public class Map {
         /** 
          * Ports: Talons, Sparks and Pistons
          */
+            // TESTING
+            public static final int testing1talon = 27;
+            public static final int testing2talon = 28;
 
             /** Ion Cannon */
             public static final int ION_CANNON_TOP = 20;           // Talon
