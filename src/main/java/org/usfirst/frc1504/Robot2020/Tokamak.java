@@ -35,13 +35,14 @@ public class Tokamak implements Updatable
         System.out.println("Tokamak is generating plasma");
     }
 
-    private boolean toggle_manual_control() {
+    private boolean toggle_manual_control() 
+    {
         return (IO.get_god_button() ? !_manual : _manual);
     }
 
     private void update()
     {
-        if(IO.manual_ion_speed())
+        if(IO.bottom_ion_shoot())
         {
             _tokamak_top.set(-Map.TOKAMAK_SPEED);
             _tokamak_bottom.set(Map.TOKAMAK_SPEED);
@@ -49,7 +50,7 @@ public class Tokamak implements Updatable
         {
             _tokamak_top.set(-IO.get_tokamak_override());
             _tokamak_bottom.set(IO.get_tokamak_override());
-        } else if(Tractor_Beam.activated() && (System.currentTimeMillis() - Tractor_Beam.timer > 1000))
+        } else if(Tractor_Beam.activated() && (System.currentTimeMillis() - Tractor_Beam.tb_timer > 1000))
         {
             _tokamak_bottom.set(Map.TOKAMAK_SPEED);
         } else {

@@ -101,14 +101,14 @@ public class Map {
     /** Controler Mappings */
     // 1  : A                      - Lightsaber extend
 	// 2  : B                      - Lightsaber toggle retract
-	// 3  : X                      - Ion cannon shoot
-	// 4  : Y                      - Tractor Beam toggle
-	// 5  : Left Shoulder Button   - Manual
+	// 3  : X                      - Ion cannon shoot Bottom
+	// 4  : Y                      - Ion cannon shoot Top
+	// 5  : Left Shoulder Button   - Manual pizza rotation
 	// 6  : Right Shoulder Button  - Rotation Control
 	// 7  : Back                   - Ion Cannon Setpoint
 	// 8  : Start                  - God Mode
 	// 9  : Press left joystick    - 
-	// 10 : Press right joystick   - 
+	// 10 : Press right joystick   - Tractor Beam toggle
 	
 	// 0  : X axis-left joystick   - Tokamak Override
 	// 1  : Y axis-left joystick   - 
@@ -120,7 +120,8 @@ public class Map {
     /** Controler Map Assignment */
 
         // Ion Cannon
-        public static final int MANUAL_ION_SPEED = 3;
+        public static final int BOTTOM_SHOOT_BUTTON = 3;
+        public static final int TOP_SHOOT_BUTTON = 4;
         public static final int ION_SETPOINT_BUTTON = 7;
 
         // Lightsaber
@@ -136,7 +137,7 @@ public class Map {
         public static final int TOKAMAK_OVERRIDE = 2; // trigger
 
         // Tractor Beam
-        public static final int ACTIVATE_TRACTOR_BEAM_BUTTON = 4;
+        public static final int ACTIVATE_TRACTOR_BEAM_BUTTON = 10;
 
 
         /** Overrides */
@@ -156,25 +157,31 @@ public class Map {
             /** Ion Cannon */
             public static final int ION_CANNON_TOP = 20;           // Talon
             public static final int ION_CANNON_BOTTOM = 21;        // Talon
+
+            public static final int TOP_EXTEND_HP = 5;             // Double Solenoid - High
+            public static final int TOP_EXTEND_LP = 6;             // '' - Low
+            public static final int BOT_EXTEND_HP = 7;             // Double Solenoid  - High
+            public static final int BOT_EXTEND_LP = 8;             // '' - Low
             /** Lightsaber */
             public static final int LIGHTSABER_TOP = 30;           // Spark
             public static final int LIGHTSABER_BOTTOM = 31;        // Spark
-            public static final int LOCKING_ACTIVATOR_PORT = 4;   // Solenoid
+            public static final int LOCKING_ACTIVATOR_PORT = 4;    // Solenoid
             /** Pizza */
             public static final int PIZZA_SLICER = 40;             // UNKNOWN
-            public static final int SCOMP_LINK_HIGHSIDE_PORT = 2; // Double Solenoid
-            public static final int SCOMP_LINK_LOWSIDE_PORT = 3;  // ''
+            public static final int SCOMP_LINK_HIGHSIDE_PORT = 2;  // Double Solenoid
+            public static final int SCOMP_LINK_LOWSIDE_PORT = 3;   // ''
             /** Tokamak */
             public static final int TOKAMAK_TOP = 50;              // Talon
             public static final int TOKAMAK_BOTTOM = 51;           // Talon
             /** Tractor Beam */
             public static final int TRACTOR_BEAM = 60;             // Talon
-            public static final int EF_ENGAGER_HIGHSIDE_PORT = 0; // Double Solenoid
-            public static final int EF_ENGAGER_LOWSIDE_PORT = 1;  // ''
+            public static final int EF_ENGAGER_HIGHSIDE_PORT = 0;  // Double Solenoid
+            public static final int EF_ENGAGER_LOWSIDE_PORT = 1;   // ''
 
 
         /** Ion Cannon */
-        public static final double ION_CORRECTIONAL_GAIN = 0.0001761804;
+        public static final double IC_CORRECTIONAL_GAIN = 0.0001761804;
+        public static final int IC_DEPLOY_DELAY = 350; // In milliseconds
 
         /** Lightsaber */
         public static final double LS_CORRECTIONAL_GAIN = 0.025;
