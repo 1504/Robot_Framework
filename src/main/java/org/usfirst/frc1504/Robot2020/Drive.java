@@ -356,5 +356,20 @@ public class Drive implements Updatable
 		{
 			_motors[i].set(values[i] * Map.DRIVE_OUTPUT_MAGIC_NUMBERS[i]);
 		}
-	}	
+	}
+
+	public double[] follow_angle(double angle, double speed)
+	{
+		
+        double angle_a = Math.toRadians(angle);
+        double speed_a = speed;
+        
+        double forward_speed = speed_a * Math.cos(angle_a);
+        double tracking_direction = speed_a * Math.sin(angle_a);
+        
+        double[] speeds = new double[] {forward_speed, tracking_direction};
+        return speeds;
+        //System.out.println("Forward speed: " + forward_speed);
+        //System.out.println("Tracking speed: " + tracking_direction);
+	}
 }
