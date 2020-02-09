@@ -35,10 +35,10 @@ public class Lightsaber implements Updatable {
     }
 
     private Lightsaber() {
-        //_lightsaber_top = new CANSparkMax(Map.LIGHTSABER_TOP, MotorType.kBrushless); // serializer
+        _lightsaber_top = new CANSparkMax(Map.LIGHTSABER_TOP, MotorType.kBrushless); // serializer
         _lightsaber_bottom = new CANSparkMax(Map.LIGHTSABER_BOTTOM, MotorType.kBrushless);
 
-        //_top_encoder = _lightsaber_top.getEncoder();
+        _top_encoder = _lightsaber_top.getEncoder();
         _bottom_encoder = _lightsaber_bottom.getEncoder();
 
         //_locking_activator = new Solenoid(Map.LOCKING_ACTIVATOR_PORT);
@@ -58,23 +58,29 @@ public class Lightsaber implements Updatable {
         _lightsaber_bottom.set(speed - lightsaber_correction);
     }
     
-    private void update() {
+    private void update()
+    {
 
         if (IO.ls_extend_button()) {
-            //set_lightsaber(IO.ls_manual_target_speed());
+            set_lightsaber(IO.ls_manual_target_speed() * .1);
         }
 
-        /*lightsaber_correction = (_bottom_encoder.getPosition() - _top_encoder.getPosition()) * Map.LS_CORRECTIONAL_GAIN;
-        SmartDashboard.putBoolean("Manual Toggle: ", toggle_manual_control());
+        lightsaber_correction = (_bottom_encoder.getPosition() - _top_encoder.getPosition()) * Map.LS_CORRECTIONAL_GAIN;
+        //SmartDashboard.putBoolean("Manual Toggle: ", toggle_manual_control());
         SmartDashboard.putNumber("Lightsaber Bottom Speeds: ", _bottom_encoder.getVelocity());
         SmartDashboard.putNumber("Lightsaber Top Speeds: ", _top_encoder.getVelocity());
-        SmartDashboard.putNumber("Lightsaber Gap: ", lightsaber_correction);*/
+        SmartDashboard.putNumber("Lightsaber Gap: ", lightsaber_correction);
+        lightsaber_correction = 0;
 
 
     }
 
     public void semaphore_update() // updates robot information
     {
+        System.out.println( _bottom_encoder.getPosition());
+        System.out.println(_top_encoder.getPosition());
+        System.out.println("test");
+
         if (_ds.isDisabled()) // only runs in teleop
             return;
 
