@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANEncoder;
 
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Lightsaber implements Updatable {
     private static final Lightsaber instance = new Lightsaber();
@@ -34,13 +35,13 @@ public class Lightsaber implements Updatable {
     }
 
     private Lightsaber() {
-        _lightsaber_top = new CANSparkMax(Map.LIGHTSABER_TOP, MotorType.kBrushless); // serializer
+        //_lightsaber_top = new CANSparkMax(Map.LIGHTSABER_TOP, MotorType.kBrushless); // serializer
         _lightsaber_bottom = new CANSparkMax(Map.LIGHTSABER_BOTTOM, MotorType.kBrushless);
 
-        _top_encoder = _lightsaber_top.getEncoder();
+        //_top_encoder = _lightsaber_top.getEncoder();
         _bottom_encoder = _lightsaber_bottom.getEncoder();
 
-        _locking_activator = new Solenoid(Map.LOCKING_ACTIVATOR_PORT);
+        //_locking_activator = new Solenoid(Map.LOCKING_ACTIVATOR_PORT);
 
         Update_Semaphore.getInstance().register(this);
         System.out.println("Lightsaber is on. Vrrrrnnnnnnnnnn~...");
@@ -59,21 +60,17 @@ public class Lightsaber implements Updatable {
     
     private void update() {
 
-        if (toggle_manual_control()) {
-            set_lightsaber(IO.ls_manual_target_speed());
-        } else {
-            if (IO.ls_extend_button() && toggled_lightsaber_direction()) {
-                _locking_activator.set(true);
-                set_lightsaber(-Map.LS_TARGET_SPEED);
-            } else if (IO.ls_extend_button() && !toggled_lightsaber_direction()) {
-                set_lightsaber(Map.LS_TARGET_SPEED);
-                _locking_activator.set(false);
-            } else {
-                set_lightsaber(0);
-            }
+        if (IO.ls_extend_button()) {
+            //set_lightsaber(IO.ls_manual_target_speed());
         }
 
-        lightsaber_correction = (_bottom_encoder.getPosition() - _top_encoder.getPosition()) * Map.LS_CORRECTIONAL_GAIN;
+        /*lightsaber_correction = (_bottom_encoder.getPosition() - _top_encoder.getPosition()) * Map.LS_CORRECTIONAL_GAIN;
+        SmartDashboard.putBoolean("Manual Toggle: ", toggle_manual_control());
+        SmartDashboard.putNumber("Lightsaber Bottom Speeds: ", _bottom_encoder.getVelocity());
+        SmartDashboard.putNumber("Lightsaber Top Speeds: ", _top_encoder.getVelocity());
+        SmartDashboard.putNumber("Lightsaber Gap: ", lightsaber_correction);*/
+
+
     }
 
     public void semaphore_update() // updates robot information

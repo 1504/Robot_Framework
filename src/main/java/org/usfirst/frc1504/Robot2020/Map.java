@@ -127,7 +127,7 @@ public class Map {
         // Lightsaber
         public static final int LIGHTSABER_BUTTON = 1;
         public static final int LIGHTSABER_INVERTER = 2;
-        public static final int LS_SPEED_CTRL_JOYSTICK = 4;
+        public static final int LS_SPEED_CTRL_JOYSTICK = 1;
 
         // Pizza
         public static final int PIZZA_SLICER_BUTTON = 5;
