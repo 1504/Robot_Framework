@@ -2,7 +2,7 @@ package org.usfirst.frc1504.Robot2020;
 
 import org.usfirst.frc1504.Robot2020.Update_Semaphore.Updatable;
 import edu.wpi.first.wpilibj.DriverStation;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -30,10 +30,10 @@ public class Optical_Sensor implements Updatable
     private Optical_Sensor()
     {   
         
-        table=NetworkTableInstance.getDefault().getTable("chameleon-vision").getSubTable("MyCamName");
+        table=NetworkTableInstance.getDefault().getTable("chameleon-vision").getSubTable("eyeballs");
 
-        targetX=table.getEntry("yaw");
-        targetY=table.getEntry("pitch");
+        targetX=table.getEntry("targetYaw");
+        targetY=table.getEntry("targetPitch");
 
         Update_Semaphore.getInstance().register(this);
         System.out.println("Optical Sensor is Blinking");
@@ -41,8 +41,12 @@ public class Optical_Sensor implements Updatable
 
     private void update()
     {
-        System.out.println(targetX);
-        System.out.println(targetY);
+        //table=NetworkTableInstance.getDefault().getTable("chameleon-vision").getSubTable("eyeballs");
+        System.out.println("yaw " + targetX.getDouble(0.0));
+        System.out.println("pitch" + targetY.getDouble(0.0));
+        //targetX=table.getEntry("targetYaw");
+        //targetY=table.getEntry("targetPitch");
+        
     }
 
     public void semaphore_update() // updates robot information
