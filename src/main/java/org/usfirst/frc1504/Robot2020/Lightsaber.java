@@ -41,7 +41,7 @@ public class Lightsaber implements Updatable {
         _top_encoder = _lightsaber_top.getEncoder();
         _bottom_encoder = _lightsaber_bottom.getEncoder();
 
-        //_locking_activator = new Solenoid(Map.LOCKING_ACTIVATOR_PORT);
+        _locking_activator = new Solenoid(Map.LOCKING_ACTIVATOR_PORT);
 
         Update_Semaphore.getInstance().register(this);
         System.out.println("Lightsaber is on. Vrrrrnnnnnnnnnn~...");
@@ -64,13 +64,15 @@ public class Lightsaber implements Updatable {
         if (IO.ls_extend_button()) {
             set_lightsaber(IO.ls_manual_target_speed() * .1);
         }
+        else
+            set_lightsaber(0);
 
         lightsaber_correction = (_bottom_encoder.getPosition() - _top_encoder.getPosition()) * Map.LS_CORRECTIONAL_GAIN;
         //SmartDashboard.putBoolean("Manual Toggle: ", toggle_manual_control());
         SmartDashboard.putNumber("Lightsaber Bottom Speeds: ", _bottom_encoder.getVelocity());
         SmartDashboard.putNumber("Lightsaber Top Speeds: ", _top_encoder.getVelocity());
         SmartDashboard.putNumber("Lightsaber Gap: ", lightsaber_correction);
-        lightsaber_correction = 0;
+        //lightsaber_correction = 0;
 
 
     }
@@ -79,7 +81,6 @@ public class Lightsaber implements Updatable {
     {
         System.out.println( _bottom_encoder.getPosition());
         System.out.println(_top_encoder.getPosition());
-        System.out.println("test");
 
         if (_ds.isDisabled()) // only runs in teleop
             return;

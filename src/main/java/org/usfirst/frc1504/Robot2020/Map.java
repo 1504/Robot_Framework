@@ -184,7 +184,7 @@ public class Map {
         public static final int IC_DEPLOY_DELAY = 350; // In milliseconds
 
         /** Lightsaber */
-        public static final double LS_CORRECTIONAL_GAIN = 0.025;
+        public static final double LS_CORRECTIONAL_GAIN = 0.1;
         public static final double LS_TARGET_SPEED = 0.33;
 
         /** Pizza */
