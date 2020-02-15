@@ -11,8 +11,8 @@ public class Tokamak implements Updatable
     private static final Tokamak instance = new Tokamak();
     private DriverStation _ds = DriverStation.getInstance();
 
-    private WPI_TalonSRX _tokamak_top;
-    private WPI_TalonSRX _tokamak_bottom;
+    public static WPI_TalonSRX _tokamak_top;
+    public static WPI_TalonSRX _tokamak_bottom;
 
     private boolean _manual = false;
 
@@ -57,7 +57,6 @@ public class Tokamak implements Updatable
             _tokamak_top.set(0);
             _tokamak_bottom.set(0);
         }
-        
     }
 
     public void semaphore_update() // updates robot information

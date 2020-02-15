@@ -46,6 +46,8 @@ public class Drive implements Updatable
 	
 	private volatile boolean _thread_alive = true;
 	private volatile boolean _initialized = false;
+	public static double[] rotations = {0,0,0,0};
+
 	
 	private TimerTask _osc = new TimerTask() {
 		public void run() {
@@ -121,68 +123,70 @@ public class Drive implements Updatable
 	private volatile double[] _input = {0.0, 0.0, 0.0};
 	private volatile double[] _orbit_point = {0.0, 0.8}; //-1.15}; //{0.0, 1.15};
 
-	private CANSparkMax[] _motors = new CANSparkMax[Map.DRIVE_MOTOR_PORTS.length];
+	private static CANSparkMax[] _motors = new CANSparkMax[Map.DRIVE_MOTOR_PORTS.length];
 
 	/**
 	 * set up motors
 	 */
-	private void DInit()
-	{
-		for(int i = 0; i < Map.DRIVE_MOTOR_PORTS.length; i++)
-		{
+	private void DInit() {
+		for (int i = 0; i < Map.DRIVE_MOTOR_PORTS.length; i++) {
 			_motors[i] = new CANSparkMax(Map.DRIVE_MOTOR_PORTS[i], MotorType.kBrushless);
 		}
 
 		set_orbit_point(_orbit_point);
 	}
-	
+
 	/**
 	 * called when Driver Station has new data.
 	 */
-	public void semaphore_update()
-	{
-		if(!_initialized)
+	public void semaphore_update() {
+		if (!_initialized)
 			return;
-		
-		if(_ds.isEnabled())
-		{
-			if(IO.get_vison_alignment_button())
-			{
+
+		if (_ds.isEnabled()) {
+			if (IO.get_vison_alignment_button()) {
 				drive_inputs(Optical_Sensor.optical_alignment());
 			} else {
 				drive_inputs(IO.drive_input());
 			}
 		}
 	}
-	
+
 	/**
 	 * Logs drive data, updates SmartDashboard.
 	 */
-	private void dump()
-	{
-		byte[] output = new byte[12+4+4];
-		
+	private void dump() {
+		byte[] output = new byte[12 + 4 + 4];
+
 		int loops_since_last_dump = _loops_since_last_dump;
-		
+
 		// Dump motor set point, current, and voltage
-		for(int i = 0; i < Map.DRIVE_MOTOR.values().length; i++)
-		{
-			output[i*3] = Utils.double_to_byte(_motors[i].get()); // Returns as 11-bit, downconvert to 8
-			output[i*3+1] = (byte) _motors[i].getOutputCurrent();
-			output[i*3+2] = (byte) (_motors[i].getBusVoltage() * 10);
+		for (int i = 0; i < Map.DRIVE_MOTOR.values().length; i++) {
+			output[i * 3] = Utils.double_to_byte(_motors[i].get()); // Returns as 11-bit, downconvert to 8
+			output[i * 3 + 1] = (byte) _motors[i].getOutputCurrent();
+			output[i * 3 + 2] = (byte) (_motors[i].getBusVoltage() * 10);
 			// From CANTalon class: Bus voltage * throttle = output voltage
 		}
 		ByteBuffer.wrap(output, 12, 4).putInt(loops_since_last_dump);
-		ByteBuffer.wrap(output, 16, 4).putInt((int)(System.currentTimeMillis() - IO.ROBOT_START_TIME));
-		
-		if(_log != null)
-		{
-			if(_log.log(Map.LOGGED_CLASSES.DRIVE, output))
+		ByteBuffer.wrap(output, 16, 4).putInt((int) (System.currentTimeMillis() - IO.ROBOT_START_TIME));
+
+		if (_log != null) {
+			if (_log.log(Map.LOGGED_CLASSES.DRIVE, output))
 				_loops_since_last_dump -= loops_since_last_dump;
 		}
-		
+
 		// So we stay off the CAN bus as much as possible here
-		//update_dash(new byte[] {output[1], output[4], output[7], output[10]});
+		// update_dash(new byte[] {output[1], output[4], output[7], output[10]});
+	}
+
+	public static double[] rot_motor()
+	{
+		double[] rotations = {0,0,0,0};
+		for(int i = 0; i < Map.DRIVE_MOTOR_PORTS.length; i++)
+		{
+			rotations[i] = _motors[i].getEncoder().getPosition();
+		}
+		return rotations;
 	}
 	
 	/**

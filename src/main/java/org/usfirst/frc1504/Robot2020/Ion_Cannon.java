@@ -18,22 +18,22 @@ public class Ion_Cannon implements Updatable {
 
     private CANSparkMax _top_shoot;
     private CANSparkMax _bottom_shoot;
-    private CANEncoder _top_encoder;
-    private CANEncoder _bottom_encoder;
+    public static CANEncoder _top_encoder;
+    public static CANEncoder _bottom_encoder;
 
-    private CANPIDController _top_pid;
-    private CANPIDController _bottom_pid;
+    private static CANPIDController _top_pid;
+    private static CANPIDController _bottom_pid;
 
-    private DoubleSolenoid _top_extender;
-    private DoubleSolenoid _bottom_extender;
+    public static DoubleSolenoid _top_extender;
+    public static DoubleSolenoid _bottom_extender;
 
     private boolean _ion_cannon_top_active = false;
     private boolean _ion_cannon_bottom_active = false;
-    private boolean ion_timer_set = false;
-    private double ion_timer;
+    private static boolean ion_timer_set = false;
+    private static double ion_timer;
 
-    private static double speedo = 0.32;
-    private static double speed_offset = 0;
+    public static double speedo = 0;
+    public static double speed_offset = 0;
     // private double cannon_spin = 0;
 
     private int i = 0;
@@ -50,8 +50,7 @@ public class Ion_Cannon implements Updatable {
         getInstance();
     }
 
-    private Ion_Cannon() 
-    {
+    private Ion_Cannon() {
         _top_shoot = new CANSparkMax(Map.ION_CANNON_TOP, MotorType.kBrushless);
         _bottom_shoot = new CANSparkMax(Map.ION_CANNON_BOTTOM, MotorType.kBrushless);
 
@@ -77,24 +76,20 @@ public class Ion_Cannon implements Updatable {
         System.out.println("Ion Cannon charged");
     }
 
-    private boolean bottom_activated() 
-    {
+    private boolean bottom_activated() {
         return (IO.bottom_ion_shoot() ? !_ion_cannon_bottom_active : _ion_cannon_bottom_active);
     }
 
-    private boolean top_activated() 
-    {
+    private boolean top_activated() {
         return (IO.top_ion_shoot() ? !_ion_cannon_top_active : _ion_cannon_top_active);
     }
 
-    private void spin_wheels() 
-    {
+    public static void spin_wheels(double speed, double offset) {
         _top_pid.setReference(-1.0 * (speedo + speed_offset), ControlType.kVelocity);
         _bottom_pid.setReference(speedo - speed_offset, ControlType.kVelocity);
     }
 
-    private void flip_out_bottom_wheels() 
-    {
+    public static void flip_out_bottom_wheels() {
         _bottom_extender.set(DoubleSolenoid.Value.kForward);
         if (!ion_timer_set) {
             ion_timer = System.currentTimeMillis();
@@ -133,14 +128,14 @@ public class Ion_Cannon implements Updatable {
             flip_out_bottom_wheels();
             _top_extender.set(DoubleSolenoid.Value.kReverse);
             if (System.currentTimeMillis() - ion_timer > Map.IC_DEPLOY_DELAY){
-                spin_wheels();
+                spin_wheels(speedo, speed_offset);
             }
         } else if (top_activated()) 
         {
             flip_out_bottom_wheels();
             _top_extender.set(DoubleSolenoid.Value.kForward);
             if (System.currentTimeMillis() - ion_timer > Map.IC_DEPLOY_DELAY){
-                spin_wheels();
+                spin_wheels(speedo, speed_offset);
             }
         } else 
         {

@@ -33,6 +33,14 @@ public class Autonomous
 		public Autonomus_Waypoint(TYPE t, double t_o, double[] sp)
 			{ type = t; timeout = t_o; setpoint = sp; }
 	}
+
+	private double[] dist_to_rot(double dist, double angle)
+	{
+		double[] rots = {0, 0};
+		rots[0] = (dist * Math.cos(angle))/(6 * Math.PI);
+		rots[1] = (dist * Math.sin(angle))/(6 * Math.PI);
+		return rots;
+	}
 	
 	private static class Auto_Task extends TimerTask
 	{
@@ -186,122 +194,17 @@ public class Autonomous
 	
 	protected void auto_task()
 	{
-		//while(_thread_alive)
+		double speed = 2000;
+		double timer = 0;
+		double speed_offset = 500;
+		Ion_Cannon.flip_out_bottom_wheels();
+    	Ion_Cannon._top_extender.set(DoubleSolenoid.Value.kForward);
+		Ion_Cannon.spin_wheels(speed, speed_offset);
+		if(Ion_Cannon._top_encoder.getVelocity() >= speed + speed_offset - 200 && Ion_Cannon._top_encoder.getVelocity() <= speed + speed_offset + 200 && timer < 10000)
 		{
-			// Don't drive around if we're not getting good sensor data
-			// Otherwise we drive super fast and out of control
-			/*if(!_groundtruth.getDataGood())
-				continue;*/
-
-			// Calculate the program step we're on, quit if we're at the end of the list
-			while(next_step || step < _path.length && _path[step][4] < (System.currentTimeMillis() - _start_time))
-			{
-				_start_time = System.currentTimeMillis();
-				next_step = false;
-				step++;
-				//System.out.println("Iteration" + "Step: " + step + " Path Length: " + _path.length);
-			}
-			
-			// Alert user on new step
-			if(step > _path_step)
-			{
-				//System.out.println("\tAutonomous step " + step + " @ " + (double)(System.currentTimeMillis() - _start_time)/1000);
-				_path_step = step;
-			}
-			
-			// Quit if there are no more steps left
-			if(step >= _path.length)
-			{
-				//System.out.println("Quitting" + "Step: " + step + " Path Length: " + _path.length);
-				stop();
-				return;
-			}
-			
-			// Get the target position and actual current position
-			
-			double[] output = new double[3];
-			
-			if(_path[step][3] == 0)
-			{
-				// Calculate P(ID) output for the drive thread 
-				for(int value = 0; value < 3; value++) // P loop
-					output[value] = _path[step][value];
-			}
-			else if(_path[step][3] == 1) //bring arm down
-			{
-				//_pickup.set_state(Pickup.arm_position.DOWN);
-			}
-			else if(_path[step][3] == 2) //open arm
-			{
-				//_pickup.set_state(Pickup.flipper.CLOSE);
-				//_pickup._grab_piston.set(DoubleSolenoid.Value.kForward);
-			}
-			else if(_path[step][3] == 3) //eject cube
-			{
-				//_pickup.set_intake_speed(-1);
-			}
-			else if(_path[step][3] == 4) //bring arm up
-			{
-				//_pickup.set_state(Pickup.arm_position.UP);
-			}
-			else if(_path[step][3] == 5) //close arm changed this?
-			{
-				//_pickup.set_state(Pickup.flipper.OPEN);
-				//_pickup._grab_piston.set(DoubleSolenoid.Value.kReverse);
-			}
-			else if(_path[step][3] == 6) //intake a cube
-			{
-				//_pickup.set_intake_speed(1);
-			}
-			else if(_path[step][3] == 7) //extend lift all the way up
-			{
-				//next_step = !_lift.set_velocity(-1.0);
-			}
-			else if(_path[step][3] == 8) //extend lift all the way down
-			{
-				//next_step = !_lift.set_velocity(1.0);
-			}
-			else if(_path[step][3] == 9) //stop flippers
-			{
-				//_pickup.set_intake_speed(0);
-			}
-			else if(_path[step][3] == 14) //push out cube from lift plate
-			{
-				//_lift.plate_solenoid.set(true);
-			}
-			/*
-			else if(_path[step][3] == 10) //Auton Scale drop
-			{
-				_lift.plate_angle(45.0);
-			}*/
-			else if(_path[step][3] == 11) //go at an angle, speed
-			{
-				double angle = _path[step][0];
-				double speed = _path[step][1]; //1.2 is a multiplier for the horizontal to have better angle
-				double[] arr = _drive.follow_angle(angle, speed);
-				output[0] = arr[0];
-				output[1] = arr[1] * Map.HORIZONTAL_MULTIPLIER;
-			} else if(_path[step][3] == 12) //drive until crash
-			{
-				double[] temp_path = {29, 5, 4};
-				for(int value = 0; value < 3; value++)
-					output[value] = _path[step][value]; //set output to crash bandicoot check
-				//temp_path = _drive.roborio_crash_bandicoot_check(_path[step], System.currentTimeMillis() - _start_time, Map.CRASH_DETECTION_MODE);
-				if(temp_path[0] + temp_path[1] + temp_path[2] == 0){ //if we crashed
-					for(int value = 0; value < 3; value++)
-						output[value] = temp_path[value];
-					System.out.println("crashed");
-					next_step = true;
-				}
-				//System.out.println("Crashed" + "Step: " + step + " Path Length: " + _path.length);	
-			}
-			_drive.drive_inputs(output);
-			
-			try {
-				Thread.sleep(15);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			timer = System.currentTimeMillis();
+			Tokamak._tokamak_top.set(-Map.TOKAMAK_SPEED);
+            Tokamak._tokamak_bottom.set(Map.TOKAMAK_SPEED);
 		}
 	}
 }
