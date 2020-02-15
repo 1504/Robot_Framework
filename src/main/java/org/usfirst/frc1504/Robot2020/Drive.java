@@ -146,7 +146,12 @@ public class Drive implements Updatable
 		
 		if(_ds.isEnabled())
 		{
-			drive_inputs(IO.drive_input());
+			if(IO.get_vison_alignment_button())
+			{
+				drive_inputs(Optical_Sensor.optical_alignment());
+			} else {
+				drive_inputs(IO.drive_input());
+			}
 		}
 	}
 	

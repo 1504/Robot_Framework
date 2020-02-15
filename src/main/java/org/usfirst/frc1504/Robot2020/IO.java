@@ -148,6 +148,12 @@ public class IO
 			return _secondary.getRawButton(Map.ACTIVATE_TRACTOR_BEAM_BUTTON);
 		}
 
+		/** Vision */
+		public static boolean get_vison_alignment_button()
+		{
+			return _secondary.getRawButton(Map.LIGHTSABER_BUTTON);
+		}
+
 		// Override button
 		public static boolean get_god_button()
 		{

@@ -8,6 +8,15 @@ package org.usfirst.frc1504.Robot2020;
 
 public class Map {
 
+    /** Vision Constants */
+    public static final double YAW_LEFT_MARGIN = 0;
+    public static final double YAW_RIGHT_MARGIN = 0;
+
+    
+    public static final double PITCH_TOP_MARGIN = 0;
+    public static final double PITCH_BOTTOM_MARGIN = 0;
+
+
     /** Utilities */
     public static final double UTIL_JOYSTICK_DEADZONE = 0.05;
 
@@ -65,7 +74,7 @@ public class Map {
 	public static final int BACK_RIGHT_TALON_PORT = 13;
 	public static final int FRONT_RIGHT_TALON_PORT = 10;
 	//public static final int[] DRIVE_MOTOR_PORTS = { FRONT_LEFT_TALON_PORT, BACK_LEFT_TALON_PORT, BACK_RIGHT_TALON_PORT, FRONT_RIGHT_TALON_PORT };
-	public static final int[] DRIVE_MOTOR_PORTS = { 10, 11, 12, 13 };
+	public static final int[] DRIVE_MOTOR_PORTS = { 12, 13, 10, 11 };
 
     // Drive disable orbit point buttons
 	public static final int DRIVE_LEFT_BOTTOM = 7;
@@ -99,7 +108,7 @@ public class Map {
 	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
 
     /** Controler Mappings */
-    // 1  : A                      - Lightsaber extend
+    // 1  : A                      - VISION_ALIGNMENT / (Lightsaber extend) someone needs to move this to b
 	// 2  : B                      - Lightsaber toggle retract
 	// 3  : X                      - Ion cannon shoot Bottom
 	// 4  : Y                      - Ion cannon shoot Top
@@ -139,6 +148,8 @@ public class Map {
         // Tractor Beam
         public static final int ACTIVATE_TRACTOR_BEAM_BUTTON = 10;
 
+        // Vision
+        public static final int VISION_ALIGNMENT_BUTTON = 1;
 
         /** Overrides */
         public static final int GOD_MODE = 8;
