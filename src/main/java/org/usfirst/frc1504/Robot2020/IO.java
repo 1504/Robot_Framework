@@ -115,11 +115,11 @@ public class IO
 		/** Lightsaber */
 		public static boolean ls_extend_button()
 		{
-			return _secondary.getRawButton(Map.LIGHTSABER_BUTTON);
+			return _secondary.getRawButton(Map.LIGHTSABER_EXTEND_BUTTON);
 		}
-		public static boolean ls_retract_toggle()
+		public static boolean ls_retract_button()
 		{
-			return _secondary.getRawButton(Map.LIGHTSABER_INVERTER);
+			return _secondary.getRawButton(Map.LIGHTSABER_RETRACT_BUTTON);
 		}
 		public static double ls_manual_target_speed()
 		{
@@ -151,7 +151,7 @@ public class IO
 		/** Vision */
 		public static boolean get_vison_alignment_button()
 		{
-			return _secondary.getRawButton(Map.LIGHTSABER_BUTTON);
+			return _secondary.getRawButton(Map.LIGHTSABER_EXTEND_BUTTON);
 		}
 
 		// Override button

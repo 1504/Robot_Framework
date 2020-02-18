@@ -51,7 +51,7 @@ public class Lightsaber implements Updatable {
             return (IO.get_god_button() ? !_manual : _manual);
     }
     private boolean toggled_lightsaber_direction() {
-        return (IO.ls_retract_toggle() ? !_inverted : _inverted);
+        return (IO.ls_retract_button() ? !_inverted : _inverted);
     }
     private void set_lightsaber(double speed) {
         _lightsaber_top.set(speed + lightsaber_correction);
@@ -62,7 +62,10 @@ public class Lightsaber implements Updatable {
     {
 
         if (IO.ls_extend_button()) {
-            set_lightsaber(IO.ls_manual_target_speed() * .1);
+            set_lightsaber(Map.LS_TARGET_SPEED);
+            //set_lightsaber(IO.ls_manual_target_speed() * .1);
+        } else if (IO.ls_retract_button()) {
+            set_lightsaber(-Map.LS_TARGET_SPEED);
         }
 
         lightsaber_correction = (_bottom_encoder.getPosition() - _top_encoder.getPosition()) * Map.LS_CORRECTIONAL_GAIN;

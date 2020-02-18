@@ -134,8 +134,8 @@ public class Map {
         public static final int ION_SETPOINT_BUTTON = 7;
 
         // Lightsaber
-        public static final int LIGHTSABER_BUTTON = 1;
-        public static final int LIGHTSABER_INVERTER = 2;
+        public static final int LIGHTSABER_EXTEND_BUTTON = 1;
+        public static final int LIGHTSABER_RETRACT_BUTTON = 2;
         public static final int LS_SPEED_CTRL_JOYSTICK = 1;
 
         // Pizza
