@@ -60,12 +60,14 @@ public class Lightsaber implements Updatable {
     
     private void update()
     {
-
-        if (IO.ls_extend_button()) {
-            set_lightsaber(Map.LS_TARGET_SPEED);
-            //set_lightsaber(IO.ls_manual_target_speed() * .1);
-        } else if (IO.ls_retract_button()) {
-            set_lightsaber(-Map.LS_TARGET_SPEED);
+        if (IO.get_god_button()) {
+            set_lightsaber(IO.ls_manual_target_speed() * .1);
+        } else {
+            if (IO.ls_extend_button()) {
+                set_lightsaber(Map.LS_TARGET_SPEED);
+            } else if (IO.ls_retract_button()) {
+                set_lightsaber(-Map.LS_TARGET_SPEED);
+            }
         }
 
         lightsaber_correction = (_bottom_encoder.getPosition() - _top_encoder.getPosition()) * Map.LS_CORRECTIONAL_GAIN;
