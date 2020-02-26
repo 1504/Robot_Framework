@@ -123,7 +123,7 @@ public class Drive implements Updatable
 	private volatile double[] _input = {0.0, 0.0, 0.0};
 	private volatile double[] _orbit_point = {0.0, 0.8}; //-1.15}; //{0.0, 1.15};
 
-	private static CANSparkMax[] _motors = new CANSparkMax[Map.DRIVE_MOTOR_PORTS.length];
+	private CANSparkMax[] _motors = new CANSparkMax[Map.DRIVE_MOTOR_PORTS.length];
 
 	/**
 	 * set up motors
@@ -179,7 +179,7 @@ public class Drive implements Updatable
 		// update_dash(new byte[] {output[1], output[4], output[7], output[10]});
 	}
 
-	public static double[] rot_motor()
+	public double[] rot_motor()
 	{
 		double[] rotations = {0,0,0,0};
 		for(int i = 0; i < Map.DRIVE_MOTOR_PORTS.length; i++)

@@ -42,17 +42,20 @@ public class Tokamak implements Updatable
 
     private void update()
     {
-        if(IO.bottom_ion_shoot())
+        if(IO.bottom_ion_shoot() && !IO.bottom_reverse_shoot())
         {
-            _tokamak_top.set(-Map.TOKAMAK_SPEED);
-            _tokamak_bottom.set(Map.TOKAMAK_SPEED);
+            _tokamak_top.set(Map.TOKAMAK_SPEED);
+            _tokamak_bottom.set(-Map.SERIALIZER_SPEED);
+        } else if(IO.bottom_reverse_shoot()) {
+            _tokamak_top.set(-IO.Testing_snake());
+            _tokamak_bottom.set(IO.Testing_serializer());
         } else if(IO.get_tokamak_override() > 0 && toggle_manual_control())
         {
             _tokamak_top.set(-IO.get_tokamak_override());
             _tokamak_bottom.set(IO.get_tokamak_override());
-        } else if(Tractor_Beam.activated() && (System.currentTimeMillis() - Tractor_Beam.tb_timer > 1000))
+        } else if(IO.get_tractor_beam_activation() > 0 && (Tractor_Beam.tb_timer.get() > 4))
         {
-            _tokamak_bottom.set(Map.TOKAMAK_SPEED);
+            _tokamak_top.set(Map.SERIALIZER_SPEED);
         } else {
             _tokamak_top.set(0);
             _tokamak_bottom.set(0);

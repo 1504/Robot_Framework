@@ -4,6 +4,9 @@ import org.usfirst.frc1504.Robot2020.Update_Semaphore.Updatable;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
+
+
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class Tractor_Beam implements Updatable
@@ -13,7 +16,7 @@ public class Tractor_Beam implements Updatable
 
     private WPI_TalonSRX _beam;
     private DoubleSolenoid _ef_engager;
-    public static double tb_timer;
+    public static Timer tb_timer = new Timer();
 
     private static boolean _ef_engager_active = false;
 
@@ -37,18 +40,24 @@ public class Tractor_Beam implements Updatable
 
     public static boolean activated() 
     {
-        return (IO.get_tractor_beam_activation() ? !_ef_engager_active : _ef_engager_active);
+        return (IO.get_tractor_beam_activation() > 0 ? !_ef_engager_active : _ef_engager_active);
     }
 
     private void update()
     {
-        if (activated())
+        if (IO.get_tractor_beam_activation() == 0.1)
         {
-            _beam.set(Map.TRACTOR_BEAM_SPEED);
-            tb_timer = System.currentTimeMillis();
+            tb_timer.start();
+        }
+        if (IO.get_tractor_beam_activation() > 0)
+        {
+            _beam.set(-Map.TRACTOR_BEAM_SPEED);
+            System.out.println(tb_timer);
             _ef_engager.set(DoubleSolenoid.Value.kForward);
         } else {
             _beam.set(0.0);
+            tb_timer.stop();
+            tb_timer.reset();
             _ef_engager.set(DoubleSolenoid.Value.kReverse);
         }
     }

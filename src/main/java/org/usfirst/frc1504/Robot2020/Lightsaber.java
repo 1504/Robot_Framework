@@ -51,7 +51,7 @@ public class Lightsaber implements Updatable {
             return (IO.get_god_button() ? !_manual : _manual);
     }
     private boolean toggled_lightsaber_direction() {
-        return (IO.ls_retract_button() ? !_inverted : _inverted);
+        return (IO.ls_enable_button() ? !_inverted : _inverted);
     }
     private void set_lightsaber(double speed) {
         _lightsaber_top.set(speed + lightsaber_correction);
@@ -60,14 +60,9 @@ public class Lightsaber implements Updatable {
     
     private void update()
     {
-        if (IO.get_god_button()) {
-            set_lightsaber(IO.ls_manual_target_speed() * .1);
-        } else {
-            if (IO.ls_extend_button()) {
-                set_lightsaber(Map.LS_TARGET_SPEED);
-            } else if (IO.ls_retract_button()) {
-                set_lightsaber(-Map.LS_TARGET_SPEED);
-            }
+        if(IO.ls_enable_button())
+        {
+            set_lightsaber(IO.ls_manual_target_speed());
         }
 
         lightsaber_correction = (_bottom_encoder.getPosition() - _top_encoder.getPosition()) * Map.LS_CORRECTIONAL_GAIN;
@@ -82,9 +77,9 @@ public class Lightsaber implements Updatable {
 
     public void semaphore_update() // updates robot information
     {
-        System.out.println( _bottom_encoder.getPosition());
-        System.out.println(_top_encoder.getPosition());
-        System.out.println("test");
+        //System.out.println( _bottom_encoder.getPosition());
+        //System.out.println(_top_encoder.getPosition());
+        //System.out.println("test");
 
         if (_ds.isDisabled()) // only runs in teleop
             return;

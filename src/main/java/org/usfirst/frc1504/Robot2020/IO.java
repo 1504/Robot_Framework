@@ -103,6 +103,10 @@ public class IO
 		{
 			return _secondary.getRawButton(Map.BOTTOM_SHOOT_BUTTON);
 		}
+		public static boolean bottom_reverse_shoot()
+		{
+			return _secondary.getRawButton(Map.Shoulder);
+		}
 		public static boolean top_ion_shoot()
 		{
 			return _secondary.getRawButton(Map.TOP_SHOOT_BUTTON);
@@ -111,15 +115,14 @@ public class IO
 		{
 			return _secondary.getRawButton(Map.ION_SETPOINT_BUTTON);
 		}
-
-		/** Lightsaber */
-		public static boolean ls_extend_button()
+		public static double Testing_shooter()
 		{
-			return _secondary.getRawButton(Map.LIGHTSABER_EXTEND_BUTTON);
+			return _secondary.getRawAxis(3);
 		}
-		public static boolean ls_retract_button()
+		/** Lightsaber */
+		public static boolean ls_enable_button()
 		{
-			return _secondary.getRawButton(Map.LIGHTSABER_RETRACT_BUTTON);
+			return _secondary.getRawButton(Map.LIGHTSABER_ENABLE_BUTTON);
 		}
 		public static double ls_manual_target_speed()
 		{
@@ -142,10 +145,20 @@ public class IO
 			return _secondary.getRawAxis(Map.TOKAMAK_OVERRIDE);
 		}
 
-		/** Tractor Beam */
-		public static boolean get_tractor_beam_activation()
+		public static double Testing_serializer()
 		{
-			return _secondary.getRawButton(Map.ACTIVATE_TRACTOR_BEAM_BUTTON);
+			return _secondary.getRawAxis(5);
+		}
+
+		public static double Testing_snake()
+		{
+			return _secondary.getRawAxis(1);
+		}
+
+		/** Tractor Beam */
+		public static double get_tractor_beam_activation()
+		{
+			return _secondary.getRawAxis(Map.ACTIVATE_TRACTOR_BEAM_BUTTON);
 		}
 
 		/** Vision */

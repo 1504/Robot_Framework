@@ -74,7 +74,7 @@ public class Map {
 	public static final int BACK_RIGHT_TALON_PORT = 13;
 	public static final int FRONT_RIGHT_TALON_PORT = 10;
 	//public static final int[] DRIVE_MOTOR_PORTS = { FRONT_LEFT_TALON_PORT, BACK_LEFT_TALON_PORT, BACK_RIGHT_TALON_PORT, FRONT_RIGHT_TALON_PORT };
-	public static final int[] DRIVE_MOTOR_PORTS = { 12, 13, 10, 11 };
+	public static final int[] DRIVE_MOTOR_PORTS = { 10, 11, 12, 13 };
 
     // Drive disable orbit point buttons
 	public static final int DRIVE_LEFT_BOTTOM = 7;
@@ -120,7 +120,7 @@ public class Map {
 	// 10 : Press right joystick   - Tractor Beam toggle
 	
 	// 0  : X axis-left joystick   - Tokamak Override
-	// 1  : Y axis-left joystick   - 
+	// 1  : Y axis-left joystick   - LIGHTSABER OVERRIDE
 	// 2  : LT                     - Tractor Beam
 	// 3  : RT                     - Ion Cannon
 	// 4  : X axis-right joystick  - Lightsaber Manual Control
@@ -130,12 +130,13 @@ public class Map {
 
         // Ion Cannon
         public static final int BOTTOM_SHOOT_BUTTON = 3;
+        public static final int Shoulder = 6;
         public static final int TOP_SHOOT_BUTTON = 4;
         public static final int ION_SETPOINT_BUTTON = 7;
 
         // Lightsaber
         public static final int LIGHTSABER_EXTEND_BUTTON = 1;
-        public static final int LIGHTSABER_RETRACT_BUTTON = 2;
+        public static final int LIGHTSABER_ENABLE_BUTTON = 5;
         public static final int LS_SPEED_CTRL_JOYSTICK = 1;
 
         // Pizza
@@ -146,7 +147,7 @@ public class Map {
         public static final int TOKAMAK_OVERRIDE = 2; // trigger
 
         // Tractor Beam
-        public static final int ACTIVATE_TRACTOR_BEAM_BUTTON = 10;
+        public static final int ACTIVATE_TRACTOR_BEAM_BUTTON = 2;
 
         // Vision
         public static final int VISION_ALIGNMENT_BUTTON = 1;
@@ -201,10 +202,12 @@ public class Map {
         /** Pizza */
 
         /** Tokamak */
-        public static final double TOKAMAK_SPEED = 1;
+        public static final double SERIALIZER_SPEED = 0.4;
+        public static final double TOKAMAK_SPEED = 0.4;
+
 
         /** Tractor Beam */
-        public static final double TRACTOR_BEAM_SPEED = 1;
+        public static final double TRACTOR_BEAM_SPEED = 0.7;
 
 
 

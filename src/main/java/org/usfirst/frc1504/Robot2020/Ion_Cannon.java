@@ -51,6 +51,7 @@ public class Ion_Cannon implements Updatable {
     }
 
     private Ion_Cannon() {
+        /*
         _top_shoot = new CANSparkMax(Map.ION_CANNON_TOP, MotorType.kBrushless);
         _bottom_shoot = new CANSparkMax(Map.ION_CANNON_BOTTOM, MotorType.kBrushless);
 
@@ -71,7 +72,8 @@ public class Ion_Cannon implements Updatable {
 
         _bottom_pid.setP(0.00014);
         _bottom_pid.setFF(0.00017);
-
+        */
+        _bottom_shoot = new CANSparkMax(Map.ION_CANNON_BOTTOM, MotorType.kBrushless);
         Update_Semaphore.getInstance().register(this);
         System.out.println("Ion Cannon charged");
     }
@@ -99,64 +101,18 @@ public class Ion_Cannon implements Updatable {
 
     private void update() 
     {
-        if (IO.hid_N()) {
-            speed_offset += 10;
-        } else if (IO.hid_S()) 
-        {
-            speed_offset -= 10;
-        }
+        
+        _bottom_shoot.set(IO.Testing_shooter());        
 
-        if (IO.hid_E()) {
-            speedo += 10;
-        } else if (IO.hid_W()) 
-        {
-            speedo -= 10;
-        }
+        //SmartDashboard.putString("Spew Top Speed", (_top_encoder.getVelocity() + "RPM"));
+        //SmartDashboard.putString("Spew Bottom Speed", (_bottom_encoder.getVelocity() + "RPM"));
+        //SmartDashboard.putString("Spin Diff", (speed_offset + " RPM"));
+        //SmartDashboard.putNumber("Setpoint Number", setpoint_val);
+        //SmartDashboard.putString("Speed", (speedo + " RPM"));
 
-        // speedo = IO.manual_ion_speed() * 6000;
-        // cannon_spin = (_bottom_encoder.getVelocity() - _top_encoder.getVelocity() +
-        // speed_offset) * Map.ION_CORRECTIONAL_GAIN;
-
-        if (IO.cycle_ion_setpoint()) 
-        {
-            i += 1;
-            setpoint_val = _setpoints[i % _setpoints.length];
-        }
-
-        if (bottom_activated()) 
-        {
-            flip_out_bottom_wheels();
-            _top_extender.set(DoubleSolenoid.Value.kReverse);
-            if (System.currentTimeMillis() - ion_timer > Map.IC_DEPLOY_DELAY){
-                spin_wheels(speedo, speed_offset);
-            }
-        } else if (top_activated()) 
-        {
-            flip_out_bottom_wheels();
-            _top_extender.set(DoubleSolenoid.Value.kForward);
-            if (System.currentTimeMillis() - ion_timer > Map.IC_DEPLOY_DELAY){
-                spin_wheels(speedo, speed_offset);
-            }
-        } else 
-        {
-            _top_pid.setReference(0, ControlType.kVelocity);
-            _bottom_pid.setReference(0, ControlType.kVelocity);
-
-            _top_extender.set(DoubleSolenoid.Value.kReverse);
-            _bottom_extender.set(DoubleSolenoid.Value.kReverse);
-
-            ion_timer_set = false;
-        }
-
-        SmartDashboard.putString("Spew Top Speed", (_top_encoder.getVelocity() + "RPM"));
-        SmartDashboard.putString("Spew Bottom Speed", (_bottom_encoder.getVelocity() + "RPM"));
-        SmartDashboard.putString("Spin Diff", (speed_offset + " RPM"));
-        SmartDashboard.putNumber("Setpoint Number", setpoint_val);
-        SmartDashboard.putString("Speed", (speedo + " RPM"));
-
-        System.out.println("Bottom Speed: " + _bottom_encoder.getVelocity());
-        System.out.println("Top Speed: " + _top_encoder.getVelocity());
-        System.out.println(speed_offset);
+        //System.out.println("Bottom Speed: " + _bottom_encoder.getVelocity());
+        //System.out.println("Top Speed: " + _top_encoder.getVelocity());
+        //System.out.println(speed_offset);
     }
 
     public void semaphore_update() // updates robot information
