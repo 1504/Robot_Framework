@@ -47,12 +47,6 @@ public class Lightsaber implements Updatable {
         System.out.println("Lightsaber is on. Vrrrrnnnnnnnnnn~...");
     }
 
-    private boolean toggle_manual_control() {
-            return (IO.get_god_button() ? !_manual : _manual);
-    }
-    private boolean toggled_lightsaber_direction() {
-        return (IO.ls_enable_button() ? !_inverted : _inverted);
-    }
     private void set_lightsaber(double speed) {
         _lightsaber_top.set(speed + lightsaber_correction);
         _lightsaber_bottom.set(speed - lightsaber_correction);
@@ -60,10 +54,7 @@ public class Lightsaber implements Updatable {
     
     private void update()
     {
-        if(IO.ls_enable_button())
-        {
-            set_lightsaber(IO.ls_manual_target_speed());
-        }
+        set_lightsaber(IO.lightsaber());
 
         lightsaber_correction = (_bottom_encoder.getPosition() - _top_encoder.getPosition()) * Map.LS_CORRECTIONAL_GAIN;
         //SmartDashboard.putBoolean("Manual Toggle: ", toggle_manual_control());

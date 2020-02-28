@@ -78,14 +78,6 @@ public class Ion_Cannon implements Updatable {
         System.out.println("Ion Cannon charged");
     }
 
-    private boolean bottom_activated() {
-        return (IO.bottom_ion_shoot() ? !_ion_cannon_bottom_active : _ion_cannon_bottom_active);
-    }
-
-    private boolean top_activated() {
-        return (IO.top_ion_shoot() ? !_ion_cannon_top_active : _ion_cannon_top_active);
-    }
-
     public static void spin_wheels(double speed, double offset) {
         _top_pid.setReference(-1.0 * (speedo + speed_offset), ControlType.kVelocity);
         _bottom_pid.setReference(speedo - speed_offset, ControlType.kVelocity);
@@ -102,7 +94,7 @@ public class Ion_Cannon implements Updatable {
     private void update() 
     {
         
-        _bottom_shoot.set(IO.Testing_shooter());        
+        _bottom_shoot.set(IO.god_ion());        
 
         //SmartDashboard.putString("Spew Top Speed", (_top_encoder.getVelocity() + "RPM"));
         //SmartDashboard.putString("Spew Bottom Speed", (_bottom_encoder.getVelocity() + "RPM"));

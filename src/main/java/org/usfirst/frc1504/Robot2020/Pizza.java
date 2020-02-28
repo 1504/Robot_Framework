@@ -131,7 +131,7 @@ public class Pizza implements Updatable {
         SmartDashboard.putString("Detected Color", colorChar + " ");
 
         System.out.println(colorChar);
-
+        /*
         if(IO.get_god_button())
         {
             _pizza_slicer.set(speedo);
@@ -161,7 +161,7 @@ public class Pizza implements Updatable {
         } else {
             _scomp_link.set(DoubleSolenoid.Value.kReverse);
         }
-
+        */
     }
 
     public void semaphore_update() // updates robot information

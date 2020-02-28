@@ -99,88 +99,71 @@ public class IO
 	 * Yearly Components
 	 */
 		/** Ion Cannon */
-		public static boolean bottom_ion_shoot()
+		public static boolean ion_low() 
 		{
-			return _secondary.getRawButton(Map.BOTTOM_SHOOT_BUTTON);
+			return _secondary.getRawButton(Map.ION_LOW_BT);
 		}
-		public static boolean bottom_reverse_shoot()
+		public static boolean ion_high() 
 		{
-			return _secondary.getRawButton(Map.Shoulder);
+			return _secondary.getRawButton(Map.ION_HIGH_BT);
 		}
-		public static boolean top_ion_shoot()
+
+		// God
+		public static double god_ion()
 		{
-			return _secondary.getRawButton(Map.TOP_SHOOT_BUTTON);
+			return _secondary.getRawAxis(Map.GOD_ION_AX);
 		}
-		public static boolean cycle_ion_setpoint() 
-		{
-			return _secondary.getRawButton(Map.ION_SETPOINT_BUTTON);
-		}
-		public static double Testing_shooter()
-		{
-			return _secondary.getRawAxis(3);
-		}
+
 		/** Lightsaber */
-		public static boolean ls_enable_button()
+		public static double lightsaber()
 		{
-			return _secondary.getRawButton(Map.LIGHTSABER_ENABLE_BUTTON);
-		}
-		public static double ls_manual_target_speed()
-		{
-			return _secondary.getRawAxis(Map.LS_SPEED_CTRL_JOYSTICK);
+			return _secondary.getRawAxis(Map.LIGHTSABER_AX);
 		}
 
 		/** Pizza */
-		public static boolean get_pizza_cutter_button()
+		public static boolean pizza_auto() 
 		{
-			return _secondary.getRawButton(Map.PIZZA_SLICER_BUTTON);
+			return _secondary.getRawButton(Map.PIZZA_AUTO_BT);
 		}
-		public static boolean get_rotation_control_button()
+		public static boolean pizza_extend() 
 		{
-			return _secondary.getRawButton(Map.ROTATION_CONTROL_BUTTON);
+			return _secondary.getRawButton(Map.PIZZA_EXTEND_BT);
 		}
 
 		/** Tokamak */
-		public static double get_tokamak_override()
+		// God
+		public static double snake()
 		{
-			return _secondary.getRawAxis(Map.TOKAMAK_OVERRIDE);
+			return _secondary.getRawAxis(Map.GOD_SNAKE_AX);
 		}
-
-		public static double Testing_serializer()
+		public static double serializer()
 		{
-			return _secondary.getRawAxis(5);
-		}
-
-		public static double Testing_snake()
-		{
-			return _secondary.getRawAxis(1);
+			return _secondary.getRawAxis(Map.GOD_SERIALIZER_AX);
 		}
 
 		/** Tractor Beam */
-		public static double get_tractor_beam_activation()
+		public static boolean tb_activate() 
 		{
-			return _secondary.getRawAxis(Map.ACTIVATE_TRACTOR_BEAM_BUTTON);
+			return _secondary.getRawButton(Map.TB_ACTIVATE_BT);
+		}
+		public static boolean tb_vision() 
+		{
+			return _secondary.getRawButton(Map.TB_VISION_BT);
 		}
 
-		/** Vision */
-		public static boolean get_vison_alignment_button()
+		// God
+		public static double god_tb()
 		{
-			return _secondary.getRawButton(Map.LIGHTSABER_EXTEND_BUTTON);
+			return _secondary.getRawAxis(Map.GOD_TB_AX);
 		}
 
-		// Override button
-		public static boolean get_god_button()
+		/** Misc */
+		public static boolean god()
 		{
-			return _secondary.getRawButton(Map.GOD_MODE);
-		}
-		public static double get_testing1()
-		{
-			return Math.pow(_drive_rotation.getRawAxis(Map.JOYSTICK_Y_AXIS), 1);
-		}
-		public static double get_testing2()
-		{
-			return Math.pow(_drive_forward.getRawAxis(Map.JOYSTICK_Y_AXIS), 1);
+			return _secondary.getRawButtonReleased(Map.GOD_ENABLE);
 		}
 
+		public static boolean god_state = false;
 
 		
 }

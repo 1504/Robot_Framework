@@ -144,10 +144,10 @@ public class Drive implements Updatable
 			return;
 
 		if (_ds.isEnabled()) {
-			if (IO.get_vison_alignment_button()) {
-				drive_inputs(Optical_Sensor.optical_alignment());
-			} else {
-				drive_inputs(IO.drive_input());
+			drive_inputs(IO.drive_input());
+			if(IO.god())
+			{
+				IO.god_state = !IO.god_state;
 			}
 		}
 	}

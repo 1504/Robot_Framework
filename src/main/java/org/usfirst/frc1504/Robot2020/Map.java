@@ -108,52 +108,52 @@ public class Map {
 	public static final int DRIVE_SECONDARY_JOYSTICK = 2;
 
     /** Controler Mappings */
-    // 1  : A                      - VISION_ALIGNMENT / (Lightsaber extend) someone needs to move this to b
-	// 2  : B                      - Lightsaber toggle retract
-	// 3  : X                      - Ion cannon shoot Bottom
-	// 4  : Y                      - Ion cannon shoot Top
-	// 5  : Left Shoulder Button   - Manual pizza rotation
-	// 6  : Right Shoulder Button  - Rotation Control
-	// 7  : Back                   - Ion Cannon Setpoint
-	// 8  : Start                  - God Mode
+    // <<God Mode>>
+    // 1  : A                      - Tractor Beam on toggle? !
+	// 2  : B                      - #Pizza Auto !
+	// 3  : X                      - Ion Cannon Low !
+	// 4  : Y                      - Ion Cannon High !
+	// 5  : Left Shoulder Button   - 
+	// 6  : Right Shoulder Button  - Vision Alignment !
+	// 7  : Back                   - 
+	// 8  : Start                  - Enable god mode !
 	// 9  : Press left joystick    - 
-	// 10 : Press right joystick   - Tractor Beam toggle
+	// 10 : Press right joystick   - Pizza extend or retract !
 	
-	// 0  : X axis-left joystick   - Tokamak Override
-	// 1  : Y axis-left joystick   - LIGHTSABER OVERRIDE
-	// 2  : LT                     - Tractor Beam
-	// 3  : RT                     - Ion Cannon
-	// 4  : X axis-right joystick  - Lightsaber Manual Control
-	// 5  : Y axis-right joystick  - 
+	// 0  : X axis-left joystick   - 
+	// 1  : Y axis-left joystick   - Telescope up down << Move Snake >> !
+	// 2  : LT                     - << Acts as a toggle for Tractor Beam >>
+	// 3  : RT                     - << Ion Cannon Raw Voltage >> !
+	// 4  : X axis-right joystick  - 
+	// 5  : Y axis-right joystick  - << Move Serializer >> !
 
     /** Controler Map Assignment */
 
         // Ion Cannon
-        public static final int BOTTOM_SHOOT_BUTTON = 3;
-        public static final int Shoulder = 6;
-        public static final int TOP_SHOOT_BUTTON = 4;
-        public static final int ION_SETPOINT_BUTTON = 7;
+        public static final int ION_LOW_BT = 3; // X
+        public static final int ION_HIGH_BT = 4; // Y
+
+        public static final int GOD_ION_AX = 3; // << RT >>
 
         // Lightsaber
-        public static final int LIGHTSABER_EXTEND_BUTTON = 1;
-        public static final int LIGHTSABER_ENABLE_BUTTON = 5;
-        public static final int LS_SPEED_CTRL_JOYSTICK = 1;
+        public static final int LIGHTSABER_AX = 1; // Y axis-left joystick
 
         // Pizza
-        public static final int PIZZA_SLICER_BUTTON = 5;
-        public static final int ROTATION_CONTROL_BUTTON = 6;
+        public static final int PIZZA_AUTO_BT = 2; // B
+        public static final int PIZZA_EXTEND_BT = 10; // Press right joystick
 
         // Tokamak
-        public static final int TOKAMAK_OVERRIDE = 2; // trigger
+        public static final int GOD_SNAKE_AX = 1; // << Y axis-left joystick >
+        public static final int GOD_SERIALIZER_AX = 5; // << Y axis-right joystick >>
 
         // Tractor Beam
-        public static final int ACTIVATE_TRACTOR_BEAM_BUTTON = 2;
+        public static final int TB_ACTIVATE_BT = 1; // A
+        public static final int TB_VISION_BT = 6; // Right Shoulder Button
 
-        // Vision
-        public static final int VISION_ALIGNMENT_BUTTON = 1;
+        public static final int GOD_TB_AX = 2; // << LT >> acts as button
 
-        /** Overrides */
-        public static final int GOD_MODE = 8;
+        /** Misc */
+        public static final int GOD_ENABLE = 8;
 
     /**
      * Unique Game Values Go Here

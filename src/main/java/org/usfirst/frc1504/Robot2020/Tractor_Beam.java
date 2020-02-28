@@ -38,13 +38,10 @@ public class Tractor_Beam implements Updatable
         System.out.println("Tractor Beam Engaged");
     }
 
-    public static boolean activated() 
-    {
-        return (IO.get_tractor_beam_activation() > 0 ? !_ef_engager_active : _ef_engager_active);
-    }
 
     private void update()
     {
+        /*
         if (IO.get_tractor_beam_activation() == 0.1)
         {
             tb_timer.start();
@@ -60,6 +57,7 @@ public class Tractor_Beam implements Updatable
             tb_timer.reset();
             _ef_engager.set(DoubleSolenoid.Value.kReverse);
         }
+        */
     }
 
     public void semaphore_update() // updates robot information

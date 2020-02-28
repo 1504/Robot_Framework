@@ -35,13 +35,10 @@ public class Tokamak implements Updatable
         System.out.println("Tokamak is generating plasma");
     }
 
-    private boolean toggle_manual_control() 
-    {
-        return (IO.get_god_button() ? !_manual : _manual);
-    }
 
     private void update()
     {
+        /*
         if(IO.bottom_ion_shoot() && !IO.bottom_reverse_shoot())
         {
             _tokamak_top.set(Map.TOKAMAK_SPEED);
@@ -60,6 +57,7 @@ public class Tokamak implements Updatable
             _tokamak_top.set(0);
             _tokamak_bottom.set(0);
         }
+        */
     }
 
     public void semaphore_update() // updates robot information

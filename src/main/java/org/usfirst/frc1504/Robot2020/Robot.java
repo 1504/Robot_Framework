@@ -120,12 +120,7 @@ public class Robot extends RobotBase {
 
     	while (isTest() && isEnabled())
     	{
-			Drive.getInstance().drive_inputs(0.6, 0, 0);
-			m_ds.waitForData(.150); // Blocks until we get new data or 150ms elapse
-            _semaphore.newData();
             
-            _testing1.set(-IO.get_testing1()/1.5);
-            _testing2.set(IO.get_testing2()/1.5);
     	}
     }
 
