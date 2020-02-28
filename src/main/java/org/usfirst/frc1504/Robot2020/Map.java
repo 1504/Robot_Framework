@@ -109,23 +109,23 @@ public class Map {
 
     /** Controler Mappings */
     // <<God Mode>>
-    // 1  : A                      - Tractor Beam on toggle? !
-	// 2  : B                      - #Pizza Auto !
-	// 3  : X                      - Ion Cannon Low !
-	// 4  : Y                      - Ion Cannon High !
+    // 1  : A                      - Tractor Beam on toggle? 
+	// 2  : B                      - #Pizza Auto 
+	// 3  : X                      - Ion Cannon Low 
+	// 4  : Y                      - Ion Cannon High 
 	// 5  : Left Shoulder Button   - 
-	// 6  : Right Shoulder Button  - Vision Alignment !
+	// 6  : Right Shoulder Button  - Vision Alignment 
 	// 7  : Back                   - 
-	// 8  : Start                  - Enable god mode !
+	// 8  : Start                  - Enable god mode 
 	// 9  : Press left joystick    - 
-	// 10 : Press right joystick   - Pizza extend or retract !
+	// 10 : Press right joystick   - Pizza extend or retract 
 	
 	// 0  : X axis-left joystick   - 
-	// 1  : Y axis-left joystick   - Telescope up down << Move Snake >> !
+	// 1  : Y axis-left joystick   - Telescope up down << Move Snake >> 
 	// 2  : LT                     - << Acts as a toggle for Tractor Beam >>
-	// 3  : RT                     - << Ion Cannon Raw Voltage >> !
+	// 3  : RT                     - << Ion Cannon Raw Voltage >> 
 	// 4  : X axis-right joystick  - 
-	// 5  : Y axis-right joystick  - << Move Serializer >> !
+	// 5  : Y axis-right joystick  - << Move Serializer >> 
 
     /** Controler Map Assignment */
 

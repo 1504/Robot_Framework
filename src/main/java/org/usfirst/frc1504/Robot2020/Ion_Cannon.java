@@ -25,7 +25,7 @@ public class Ion_Cannon implements Updatable {
     private static CANPIDController _bottom_pid;
 
     public static DoubleSolenoid _top_extender;
-    public static DoubleSolenoid _bottom_extender;
+    public static DoubleSolenoid _extender;
 
     private boolean _ion_cannon_top_active = false;
     private boolean _ion_cannon_bottom_active = false;
@@ -51,29 +51,28 @@ public class Ion_Cannon implements Updatable {
     }
 
     private Ion_Cannon() {
-        /*
-        _top_shoot = new CANSparkMax(Map.ION_CANNON_TOP, MotorType.kBrushless);
+        
+        //_top_shoot = new CANSparkMax(Map.ION_CANNON_TOP, MotorType.kBrushless);
         _bottom_shoot = new CANSparkMax(Map.ION_CANNON_BOTTOM, MotorType.kBrushless);
 
-        _top_shoot.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        //_top_shoot.setIdleMode(CANSparkMax.IdleMode.kBrake);
         _bottom_shoot.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
-        _top_encoder = _top_shoot.getEncoder();
+        //_top_encoder = _top_shoot.getEncoder();
         _bottom_encoder = _bottom_shoot.getEncoder();
 
-        _top_pid = _top_shoot.getPIDController();
+        //_top_pid = _top_shoot.getPIDController();
         _bottom_pid = _bottom_shoot.getPIDController();
 
-        _top_extender = new DoubleSolenoid(Map.TOP_EXTEND_HP, Map.TOP_EXTEND_LP);
-        _bottom_extender = new DoubleSolenoid(Map.BOT_EXTEND_HP, Map.BOT_EXTEND_LP);
+        //_top_extender = new DoubleSolenoid(Map.TOP_EXTEND_HP, Map.TOP_EXTEND_LP);
+        _extender = new DoubleSolenoid(Map.BOT_EXTEND_HP, Map.BOT_EXTEND_LP);
 
-        _top_pid.setP(0.00014);
-        _top_pid.setFF(0.00017);
+        //_top_pid.setP(0.00014);
+        //_top_pid.setFF(0.00017);
 
         _bottom_pid.setP(0.00014);
         _bottom_pid.setFF(0.00017);
-        */
-        _bottom_shoot = new CANSparkMax(Map.ION_CANNON_BOTTOM, MotorType.kBrushless);
+        
         Update_Semaphore.getInstance().register(this);
         System.out.println("Ion Cannon charged");
     }
@@ -84,7 +83,7 @@ public class Ion_Cannon implements Updatable {
     }
 
     public static void flip_out_bottom_wheels() {
-        _bottom_extender.set(DoubleSolenoid.Value.kForward);
+        _extender.set(DoubleSolenoid.Value.kForward);
         if (!ion_timer_set) {
             ion_timer = System.currentTimeMillis();
             ion_timer_set = true;
@@ -93,9 +92,11 @@ public class Ion_Cannon implements Updatable {
 
     private void update() 
     {
+        if (IO.god_state)
+        {
+            _bottom_shoot.set(IO.god_ion());
+        } 
         
-        _bottom_shoot.set(IO.god_ion());        
-
         //SmartDashboard.putString("Spew Top Speed", (_top_encoder.getVelocity() + "RPM"));
         //SmartDashboard.putString("Spew Bottom Speed", (_bottom_encoder.getVelocity() + "RPM"));
         //SmartDashboard.putString("Spin Diff", (speed_offset + " RPM"));

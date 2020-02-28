@@ -38,6 +38,11 @@ public class Tokamak implements Updatable
 
     private void update()
     {
+        if (IO.god_state)
+        {
+            _tokamak_top.set(IO.snake());
+            _tokamak_bottom.set(-IO.serializer());
+        }
         /*
         if(IO.bottom_ion_shoot() && !IO.bottom_reverse_shoot())
         {

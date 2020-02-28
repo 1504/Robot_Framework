@@ -41,6 +41,14 @@ public class Tractor_Beam implements Updatable
 
     private void update()
     {
+        if (IO.god_state)
+        {
+            if (IO.god_tb() > 0)
+        {
+            _beam.set(-Map.TRACTOR_BEAM_SPEED);
+            _ef_engager.set(DoubleSolenoid.Value.kForward);
+        }
+        }
         /*
         if (IO.get_tractor_beam_activation() == 0.1)
         {

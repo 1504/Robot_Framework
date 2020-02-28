@@ -54,7 +54,9 @@ public class Lightsaber implements Updatable {
     
     private void update()
     {
-        set_lightsaber(IO.lightsaber());
+        if (IO.god_state){
+            set_lightsaber(IO.lightsaber());
+        }
 
         lightsaber_correction = (_bottom_encoder.getPosition() - _top_encoder.getPosition()) * Map.LS_CORRECTIONAL_GAIN;
         //SmartDashboard.putBoolean("Manual Toggle: ", toggle_manual_control());
