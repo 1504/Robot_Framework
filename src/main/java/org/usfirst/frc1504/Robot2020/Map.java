@@ -170,17 +170,17 @@ public class Map {
             public static final int ION_CANNON_TOP = 20;           // Talon
             public static final int ION_CANNON_BOTTOM = 21;        // Talon
 
-            public static final int TOP_EXTEND_HP = 5;             // Double Solenoid - High
-            public static final int TOP_EXTEND_LP = 6;             // '' - Low
-            public static final int BOT_EXTEND_HP = 7;             // Double Solenoid  - High
-            public static final int BOT_EXTEND_LP = 8;             // '' - Low
+            public static final int TOP_EXTEND_HP = 4;             // Double Solenoid - High
+            public static final int TOP_EXTEND_LP = 5;             // '' - Low
+            public static final int BOT_EXTEND_HP = 6;             // Double Solenoid  - High
+            public static final int BOT_EXTEND_LP = 7;             // '' - Low
             /** Lightsaber */
             public static final int LIGHTSABER_TOP = 30;           // Spark
             public static final int LIGHTSABER_BOTTOM = 31;        // Spark
-            public static final int LOCKING_ACTIVATOR_PORT = 4;    // Solenoid
+            public static final int LOCKING_ACTIVATOR_PORT = 1;    // Solenoid
             /** Pizza */
             public static final int PIZZA_SLICER = 40;             // UNKNOWN
-            public static final int SCOMP_LINK_PORT = 2;           // Double Solenoid
+            public static final int SCOMP_LINK_PORT = 0;           // Double Solenoid
             /** Tokamak */
             public static final int TOKAMAK_TOP = 50;              // Talon
             public static final int TOKAMAK_BOTTOM = 51;           // Talon
