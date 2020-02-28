@@ -180,8 +180,7 @@ public class Map {
             public static final int LOCKING_ACTIVATOR_PORT = 4;    // Solenoid
             /** Pizza */
             public static final int PIZZA_SLICER = 40;             // UNKNOWN
-            public static final int SCOMP_LINK_HIGHSIDE_PORT = 2;  // Double Solenoid
-            public static final int SCOMP_LINK_LOWSIDE_PORT = 3;   // ''
+            public static final int SCOMP_LINK_PORT = 2;           // Double Solenoid
             /** Tokamak */
             public static final int TOKAMAK_TOP = 50;              // Talon
             public static final int TOKAMAK_BOTTOM = 51;           // Talon

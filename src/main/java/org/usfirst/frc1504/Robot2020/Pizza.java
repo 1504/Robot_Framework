@@ -3,11 +3,12 @@ package org.usfirst.frc1504.Robot2020;
 import org.usfirst.frc1504.Robot2020.Update_Semaphore.Updatable;
 
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.SolenoidBase;
 //import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 
 import com.revrobotics.ColorSensorV3;
 //import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -38,7 +39,7 @@ public class Pizza implements Updatable {
     private char initial_color;
     private int colorCount = 0;
     String gameData = DriverStation.getInstance().getGameSpecificMessage();
-    private DoubleSolenoid _scomp_link;
+    private Solenoid _scomp_link;
     private boolean scomp_link_state = false;
     
 
@@ -58,7 +59,7 @@ public class Pizza implements Updatable {
         m_colorMatcher.addColorMatch(kGreenTarget);
         m_colorMatcher.addColorMatch(kRedTarget);
         m_colorMatcher.addColorMatch(kYellowTarget);
-        _scomp_link = new DoubleSolenoid(Map.SCOMP_LINK_HIGHSIDE_PORT, Map.SCOMP_LINK_LOWSIDE_PORT);
+        _scomp_link = new Solenoid(Map.SCOMP_LINK_PORT);
         _pizza_slicer = new WPI_TalonSRX(Map.PIZZA_SLICER);
 
         Update_Semaphore.getInstance().register(this);
