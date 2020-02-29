@@ -17,7 +17,9 @@ public class Tractor_Beam implements Updatable {
     private DoubleSolenoid _ef_engager;
     public static Timer tb_timer = new Timer();
 
-    private static boolean _ef_state = false;
+    private static boolean _ef_god_state = false;
+    public static boolean _tb_state = false;
+
 
     public static Tractor_Beam getInstance() // sets instance
     {
@@ -44,16 +46,32 @@ public class Tractor_Beam implements Updatable {
                 _beam.set(0);
             }
             if (IO.god_ef()) {
-                _ef_state = !_ef_state;
+                _ef_god_state = !_ef_god_state;
             }
             
-            if(_ef_state) {
+            if(_ef_god_state) {
                 _ef_engager.set(DoubleSolenoid.Value.kForward);
             } else {
                 _ef_engager.set(DoubleSolenoid.Value.kReverse);
             }
+        } else {
+            if (IO.tb_activate()) {
+                _tb_state = !_tb_state;
+            }
+
+            if(_tb_state) {
+                _ef_engager.set(DoubleSolenoid.Value.kForward);
+                _beam.set(-Map.TRACTOR_BEAM_SPEED);
+                Tokamak.serializer.set(-Map.SERIALIZER_SPEED);
+                if (Tokamak.current_check(Tokamak.snake)) {
+                    Tokamak.snake.set(-Map.TOKAMAK_SPEED);
+                }
+            } else {
+                _ef_engager.set(DoubleSolenoid.Value.kReverse);
+                _beam.set(0);
+                Tokamak.serializer.set(0);
+            }
         }
-        System.out.println(IO.god_state);
         /*
          * if (IO.get_tractor_beam_activation() == 0.1) { tb_timer.start(); } if
          * (IO.get_tractor_beam_activation() > 0) { _beam.set(-Map.TRACTOR_BEAM_SPEED);
