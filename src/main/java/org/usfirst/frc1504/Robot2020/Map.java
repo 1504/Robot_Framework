@@ -204,6 +204,7 @@ public class Map {
         /** Tokamak */
         public static final double SERIALIZER_SPEED = 0.4;
         public static final double TOKAMAK_SPEED = 0.4;
+        public static final double HIGH_TOKAMAK_CURRENT = 0.5;
 
 
         /** Tractor Beam */
