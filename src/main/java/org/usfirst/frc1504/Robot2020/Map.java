@@ -111,8 +111,8 @@ public class Map {
     // <<God Mode>>
     // 1  : A                      - Tractor Beam on toggle? 
 	// 2  : B                      - #Pizza Auto 
-	// 3  : X                      - Ion Cannon Low 
-	// 4  : Y                      - Ion Cannon High 
+	// 3  : X                      - Ion Cannon Low <Toggle Shooter>
+	// 4  : Y                      - Ion Cannon High <Toggle Cow>
 	// 5  : Left Shoulder Button   - 
 	// 6  : Right Shoulder Button  - Vision Alignment 
 	// 7  : Back                   - 
@@ -134,6 +134,7 @@ public class Map {
         public static final int ION_HIGH_BT = 4; // Y
 
         public static final int GOD_ION_AX = 3; // << RT >>
+        public static final int GOD_EX_BT = 3; // << X >>
 
         // Lightsaber
         public static final int LIGHTSABER_AX = 1; // Y axis-left joystick
@@ -151,6 +152,8 @@ public class Map {
         public static final int TB_VISION_BT = 6; // Right Shoulder Button
 
         public static final int GOD_TB_AX = 2; // << LT >> acts as button
+        public static final int GOD_EF_BT = 4; // << Y >>
+
 
         /** Misc */
         public static final int GOD_ENABLE = 8;
@@ -172,8 +175,6 @@ public class Map {
 
             public static final int TOP_EXTEND_HP = 4;             // Double Solenoid - High
             public static final int TOP_EXTEND_LP = 5;             // '' - Low
-            public static final int BOT_EXTEND_HP = 6;             // Double Solenoid  - High
-            public static final int BOT_EXTEND_LP = 7;             // '' - Low
             /** Lightsaber */
             public static final int LIGHTSABER_TOP = 30;           // Spark
             public static final int LIGHTSABER_BOTTOM = 31;        // Spark
@@ -186,8 +187,8 @@ public class Map {
             public static final int TOKAMAK_BOTTOM = 51;           // Talon
             /** Tractor Beam */
             public static final int TRACTOR_BEAM = 60;             // Talon
-            public static final int EF_ENGAGER_HIGHSIDE_PORT = 0;  // Double Solenoid
-            public static final int EF_ENGAGER_LOWSIDE_PORT = 1;   // ''
+            public static final int EF_ENGAGER_HIGHSIDE_PORT = 6;  // Double Solenoid
+            public static final int EF_ENGAGER_LOWSIDE_PORT = 7;   // ''
 
 
         /** Ion Cannon */
@@ -206,7 +207,7 @@ public class Map {
 
 
         /** Tractor Beam */
-        public static final double TRACTOR_BEAM_SPEED = 0.7;
+        public static final double TRACTOR_BEAM_SPEED = 0.4;
 
 
 

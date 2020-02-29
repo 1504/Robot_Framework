@@ -54,7 +54,7 @@ public class Lightsaber implements Updatable {
     
     private void update()
     {
-        if (IO.god_state){
+        if (!IO.god_state){
             set_lightsaber(IO.lightsaber());
         }
 

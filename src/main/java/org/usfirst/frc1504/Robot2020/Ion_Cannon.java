@@ -34,6 +34,8 @@ public class Ion_Cannon implements Updatable {
 
     public static double speedo = 0;
     public static double speed_offset = 0;
+    private static boolean extender_state = false;
+
     // private double cannon_spin = 0;
 
     private int i = 0;
@@ -65,7 +67,7 @@ public class Ion_Cannon implements Updatable {
         _bottom_pid = _bottom_shoot.getPIDController();
 
         //_top_extender = new DoubleSolenoid(Map.TOP_EXTEND_HP, Map.TOP_EXTEND_LP);
-        _extender = new DoubleSolenoid(Map.BOT_EXTEND_HP, Map.BOT_EXTEND_LP);
+        _extender = new DoubleSolenoid(Map.TOP_EXTEND_HP, Map.TOP_EXTEND_LP);
 
         //_top_pid.setP(0.00014);
         //_top_pid.setFF(0.00017);
@@ -95,8 +97,17 @@ public class Ion_Cannon implements Updatable {
         if (IO.god_state)
         {
             _bottom_shoot.set(IO.god_ion());
+            if (IO.god_ex()) {
+                extender_state = !extender_state;
+            }
+            
+            if(extender_state) {
+                _extender.set(DoubleSolenoid.Value.kForward);
+            } else {
+                _extender.set(DoubleSolenoid.Value.kReverse);
+            }
         } 
-        
+
         //SmartDashboard.putString("Spew Top Speed", (_top_encoder.getVelocity() + "RPM"));
         //SmartDashboard.putString("Spew Bottom Speed", (_bottom_encoder.getVelocity() + "RPM"));
         //SmartDashboard.putString("Spin Diff", (speed_offset + " RPM"));

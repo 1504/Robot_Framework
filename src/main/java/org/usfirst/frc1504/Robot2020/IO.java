@@ -108,10 +108,14 @@ public class IO
 			return _secondary.getRawButton(Map.ION_HIGH_BT);
 		}
 
-		// God
+		// God Ion Cannon
 		public static double god_ion()
 		{
 			return _secondary.getRawAxis(Map.GOD_ION_AX);
+		}
+		public static boolean god_ex()
+		{
+			return _secondary.getRawButtonReleased(Map.GOD_EX_BT);
 		}
 
 		/** Lightsaber */
@@ -131,7 +135,7 @@ public class IO
 		}
 
 		/** Tokamak */
-		// God
+		// God Tokamak
 		public static double snake()
 		{
 			return _secondary.getRawAxis(Map.GOD_SNAKE_AX);
@@ -150,13 +154,16 @@ public class IO
 		{
 			return _secondary.getRawButton(Map.TB_VISION_BT);
 		}
-
-		// God
+		
+		// God Tractor Beam
 		public static double god_tb()
 		{
 			return _secondary.getRawAxis(Map.GOD_TB_AX);
 		}
-
+		public static boolean god_ef()
+		{
+			return _secondary.getRawButtonReleased(Map.GOD_EF_BT);
+		}
 		/** Misc */
 		public static boolean god()
 		{

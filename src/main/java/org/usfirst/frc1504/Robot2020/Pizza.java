@@ -106,7 +106,7 @@ public class Pizza implements Updatable {
 
 
     private void update() {
-        
+        /*
         Color detectedColor = m_colorSensor.getColor();
 
         char colorChar;
@@ -132,7 +132,7 @@ public class Pizza implements Updatable {
         SmartDashboard.putString("Detected Color", colorChar + " ");
 
         System.out.println(colorChar);
-        /*
+        
         if(IO.get_god_button())
         {
             _pizza_slicer.set(speedo);
