@@ -10,6 +10,7 @@ import com.revrobotics.CANEncoder;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Timer;
 
 public class Lightsaber implements Updatable {
     private static final Lightsaber instance = new Lightsaber();
@@ -20,8 +21,7 @@ public class Lightsaber implements Updatable {
     private CANEncoder _top_encoder;
     private CANEncoder _bottom_encoder;
     private double lightsaber_correction = 0;
-    private boolean _inverted = false;
-    private boolean _manual = false;
+    private boolean _up = false;
     private Solenoid _locking_activator;
 
     public static Lightsaber getInstance() // sets instance
@@ -41,7 +41,7 @@ public class Lightsaber implements Updatable {
         _top_encoder = _lightsaber_top.getEncoder();
         _bottom_encoder = _lightsaber_bottom.getEncoder();
 
-        //_locking_activator = new Solenoid(Map.LOCKING_ACTIVATOR_PORT);
+        _locking_activator = new Solenoid(Map.LOCKING_ACTIVATOR_PORT);
 
         Update_Semaphore.getInstance().register(this);
         System.out.println("Lightsaber is on. Vrrrrnnnnnnnnnn~...");
@@ -52,10 +52,32 @@ public class Lightsaber implements Updatable {
         _lightsaber_bottom.set(speed - lightsaber_correction);
     }
     
+    private boolean activated() {
+        return (_up ? !_up : _up);
+    }
+
+    private void ratchet() {
+        set_lightsaber(-Map.LS_TARGET_SPEED);
+        Timer.delay(0.1);
+        _locking_activator.set(true);
+    }
+
+
     private void update()
     {
         if (!IO.god_state){
-            set_lightsaber(IO.lightsaber());
+            if (IO.lightsaber() > 0 && !_up) {
+                ratchet();
+                _up = true;
+            } else if (IO.lightsaber() > 0 && _up) {
+                set_lightsaber(IO.lightsaber());
+                _up = true;
+            } else if (IO.lightsaber() <= 0) {   
+                _locking_activator.set(false);
+                set_lightsaber(IO.lightsaber());
+                _up = false;
+            }
+
         }
 
         lightsaber_correction = (_bottom_encoder.getPosition() - _top_encoder.getPosition()) * Map.LS_CORRECTIONAL_GAIN;
