@@ -21,7 +21,7 @@ public class Lightsaber implements Updatable {
     private CANEncoder _top_encoder;
     private CANEncoder _bottom_encoder;
     private double lightsaber_correction = 0;
-    private boolean _up = false;
+    private boolean _up = true;
     private Solenoid _locking_activator;
 
     public static Lightsaber getInstance() // sets instance
@@ -58,8 +58,10 @@ public class Lightsaber implements Updatable {
 
     private void ratchet() {
         set_lightsaber(-Map.LS_TARGET_SPEED);
-        Timer.delay(0.1);
+        Timer.delay(0.2);
         _locking_activator.set(true);
+        Timer.delay(0.2);
+        _up = true;
     }
 
 
@@ -67,18 +69,24 @@ public class Lightsaber implements Updatable {
     {
         if (!IO.god_state){
             if (IO.lightsaber() > 0 && !_up) {
-                ratchet();
+                //ratchet();
+                _locking_activator.set(true);
+                Timer.delay(0.1);
+                set_lightsaber(-Map.LS_TARGET_SPEED);
+                Timer.delay(0.1);
                 _up = true;
             } else if (IO.lightsaber() > 0 && _up) {
-                set_lightsaber(IO.lightsaber());
+                //_locking_activator.set(false);
+                set_lightsaber(-IO.lightsaber());
                 _up = true;
-            } else if (IO.lightsaber() <= 0) {   
+            } else if (IO.lightsaber() <= 0.01) {   
                 _locking_activator.set(false);
-                set_lightsaber(IO.lightsaber());
+                set_lightsaber(-IO.lightsaber());
                 _up = false;
             }
-
         }
+        System.out.println(IO.lightsaber());
+        System.out.println("UP: " + _up);
 
         lightsaber_correction = (_bottom_encoder.getPosition() - _top_encoder.getPosition()) * Map.LS_CORRECTIONAL_GAIN;
         //SmartDashboard.putBoolean("Manual Toggle: ", toggle_manual_control());
