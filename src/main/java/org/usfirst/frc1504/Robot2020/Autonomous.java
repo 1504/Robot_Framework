@@ -203,8 +203,8 @@ public class Autonomous
 		if(Ion_Cannon._top_encoder.getVelocity() >= speed + speed_offset - 200 && Ion_Cannon._top_encoder.getVelocity() <= speed + speed_offset + 200 && timer < 10000)
 		{
 			timer = System.currentTimeMillis();
-			Tokamak._tokamak_top.set(-Map.TOKAMAK_SPEED);
-            Tokamak._tokamak_bottom.set(Map.TOKAMAK_SPEED);
+			Tokamak.snake.set(-Map.TOKAMAK_SPEED);
+            Tokamak.serializer.set(Map.TOKAMAK_SPEED);
 		}
 	}
 }

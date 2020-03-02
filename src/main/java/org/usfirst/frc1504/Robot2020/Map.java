@@ -204,8 +204,11 @@ public class Map {
         /** Tokamak */
         public static final double SERIALIZER_SPEED = 0.4;
         public static final double TOKAMAK_SPEED = 0.4;
-        public static final double HIGH_TOKAMAK_CURRENT = 0.5;
+        public static final double TOKAMAK_JIGGLE_SPEED = 0.5;
 
+        public static final double TOKAMAK_CURRENT = 0.5;
+        public static final int JIGGLE_REPITITIONS = 2;
+        public static final double JIGGLE_INTERVAL = 200;
 
         /** Tractor Beam */
         public static final double TRACTOR_BEAM_SPEED = 0.4;

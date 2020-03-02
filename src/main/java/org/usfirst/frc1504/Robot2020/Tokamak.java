@@ -13,8 +13,8 @@ public class Tokamak implements Updatable
     private static final Tokamak instance = new Tokamak();
     private DriverStation _ds = DriverStation.getInstance();
 
-    public static WPI_TalonSRX _tokamak_top;
-    public static WPI_TalonSRX _tokamak_bottom;
+    public static WPI_TalonSRX snake;
+    public static WPI_TalonSRX serializer;
 
     private boolean _manual = false;
 
@@ -30,31 +30,28 @@ public class Tokamak implements Updatable
 
     private Tokamak()
     {
-        _tokamak_top = new WPI_TalonSRX(Map.TOKAMAK_TOP); // serializer 
-        _tokamak_bottom = new WPI_TalonSRX(Map.TOKAMAK_BOTTOM);
+        snake = new WPI_TalonSRX(Map.TOKAMAK_TOP); // serializer 
+        serializer = new WPI_TalonSRX(Map.TOKAMAK_BOTTOM);
 
         Update_Semaphore.getInstance().register(this);
         System.out.println("Tokamak is generating plasma");
     }
 
-    private double get_voltage(WPI_TalonSRX motor)
+    private static double get_current(WPI_TalonSRX motor)
     {
-        return motor.getMotorOutputVoltage();
-        
+        return motor.getSupplyCurrent();
     }
 
 
-    private boolean current_check(WPI_TalonSRX motor)
+    public static boolean current_check(WPI_TalonSRX motor)
     {
-        if(get_voltage(motor) > Map.HIGH_TOKAMAK_CURRENT)
+        if(get_current(motor) > Map.TOKAMAK_CURRENT)
         {
-            int i = 0;
-            while(i < 2)
+            for(int i = 0; i < Map.JIGGLE_REPITITIONS; i++)
             {
-                i = i + 1;
-                motor.set(Map.HIGH_TOKAMAK_CURRENT);
-                Timer.delay(100);
-                motor.set(-(Map.HIGH_TOKAMAK_CURRENT));
+                motor.set(Map.TOKAMAK_JIGGLE_SPEED);
+                Timer.delay(Map.JIGGLE_INTERVAL);
+                motor.set(-(Map.TOKAMAK_JIGGLE_SPEED));
             }
         }
         return true;
@@ -64,8 +61,10 @@ public class Tokamak implements Updatable
     {
         if (IO.god_state)
         {
-            _tokamak_top.set(IO.snake());
-            _tokamak_bottom.set(-IO.serializer());
+            snake.set(IO.snake());
+            serializer.set(-IO.serializer());
+        } else if (!Tractor_Beam._tb_state) { // this is so snake knows when to stop, we should add another conditional for shooter state
+            snake.set(0);
         }
         /*
         if(IO.bottom_ion_shoot() && !IO.bottom_reverse_shoot())

@@ -148,7 +148,7 @@ public class IO
 		/** Tractor Beam */
 		public static boolean tb_activate() 
 		{
-			return _secondary.getRawButton(Map.TB_ACTIVATE_BT);
+			return _secondary.getRawButtonReleased(Map.TB_ACTIVATE_BT);
 		}
 		public static boolean tb_vision() 
 		{
