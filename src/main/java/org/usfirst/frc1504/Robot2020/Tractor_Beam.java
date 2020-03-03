@@ -18,7 +18,6 @@ public class Tractor_Beam implements Updatable {
     public static Timer tb_timer = new Timer();
 
     private static boolean _ef_god_state = false;
-    public static boolean _tb_state = false;
 
 
     public static Tractor_Beam getInstance() // sets instance
@@ -55,11 +54,8 @@ public class Tractor_Beam implements Updatable {
                 _ef_engager.set(DoubleSolenoid.Value.kReverse);
             }
         } else {
-            if (IO.tb_activate()) {
-                _tb_state = !_tb_state;
-            }
-
-            if(_tb_state) {
+            
+            if(IO._tb_state) {
                 _ef_engager.set(DoubleSolenoid.Value.kForward);
                 _beam.set(-Map.TRACTOR_BEAM_SPEED);
                 Tokamak.serializer.set(-Map.SERIALIZER_SPEED);
@@ -70,6 +66,7 @@ public class Tractor_Beam implements Updatable {
                 _ef_engager.set(DoubleSolenoid.Value.kReverse);
                 _beam.set(0);
                 Tokamak.serializer.set(0);
+                
             }
         }
         /*

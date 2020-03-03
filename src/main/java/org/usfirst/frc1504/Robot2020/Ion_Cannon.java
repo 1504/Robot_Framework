@@ -129,14 +129,8 @@ public class Ion_Cannon implements Updatable {
                 _extender.set(DoubleSolenoid.Value.kReverse);
             }
         } else {
-            if (IO.ion_high()) {
-                _high_state = !_high_state;
-            }
-            if (IO.ion_low()) {
-                _low_state = !_low_state;
-            }
 
-            if (_high_state || _low_state) {
+            if (IO._high_state || IO._low_state) {
                 Tractor_Beam._ef_engager.set(DoubleSolenoid.Value.kForward);
                 _extender.set(DoubleSolenoid.Value.kForward);
                 //shooter top solenoid to position should go here
@@ -148,6 +142,11 @@ public class Ion_Cannon implements Updatable {
                         Tokamak.snake.set(-Map.TOKAMAK_SPEED);
                     }
                 }
+            } else {
+                Tractor_Beam._ef_engager.set(DoubleSolenoid.Value.kForward);
+                _extender.set(DoubleSolenoid.Value.kForward);
+                spin_wheels(0, 0);
+
             }
         }
 

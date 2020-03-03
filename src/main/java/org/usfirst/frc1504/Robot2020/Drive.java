@@ -148,13 +148,24 @@ public class Drive implements Updatable
 			{
 				IO.god_state = !IO.god_state;
 			}
+			if (IO.tb_activate()) {
+                IO._tb_state = !IO._tb_state;
+			}
+            if (IO.ion_high()) {
+                IO._high_state = !IO._high_state;
+            }
+            if (IO.ion_low()) {
+                IO._low_state = !IO._low_state;
+            }
 			if(IO.ion_vision())
 			{
 				drive_inputs(Optical_Sensor.optical_alignment());
 			} else {
 				drive_inputs(IO.drive_input());
 			}
-			System.out.println(IO.god_state);
+			System.out.println("God: " + IO.god_state);
+			System.out.println("TB: " + IO._tb_state);
+
 		}
 	}
 

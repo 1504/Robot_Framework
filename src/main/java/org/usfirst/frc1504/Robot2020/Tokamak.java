@@ -63,8 +63,9 @@ public class Tokamak implements Updatable
         {
             snake.set(IO.snake());
             serializer.set(-IO.serializer());
-        } else if (!Tractor_Beam._tb_state) { // this is so snake knows when to stop, we should add another conditional for shooter state
+        } else if (!IO._tb_state && !IO._high_state) { // this is so snake knows when to stop, we should add another conditional for shooter state
             snake.set(0);
+            serializer.set(0);
         }
         /*
         if(IO.bottom_ion_shoot() && !IO.bottom_reverse_shoot())

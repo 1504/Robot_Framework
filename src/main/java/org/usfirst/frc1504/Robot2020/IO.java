@@ -178,6 +178,11 @@ public class IO
 		}
 
 		public static boolean god_state = true;
+		public static boolean _tb_state = false;
+		public static boolean _high_state = false;
+		public static boolean _low_state = false;
+
+
 
 		
 }
