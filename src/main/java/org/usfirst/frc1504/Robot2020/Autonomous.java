@@ -193,18 +193,5 @@ public class Autonomous
 	}
 	
 	protected void auto_task()
-	{
-		double speed = 2000;
-		double timer = 0;
-		double speed_offset = 500;
-		Ion_Cannon.flip_out_bottom_wheels();
-    	Ion_Cannon._top_extender.set(DoubleSolenoid.Value.kForward);
-		Ion_Cannon.spin_wheels(speed, speed_offset);
-		if(Ion_Cannon._top_encoder.getVelocity() >= speed + speed_offset - 200 && Ion_Cannon._top_encoder.getVelocity() <= speed + speed_offset + 200 && timer < 10000)
-		{
-			timer = System.currentTimeMillis();
-			Tokamak.snake.set(-Map.TOKAMAK_SPEED);
-            Tokamak.serializer.set(Map.TOKAMAK_SPEED);
-		}
-	}
+	{}
 }

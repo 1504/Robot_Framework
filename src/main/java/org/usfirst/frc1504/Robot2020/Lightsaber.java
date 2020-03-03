@@ -64,10 +64,18 @@ public class Lightsaber implements Updatable {
         _up = true;
     }
 
+    private double calculate_speed() {
+        return - (IO.lightsaber() / _bottom_encoder.getPosition()) * 10;
+    }
+
 
     private void update()
     {
         if (!IO.god_state){
+            if(_bottom_encoder.getPosition() <= Map.MAX_ENCODER_POSITION && _bottom_encoder.getPosition() <= Map.MIN_ENCODER_POSITION)
+            {
+                set_lightsaber(0);
+            }
             if (IO.lightsaber() > 0 && !_up) {
                 //ratchet();
                 _locking_activator.set(true);
@@ -77,23 +85,23 @@ public class Lightsaber implements Updatable {
                 _up = true;
             } else if (IO.lightsaber() > 0 && _up) {
                 //_locking_activator.set(false);
-                set_lightsaber(-IO.lightsaber());
+                set_lightsaber(-calculate_speed());
                 _up = true;
             } else if (IO.lightsaber() <= 0.01) {   
                 _locking_activator.set(false);
-                set_lightsaber(-IO.lightsaber());
+                set_lightsaber(-calculate_speed());
                 _up = false;
             }
         }
+        
         System.out.println(IO.lightsaber());
         System.out.println("UP: " + _up);
-
+        System.out.println("Encoder: " + _bottom_encoder.getPosition());
         lightsaber_correction = (_bottom_encoder.getPosition() - _top_encoder.getPosition()) * Map.LS_CORRECTIONAL_GAIN;
         //SmartDashboard.putBoolean("Manual Toggle: ", toggle_manual_control());
         SmartDashboard.putNumber("Lightsaber Bottom Speeds: ", _bottom_encoder.getVelocity());
         SmartDashboard.putNumber("Lightsaber Top Speeds: ", _top_encoder.getVelocity());
         SmartDashboard.putNumber("Lightsaber Gap: ", lightsaber_correction);
-        lightsaber_correction = 0;
 
 
     }

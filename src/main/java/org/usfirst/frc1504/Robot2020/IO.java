@@ -101,11 +101,16 @@ public class IO
 		/** Ion Cannon */
 		public static boolean ion_low() 
 		{
-			return _secondary.getRawButton(Map.ION_LOW_BT);
+			return _secondary.getRawButtonReleased(Map.ION_LOW_BT);
 		}
 		public static boolean ion_high() 
 		{
-			return _secondary.getRawButton(Map.ION_HIGH_BT);
+			return _secondary.getRawButtonReleased(Map.ION_HIGH_BT);
+		}
+
+		public static boolean ion_vision() 
+		{
+			return _secondary.getRawButton(Map.ION_VISION_BT);
 		}
 
 		// God Ion Cannon
@@ -121,7 +126,13 @@ public class IO
 		/** Lightsaber */
 		public static double lightsaber()
 		{
-			return _secondary.getRawAxis(Map.LIGHTSABER_AX);
+			if (Math.pow(_secondary.getRawAxis(Map.LIGHTSABER_AX), 3) > 0.5) {
+				return 0.5;
+			} else if (Math.pow(_secondary.getRawAxis(Map.LIGHTSABER_AX), 3) < -0.5) {
+				return -0.5;
+			} else {
+				return Math.pow(_secondary.getRawAxis(Map.LIGHTSABER_AX), 3);
+			}
 		}
 
 		/** Pizza */
@@ -138,11 +149,11 @@ public class IO
 		// God Tokamak
 		public static double snake()
 		{
-			return _secondary.getRawAxis(Map.GOD_SNAKE_AX);
+			return Math.pow(_secondary.getRawAxis(Map.GOD_SNAKE_AX), 3);
 		}
 		public static double serializer()
 		{
-			return _secondary.getRawAxis(Map.GOD_SERIALIZER_AX);
+			return Math.pow(_secondary.getRawAxis(Map.GOD_SERIALIZER_AX), 3);
 		}
 
 		/** Tractor Beam */
@@ -150,15 +161,11 @@ public class IO
 		{
 			return _secondary.getRawButtonReleased(Map.TB_ACTIVATE_BT);
 		}
-		public static boolean tb_vision() 
-		{
-			return _secondary.getRawButton(Map.TB_VISION_BT);
-		}
 		
 		// God Tractor Beam
 		public static double god_tb()
 		{
-			return _secondary.getRawAxis(Map.GOD_TB_AX);
+			return Math.pow(_secondary.getRawAxis(Map.GOD_TB_AX), 3);
 		}
 		public static boolean god_ef()
 		{
@@ -170,7 +177,7 @@ public class IO
 			return _secondary.getRawButtonReleased(Map.GOD_ENABLE);
 		}
 
-		public static boolean god_state = false;
+		public static boolean god_state = true;
 
 		
 }

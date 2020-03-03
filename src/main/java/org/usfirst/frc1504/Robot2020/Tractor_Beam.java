@@ -14,7 +14,7 @@ public class Tractor_Beam implements Updatable {
     private DriverStation _ds = DriverStation.getInstance();
 
     private WPI_TalonSRX _beam;
-    private DoubleSolenoid _ef_engager;
+    public static DoubleSolenoid _ef_engager;
     public static Timer tb_timer = new Timer();
 
     private static boolean _ef_god_state = false;
@@ -41,7 +41,7 @@ public class Tractor_Beam implements Updatable {
     private void update() {
         if (IO.god_state) {
             if (IO.god_tb() > 0) {
-                _beam.set(-Map.TRACTOR_BEAM_SPEED);
+                _beam.set(-IO.god_tb());
             } else {
                 _beam.set(0);
             }

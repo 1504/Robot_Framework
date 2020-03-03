@@ -132,6 +132,8 @@ public class Map {
         // Ion Cannon
         public static final int ION_LOW_BT = 3; // X
         public static final int ION_HIGH_BT = 4; // Y
+        
+        public static final int ION_VISION_BT = 6; // Right Shoulder Button
 
         public static final int GOD_ION_AX = 3; // << RT >>
         public static final int GOD_EX_BT = 3; // << X >>
@@ -149,7 +151,6 @@ public class Map {
 
         // Tractor Beam
         public static final int TB_ACTIVATE_BT = 1; // A
-        public static final int TB_VISION_BT = 6; // Right Shoulder Button
 
         public static final int GOD_TB_AX = 2; // << LT >> acts as button
         public static final int GOD_EF_BT = 4; // << Y >>
@@ -173,6 +174,8 @@ public class Map {
             public static final int ION_CANNON_TOP = 20;           // Talon
             public static final int ION_CANNON_BOTTOM = 21;        // Talon
 
+            
+
             public static final int TOP_EXTEND_HP = 4;             // Double Solenoid - High
             public static final int TOP_EXTEND_LP = 5;             // '' - Low
             /** Lightsaber */
@@ -195,9 +198,15 @@ public class Map {
         public static final double IC_CORRECTIONAL_GAIN = 0.0001761804;
         public static final int IC_DEPLOY_DELAY = 350; // In milliseconds
 
+        public static final int ION_SPEED = 2000;
+        public static final int ION_OFFSET = 21;
+
         /** Lightsaber */
         public static final double LS_CORRECTIONAL_GAIN = 0.1;
         public static final double LS_TARGET_SPEED = 0.33;
+        public static final double MAX_ENCODER_POSITION = -82.336;
+        public static final double MIN_ENCODER_POSITION = 0;
+
 
         /** Pizza */
 
@@ -211,7 +220,7 @@ public class Map {
         public static final double JIGGLE_INTERVAL = 200;
 
         /** Tractor Beam */
-        public static final double TRACTOR_BEAM_SPEED = 0.4;
+        public static final double TRACTOR_BEAM_SPEED = 0.5;
 
 
 

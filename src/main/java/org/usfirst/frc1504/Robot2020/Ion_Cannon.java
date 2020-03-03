@@ -31,6 +31,10 @@ public class Ion_Cannon implements Updatable {
     private boolean _ion_cannon_bottom_active = false;
     private static boolean ion_timer_set = false;
     private static double ion_timer;
+    private static boolean _high_state = false;
+    private static boolean _low_state = false;
+
+
 
     public static double speedo = 0;
     public static double speed_offset = 0;
@@ -84,7 +88,7 @@ public class Ion_Cannon implements Updatable {
         _bottom_pid.setReference(speedo - speed_offset, ControlType.kVelocity);
     }
 
-    public static void flip_out_bottom_wheels() {
+    private void flip_out_bottom_wheels() {
         _extender.set(DoubleSolenoid.Value.kForward);
         if (!ion_timer_set) {
             ion_timer = System.currentTimeMillis();
@@ -92,21 +96,60 @@ public class Ion_Cannon implements Updatable {
         }
     }
 
+    private boolean speed_good() {
+        return _bottom_shoot.getEncoder().getVelocity() < Map.ION_SPEED + 100 && _bottom_shoot.getEncoder().getVelocity() > Map.ION_SPEED - 100;
+    }
+
     private void update() 
     {
+        if (IO.hid_N()) {
+            speed_offset += 10;
+        } else if (IO.hid_S()) 
+        {
+            speed_offset -= 10;
+        }
+
+        if (IO.hid_E()) {
+            speedo += 10;
+        } else if (IO.hid_W()) 
+        {
+            speedo -= 10;
+        }
+
         if (IO.god_state)
         {
-            _bottom_shoot.set(IO.god_ion());
             if (IO.god_ex()) {
                 extender_state = !extender_state;
             }
             
+            _bottom_shoot.set(IO.god_ion());
             if(extender_state) {
                 _extender.set(DoubleSolenoid.Value.kForward);
             } else {
                 _extender.set(DoubleSolenoid.Value.kReverse);
             }
-        } 
+        } else {
+            if (IO.ion_high()) {
+                _high_state = !_high_state;
+            }
+            if (IO.ion_low()) {
+                _low_state = !_low_state;
+            }
+
+            if (_high_state || _low_state) {
+                Tractor_Beam._ef_engager.set(DoubleSolenoid.Value.kForward);
+                _extender.set(DoubleSolenoid.Value.kForward);
+                //shooter top solenoid to position should go here
+                spin_wheels(Map.ION_SPEED, speed_offset);
+                if (speed_good())
+                {
+                    Tokamak.serializer.set(-Map.SERIALIZER_SPEED);
+                    if (Tokamak.current_check(Tokamak.snake)) {
+                        Tokamak.snake.set(-Map.TOKAMAK_SPEED);
+                    }
+                }
+            }
+        }
 
         //SmartDashboard.putString("Spew Top Speed", (_top_encoder.getVelocity() + "RPM"));
         //SmartDashboard.putString("Spew Bottom Speed", (_bottom_encoder.getVelocity() + "RPM"));
