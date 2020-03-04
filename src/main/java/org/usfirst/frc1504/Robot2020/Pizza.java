@@ -111,7 +111,11 @@ public class Pizza implements Updatable {
                 scomp_link_state = !scomp_link_state;
                 _scomp_link.set(scomp_link_state);
             }
-            _pizza_slicer.set(IO.pizza_spin());
+            if(scomp_link_state) {
+                _pizza_slicer.set(IO.pizza_spin());
+            } else {
+                _pizza_slicer.set(0);
+            }
         }
         /*
         Color detectedColor = m_colorSensor.getColor();
