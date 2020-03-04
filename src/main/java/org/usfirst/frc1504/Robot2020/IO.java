@@ -101,11 +101,11 @@ public class IO
 		/** Ion Cannon */
 		public static boolean ion_low() 
 		{
-			return _secondary.getRawButtonReleased(Map.ION_LOW_BT);
+			return _secondary.getRawButton(Map.ION_LOW_BT);
 		}
 		public static boolean ion_high() 
 		{
-			return _secondary.getRawButtonReleased(Map.ION_HIGH_BT);
+			return _secondary.getRawButton(Map.ION_HIGH_BT);
 		}
 
 		public static boolean ion_vision() 
@@ -142,7 +142,11 @@ public class IO
 		}
 		public static boolean pizza_extend() 
 		{
-			return _secondary.getRawButton(Map.PIZZA_EXTEND_BT);
+			return _secondary.getRawButtonReleased(Map.PIZZA_EXTEND_BT);
+		}
+		public static double pizza_spin() 
+		{
+			return _secondary.getRawAxis(Map.PIZZA_SPIN_AX);
 		}
 
 		/** Tokamak */
@@ -159,7 +163,7 @@ public class IO
 		/** Tractor Beam */
 		public static boolean tb_activate() 
 		{
-			return _secondary.getRawButtonReleased(Map.TB_ACTIVATE_BT);
+			return _secondary.getRawButton(Map.TB_ACTIVATE_BT);
 		}
 		
 		// God Tractor Beam
@@ -177,7 +181,7 @@ public class IO
 			return _secondary.getRawButtonReleased(Map.GOD_ENABLE);
 		}
 
-		public static boolean god_state = true;
+		public static boolean god_state = false;
 		public static boolean _tb_state = false;
 		public static boolean _high_state = false;
 		public static boolean _low_state = false;

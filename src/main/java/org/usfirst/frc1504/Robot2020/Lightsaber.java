@@ -93,10 +93,6 @@ public class Lightsaber implements Updatable {
                 _up = false;
             }
         }
-        
-        System.out.println(IO.lightsaber());
-        System.out.println("UP: " + _up);
-        System.out.println("Encoder: " + _bottom_encoder.getPosition());
         lightsaber_correction = (_bottom_encoder.getPosition() - _top_encoder.getPosition()) * Map.LS_CORRECTIONAL_GAIN;
         //SmartDashboard.putBoolean("Manual Toggle: ", toggle_manual_control());
         SmartDashboard.putNumber("Lightsaber Bottom Speeds: ", _bottom_encoder.getVelocity());

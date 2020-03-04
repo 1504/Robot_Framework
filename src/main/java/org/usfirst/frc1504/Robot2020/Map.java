@@ -111,8 +111,8 @@ public class Map {
     // <<God Mode>>
     // 1  : A                      - Tractor Beam on toggle? 
 	// 2  : B                      - #Pizza Auto 
-	// 3  : X                      - Ion Cannon Low <Toggle Shooter>
-	// 4  : Y                      - Ion Cannon High <Toggle Cow>
+	// 3  : X                      - Ion Cannon Low <<Toggle Shooter>>
+	// 4  : Y                      - Ion Cannon High <<Toggle Cow>>
 	// 5  : Left Shoulder Button   - 
 	// 6  : Right Shoulder Button  - Vision Alignment 
 	// 7  : Back                   - 
@@ -124,7 +124,7 @@ public class Map {
 	// 1  : Y axis-left joystick   - Telescope up down << Move Snake >> 
 	// 2  : LT                     - << Acts as a toggle for Tractor Beam >>
 	// 3  : RT                     - << Ion Cannon Raw Voltage >> 
-	// 4  : X axis-right joystick  - 
+	// 4  : X axis-right joystick  - Pizza Manual Spin
 	// 5  : Y axis-right joystick  - << Move Serializer >> 
 
     /** Controler Map Assignment */
@@ -144,6 +144,7 @@ public class Map {
         // Pizza
         public static final int PIZZA_AUTO_BT = 2; // B
         public static final int PIZZA_EXTEND_BT = 10; // Press right joystick
+        public static final int PIZZA_SPIN_AX = 4; // X axis right
 
         // Tokamak
         public static final int GOD_SNAKE_AX = 1; // << Y axis-left joystick >
@@ -196,7 +197,7 @@ public class Map {
 
         /** Ion Cannon */
         public static final double IC_CORRECTIONAL_GAIN = 0.0001761804;
-        public static final int IC_DEPLOY_DELAY = 350; // In milliseconds
+        public static final double IC_DEPLOY_DELAY = 0.65; // In milliseconds
 
         public static final int ION_SPEED = 2000;
         public static final int ION_OFFSET = 21;

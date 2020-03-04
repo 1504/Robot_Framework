@@ -11,6 +11,7 @@ import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.Timer;
 
 public class Ion_Cannon implements Updatable {
     private static final Ion_Cannon instance = new Ion_Cannon();
@@ -84,8 +85,8 @@ public class Ion_Cannon implements Updatable {
     }
 
     public static void spin_wheels(double speed, double offset) {
-        _top_pid.setReference(-1.0 * (speedo + speed_offset), ControlType.kVelocity);
-        _bottom_pid.setReference(speedo - speed_offset, ControlType.kVelocity);
+        //_top_pid.setReference(-1.0 * (speedo + speed_offset), ControlType.kVelocity);
+        _bottom_pid.setReference(speed - offset, ControlType.kVelocity);
     }
 
     private void flip_out_bottom_wheels() {
@@ -97,7 +98,7 @@ public class Ion_Cannon implements Updatable {
     }
 
     private boolean speed_good() {
-        return _bottom_shoot.getEncoder().getVelocity() < Map.ION_SPEED + 100 && _bottom_shoot.getEncoder().getVelocity() > Map.ION_SPEED - 100;
+        return _bottom_shoot.getEncoder().getVelocity() < Map.ION_SPEED + 200 && _bottom_shoot.getEncoder().getVelocity() > Map.ION_SPEED - 200;
     }
 
     private void update() 
@@ -118,6 +119,7 @@ public class Ion_Cannon implements Updatable {
 
         if (IO.god_state)
         {
+
             if (IO.god_ex()) {
                 extender_state = !extender_state;
             }
@@ -129,24 +131,23 @@ public class Ion_Cannon implements Updatable {
                 _extender.set(DoubleSolenoid.Value.kReverse);
             }
         } else {
-
-            if (IO._high_state || IO._low_state) {
+            System.out.println(_bottom_shoot.getEncoder().getVelocity());
+            if (IO.ion_high() || IO.ion_low()) {
                 Tractor_Beam._ef_engager.set(DoubleSolenoid.Value.kForward);
                 _extender.set(DoubleSolenoid.Value.kForward);
+                Timer.delay(Map.IC_DEPLOY_DELAY);
                 //shooter top solenoid to position should go here
                 spin_wheels(Map.ION_SPEED, speed_offset);
                 if (speed_good())
                 {
                     Tokamak.serializer.set(-Map.SERIALIZER_SPEED);
                     if (Tokamak.current_check(Tokamak.snake)) {
-                        Tokamak.snake.set(-Map.TOKAMAK_SPEED);
+                        Tokamak.snake.set(Map.TOKAMAK_SPEED);
                     }
                 }
             } else {
-                Tractor_Beam._ef_engager.set(DoubleSolenoid.Value.kForward);
-                _extender.set(DoubleSolenoid.Value.kForward);
+                _extender.set(DoubleSolenoid.Value.kReverse);
                 spin_wheels(0, 0);
-
             }
         }
 

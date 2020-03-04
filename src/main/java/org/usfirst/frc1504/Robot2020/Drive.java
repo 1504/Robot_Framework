@@ -163,8 +163,6 @@ public class Drive implements Updatable
 			} else {
 				drive_inputs(IO.drive_input());
 			}
-			System.out.println("God: " + IO.god_state);
-			System.out.println("TB: " + IO._tb_state);
 
 		}
 	}

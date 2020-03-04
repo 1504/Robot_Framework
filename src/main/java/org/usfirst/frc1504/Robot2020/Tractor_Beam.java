@@ -54,15 +54,16 @@ public class Tractor_Beam implements Updatable {
                 _ef_engager.set(DoubleSolenoid.Value.kReverse);
             }
         } else {
-            
-            if(IO._tb_state) {
+
+            if(IO.tb_activate()) {
                 _ef_engager.set(DoubleSolenoid.Value.kForward);
                 _beam.set(-Map.TRACTOR_BEAM_SPEED);
                 Tokamak.serializer.set(-Map.SERIALIZER_SPEED);
                 if (Tokamak.current_check(Tokamak.snake)) {
-                    Tokamak.snake.set(-Map.TOKAMAK_SPEED);
+                    Tokamak.snake.set(Map.TOKAMAK_SPEED);
                 }
-            } else {
+            }
+            if (!IO.tb_activate() && !IO.ion_high() && !IO.ion_low()) {
                 _ef_engager.set(DoubleSolenoid.Value.kReverse);
                 _beam.set(0);
                 Tokamak.serializer.set(0);
