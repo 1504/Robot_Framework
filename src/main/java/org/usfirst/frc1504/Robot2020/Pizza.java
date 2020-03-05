@@ -41,8 +41,6 @@ public class Pizza implements Updatable {
     String gameData = DriverStation.getInstance().getGameSpecificMessage();
     private Solenoid _scomp_link;
     private boolean scomp_link_state = false;
-    
-
 
     public static Pizza getInstance() // sets instance
     {
@@ -67,113 +65,82 @@ public class Pizza implements Updatable {
 
     }
 
-    public void spin_pizza(char colorChar)
-    {
-        if(pizza_history.size() == 0)
-        {
+    public void spin_pizza(char colorChar) {
+        if (pizza_history.size() == 0) {
             pizza_history.add(colorChar);
             initial_color = colorChar;
         }
         if (pizza_history.get(pizza_history.size() - 1) != colorChar) {
             pizza_history.add(colorChar);
         }
-        for(int i = 0; i < pizza_history.size() - 1; i++)
-        {
-            if(pizza_history.get(i) == initial_color)
-            {
+        for (int i = 0; i < pizza_history.size() - 1; i++) {
+            if (pizza_history.get(i) == initial_color) {
                 colorCount++;
             }
         }
-        if(colorCount < 3)
-        {
+        if (colorCount < 3) {
             _pizza_slicer.set(0.5);
         } else {
             _pizza_slicer.set(0);
         }
 
-
     }
 
-    public void cut_pizza(char color)
-    {
-        if(gameData.charAt(0) != color)
-        {
+    public void cut_pizza(char color) {
+        if (gameData.charAt(0) != color) {
             _pizza_slicer.set(0.5);
         } else {
             _pizza_slicer.set(0);
         }
     }
-
 
     private void update() {
         if (!IO.god_state) {
-            if(IO.pizza_extend()) {
+            if (IO.pizza_extend()) {
                 scomp_link_state = !scomp_link_state;
                 _scomp_link.set(scomp_link_state);
             }
-            if(scomp_link_state) {
+            if (scomp_link_state) {
                 _pizza_slicer.set(IO.pizza_spin());
             } else {
                 _pizza_slicer.set(0);
             }
         }
         /*
-        Color detectedColor = m_colorSensor.getColor();
-
-        char colorChar;
-        ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
-
-        // color is switched because color sensor is moved  on the field
-        if (match.color == kBlueTarget) {
-            colorChar = 'R';
-        } else if (match.color == kRedTarget) {
-            colorChar = 'B';
-        } else if (match.color == kGreenTarget) {
-            colorChar = 'Y';
-        } else if (match.color == kYellowTarget) {
-            colorChar = 'G';
-        } else {
-            colorChar = 'U';
-        }
-
-        SmartDashboard.putNumber("Red", detectedColor.red);
-        SmartDashboard.putNumber("Green", detectedColor.green);
-        SmartDashboard.putNumber("Blue", detectedColor.blue);
-        SmartDashboard.putNumber("Confidence", match.confidence);
-        SmartDashboard.putString("Detected Color", colorChar + " ");
-
-        System.out.println(colorChar);
-        
-        if(IO.get_god_button())
-        {
-            _pizza_slicer.set(speedo);
-        } else {
-            _pizza_slicer.set(0);
-        }
-
-        if(IO.get_rotation_control_button())
-        {
-            spin_pizza(colorChar);
-        }
-
-        if(IO.get_pizza_cutter_button())
-        {
-            cut_pizza(colorChar);
-        }
-
-        if(IO.get_pizza_cutter_button() || IO.get_rotation_control_button())
-        {
-            scomp_link_state = !scomp_link_state;
-
-        }
-
-        if(scomp_link_state)
-        {
-            _scomp_link.set(DoubleSolenoid.Value.kForward);
-        } else {
-            _scomp_link.set(DoubleSolenoid.Value.kReverse);
-        }
-        */
+         * Color detectedColor = m_colorSensor.getColor();
+         * 
+         * char colorChar; ColorMatchResult match =
+         * m_colorMatcher.matchClosestColor(detectedColor);
+         * 
+         * // color is switched because color sensor is moved on the field if
+         * (match.color == kBlueTarget) { colorChar = 'R'; } else if (match.color ==
+         * kRedTarget) { colorChar = 'B'; } else if (match.color == kGreenTarget) {
+         * colorChar = 'Y'; } else if (match.color == kYellowTarget) { colorChar = 'G';
+         * } else { colorChar = 'U'; }
+         * 
+         * SmartDashboard.putNumber("Red", detectedColor.red);
+         * SmartDashboard.putNumber("Green", detectedColor.green);
+         * SmartDashboard.putNumber("Blue", detectedColor.blue);
+         * SmartDashboard.putNumber("Confidence", match.confidence);
+         * SmartDashboard.putString("Detected Color", colorChar + " ");
+         * 
+         * System.out.println(colorChar);
+         * 
+         * if(IO.get_god_button()) { _pizza_slicer.set(speedo); } else {
+         * _pizza_slicer.set(0); }
+         * 
+         * if(IO.get_rotation_control_button()) { spin_pizza(colorChar); }
+         * 
+         * if(IO.get_pizza_cutter_button()) { cut_pizza(colorChar); }
+         * 
+         * if(IO.get_pizza_cutter_button() || IO.get_rotation_control_button()) {
+         * scomp_link_state = !scomp_link_state;
+         * 
+         * }
+         * 
+         * if(scomp_link_state) { _scomp_link.set(DoubleSolenoid.Value.kForward); } else
+         * { _scomp_link.set(DoubleSolenoid.Value.kReverse); }
+         */
     }
 
     public void semaphore_update() // updates robot information

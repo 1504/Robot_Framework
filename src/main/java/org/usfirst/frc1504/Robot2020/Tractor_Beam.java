@@ -19,7 +19,6 @@ public class Tractor_Beam implements Updatable {
 
     private static boolean _ef_god_state = false;
 
-
     public static Tractor_Beam getInstance() // sets instance
     {
         return instance;
@@ -47,15 +46,15 @@ public class Tractor_Beam implements Updatable {
             if (IO.god_ef()) {
                 _ef_god_state = !_ef_god_state;
             }
-            
-            if(_ef_god_state) {
+
+            if (_ef_god_state) {
                 _ef_engager.set(DoubleSolenoid.Value.kForward);
             } else {
                 _ef_engager.set(DoubleSolenoid.Value.kReverse);
             }
         } else {
 
-            if(IO.tb_activate()) {
+            if (IO.tb_activate()) {
                 _ef_engager.set(DoubleSolenoid.Value.kForward);
                 _beam.set(-Map.TRACTOR_BEAM_SPEED);
                 Tokamak.serializer.set(-Map.SERIALIZER_SPEED);
@@ -67,7 +66,7 @@ public class Tractor_Beam implements Updatable {
                 _ef_engager.set(DoubleSolenoid.Value.kReverse);
                 _beam.set(0);
                 Tokamak.serializer.set(0);
-                
+
             }
         }
         /*

@@ -35,8 +35,6 @@ public class Ion_Cannon implements Updatable {
     private static boolean _high_state = false;
     private static boolean _low_state = false;
 
-
-
     public static double speedo = 0;
     public static double speed_offset = 0;
     private static boolean extender_state = false;
@@ -58,34 +56,34 @@ public class Ion_Cannon implements Updatable {
     }
 
     private Ion_Cannon() {
-        
-        //_top_shoot = new CANSparkMax(Map.ION_CANNON_TOP, MotorType.kBrushless);
+
+        // _top_shoot = new CANSparkMax(Map.ION_CANNON_TOP, MotorType.kBrushless);
         _bottom_shoot = new CANSparkMax(Map.ION_CANNON_BOTTOM, MotorType.kBrushless);
 
-        //_top_shoot.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        // _top_shoot.setIdleMode(CANSparkMax.IdleMode.kBrake);
         _bottom_shoot.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
-        //_top_encoder = _top_shoot.getEncoder();
+        // _top_encoder = _top_shoot.getEncoder();
         _bottom_encoder = _bottom_shoot.getEncoder();
 
-        //_top_pid = _top_shoot.getPIDController();
+        // _top_pid = _top_shoot.getPIDController();
         _bottom_pid = _bottom_shoot.getPIDController();
 
-        //_top_extender = new DoubleSolenoid(Map.TOP_EXTEND_HP, Map.TOP_EXTEND_LP);
+        // _top_extender = new DoubleSolenoid(Map.TOP_EXTEND_HP, Map.TOP_EXTEND_LP);
         _extender = new DoubleSolenoid(Map.TOP_EXTEND_HP, Map.TOP_EXTEND_LP);
 
-        //_top_pid.setP(0.00014);
-        //_top_pid.setFF(0.00017);
+        // _top_pid.setP(0.00014);
+        // _top_pid.setFF(0.00017);
 
         _bottom_pid.setP(0.00014);
         _bottom_pid.setFF(0.00017);
-        
+
         Update_Semaphore.getInstance().register(this);
         System.out.println("Ion Cannon charged");
     }
 
     public static void spin_wheels(double speed, double offset) {
-        //_top_pid.setReference(-1.0 * (speedo + speed_offset), ControlType.kVelocity);
+        // _top_pid.setReference(-1.0 * (speedo + speed_offset), ControlType.kVelocity);
         _bottom_pid.setReference(speed - offset, ControlType.kVelocity);
     }
 
@@ -98,34 +96,31 @@ public class Ion_Cannon implements Updatable {
     }
 
     private boolean speed_good() {
-        return _bottom_shoot.getEncoder().getVelocity() < Map.ION_SPEED + 200 && _bottom_shoot.getEncoder().getVelocity() > Map.ION_SPEED - 200;
+        return _bottom_shoot.getEncoder().getVelocity() < Map.ION_SPEED + 200
+                && _bottom_shoot.getEncoder().getVelocity() > Map.ION_SPEED - 200;
     }
 
-    private void update() 
-    {
+    private void update() {
         if (IO.hid_N()) {
             speed_offset += 10;
-        } else if (IO.hid_S()) 
-        {
+        } else if (IO.hid_S()) {
             speed_offset -= 10;
         }
 
         if (IO.hid_E()) {
             speedo += 10;
-        } else if (IO.hid_W()) 
-        {
+        } else if (IO.hid_W()) {
             speedo -= 10;
         }
 
-        if (IO.god_state)
-        {
+        if (IO.god_state) {
 
             if (IO.god_ex()) {
                 extender_state = !extender_state;
             }
-            
+
             _bottom_shoot.set(IO.god_ion());
-            if(extender_state) {
+            if (extender_state) {
                 _extender.set(DoubleSolenoid.Value.kForward);
             } else {
                 _extender.set(DoubleSolenoid.Value.kReverse);
@@ -136,10 +131,9 @@ public class Ion_Cannon implements Updatable {
                 Tractor_Beam._ef_engager.set(DoubleSolenoid.Value.kForward);
                 _extender.set(DoubleSolenoid.Value.kForward);
                 Timer.delay(Map.IC_DEPLOY_DELAY);
-                //shooter top solenoid to position should go here
+                // shooter top solenoid to position should go here
                 spin_wheels(Map.ION_SPEED, speed_offset);
-                if (speed_good())
-                {
+                if (speed_good()) {
                     Tokamak.serializer.set(-Map.SERIALIZER_SPEED);
                     if (Tokamak.current_check(Tokamak.snake)) {
                         Tokamak.snake.set(Map.TOKAMAK_SPEED);
@@ -151,15 +145,17 @@ public class Ion_Cannon implements Updatable {
             }
         }
 
-        //SmartDashboard.putString("Spew Top Speed", (_top_encoder.getVelocity() + "RPM"));
-        //SmartDashboard.putString("Spew Bottom Speed", (_bottom_encoder.getVelocity() + "RPM"));
-        //SmartDashboard.putString("Spin Diff", (speed_offset + " RPM"));
-        //SmartDashboard.putNumber("Setpoint Number", setpoint_val);
-        //SmartDashboard.putString("Speed", (speedo + " RPM"));
+        // SmartDashboard.putString("Spew Top Speed", (_top_encoder.getVelocity() +
+        // "RPM"));
+        // SmartDashboard.putString("Spew Bottom Speed", (_bottom_encoder.getVelocity()
+        // + "RPM"));
+        // SmartDashboard.putString("Spin Diff", (speed_offset + " RPM"));
+        // SmartDashboard.putNumber("Setpoint Number", setpoint_val);
+        // SmartDashboard.putString("Speed", (speedo + " RPM"));
 
-        //System.out.println("Bottom Speed: " + _bottom_encoder.getVelocity());
-        //System.out.println("Top Speed: " + _top_encoder.getVelocity());
-        //System.out.println(speed_offset);
+        // System.out.println("Bottom Speed: " + _bottom_encoder.getVelocity());
+        // System.out.println("Top Speed: " + _top_encoder.getVelocity());
+        // System.out.println(speed_offset);
     }
 
     public void semaphore_update() // updates robot information

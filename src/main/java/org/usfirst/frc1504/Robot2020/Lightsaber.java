@@ -51,7 +51,7 @@ public class Lightsaber implements Updatable {
         _lightsaber_top.set(speed + lightsaber_correction);
         _lightsaber_bottom.set(speed - lightsaber_correction);
     }
-    
+
     private boolean activated() {
         return (_up ? !_up : _up);
     }
@@ -65,48 +65,45 @@ public class Lightsaber implements Updatable {
     }
 
     private double calculate_speed() {
-        return - (IO.lightsaber() / _bottom_encoder.getPosition()) * 10;
+        return -(IO.lightsaber() / _bottom_encoder.getPosition()) * 10;
     }
 
-
-    private void update()
-    {
-        if (!IO.god_state){
-            if(_bottom_encoder.getPosition() <= Map.MAX_ENCODER_POSITION && _bottom_encoder.getPosition() <= Map.MIN_ENCODER_POSITION)
-            {
+    private void update() {
+        if (!IO.god_state) {
+            if (_bottom_encoder.getPosition() <= Map.MAX_ENCODER_POSITION
+                    && _bottom_encoder.getPosition() <= Map.MIN_ENCODER_POSITION) {
                 set_lightsaber(0);
             }
             if (IO.lightsaber() > 0 && !_up) {
-                //ratchet();
+                // ratchet();
                 _locking_activator.set(true);
                 Timer.delay(0.1);
                 set_lightsaber(-Map.LS_TARGET_SPEED);
                 Timer.delay(0.1);
                 _up = true;
             } else if (IO.lightsaber() > 0 && _up) {
-                //_locking_activator.set(false);
+                // _locking_activator.set(false);
                 set_lightsaber(-calculate_speed());
                 _up = true;
-            } else if (IO.lightsaber() <= 0.01) {   
+            } else if (IO.lightsaber() <= 0.01) {
                 _locking_activator.set(false);
                 set_lightsaber(-calculate_speed());
                 _up = false;
             }
         }
         lightsaber_correction = (_bottom_encoder.getPosition() - _top_encoder.getPosition()) * Map.LS_CORRECTIONAL_GAIN;
-        //SmartDashboard.putBoolean("Manual Toggle: ", toggle_manual_control());
+        // SmartDashboard.putBoolean("Manual Toggle: ", toggle_manual_control());
         SmartDashboard.putNumber("Lightsaber Bottom Speeds: ", _bottom_encoder.getVelocity());
         SmartDashboard.putNumber("Lightsaber Top Speeds: ", _top_encoder.getVelocity());
         SmartDashboard.putNumber("Lightsaber Gap: ", lightsaber_correction);
-
 
     }
 
     public void semaphore_update() // updates robot information
     {
-        //System.out.println( _bottom_encoder.getPosition());
-        //System.out.println(_top_encoder.getPosition());
-        //System.out.println("test");
+        // System.out.println( _bottom_encoder.getPosition());
+        // System.out.println(_top_encoder.getPosition());
+        // System.out.println("test");
 
         if (_ds.isDisabled()) // only runs in teleop
             return;
