@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class Ion_Cannon implements Updatable {
     private static final Ion_Cannon instance = new Ion_Cannon();
@@ -96,8 +97,9 @@ public class Ion_Cannon implements Updatable {
     }
 
     private boolean speed_good() {
-        return _bottom_shoot.getEncoder().getVelocity() < Map.ION_SPEED + 200
-                && _bottom_shoot.getEncoder().getVelocity() > Map.ION_SPEED - 200;
+        //return _bottom_shoot.getEncoder().getVelocity() < Map.ION_SPEED + 200
+        //        && _bottom_shoot.getEncoder().getVelocity() > Map.ION_SPEED - 200;
+        return (Math.abs(_bottom_shoot.getEncoder().getVelocity()) - Map.ION_SPEED < 200.0);
     }
 
     private void update() {
@@ -126,18 +128,27 @@ public class Ion_Cannon implements Updatable {
                 _extender.set(DoubleSolenoid.Value.kReverse);
             }
         } else {
-            System.out.println(_bottom_shoot.getEncoder().getVelocity());
             if (IO.ion_high() || IO.ion_low()) {
-                Tractor_Beam._ef_engager.set(DoubleSolenoid.Value.kForward);
-                _extender.set(DoubleSolenoid.Value.kForward);
-                Timer.delay(Map.IC_DEPLOY_DELAY);
+                if(_extender.get() != DoubleSolenoid.Value.kForward)
+                {
+                    Tractor_Beam._ef_engager.set(DoubleSolenoid.Value.kForward);
+                    _extender.set(DoubleSolenoid.Value.kForward);
+                    Timer.delay(Map.IC_DEPLOY_DELAY);
+                }
                 // shooter top solenoid to position should go here
                 spin_wheels(Map.ION_SPEED, speed_offset);
                 if (speed_good()) {
                     Tokamak.serializer.set(-Map.SERIALIZER_SPEED);
-                    if (Tokamak.current_check(Tokamak.snake)) {
-                        Tokamak.snake.set(Map.TOKAMAK_SPEED);
+                    //if (Tokamak.current_check(Tokamak.snake))
+                    {
+                        Tokamak.snake.set(Map.TOKAMAK_SPEED * (IO.snake_reverse() ? -1.0 : 1.0));
+                        System.out.println((IO.snake_reverse() ? -1.0 : 1.0));
                     }
+                }
+                else
+                {
+                    Tokamak.serializer.set(0);
+                    Tokamak.snake.set(0);
                 }
             } else {
                 _extender.set(DoubleSolenoid.Value.kReverse);

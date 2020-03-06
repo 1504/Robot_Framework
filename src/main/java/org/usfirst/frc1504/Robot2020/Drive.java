@@ -113,7 +113,8 @@ public class Drive implements Updatable {
 	private volatile int _loops_since_last_dump = 0;
 
 	private volatile double[] _input = { 0.0, 0.0, 0.0 };
-	private volatile double[] _orbit_point = { 0.0, 0.8 }; // -1.15}; //{0.0, 1.15};
+	private volatile double[] _orbit_point = { 0.0, -0.8 }; // -1.15}; //{0.0, 1.15};
+	private volatile double _rot_offset = Math.PI;
 
 	private CANSparkMax[] _motors = new CANSparkMax[Map.DRIVE_MOTOR_PORTS.length];
 
@@ -222,6 +223,8 @@ public class Drive implements Updatable {
 						// if (!IO.get_drive_op_toggle())
 						{
 							input = orbit_point(input);
+							//input = frontside(input);
+							//input[0] *= -1.0;
 						}
 						// input = _glide.gain_adjust(input);
 					}
@@ -264,6 +267,7 @@ public class Drive implements Updatable {
 		if (_new_data) {
 			return;
 		}
+
 
 		_input = i;
 		_new_data = true;
@@ -320,6 +324,21 @@ public class Drive implements Updatable {
 	double initialSpike = 0.0;
 	double highestTravelingSpike = 0.0;
 	double accelSign = -1.0;
+
+
+	private double[] frontside(double[] input)
+	{
+		if(_rot_offset == 0.0)
+			return input;
+		//if(input.length < 2)
+		//	return input;
+		double[] offset = new double[3];
+		offset[0] = input[0] * Math.cos(_rot_offset) + input[1] * Math.sin(_rot_offset);
+		offset[1] = input[1] * Math.cos(_rot_offset) - input[0] * Math.sin(_rot_offset);
+		offset[2] = input[2];
+
+		return offset;
+	}
 
 	/**
 	 * Normalization function for arrays to normalize full scale to +- 1 <br>

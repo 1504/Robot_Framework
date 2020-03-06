@@ -151,6 +151,10 @@ public class IO {
 	}
 
 	/** Tokamak */
+	public static boolean snake_reverse()
+	{
+		return _secondary.getRawButton(Map.SNAKE_REVERSE);
+	}
 	// God Tokamak
 	public static double snake() {
 		return Math.pow(_secondary.getRawAxis(Map.GOD_SNAKE_AX), 3);

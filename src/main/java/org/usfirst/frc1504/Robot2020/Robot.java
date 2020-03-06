@@ -110,15 +110,16 @@ public class Robot extends RobotBase {
     public void test() {
         System.out.println("Test Mode!");
 
-        WPI_TalonSRX _testing1;
-        WPI_TalonSRX _testing2;
+        /*WPI_TalonSRX _testing1;
+        CAN _testing2;
 
         _testing1 = new WPI_TalonSRX(Map.testing1talon);
-        _testing2 = new WPI_TalonSRX(Map.testing2talon);
+        _testing2 = new WPI_TalonSRX(Map.testing2talon);*/
 
         while (isTest() && isEnabled()) {
-
+            Lightsaber.getInstance().set_lightsaber_raw(IO.snake() * 0.4, (IO.ion_vision() ? IO.serializer() : IO.snake()) * 0.4);
         }
+        Lightsaber.getInstance().reset_encoders();
     }
 
     /**

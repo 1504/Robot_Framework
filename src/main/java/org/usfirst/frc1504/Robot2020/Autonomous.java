@@ -42,13 +42,6 @@ public class Autonomous {
 		}
 	}
 
-	private double[] dist_to_rot(double dist, double angle) {
-		double[] rots = { 0, 0 };
-		rots[0] = (dist * Math.cos(angle)) / (6 * Math.PI);
-		rots[1] = (dist * Math.sin(angle)) / (6 * Math.PI);
-		return rots;
-	}
-
 	private static class Auto_Task extends TimerTask {
 
 		private Autonomous _task;
@@ -128,19 +121,6 @@ public class Autonomous {
 		System.out.println("Autonomous loop started");
 	}
 
-	public double[] switch_angles(double x1, double x2, double y1, double y2) {
-		double left_box = find_angle_theta(x1, y1);
-		double right_box = find_angle_theta(x2, y2);
-		double[] angles = new double[] { left_box, right_box };
-		return angles;
-	}
-
-	public static double find_angle_theta(double x, double y) {
-		double angle_theta = Math.toDegrees(Math.atan((x - (Map.CAMERA_X / 2)) / (y - Map.CAMERA_Y)));
-		return angle_theta;
-
-	}
-
 	public void stop() {
 		_drive.drive_inputs(0.0, 0.0, 0.0);
 
@@ -152,36 +132,6 @@ public class Autonomous {
 		_task_timer.cancel();
 
 		System.out.println("Autonomous loop stopped @ " + (System.currentTimeMillis() - _start_time));
-	}
-
-	/**
-	 * Detented controller correction methods, and helper methods.
-	 */
-	private double[] detents(double[] input) {
-		double y = input[0];
-		double x = input[1];
-		double w = input[2];
-
-		double angle = Math.atan2(input[0], input[1]);
-
-		double dx = 0; // fix_x(angle) * Utils.distance(y, x) * 0.25;
-		double dy = 0; // fix_y(angle) * Utils.distance(y, x);
-
-		double[] fixed = new double[3];
-
-		fixed[0] = y + dy;
-		fixed[1] = x + dx;
-		fixed[2] = w;
-
-		return fixed;
-	}
-
-	private double fix_x(double theta) {
-		return -Math.sin(theta) * (-Math.sin(8 * theta) - 0.25 * Math.sin(4 * theta));
-	}
-
-	private double fix_y(double theta) {
-		return Math.cos(theta) * (-Math.sin(8 * theta) - 0.25 * Math.sin(4 * theta));
 	}
 
 	protected void auto_task() {
