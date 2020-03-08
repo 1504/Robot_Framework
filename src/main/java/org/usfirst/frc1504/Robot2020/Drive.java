@@ -228,9 +228,9 @@ public class Drive implements Updatable {
 						}
 						// input = _glide.gain_adjust(input);
 					}
-					_new_data = false;
 					_dump = true;
 					_input = input;
+					_new_data = false;
 				}
 
 				_loops_since_last_dump++;
@@ -269,8 +269,9 @@ public class Drive implements Updatable {
 		}
 
 
-		_input = i;
 		_new_data = true;
+		_input = i;
+		
 	}
 
 	/**

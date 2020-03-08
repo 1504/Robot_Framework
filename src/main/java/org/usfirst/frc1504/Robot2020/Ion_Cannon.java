@@ -99,7 +99,7 @@ public class Ion_Cannon implements Updatable {
     private boolean speed_good() {
         //return _bottom_shoot.getEncoder().getVelocity() < Map.ION_SPEED + 200
         //        && _bottom_shoot.getEncoder().getVelocity() > Map.ION_SPEED - 200;
-        return (Math.abs(_bottom_shoot.getEncoder().getVelocity()) - Map.ION_SPEED < 200.0);
+        return (Math.abs(Math.abs(_bottom_shoot.getEncoder().getVelocity()) - Map.ION_SPEED) < 250.0);
     }
 
     private void update() {
@@ -138,7 +138,7 @@ public class Ion_Cannon implements Updatable {
                 // shooter top solenoid to position should go here
                 spin_wheels(Map.ION_SPEED, speed_offset);
                 if (speed_good()) {
-                    Tokamak.serializer.set(-Map.SERIALIZER_SPEED);
+                    Tokamak.serializer.set(-Map.SERIALIZER_SPEED * (IO.snake_reverse() ? -1.0 : 1.0));
                     //if (Tokamak.current_check(Tokamak.snake))
                     {
                         Tokamak.snake.set(Map.TOKAMAK_SPEED * (IO.snake_reverse() ? -1.0 : 1.0));

@@ -80,7 +80,8 @@ public class Lightsaber implements Updatable {
         return -(IO.lightsaber() / _bottom_encoder.getPosition()) * 10;
     }
 
-    private void update() {
+    private void update()
+    {
 
         lightsaber_correction = (_bottom_encoder.getPosition() - _top_encoder.getPosition()) * Map.LS_CORRECTIONAL_GAIN;
         // SmartDashboard.putBoolean("Manual Toggle: ", toggle_manual_control());
@@ -91,12 +92,46 @@ public class Lightsaber implements Updatable {
         if (_ds.isTest() || _ds.isDisabled())
             return;
 
-        if (!IO.god_state) {
-            if (_bottom_encoder.getPosition() <= Map.MAX_ENCODER_POSITION
+        if (!IO.god_state)
+        {
+            if(_bottom_encoder.getPosition() <= Map.MAX_ENCODER_POSITION && IO.lightsaber() < 0)
+            {
+                set_lightsaber_raw(0, 0);
+                return;
+            }
+            if(_bottom_encoder.getPosition() >= Map.MIN_ENCODER_POSITION && IO.lightsaber() > 0)
+            {
+                set_lightsaber_raw(0, 0);
+                return;
+            }
+
+            if(IO.lightsaber() < 0)
+            {
+                if(!_locking_activator.get())
+                {
+                    _locking_activator.set(true);
+                    Timer.delay(0.1);
+                    set_lightsaber_raw(Map.LS_TARGET_SPEED, Map.LS_TARGET_SPEED);
+                    Timer.delay(0.04);
+                }
+
+                set_lightsaber(IO.lightsaber() / (1.0 + _bottom_encoder.getPosition() / (Map.MAX_ENCODER_POSITION / 2.0))); // 
+            }
+            else
+            {
+                _locking_activator.set(false);
+                if(IO.lightsaber() > 0)
+                    set_lightsaber(IO.lightsaber());
+                else
+                    set_lightsaber_raw(0, 0);
+            }
+
+            
+            /*if (_bottom_encoder.getPosition() <= Map.MAX_ENCODER_POSITION
                     && _bottom_encoder.getPosition() <= Map.MIN_ENCODER_POSITION) {
                 set_lightsaber(0);
-            }
-            if (IO.lightsaber() > 0 && !_up) {
+            }*/
+            /*if (IO.lightsaber() > 0 && !_up) {
                 // ratchet();
                 _locking_activator.set(true);
                 Timer.delay(0.1);
@@ -111,7 +146,7 @@ public class Lightsaber implements Updatable {
                 _locking_activator.set(false);
                 set_lightsaber(-IO.lightsaber());
                 _up = false;
-            }
+            }*/
         }
 
     }
@@ -121,9 +156,13 @@ public class Lightsaber implements Updatable {
         // System.out.println( _bottom_encoder.getPosition());
         // System.out.println(_top_encoder.getPosition());
         // System.out.println("test");
+        SmartDashboard.putNumber("Winch 1 Position", _bottom_encoder.getPosition());
+        SmartDashboard.putNumber("Winch 2 Position", _top_encoder.getPosition());
 
         if (_ds.isDisabled()) // only runs in teleop
             return;
+        else if(_ds.isTest())
+            _locking_activator.set(true);
 
         update();
     }

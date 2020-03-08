@@ -205,7 +205,7 @@ public class Map {
 
         /** Lightsaber */
         public static final double LS_CORRECTIONAL_GAIN = 0.1;
-        public static final double LS_TARGET_SPEED = 0.2;// 0.33;
+        public static final double LS_TARGET_SPEED = 0.28;// 0.33;
         public static final double MAX_ENCODER_POSITION = -82.336;
         public static final double MIN_ENCODER_POSITION = 0;
 

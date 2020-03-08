@@ -49,10 +49,12 @@ public class Robot extends RobotBase {
      *
      * Called exactly 1 time when the competition starts.
      */
-    public void robotInit() {
+    public void robotInit() 
+    {
         CameraServer.getInstance().startAutomaticCapture();
         _dashboard_task = new Thread(new Runnable() {
-            public void run() {
+            public void run() 
+            {
                 _arduino.setPartyMode(true);
                 char edge_track = 0;
 
@@ -82,7 +84,8 @@ public class Robot extends RobotBase {
      *
      * Called once each time the robot enters the disabled state.
      */
-    protected void disabled() {
+    protected void disabled()
+    {
         System.out.println("Robot Disabled");
         _arduino.setPartyMode(true);
         _arduino.setPulseSpeed(1);
@@ -95,7 +98,8 @@ public class Robot extends RobotBase {
      *
      * Called once each time the robot enters the operator-controlled state.
      */
-    public void operatorControl() {
+    public void operatorControl()
+    {
         System.out.println("Operator Control");
         _arduino.diagnostic(false);
         _arduino.update(true);
@@ -107,7 +111,8 @@ public class Robot extends RobotBase {
      * Test code should go here. Users should add test code to this method that
      * should run while the robot is in test mode.
      */
-    public void test() {
+    public void test() 
+    {
         System.out.println("Test Mode!");
 
         /*WPI_TalonSRX _testing1;
@@ -116,7 +121,8 @@ public class Robot extends RobotBase {
         _testing1 = new WPI_TalonSRX(Map.testing1talon);
         _testing2 = new WPI_TalonSRX(Map.testing2talon);*/
 
-        while (isTest() && isEnabled()) {
+        while (isTest() && isEnabled()) 
+        {
             Lightsaber.getInstance().set_lightsaber_raw(IO.snake() * 0.4, (IO.ion_vision() ? IO.serializer() : IO.snake()) * 0.4);
         }
         Lightsaber.getInstance().reset_encoders();
@@ -131,7 +137,8 @@ public class Robot extends RobotBase {
      * be enabled again.
      */
 
-    public void startCompetition() {
+    public void startCompetition() 
+    {
         // HAL.report(tResourceType.kResourceType_Framework,tInstances.kFramework_Simple);
         // first and one-time initialization
         LiveWindow.setEnabled(false);
@@ -180,8 +187,8 @@ public class Robot extends RobotBase {
     }
 
     @Override
-    public void endCompetition() {
+    public void endCompetition() 
+    {
         // TODO Auto-generated method stub
-
     }
 }

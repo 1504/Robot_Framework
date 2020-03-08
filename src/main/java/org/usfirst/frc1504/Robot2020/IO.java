@@ -128,13 +128,14 @@ public class IO {
 
 	/** Lightsaber */
 	public static double lightsaber() {
-		if (Math.pow(_secondary.getRawAxis(Map.LIGHTSABER_AX), 3) > 0.5) {
+		if (Math.pow(_secondary.getRawAxis(Map.LIGHTSABER_AX), 3) > 0.5) 
 			return 0.5;
-		} else if (Math.pow(_secondary.getRawAxis(Map.LIGHTSABER_AX), 3) < -0.5) {
+		else if (Math.pow(_secondary.getRawAxis(Map.LIGHTSABER_AX), 3) < -0.5) 
 			return -0.5;
-		} else {
+		else if(Math.abs(_secondary.getRawAxis(Map.LIGHTSABER_AX)) > 0.05) 
 			return Math.pow(_secondary.getRawAxis(Map.LIGHTSABER_AX), 3);
-		}
+		else
+			return 0;
 	}
 
 	/** Pizza */
