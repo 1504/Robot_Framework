@@ -12,10 +12,14 @@ public class Tokamak implements Updatable {
     private static final Tokamak instance = new Tokamak();
     private DriverStation _ds = DriverStation.getInstance();
 
-    public static WPI_TalonSRX snake;
-    public static WPI_TalonSRX serializer;
+    private Tractor_Beam _tractor_beam = Tractor_Beam.getInstance();
+    private Ion_Cannon _ion_cannon = Ion_Cannon.getInstance();
 
-    private boolean _manual = false;
+    private WPI_TalonSRX _snake;
+    private WPI_TalonSRX _serializer;
+
+    private boolean _overcurrent = false;
+    private int _overcurrent_count = 0;
 
     public static Tokamak getInstance() // sets instance
     {
@@ -27,50 +31,87 @@ public class Tokamak implements Updatable {
         getInstance();
     }
 
-    private Tokamak() {
-        snake = new WPI_TalonSRX(Map.TOKAMAK_TOP); // serializer
-        serializer = new WPI_TalonSRX(Map.TOKAMAK_BOTTOM);
+    private Tokamak()
+    {
+        _snake = new WPI_TalonSRX(Map.TOKAMAK_TOP); // serializer
+        _serializer = new WPI_TalonSRX(Map.TOKAMAK_BOTTOM);
 
         Update_Semaphore.getInstance().register(this);
         System.out.println("Tokamak is generating plasma");
     }
 
-    private static double get_current(WPI_TalonSRX motor) {
-        return motor.getSupplyCurrent();
+    private void update_god()
+    {
+        _snake.set(IO.snake());
+        _serializer.set(-IO.serializer());
     }
 
-    public static boolean current_check(WPI_TalonSRX motor) {
-        if (get_current(motor) > Map.TOKAMAK_CURRENT) {
-            for (int i = 0; i < Map.JIGGLE_REPITITIONS; i++) {
-                motor.set(Map.TOKAMAK_JIGGLE_SPEED);
-                Timer.delay(Map.JIGGLE_INTERVAL);
-                motor.set(-(Map.TOKAMAK_JIGGLE_SPEED));
+    private void update()
+    {
+        if(_tractor_beam.enabled() || (_ion_cannon.enabled() && _ion_cannon.speed_good()))
+        {
+            double reverse = (IO.snake_reverse() ? -1.0 : 1.0);
+
+            _serializer.set(Map.SERIALIZER_SPEED  * reverse);
+
+            if(_ion_cannon.enabled())
+            {
+                _overcurrent_count = 0;
+                _overcurrent = false;
+            }
+            else
+            {
+                if(Math.abs(_snake.getStatorCurrent()) > 31.0 || _overcurrent)
+                    _overcurrent_count++;
+                else
+                    _overcurrent_count = 0;
+
+                if(IO.snake_reverse())
+                {
+                    _overcurrent_count = 0;
+                    _overcurrent = false;
+                }
+            }
+
+            if(
+                (!_overcurrent && _overcurrent_count < 30) ||           // Must overcurrent for a time
+                (_overcurrent && _overcurrent_count / 8 % 2 == 0)       // Pulse when overcurrented
+              )
+            {
+                _snake.set(Map.TOKAMAK_SPEED * (IO.snake_reverse() ? -1.0 : 1.0));
+            }
+            else
+            {
+                _overcurrent = true;
+                _snake.set(0);
             }
         }
-        return true;
-    }
-
-    private void update() {
-        if (IO.god_state) {
-            snake.set(IO.snake());
-            serializer.set(-IO.serializer());
-        } else if (!IO.tb_activate() && !IO.ion_high() && !IO.ion_low()) { // this is so snake knows when to stop, we
-                                                                           // should add another conditional for shooter
-                                                                           // state
-            snake.set(0);
-            serializer.set(0);
+        else
+        {
+            _serializer.set(0);
+            _snake.set(0);
         }
         
     }
 
+    private void update_dashboard()
+    {
+        SmartDashboard.putNumber("Snake Current", _snake.getStatorCurrent());
+        SmartDashboard.putNumber("Serializer Current", _serializer.getStatorCurrent());
+        SmartDashboard.putNumber("Overcurrent Count", _overcurrent_count);
+        SmartDashboard.putBoolean("Overcurrent", _overcurrent);
+    }
+
     public void semaphore_update() // updates robot information
     {
-        SmartDashboard.putNumber("Snake Current", snake.getStatorCurrent());
-        SmartDashboard.putNumber("Serializer Current", serializer.getStatorCurrent());
+        update_dashboard();
 
         if (_ds.isDisabled()) // only runs in teleop
             return;
 
-        update();
+        if(IO.god_state)
+            update_god();
+        else
+            update();
     }
 }

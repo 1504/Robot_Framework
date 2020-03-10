@@ -12,9 +12,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.stream.Stream;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Solenoid;
 
 public class Autonomous {
 	public static class Autonomus_Waypoint {
@@ -59,7 +57,6 @@ public class Autonomous {
 
 	// private Groundtruth _groundtruth = Groundtruth.getInstance();
 	private Drive _drive = Drive.getInstance();
-	// private Solenoid plate_solenoid = new Solenoid(Map.LIFT_PLATE_SOLENOID_PORT);
 	private Timer _task_timer;
 	private volatile boolean _thread_alive = true;
 	private long _start_time;

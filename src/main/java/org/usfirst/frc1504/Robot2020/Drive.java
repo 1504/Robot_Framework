@@ -15,6 +15,7 @@ import java.lang.Math;
 import org.usfirst.frc1504.Robot2020.Update_Semaphore.Updatable;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -113,7 +114,8 @@ public class Drive implements Updatable {
 	private volatile int _loops_since_last_dump = 0;
 
 	private volatile double[] _input = { 0.0, 0.0, 0.0 };
-	private volatile double[] _orbit_point = { 0.0, -0.8 }; // -1.15}; //{0.0, 1.15};
+	private volatile double[] _fresh_input = { 0.0, 0.0, 0.0 };
+	private volatile double[] _orbit_point = { 0.0, 1.15 }; // -1.15}; //{0.0, 1.15};
 	private volatile double _rot_offset = Math.PI;
 
 	private CANSparkMax[] _motors = new CANSparkMax[Map.DRIVE_MOTOR_PORTS.length];
@@ -136,24 +138,12 @@ public class Drive implements Updatable {
 		if (!_initialized)
 			return;
 
-		if (_ds.isEnabled()) {
-			if (IO.god()) {
-				IO.god_state = !IO.god_state;
-			}
-			if (IO.tb_activate()) {
-				IO._tb_state = !IO._tb_state;
-			}
-			if (IO.ion_high()) {
-				IO._high_state = !IO._high_state;
-			}
-			if (IO.ion_low()) {
-				IO._low_state = !IO._low_state;
-			}
-			if (IO.ion_vision()) {
+		if (_ds.isEnabled())
+		{
+			/*if (IO.ion_vision())
 				drive_inputs(Optical_Sensor.optical_alignment());
-			} else {
+			else*/
 				drive_inputs(IO.drive_input());
-			}
 
 		}
 	}
@@ -213,6 +203,7 @@ public class Drive implements Updatable {
 			}
 			if (_ds.isEnabled() && !_ds.isTest()) {
 				if (_new_data) {
+					input = _fresh_input;
 					// if(_ds.isOperatorControl())
 					{
 						// input = detents(input);
@@ -223,7 +214,7 @@ public class Drive implements Updatable {
 						// if (!IO.get_drive_op_toggle())
 						{
 							input = orbit_point(input);
-							//input = frontside(input);
+							input = frontside(input);
 							//input[0] *= -1.0;
 						}
 						// input = _glide.gain_adjust(input);
@@ -242,7 +233,10 @@ public class Drive implements Updatable {
 					// _dump = false;
 				}
 				output = outputCompute(input);
+				if(IO.correction())
+					output = output_compare(output);
 				motorOutput(output);
+				SmartDashboard.putBoolean("Output Correction", IO.correction());
 			} else // when disabled:
 			{
 				// update_dash();
@@ -268,10 +262,8 @@ public class Drive implements Updatable {
 			return;
 		}
 
-
+		_fresh_input = i;
 		_new_data = true;
-		_input = i;
-		
 	}
 
 	/**
@@ -322,11 +314,6 @@ public class Drive implements Updatable {
 		_orbit_magic_numbers[5] = q;
 	}
 
-	double initialSpike = 0.0;
-	double highestTravelingSpike = 0.0;
-	double accelSign = -1.0;
-
-
 	private double[] frontside(double[] input)
 	{
 		if(_rot_offset == 0.0)
@@ -341,19 +328,53 @@ public class Drive implements Updatable {
 		return offset;
 	}
 
-	/**
-	 * Normalization function for arrays to normalize full scale to +- 1 <br>
-	 * Note: THIS FUNCTION OPERATES ON THE REFERENCE INPUT ARRAY AND WILL CHANGE IT!
-	 * 
-	 * @param input - The array to normalize
-	 * @return Maximum value in the array
-	 */
+
+	private double[] output_compare(double[] input)
+	{
+		double[] speeds = new double[4];
+		double[] outputs = input.clone();
+		double max_speed = 1.0;
+		double max_output = 0.0;
+		for (int i = 0; i < _motors.length; i++)
+		{
+			speeds[i] = _motors[i].getEncoder().getVelocity();
+			max_speed = Math.max(Math.abs(speeds[i]), max_speed);
+			max_output = Math.max(Math.abs(outputs[i]), max_output);
+		}
+
+		if(max_output == 0.0)
+			return input;
+
+		//Normalize
+		for (int i = 0; i < _motors.length; i++)
+		{
+			speeds[i] /= max_speed;
+			outputs[i] /= max_output;
+			outputs[i] *= Map.DRIVE_OUTPUT_MAGIC_NUMBERS[i];
+
+			SmartDashboard.putNumber("SPEED " + i, speeds[i]);
+			SmartDashboard.putNumber("OUTPUT " + i, outputs[i]);
+
+			speeds[i] = (speeds[i] - outputs[i]) * 0.0 * input[i] + input[i];
+		}
+
+		max_speed = 1.0;
+		for (int i = 0; i < _motors.length; i++)
+			max_speed = Math.max(Math.abs(speeds[i]), max_speed);
+		for (int i = 0; i < _motors.length; i++)
+			speeds[i] /= max_speed;
+
+		return speeds;
+	}
 
 	/**
 	 * Convert the input array (forward, right, and anticlockwise) into a motor
 	 * output array.
 	 */
 	private double[] outputCompute(double[] input) {
+		//input = orbit_point(input);
+		//input = frontside(input);
+
 		double[] output = new double[4];
 		double max = Math.max(1.0, Math.abs(input[0]) + Math.abs(input[1]) + Math.abs(input[2]));
 

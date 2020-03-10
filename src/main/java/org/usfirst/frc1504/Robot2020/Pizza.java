@@ -3,7 +3,6 @@ package org.usfirst.frc1504.Robot2020;
 import org.usfirst.frc1504.Robot2020.Update_Semaphore.Updatable;
 
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.SolenoidBase;
 //import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -40,7 +39,6 @@ public class Pizza implements Updatable {
     private int colorCount = 0;
     String gameData = DriverStation.getInstance().getGameSpecificMessage();
     private Solenoid _scomp_link;
-    private boolean scomp_link_state = false;
 
     public static Pizza getInstance() // sets instance
     {
@@ -57,56 +55,63 @@ public class Pizza implements Updatable {
         m_colorMatcher.addColorMatch(kGreenTarget);
         m_colorMatcher.addColorMatch(kRedTarget);
         m_colorMatcher.addColorMatch(kYellowTarget);
+
         _scomp_link = new Solenoid(Map.SCOMP_LINK_PORT);
         _pizza_slicer = new WPI_TalonSRX(Map.PIZZA_SLICER);
+
+        _scomp_link.set(false);
 
         Update_Semaphore.getInstance().register(this);
         System.out.println("Pizza is ready to be cut");
 
     }
 
-    public void spin_pizza(char colorChar) {
-        if (pizza_history.size() == 0) {
+    private void spin_pizza(char colorChar)
+    {
+        if (pizza_history.size() == 0)
+        {
             pizza_history.add(colorChar);
             initial_color = colorChar;
         }
-        if (pizza_history.get(pizza_history.size() - 1) != colorChar) {
+        if (pizza_history.get(pizza_history.size() - 1) != colorChar)
+        {
             pizza_history.add(colorChar);
         }
-        for (int i = 0; i < pizza_history.size() - 1; i++) {
-            if (pizza_history.get(i) == initial_color) {
+        for (int i = 0; i < pizza_history.size() - 1; i++)
+        {
+            if (pizza_history.get(i) == initial_color)
+            {
                 colorCount++;
             }
         }
-        if (colorCount < 3) {
+        if (colorCount < 3)
             _pizza_slicer.set(0.5);
-        } else {
+        else
             _pizza_slicer.set(0);
-        }
 
     }
 
-    public void cut_pizza(char color) {
-        if (gameData.charAt(0) != color) {
+    private void cut_pizza(char color)
+    {
+        if (gameData.charAt(0) != color)
             _pizza_slicer.set(0.5);
-        } else {
+        else
             _pizza_slicer.set(0);
-        }
     }
 
-    private void update() {
-        if (!IO.god_state) {
-            if (IO.pizza_extend()) {
-                scomp_link_state = !scomp_link_state;
-                _scomp_link.set(scomp_link_state);
-            }
-            if (scomp_link_state) {
-                _pizza_slicer.set(IO.pizza_spin());
-            } else {
-                _pizza_slicer.set(0);
-            }
-        }
-        /*
+    private void compute_color()
+    {
+        /*Color detectedColor = m_colorSensor.getColor();
+        
+        char colorChar;
+        ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+        
+        (match.color == kBlueTarget) { colorChar = 'R'; } else if (match.color ==
+        kRedTarget) { colorChar = 'B'; } else if (match.color == kGreenTarget) {
+        colorChar = 'Y'; } else if (match.color == kYellowTarget) { colorChar = 'G';
+        } else { colorChar = 'U'; }*/
+
+                /*
          * Color detectedColor = m_colorSensor.getColor();
          * 
          * char colorChar; ColorMatchResult match =
@@ -143,8 +148,32 @@ public class Pizza implements Updatable {
          */
     }
 
+    private void update()
+    {
+        if(IO.god_state)
+        {
+            return;
+        }
+
+        if (IO.pizza_extend()) {
+            _scomp_link.set(!_scomp_link.get());
+        }
+        if (_scomp_link.get()) {
+            _pizza_slicer.set(IO.pizza_spin());
+        } else {
+            _pizza_slicer.set(0);
+        }
+    }
+
+    private void update_dashboard()
+    {
+        SmartDashboard.putBoolean("ControlPanel Extended", _scomp_link.get());
+    }
+
     public void semaphore_update() // updates robot information
     {
+        update_dashboard();
+
         if (_ds.isDisabled()) // only runs in teleop
             return;
 

@@ -9,19 +9,18 @@ package org.usfirst.frc1504.Robot2020;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.hal.HALUtil;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends RobotBase {
 
     private Update_Semaphore _semaphore = Update_Semaphore.getInstance();
-    private Logger _logger = Logger.getInstance();
-    private Arduino _arduino = Arduino.getInstance();
+    //private Logger _logger = Logger.getInstance();
+    //private Arduino _arduino = Arduino.getInstance();
     private Thread _dashboard_task;
 
     /**
@@ -52,30 +51,33 @@ public class Robot extends RobotBase {
     public void robotInit() 
     {
         CameraServer.getInstance().startAutomaticCapture();
-        _dashboard_task = new Thread(new Runnable() {
+        _dashboard_task = new Thread(new Runnable()
+        {
             public void run() 
             {
-                _arduino.setPartyMode(true);
+                //_arduino.setPartyMode(true);
                 char edge_track = 0;
 
-                while (true) {
-                    /*
-                     * Borrowed from Mike
-                     */
-
+                while (true)
+                {
                     edge_track = (char) (((edge_track << 1) + (HALUtil.getFPGAButton() ? 1 : 0)) & 3);
                     if (edge_track == 1) // Get image from groundtruth sensors, output it to the DS
                     {
-                        _arduino.diagnostic(!_arduino.diagnostic());
+                        //_arduino.diagnostic(!_arduino.diagnostic());
                     }
 
+                    if (IO.god())
+                        IO.god_state = !IO.god_state;
+                    
+                    SmartDashboard.putBoolean("God Mode", IO.god_state);
+                    
                     Timer.delay(0.02);
                 }
             }
         });
         _dashboard_task.start();
 
-        System.out.println("Pathfinder Initialized ( robotInit() ) @ " + IO.ROBOT_START_TIME);
+        System.out.println("PD-20 Initialized ( robotInit() ) @ " + IO.ROBOT_START_TIME);
     }
 
     /**
@@ -87,8 +89,6 @@ public class Robot extends RobotBase {
     protected void disabled()
     {
         System.out.println("Robot Disabled");
-        _arduino.setPartyMode(true);
-        _arduino.setPulseSpeed(1);
     }
 
     /**
@@ -101,10 +101,6 @@ public class Robot extends RobotBase {
     public void operatorControl()
     {
         System.out.println("Operator Control");
-        _arduino.diagnostic(false);
-        _arduino.update(true);
-        _arduino.setPulseSpeed(20);
-        _arduino.setPartyMode(false);
     }
 
     /**
@@ -121,9 +117,13 @@ public class Robot extends RobotBase {
         _testing1 = new WPI_TalonSRX(Map.testing1talon);
         _testing2 = new WPI_TalonSRX(Map.testing2talon);*/
 
-        while (isTest() && isEnabled()) 
+        //while (isTest() && isEnabled()) 
+        //    Lightsaber.getInstance().set_lightsaber_raw(IO.snake() * 0.4, (IO.ion_vision() ? IO.serializer() : IO.snake()) * 0.4);
+        
+        while (m_ds.isEnabled())
         {
-            Lightsaber.getInstance().set_lightsaber_raw(IO.snake() * 0.4, (IO.ion_vision() ? IO.serializer() : IO.snake()) * 0.4);
+            m_ds.waitForData(0.15); // Blocks until we get new data or 150ms elapse
+            _semaphore.newData();
         }
         Lightsaber.getInstance().reset_encoders();
     }
@@ -169,18 +169,16 @@ public class Robot extends RobotBase {
 
             } else {
                 m_ds.InOperatorControl(true);
-                _logger.start("Tele");
+                //_logger.start("Tele");
 
                 operatorControl();
 
                 while (!isDisabled()) {
                     m_ds.waitForData(0.15); // Blocks until we get new data or 150ms elapse
                     _semaphore.newData();
-                    // Timer.delay(0.01);
                 }
 
-                _logger.stop();
-                // Timer.delay(1);
+                //_logger.stop();
                 m_ds.InOperatorControl(false);
             }
         } /* while loop */

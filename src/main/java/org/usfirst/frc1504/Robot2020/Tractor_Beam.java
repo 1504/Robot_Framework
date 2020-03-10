@@ -17,9 +17,7 @@ public class Tractor_Beam implements Updatable {
     public static DoubleSolenoid _ef_engager;
     public static Timer tb_timer = new Timer();
 
-    private static boolean _ef_god_state = false;
-    private boolean _overcurrent = false;
-    private int _overcurrent_count = 0;
+    private boolean _enabled = false;
 
     public static Tractor_Beam getInstance() // sets instance
     {
@@ -31,86 +29,66 @@ public class Tractor_Beam implements Updatable {
         getInstance();
     }
 
-    private Tractor_Beam() {
+    private Tractor_Beam()
+    {
         _beam = new WPI_TalonSRX(Map.TRACTOR_BEAM);
         _ef_engager = new DoubleSolenoid(Map.EF_ENGAGER_HIGHSIDE_PORT, Map.EF_ENGAGER_LOWSIDE_PORT);
         Update_Semaphore.getInstance().register(this);
         System.out.println("Tractor Beam Engaged");
     }
 
-    private void update() {
-        if (IO.god_state) {
-            if (IO.god_tb() > 0) {
-                _beam.set(-IO.god_tb());
-            } else {
-                _beam.set(0);
-            }
-            if (IO.god_ef()) {
-                _ef_god_state = !_ef_god_state;
-            }
+    public void enable(boolean enable)
+    {
+        _enabled = enable;
+    }
 
-            if (_ef_god_state) {
-                _ef_engager.set(DoubleSolenoid.Value.kForward);
-            } else {
-                _ef_engager.set(DoubleSolenoid.Value.kReverse);
-            }
-        } else {
+    public boolean enabled()
+    {
+        return _enabled;
+    }
 
-            if (IO.tb_activate()) {
-                _ef_engager.set(DoubleSolenoid.Value.kForward);
-                _beam.set(-Map.TRACTOR_BEAM_SPEED  * (IO.snake_reverse() ? -1.0 : 1.0));
-                Tokamak.serializer.set(-Map.SERIALIZER_SPEED  * (IO.snake_reverse() ? -1.0 : 1.0));
-                //if (Tokamak.current_check(Tokamak.snake)) 
-                {
-                    if(Math.abs(Tokamak.snake.getStatorCurrent()) > 31.0 || _overcurrent)
-                        _overcurrent_count++;
-                    else
-                        _overcurrent_count = 0;
+    private void update_god()
+    {
+        _beam.set(IO.god_tb() > 0 ? -IO.god_tb() : 0);
+        if (IO.god_ef())
+            _ef_engager.set(_ef_engager.get() == DoubleSolenoid.Value.kForward ? DoubleSolenoid.Value.kReverse : DoubleSolenoid.Value.kForward);
+        return;
+    }
 
-                    if(IO.snake_reverse())
-                    {
-                        _overcurrent_count = 0;
-                        _overcurrent = false;
-                    }
-                    
-                    if((!_overcurrent && _overcurrent_count < 30) || IO.ion_vision() || (_overcurrent && _overcurrent_count / 8 % 2 == 0))
-                    {
-                        Tokamak.snake.set(Map.TOKAMAK_SPEED * (IO.snake_reverse() ? -1.0 : 1.0));
-                    }
-                    else
-                    {
-                        _overcurrent = true;
-                        Tokamak.snake.set(0);
-                    }
-                }
-            }
-            if (!IO.tb_activate() && !IO.ion_high() && !IO.ion_low()) {
-                _ef_engager.set(DoubleSolenoid.Value.kReverse);
-                _beam.set(0);
-                Tokamak.serializer.set(0);
-                _overcurrent_count = 0;
-            }
-
-            if(IO.ion_high() || IO.ion_low())
-                _overcurrent = false;
+    private void update()
+    {
+        if (_enabled)
+        {
+            _ef_engager.set(DoubleSolenoid.Value.kForward);
+            _beam.set(Map.TRACTOR_BEAM_SPEED  * (IO.snake_reverse() ? -1.0 : 1.0));
         }
-        /*
-         * if (IO.get_tractor_beam_activation() == 0.1) { tb_timer.start(); } if
-         * (IO.get_tractor_beam_activation() > 0) { _beam.set(-Map.TRACTOR_BEAM_SPEED);
-         * System.out.println(tb_timer); _ef_engager.set(DoubleSolenoid.Value.kForward);
-         * } else { _beam.set(0.0); tb_timer.stop(); tb_timer.reset();
-         * _ef_engager.set(DoubleSolenoid.Value.kReverse); }
-         */
+        else
+        {
+            _ef_engager.set(DoubleSolenoid.Value.kReverse);
+            _beam.set(0);
+        }
+    }
+
+    private void update_dashboard()
+    {
+
     }
 
     public void semaphore_update() // updates robot information
     {
-        SmartDashboard.putNumber("Overcurrent Count", _overcurrent_count);
-        SmartDashboard.putBoolean("Overcurrent", _overcurrent);
+        update_dashboard();
 
         if (_ds.isDisabled()) // only runs in teleop
             return;
 
+        if(IO.god_state)
+        {
+            update_god();
+            return;
+        }
+        
+        if(_ds.isOperatorControl())
+            enable(IO.tb_activate());
         update();
     }
 }

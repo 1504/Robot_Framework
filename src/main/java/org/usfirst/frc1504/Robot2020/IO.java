@@ -86,6 +86,11 @@ public class IO {
 		return (_drive_rotation.getRawButton(4) ? -1.0 : 0.0) + (_drive_rotation.getRawButton(5) ? 1.0 : 0.0);
 	}
 
+	public static boolean correction()
+	{
+		return _drive_forward.getRawAxis(2) < -0.5;
+	}
+
 	public static boolean reset_front_side() {
 		return (_drive_forward.getRawButton(Map.DRIVE_FRONTSIDE_FRONT));
 	}
@@ -113,8 +118,8 @@ public class IO {
 		return _secondary.getRawButton(Map.ION_HIGH_BT);
 	}
 
-	public static boolean ion_vision() {
-		return _secondary.getRawButton(Map.ION_VISION_BT);
+	public static boolean ion_shoot() {
+		return _secondary.getRawButton(Map.ION_SHOOT_BT);
 	}
 
 	// God Ion Cannon
@@ -185,8 +190,5 @@ public class IO {
 	}
 
 	public static boolean god_state = false;
-	public static boolean _tb_state = false;
-	public static boolean _high_state = false;
-	public static boolean _low_state = false;
 
 }

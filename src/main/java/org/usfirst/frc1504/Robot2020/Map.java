@@ -86,7 +86,7 @@ public class Map {
 			DRIVE_RIGHT_TOP };
 
     // Drive Input magic numbers
-	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { -1.0, -1.0, -0.6 };
+	public static final double[] DRIVE_INPUT_MAGIC_NUMBERS = { 1.0, -1.0, -0.6 };
 	public static final double DRIVE_INPUT_TURN_FACTOR = 0.2;
 	public static final double DRIVE_INPUT_VISmanual_ion_speed = 0.75;
 	// Drive Front Side changing
@@ -133,7 +133,8 @@ public class Map {
         public static final int ION_LOW_BT = 3; // X
         public static final int ION_HIGH_BT = 4; // Y
         
-        public static final int ION_VISION_BT = 6; // Right Shoulder Button
+        public static final int ION_SHOOT_BT = 6; // Right Shoulder Button
+        public static final int ION_VISION_BT = 2;
 
         public static final int GOD_ION_AX = 3; // << RT >>
         public static final int GOD_EX_BT = 3; // << X >>
@@ -178,8 +179,9 @@ public class Map {
 
             
 
-            public static final int TOP_EXTEND_HP = 4;             // Double Solenoid - High
-            public static final int TOP_EXTEND_LP = 5;             // '' - Low
+            public static final int SHOOTER_BOTTOM_EXTEND_HP = 4;             // Double Solenoid - High
+            public static final int SHOOTER_BOTTOM_EXTEND_LP = 5;             // '' - Low
+            public static final int SHOOTER_TOP_SOLENOID_PORT = 3;
             /** Lightsaber */
             public static final int LIGHTSABER_TOP = 30;           // Spark
             public static final int LIGHTSABER_BOTTOM = 31;        // Spark
@@ -213,7 +215,7 @@ public class Map {
         /** Pizza */
 
         /** Tokamak */
-        public static final double SERIALIZER_SPEED = -0.75;
+        public static final double SERIALIZER_SPEED = 0.75;
         public static final double TOKAMAK_SPEED = -0.65;
         public static final double TOKAMAK_JIGGLE_SPEED = 0.5;
 
@@ -222,7 +224,7 @@ public class Map {
         public static final double JIGGLE_INTERVAL = 0.5;
 
         /** Tractor Beam */
-        public static final double TRACTOR_BEAM_SPEED = 0.5;
+        public static final double TRACTOR_BEAM_SPEED = -0.5;
 
 
 
