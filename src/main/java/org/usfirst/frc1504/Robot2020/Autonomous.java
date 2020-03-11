@@ -8,11 +8,13 @@ package org.usfirst.frc1504.Robot2020;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Timer;
 import java.util.TimerTask;
 import java.util.stream.Stream;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Timer;
 
 public class Autonomous {
 	public static class Autonomus_Waypoint {
@@ -80,17 +82,6 @@ public class Autonomous {
 	}
 
 	public void setup_path(double[][] path) {
-		for (int i = 0; i < path.length; i++) {
-			if (path[i][3] == 13) {
-				double angle = path[i][0];
-				double speed = path[i][1]; // 1.2 is a multiplier for the horizontal to have better angle;
-				double[] arr = _drive.follow_angle(angle, speed);
-				path[i][0] = arr[0];
-				path[i][1] = arr[1] * Map.HORIZONTAL_MULTIPLIER;
-				path[i][3] = 12;
-			}
-		}
-		_path_step = -1;
 		_path = path;
 	}
 
@@ -108,13 +99,11 @@ public class Autonomous {
 		if (_path == null)
 			return;
 
-		_path_step = -1;
 		step = 0;
 		_thread_alive = true;
-		_start_time = System.currentTimeMillis();
 		next_step = false;
 		_task_timer = new Timer();
-		_task_timer.scheduleAtFixedRate(new Auto_Task(this), 0, 20);
+		//_task_timer.scheduleAtFixedRate(new Auto_Task(this), 0, 20);
 		System.out.println("Autonomous loop started");
 	}
 
@@ -126,11 +115,37 @@ public class Autonomous {
 
 		_thread_alive = false;
 
-		_task_timer.cancel();
+		//_task_timer.cancel();
 
 		System.out.println("Autonomous loop stopped @ " + (System.currentTimeMillis() - _start_time));
 	}
+	private void drive_around(double[] step)
+	{
+		double sx = step[0] * Math.sin(step[1] + (Math.PI/4));
+		double sy = step[0] * Math.sin(step[1] - (Math.PI/4));
+		Drive.setRotations(sx, sy);
+	}
+	protected void auto_task() 
+	{
+		if(_path[step][2] > 0)
+		{
+			Ion_Cannon._extender.set(DoubleSolenoid.Value.kForward);
+			Timer.delay(Map.IC_DEPLOY_DELAY);
+			Ion_Cannon.shoot(Ion_Cannon.ION_CANNON_STATE.LOW);
+			Timer.delay(1);
+			Timer.delay(_path[step][2]);
+			Ion_Cannon.shoot(Ion_Cannon.ION_CANNON_STATE.DISABLED);
+		}
 
-	protected void auto_task() {
+		if(_path[step][3] > 0)
+		{
+			Tractor_Beam.enable(true);
+		}
+
+		drive_around(_path[step]);
+		Timer.delay(_path[step][3]);
+		Tractor_Beam.enable(false);
+		step++;
+
 	}
 }

@@ -22,6 +22,7 @@ public class Robot extends RobotBase {
     //private Logger _logger = Logger.getInstance();
     //private Arduino _arduino = Arduino.getInstance();
     private Thread _dashboard_task;
+    private Autonomous _autonomous = Autonomous.getInstance();
 
     /**
      * Create a new Robot
@@ -57,6 +58,7 @@ public class Robot extends RobotBase {
             {
                 //_arduino.setPartyMode(true);
                 char edge_track = 0;
+                
 
                 while (true)
                 {
@@ -89,6 +91,10 @@ public class Robot extends RobotBase {
     protected void disabled()
     {
         System.out.println("Robot Disabled");
+    }
+
+    public void autonomous() {
+        System.out.println("Autonomous mode");
     }
 
     /**
@@ -155,6 +161,20 @@ public class Robot extends RobotBase {
                 // Timer.delay(0.01);
                 m_ds.InDisabled(false);
 
+            } else if (isAutonomous()) {
+                m_ds.InAutonomous(true);
+                autonomous();
+
+
+                _autonomous.setup_path(Map.SIMPLE_NEW_AUTON);
+                _autonomous.start();
+
+                while(isAutonomous() && !isDisabled()) {
+                    m_ds.waitForData(150);
+                    _semaphore.newData();
+                }
+                
+                m_ds.InAutonomous(false);
             } else if (isTest()) {
                 // LiveWindow.setEnabled(true);
                 m_ds.InTest(true);

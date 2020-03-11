@@ -118,7 +118,7 @@ public class Drive implements Updatable {
 	private volatile double[] _orbit_point = { 0.0, 1.15 }; // -1.15}; //{0.0, 1.15};
 	private volatile double _rot_offset = Math.PI;
 
-	private CANSparkMax[] _motors = new CANSparkMax[Map.DRIVE_MOTOR_PORTS.length];
+	private static CANSparkMax[] _motors = new CANSparkMax[Map.DRIVE_MOTOR_PORTS.length];
 
 	/**
 	 * set up motors
@@ -318,8 +318,8 @@ public class Drive implements Updatable {
 	{
 		if(_rot_offset == 0.0)
 			return input;
-		//if(input.length < 2)
-		//	return input;
+		// if(input.length < 2)
+		// return input;
 		double[] offset = new double[3];
 		offset[0] = input[0] * Math.cos(_rot_offset) + input[1] * Math.sin(_rot_offset);
 		offset[1] = input[1] * Math.cos(_rot_offset) - input[0] * Math.sin(_rot_offset);
@@ -392,6 +392,16 @@ public class Drive implements Updatable {
 	private void motorOutput(double[] values) {
 		for (int i = 0; i < _motors.length; i++) {
 			_motors[i].set(values[i] * Map.DRIVE_OUTPUT_MAGIC_NUMBERS[i]);
+		}
+	}
+
+	public static void setRotations(double x, double y) {
+		for (int i = 0; i < _motors.length; i++) {
+			if (i % 2 == 0) {
+				_motors[i].getEncoder().setPosition(y * Map.DRIVE_OUTPUT_MAGIC_NUMBERS[i] + _motors[i].getEncoder().getPosition());
+			} else {
+				_motors[i].getEncoder().setPosition(x * Map.DRIVE_OUTPUT_MAGIC_NUMBERS[i] + _motors[i].getEncoder().getPosition());
+			}
 		}
 	}
 

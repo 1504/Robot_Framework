@@ -287,7 +287,13 @@ public class Map {
         public static final double[][] RIGHT_SCALE_FROM_SPOT = {{90.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 3000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 7, 500}, {0.0, 0.0, 0.0, 14, 100}};
         public static final double[][] LEFT_SCALE_FROM_SPOT = {{-90.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 3000}, {0.0, AUTON_DEFAULT_SPEED, 0.0, 13, 3000}, {0.0, 0.0, 0.0, 7, 500}, {0.0, 0.0, 0.0, 14, 100}};
         public static final double[][] AUTON_EXCHANGE_FROM_SPOT = {{32.0, (-1*(AUTON_DEFAULT_SPEED)), 0.0, 13, 3000}};
+        
         // {angle,strength/speed,turning,mode,time}
+
+        // {ROTATIONS, ANGLE, SHOOTING TIME, INTAKE TIME} 2020 AUTON FORMAT
+        // DRIVING AROUND HAPPENS LAST
+
+        public static final double[][] SIMPLE_NEW_AUTON = {{100, 0, 0, 0}, {0, 0, 10, 0}, };
 
         public static final double[] FORWARD_CLOCKWISE = {0.3, 0.0, -0.5};
         public static final double[] FORWARD_COUNTERCLOCK = {0.3, 0.0, 0.5};

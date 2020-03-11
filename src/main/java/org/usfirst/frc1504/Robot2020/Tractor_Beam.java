@@ -13,11 +13,11 @@ public class Tractor_Beam implements Updatable {
     private static final Tractor_Beam instance = new Tractor_Beam();
     private DriverStation _ds = DriverStation.getInstance();
 
-    private WPI_TalonSRX _beam;
+    public static WPI_TalonSRX _beam;
     public static DoubleSolenoid _ef_engager;
     public static Timer tb_timer = new Timer();
 
-    private boolean _enabled = false;
+    private static boolean _enabled = false;
 
     public static Tractor_Beam getInstance() // sets instance
     {
@@ -29,16 +29,14 @@ public class Tractor_Beam implements Updatable {
         getInstance();
     }
 
-    private Tractor_Beam()
-    {
+    private Tractor_Beam() {
         _beam = new WPI_TalonSRX(Map.TRACTOR_BEAM);
         _ef_engager = new DoubleSolenoid(Map.EF_ENGAGER_HIGHSIDE_PORT, Map.EF_ENGAGER_LOWSIDE_PORT);
         Update_Semaphore.getInstance().register(this);
         System.out.println("Tractor Beam Engaged");
     }
 
-    public void enable(boolean enable)
-    {
+    public static void enable(boolean enable) {
         _enabled = enable;
     }
 

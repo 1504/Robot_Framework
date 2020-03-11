@@ -24,7 +24,7 @@ public class Ion_Cannon implements Updatable {
     private static final boolean _top_enabled = false;
 
     private CANSparkMax _top_shoot;
-    private CANSparkMax _bottom_shoot;
+    private static CANSparkMax _bottom_shoot;
     public static CANEncoder _top_encoder;
     public static CANEncoder _bottom_encoder;
 
@@ -40,7 +40,7 @@ public class Ion_Cannon implements Updatable {
 
     private static final double[] _setpoints = { 2000, 4800, 0 };
 
-    private ION_CANNON_STATE _state = ION_CANNON_STATE.DISABLED;
+    private static ION_CANNON_STATE _state = ION_CANNON_STATE.DISABLED;
 
     public static Ion_Cannon getInstance() // sets instance
     {
@@ -52,11 +52,9 @@ public class Ion_Cannon implements Updatable {
         getInstance();
     }
 
-    private Ion_Cannon()
-    {
+    private Ion_Cannon() {
 
-        if(_top_enabled)
-        {
+        if (_top_enabled) {
             _top_shoot = new CANSparkMax(Map.ION_CANNON_TOP, MotorType.kBrushless);
             _top_shoot.setIdleMode(CANSparkMax.IdleMode.kBrake);
             _top_encoder = _top_shoot.getEncoder();
@@ -75,13 +73,11 @@ public class Ion_Cannon implements Updatable {
         _top_extender = new Solenoid(Map.SHOOTER_TOP_SOLENOID_PORT);
         _extender = new DoubleSolenoid(Map.SHOOTER_BOTTOM_EXTEND_HP, Map.SHOOTER_BOTTOM_EXTEND_LP);
 
-
         Update_Semaphore.getInstance().register(this);
         System.out.println("Ion Cannon charged");
     }
 
-    public void shoot(ION_CANNON_STATE state)
-    {
+    public static void shoot(ION_CANNON_STATE state) {
         _state = state;
     }
 
