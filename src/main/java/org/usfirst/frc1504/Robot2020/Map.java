@@ -304,7 +304,7 @@ public class Map {
         
         // 2021 sequences
 
-        public static final double[][] RIGHT_FORWARD_PIZZA = {{0.0, 0.0, 0.0, 1.0}, {5.0, 0.0, 0.0, 0.0}, {0.0, 0.0, 0.0, -1.0}, {-5.0, 0.0, 0.0, 0.0}}
+        public static final double[][] RIGHT_FORWARD_PIZZA = {{0.0, 0.0, 0.0, 1.0}, {5.0, 0.0, 0.0, 0.0}, {0.0, 0.0, 0.0, -1.0}, {-5.0, 0.0, 0.0, 0.0}};
 
         /** Get Sequence Methods */
 
