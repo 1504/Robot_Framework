@@ -301,7 +301,10 @@ public class Map {
         public static final double[] FORWARD_LEFT = {0.3, -0.5, 0.0};
         public static final double[] FORWARD = {0.5, 0.0, 0.0};
         // {forward, right, counterclock}
+        
+        // 2021 sequences
 
+        public static final double[][] RIGHT_FORWARD_PIZZA = {{0.0, 0.0, 0.0, 1.0}, {5.0, 0.0, 0.0, 0.0}, {0.0, 0.0, 0.0, -1.0}, {-5.0, 0.0, 0.0, 0.0}}
 
         /** Get Sequence Methods */
 

@@ -127,7 +127,8 @@ public class Autonomous {
 	}
 	protected void auto_task() 
 	{
-		if(_path[step][2] > 0)
+		
+		if(_path[step][2] != 0) //shoot at low hoop
 		{
 			Ion_Cannon._extender.set(DoubleSolenoid.Value.kForward);
 			Timer.delay(Map.IC_DEPLOY_DELAY);
@@ -136,15 +137,19 @@ public class Autonomous {
 			Timer.delay(_path[step][2]);
 			Ion_Cannon.shoot(Ion_Cannon.ION_CANNON_STATE.DISABLED);
 		}
-
-		if(_path[step][3] > 0)
+		
+		else if(_path[step][3] > 0) //enable tractor beam
 		{
 			Tractor_Beam.enable(true);
 		}
 
+		else
+		{
+			Tractor_Beam.enable(false);
+		}
+
 		drive_around(_path[step]);
 		Timer.delay(_path[step][3]);
-		Tractor_Beam.enable(false);
 		step++;
 
 	}
