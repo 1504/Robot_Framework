@@ -175,7 +175,7 @@ public class Drive implements Updatable {
 		// update_dash(new byte[] {output[1], output[4], output[7], output[10]});
 	}
 
-	public double[] rot_motor() {
+	public static double[] rot_motor() {
 		double[] rotations = { 0, 0, 0, 0 };
 		for (int i = 0; i < Map.DRIVE_MOTOR_PORTS.length; i++) {
 			rotations[i] = _motors[i].getEncoder().getPosition();
