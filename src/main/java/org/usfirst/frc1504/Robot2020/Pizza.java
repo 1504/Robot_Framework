@@ -176,7 +176,9 @@ public class Pizza implements Updatable {
 
         if (_ds.isDisabled()) // only runs in teleop
             return;
-
-        update();
+        else if(IO.safe_state)
+            return;
+        else
+            update();
     }
 }

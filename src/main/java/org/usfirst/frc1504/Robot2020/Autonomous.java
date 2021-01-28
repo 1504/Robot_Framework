@@ -124,6 +124,7 @@ public class Autonomous {
 		double sx = step[0] * Math.sin(step[1] + (Math.PI/4));
 		double sy = step[0] * Math.sin(step[1] - (Math.PI/4));
 		Drive.setRotations(sx, sy);
+		console.log(Drive.rot_motor());
 	}
 	protected void auto_task() 
 	{

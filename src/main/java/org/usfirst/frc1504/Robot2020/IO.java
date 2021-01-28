@@ -189,6 +189,11 @@ public class IO {
 		return _secondary.getRawButtonReleased(Map.GOD_ENABLE);
 	}
 
+	public static boolean safe() {
+		return _secondary.getRawButtonReleased(Map.SAFE_ENABLE);
+	}
+
 	public static boolean god_state = false;
+	public static boolean safe_state = false;
 
 }

@@ -84,7 +84,8 @@ public class Tractor_Beam implements Updatable {
             update_god();
             return;
         }
-        
+        if(IO.safe_state)
+            return;
         if(_ds.isOperatorControl())
             enable(IO.tb_activate());
         update();

@@ -115,7 +115,7 @@ public class Map {
 	// 4  : Y                      - Ion Cannon High <<Toggle Cow>>
 	// 5  : Left Shoulder Button   - Snake Reverse
 	// 6  : Right Shoulder Button  - Vision Alignment 
-	// 7  : Back                   - 
+	// 7  : Back                   - Enable safe mode
 	// 8  : Start                  - Enable god mode 
 	// 9  : Press left joystick    - 
 	// 10 : Press right joystick   - Pizza extend or retract 
@@ -161,6 +161,7 @@ public class Map {
 
         /** Misc */
         public static final int GOD_ENABLE = 8;
+        public static final int SAFE_ENABLE = 7;
 
     /**
      * Unique Game Values Go Here

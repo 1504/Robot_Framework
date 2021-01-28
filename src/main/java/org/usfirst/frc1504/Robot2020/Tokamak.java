@@ -111,6 +111,8 @@ public class Tokamak implements Updatable {
 
         if(IO.god_state)
             update_god();
+        else if(IO.safe_state)
+            return;
         else
             update();
     }

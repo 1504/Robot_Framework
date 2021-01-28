@@ -165,7 +165,9 @@ public class Ion_Cannon implements Updatable {
             else
                 shoot(ION_CANNON_STATE.DISABLED);
         }
-
-        update();
+        if(IO.safe_state)
+            return;
+        else
+            update();
     }
 }
