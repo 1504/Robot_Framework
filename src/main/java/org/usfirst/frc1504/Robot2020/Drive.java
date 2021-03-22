@@ -118,15 +118,18 @@ public class Drive implements Updatable {
 	private volatile double[] _orbit_point = { 0.0, 1.15 }; // -1.15}; //{0.0, 1.15};
 	private volatile double _rot_offset = Math.PI;
 
-	private static CANSparkMax[] _motors = new CANSparkMax[Map.DRIVE_MOTOR_PORTS.length];
+	private static CANSparkMax[] _motors = {(new CANSparkMax(10, MotorType.kBrushless)), (new CANSparkMax(11, MotorType.kBrushless)), (new CANSparkMax(12, MotorType.kBrushless)), (new CANSparkMax(13, MotorType.kBrushless))};
+	//private static CANSparkMax[] _motors = new CANSparkMax[Map.DRIVE_MOTOR_PORTS.length];
 
 	/**
 	 * set up motors
 	 */
 	private void DInit() {
+		/*
 		for (int i = 0; i < Map.DRIVE_MOTOR_PORTS.length; i++) {
 			_motors[i] = new CANSparkMax(Map.DRIVE_MOTOR_PORTS[i], MotorType.kBrushless);
 		}
+		*/
 
 		set_orbit_point(_orbit_point);
 	}
