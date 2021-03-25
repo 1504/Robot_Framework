@@ -1,6 +1,4 @@
-package org.usfirst.frc1504.Robot2020;
-
-import org.usfirst.frc1504.Robot2020.Update_Semaphore.Updatable;
+package org.usfirst.frc1504.Robot2021;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -12,6 +10,9 @@ import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import org.usfirst.frc1504.Robot2021.Update_Semaphore.Updatable;
+
 import edu.wpi.first.wpilibj.Timer;
 
 public class Ion_Cannon implements Updatable {
