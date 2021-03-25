@@ -68,6 +68,11 @@ public class Robot extends RobotBase {
                         //_arduino.diagnostic(!_arduino.diagnostic());
                     }
 
+                    if (IO.safe())
+                    {
+                        IO.safe_state = !IO.safe_state;
+                    }
+
                     if (IO.god())
                         IO.god_state = !IO.god_state;
                     
