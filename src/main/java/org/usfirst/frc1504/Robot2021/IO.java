@@ -75,7 +75,8 @@ public class IO {
 				* Math.signum(_drive_forward.getRawAxis(Map.JOYSTICK_Y_AXIS));// y
 		inputs[1] = Map.DRIVE_INPUT_MAGIC_NUMBERS[1]
 				* Math.pow(Utils.deadzone(_drive_forward.getRawAxis(Map.JOYSTICK_X_AXIS)), 2)
-				* Math.signum(_drive_forward.getRawAxis(Map.JOYSTICK_X_AXIS));// x
+				* Math.signum(_drive_forward.getRawAxis(Map.JOYSTICK_X_AXIS))// x
+				* -1;
 		inputs[2] = Map.DRIVE_INPUT_MAGIC_NUMBERS[2]
 				* Math.pow(Utils.deadzone(_drive_rotation.getRawAxis(Map.JOYSTICK_X_AXIS)), 2)
 				* Math.signum(_drive_rotation.getRawAxis(Map.JOYSTICK_X_AXIS));// w
